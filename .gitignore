@@ -1,0 +1,55 @@
+*.pyc
+*.out
+*.xcf
+*.egg
+.eggs/
+lexer_table.py
+parser_table.py
+parser_test_table.py
+gitsome/lexer_table.py
+gitsome/parser_table.py
+tests/lexer_table.py
+tests/parser_table.py
+tests/lexer_test_table.py
+tests/parser_test_table.py
+build/
+dist/
+gitsome.egg-info/
+docs/_build/
+
+# temporary files from vim and emacs
+*~
+*#
+.#*
+*.swp
+*.swo
+
+# Virtualenv
+pip-selfcheck.json
+bin/
+lib/
+include/
+
+# Mac
+.DS_Store
+
+* Misc
+data/
+scratch/
+docs/
+scripts/
+recipe/
+*.egg-info/
+travis.yml
+.appveyor.yml
+appveyor.yml
+.binstar.yml
+binstar.yml
+.landscape.yaml
+CONTRIBUTING
+LICENSE.txt
+setup.py
+setup_gitsome.py
+README.md
+README.rst
+__pycache__/
