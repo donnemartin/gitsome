@@ -13,7 +13,7 @@ import sys
 from gitsome.built_ins import iglobpath
 from gitsome.tools import subexpr_from_unbalanced
 from gitsome.tools import ON_WINDOWS
-from gitsome.environ import current_branch
+from gitsome.environ import current_user_and_repo
 
 
 class GitHub(object):
@@ -26,23 +26,21 @@ class GitHub(object):
 
     def execute(self, tokens):
         if tokens:
-            if tokens[0] == 'trends':
-                self.trends()
-            elif tokens[0] == 'stars':
-                self.stars(tokens[1:])
+            method = tokens[0]
+            args = tokens[1:] if tokens[1:] else None
+            if method == 'stars':
+                self.stars(args)
 
     def stars(self, tokens):
-        print(current_branch())
         if not tokens:
-            user_id = self.user_id
-            repo = 'saws'
+            user_id, repo = current_user_and_repo()
         else:
             if len(tokens) != 2:
-                print('github stars expected arguments: [user id] [repo name]')
+                print('gh stars expected arguments: [user id] [repo name]')
                 return
             else:
                 user_id, repo = tokens
         url = 'https://api.github.com/repos/' + self.user_id + '/' + repo
         r = requests.get(url, auth=(self.user_id, self.user_pass))
         response = r.json()
-        print(response['stargazers_count'])
+        print('Stars for ' + user_id + '/' + repo + ': ' + str(response['stargazers_count']))
