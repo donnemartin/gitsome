@@ -252,6 +252,38 @@ def ensure_hg(func):
     return wrapper
 
 
+def current_user_and_repo(cwd=None):
+    repo = None
+    try:
+        cmd = ['git', 'remote', '-v']
+        s = subprocess.check_output(cmd,
+                                    stderr=subprocess.PIPE,
+                                    cwd=cwd,
+                                    universal_newlines=True)
+        # s:
+        #   origin  https://github.com/donnemartin/gitsome.git (fetch)\n
+        #   origin  https://github.com/donnemartin/gitsome.git (push)
+        s = s.strip()
+        excludes = ['.git', ' (fetch)', ' (push)']
+        for exclude in excludes:
+            s = s.replace(exclude, '')
+        # s:
+        #   origin  https://github.com/donnemartin/gitsome\n
+        #   origin  https://github.com/donnemartin/gitsome
+        s = s.split('\n')[0]
+        # s:
+        #   origin  https://github.com/donnemartin/gitsome
+        s = s.split('/')
+        # s:
+        #   ['origin\thttps:', '', 'github.com', 'donnemartin', 'gitsome']
+        user, repo = s[3], s[4]
+        # s:
+        #   ['donnemartin', 'gitsome']
+    except (subprocess.CalledProcessError, FileNotFoundError, IndexError):
+        pass
+    return user, repo
+
+
 @ensure_git
 def get_git_branch(cwd=None):
     branch = None
