@@ -30,6 +30,16 @@ class GitHub(object):
             args = tokens[1:] if tokens[1:] else None
             if method == 'stars':
                 self.stars(args)
+            elif method == 'octocat':
+                self.octocat(args)
+
+    def octocat(self, say=None):
+        if say is not None:
+            say = ' '.join(say)
+        output = str(self.gh.octocat(say))
+        output = output.replace('\\n', '\n')
+        import pdb; pdb.set_trace()
+        print(output)
 
     def stars(self, tokens):
         if not tokens:
