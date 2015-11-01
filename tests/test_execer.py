@@ -6,8 +6,8 @@ import ast
 
 from nose.tools import assert_raises
 
-from gitsome.execer import Execer
-from gitsome.tools import ON_WINDOWS
+from xonsh.execer import Execer
+from xonsh.tools import ON_WINDOWS
 
 from tools import mock_xonsh_env
 

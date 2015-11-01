@@ -18,7 +18,7 @@ if not is_prompt_toolkit_available():
     raise SkipTest('prompt_toolkit is not available')
 
 
-from gitsome.prompt_toolkit_history import LimitedFileHistory
+from xonsh.prompt_toolkit_history import LimitedFileHistory
 
 
 def create_file(content):

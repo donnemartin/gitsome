@@ -4,9 +4,9 @@ from __future__ import unicode_literals, print_function
 import nose
 from nose.tools import assert_equal
 
-from gitsome.tools import format_prompt_for_prompt_toolkit
-from gitsome.tools import TERM_COLORS
-from gitsome.environ import format_prompt
+from xonsh.tools import format_prompt_for_prompt_toolkit
+from xonsh.tools import TERM_COLORS
+from xonsh.environ import format_prompt
 
 
 

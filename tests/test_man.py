@@ -4,8 +4,8 @@ import nose
 from nose.tools import assert_true
 from nose.plugins.skip import SkipTest
 
-from gitsome.tools import ON_WINDOWS
-from gitsome.completer import ManCompleter
+from xonsh.tools import ON_WINDOWS
+from xonsh.completer import ManCompleter
 
 from tools import mock_xonsh_env
 

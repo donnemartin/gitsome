@@ -5,8 +5,8 @@ import os
 import nose
 from nose.tools import assert_equal, assert_true
 
-from gitsome.lazyjson import LazyJSON
-from gitsome.history import History, CommandField
+from xonsh.lazyjson import LazyJSON
+from xonsh.history import History, CommandField
 
 HIST_TEST_KWARGS = dict(sessionid='SESSIONID', gc=False)
 

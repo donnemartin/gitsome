@@ -6,7 +6,7 @@ import nose
 from nose.tools import assert_equal, assert_is_instance
 assert_equal.__self__.maxDiff = None
 
-from gitsome.lazyjson import index, dump, LazyJSON, Node
+from xonsh.lazyjson import index, dump, LazyJSON, Node
 
 def test_index_int():
     exp = {'offsets': 0, 'sizes': 2}

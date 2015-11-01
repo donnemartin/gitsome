@@ -7,11 +7,11 @@ import nose
 from nose.plugins.skip import SkipTest
 from nose.tools import assert_equal, assert_true, assert_not_in
 
-from gitsome import built_ins
-from gitsome.built_ins import reglob, regexpath, helper, superhelper, \
+from xonsh import built_ins
+from xonsh.built_ins import reglob, regexpath, helper, superhelper, \
     ensure_list_of_strs, expand_case_matching
-from gitsome.environ import Env
-from gitsome.tools import ON_WINDOWS
+from xonsh.environ import Env
+from xonsh.tools import ON_WINDOWS
 
 
 def test_reglob_tests():

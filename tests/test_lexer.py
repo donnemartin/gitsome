@@ -10,7 +10,7 @@ import nose
 
 from ply.lex import LexToken
 
-from gitsome.lexer import Lexer
+from xonsh.lexer import Lexer
 
 LEXER_ARGS = {'lextab': 'lexer_test_table', 'debug': 0}
 

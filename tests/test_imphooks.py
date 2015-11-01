@@ -4,10 +4,10 @@ from __future__ import unicode_literals, print_function
 import nose
 from nose.tools import assert_equal
 
-from gitsome import imphooks  # noqa
-from gitsome import built_ins
-from gitsome.execer import Execer
-from gitsome.built_ins import load_builtins, unload_builtins
+from xonsh import imphooks  # noqa
+from xonsh import built_ins
+from xonsh.execer import Execer
+from xonsh.built_ins import load_builtins, unload_builtins
 
 LOADED_HERE = False
 

@@ -9,9 +9,9 @@ import builtins
 from nose.tools import assert_equal, assert_not_equal
 import nose
 
-from gitsome import dirstack
-from gitsome.environ import Env
-from gitsome.built_ins import load_builtins
+from xonsh import dirstack
+from xonsh.environ import Env
+from xonsh.built_ins import load_builtins
 
 
 HERE = os.path.abspath(os.path.dirname(__file__))

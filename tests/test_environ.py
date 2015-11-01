@@ -5,7 +5,7 @@ import os
 import nose
 from nose.tools import assert_equal, assert_true, assert_not_in
 
-from gitsome.environ import Env, format_prompt
+from xonsh.environ import Env, format_prompt
 
 def test_env_normal():
     env = Env(VAR='wakka')

@@ -4,7 +4,7 @@ from __future__ import unicode_literals, print_function
 import nose
 from nose.tools import assert_equal
 
-from gitsome.built_ins import Aliases
+from xonsh.built_ins import Aliases
 
 
 def cd(args, stdin=None):
