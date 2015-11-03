@@ -2,7 +2,8 @@ from __future__ import print_function, unicode_literals
 import re
 import requests
 from datetime import datetime
-from github3 import login
+from github3 import GitHub
+
 import os
 import re
 import builtins
@@ -16,13 +17,13 @@ from xonsh.tools import ON_WINDOWS
 from xonsh.environ import current_user_and_repo
 
 
-class GitHub(object):
+class GitSome(object):
     def __init__(self):
         get_env = lambda name, default=None: builtins.__xonsh_env__.get(name,
                                                                         default)
         self.user_id = get_env('GITHUB_USER_ID', None)
         self.user_pass = get_env('GITHUB_USER_PASS', None)
-        self.gh = login(self.user_id, password=self.user_pass)
+        self.gh = GitHub(self.user_id, self.user_pass)
 
     def execute(self, tokens):
         if tokens:
