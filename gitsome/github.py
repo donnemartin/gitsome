@@ -100,6 +100,9 @@ class GitSome(object):
             command = args[0]
             command_args = args[1:] if args[1:] else None
             self.dispatch[command](command_args)
+        else:
+            print("Available commands for 'gh':")
+            self._print_items(self.dispatch.keys())
 
     def octocat(self, say=None):
         if say is not None:
