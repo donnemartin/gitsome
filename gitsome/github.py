@@ -157,6 +157,18 @@ class GitSome(object):
             self._listify(self.gh.followed_by(user)), headers=['user name'])
         print('Following:', self.gh.user(user).following_count)
 
+    def gitignore_template(self, args):
+        language = self._extract_args(
+            args,
+            default_args=None,
+            expected_args=['language'])
+        template = self.gh.gitignore_template(language)
+        if template != '':
+            print(template)
+        else:
+            print('Invalid template requested, run the following command to' \
+                  ' see available templates:\n    gh gitignore_templates')
+
     def octocat(self, say=None):
         if say is not None:
             say = ' '.join(say)
