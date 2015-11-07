@@ -19,9 +19,10 @@ from xonsh.environ import user_and_repo_from_path
 
 
 class GitSome(object):
+
     def __init__(self):
-        get_env = lambda name, default=None: builtins.__xonsh_env__.get(name,
-                                                                        default)
+        get_env = lambda name, default=None: builtins.__xonsh_env__.get(
+            name, default)
         self.user_id = get_env('GITHUB_USER_ID', None)
         self.user_pass = get_env('GITHUB_USER_PASS', None)
         self.token = get_env('GITHUB_TOKEN', None)
@@ -34,6 +35,7 @@ class GitSome(object):
                             self.user_pass,
                             two_factor_callback=self._two_factor_code)
             print('Authenticated with user id and password', self.gh.me().login)
+        self.user_path, self.repo_path = user_and_repo_from_path()
         self.dispatch = {
             'emails': self.emails,
             'emojis': self.emojis,
