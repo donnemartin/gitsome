@@ -107,8 +107,9 @@ class BaseShell(object):
         if self.github is None:
             return False
         line = line.strip('\n')
+        line = line.strip()
         tokens = line.split(' ')
-        if len(tokens) > 1 and tokens[0].lower() == 'gh':
+        if len(tokens) > 0 and tokens[0].lower() == 'gh':
             self.github.execute(tokens[1:])
             return True
         return False
