@@ -57,6 +57,14 @@ class GitSome(object):
     def _format_repo(self, repo):
         return '/'.join(repo)
 
+    def _listify(self, items):
+        output = []
+        for item in items:
+            item_list = []
+            item_list.append(item)
+            output.append(item_list)
+        return output
+
     def execute(self, tokens):
         if tokens:
             method = tokens[0]
