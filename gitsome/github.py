@@ -25,6 +25,12 @@ class GitSome(object):
         self.user_pass = get_env('GITHUB_USER_PASS', None)
         self.gh = GitHub(self.user_id, self.user_pass)
 
+    def _two_factor_code(self):
+        code = ''
+        while not code:
+            code = input('Enter 2FA code: ')
+        return code
+
     def execute(self, tokens):
         if tokens:
             method = tokens[0]
