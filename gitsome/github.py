@@ -108,6 +108,9 @@ class GitSome(object):
     def emails(self, _):
         self._print_items(self.gh.emails(), headers='keys')
 
+    def emojis(self, _):
+        self._print_items(self._listify(self.gh.emojis()), headers=['emoji'])
+
     def execute(self, args):
         if args:
             self.user_path, self.repo_path = user_and_repo_from_path()
