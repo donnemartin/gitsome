@@ -256,6 +256,14 @@ class GitSome(object):
         print('updated at:', repository.updated_at)
         print('clone url:', repository.clone_url)
 
+    def repos(self, args):
+        repos = self.gh.repositories()
+        table = []
+        for repo in repos:
+            table.append([repo.name, repo.stargazers_count])
+        table = sorted(table, key=itemgetter(1, 0), reverse=True)
+        print(tabulate(table, headers=['repo', 'stars'], tablefmt='grid'))
+
     def stars(self, args):
         user, repo = self._extract_args(
             args,
