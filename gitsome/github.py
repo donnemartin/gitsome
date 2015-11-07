@@ -11,6 +11,7 @@ import pickle
 import subprocess
 import sys
 
+from tabulate import tabulate
 from xonsh.built_ins import iglobpath
 from xonsh.tools import subexpr_from_unbalanced
 from xonsh.tools import ON_WINDOWS
@@ -64,6 +65,13 @@ class GitSome(object):
             item_list.append(item)
             output.append(item_list)
         return output
+
+    def _print_items(self, items, headers):
+        table = []
+        for item in items:
+            import pdb; pdb.set_trace()
+            table.append(item)
+        print(tabulate(table, headers=headers, tablefmt='grid'))
 
     def execute(self, tokens):
         if tokens:
