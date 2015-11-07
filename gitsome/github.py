@@ -100,6 +100,9 @@ class GitSome(object):
             command = args[0]
             command_args = args[1:] if args[1:] else None
             self.dispatch[command](command_args)
+            rate_limit = self.gh.ratelimit_remaining
+            if rate_limit < 50:
+                print('Rate limit:', rate_limit)
         else:
             print("Available commands for 'gh':")
             self._print_items(self.dispatch.keys())
