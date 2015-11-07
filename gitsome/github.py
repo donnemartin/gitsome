@@ -14,7 +14,7 @@ import sys
 from xonsh.built_ins import iglobpath
 from xonsh.tools import subexpr_from_unbalanced
 from xonsh.tools import ON_WINDOWS
-from xonsh.environ import current_user_and_repo
+from xonsh.environ import user_and_repo_from_path
 
 
 class GitSome(object):
@@ -43,7 +43,7 @@ class GitSome(object):
 
     def stars(self, tokens):
         if not tokens:
-            user_id, repo = current_user_and_repo()
+            user_id, repo = user_and_repo_from_path()
         else:
             if len(tokens) != 2:
                 print('gh stars expected arguments: [user id] [repo name]')

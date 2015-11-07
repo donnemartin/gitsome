@@ -342,7 +342,7 @@ def locate_binary(name, cwd):
     return binary_location
 
 
-def current_user_and_repo(cwd=None):
+def user_and_repo_from_path(cwd=None):
     repo = None
     try:
         cmd = ['git', 'remote', '-v']
