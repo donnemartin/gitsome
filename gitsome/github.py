@@ -37,6 +37,23 @@ class GitSome(object):
         else:
             return args
 
+    def _extract_args(self,
+                      input_args,
+                      default_args,
+                      expected_args):
+        if not input_args and default_args is not None:
+            return self._return_elem_or_list(default_args)
+        valid_args = True
+        if (expected_args is not None and input_args is None) or \
+            len(input_args) != len(expected_args):
+            valid_args = False
+        if not valid_args:
+            print('Error, expected arguments:', expected_args)
+            return None
+        else:
+            return self._return_elem_or_list(input_args)
+        return None
+
     def execute(self, tokens):
         if tokens:
             method = tokens[0]
