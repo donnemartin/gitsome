@@ -105,6 +105,9 @@ class GitSome(object):
             table.append(item)
         print(tabulate(table, headers=headers, tablefmt='grid'))
 
+    def emails(self, _):
+        self._print_items(self.gh.emails(), headers='keys')
+
     def execute(self, args):
         if args:
             self.user_path, self.repo_path = user_and_repo_from_path()
