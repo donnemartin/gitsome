@@ -125,16 +125,10 @@ class GitSome(object):
         output = output.replace('\\n', '\n')
         print(output)
 
-    def stars(self, tokens):
-        if not tokens:
-            user_id, repo = user_and_repo_from_path()
-        else:
-            if len(tokens) != 2:
-                print('gh stars expected arguments: [user id] [repo name]')
-                return
-            else:
-                user_id, repo = tokens
-        url = 'https://api.github.com/repos/' + self.user_id + '/' + repo
-        r = requests.get(url, auth=(self.user_id, self.user_pass))
-        response = r.json()
-        print('Stars for ' + user_id + '/' + repo + ': ' + str(response['stargazers_count']))
+    def stars(self, args):
+        user, repo = self._extract_args(
+            args,
+            default_args=[self.user_path, self.repo_path],
+            expected_args=['user', 'repo'])
+        stars = str(self.gh.repository(user, repo).stargazers_count)
+        print('Stars for ' + user + '/' + repo + ': ' + stars)
