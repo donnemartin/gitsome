@@ -173,6 +173,37 @@ class GitSome(object):
         self._print_items(
             self._listify(self.gh.gitignore_templates()), headers=['language'])
 
+    def issue(self, args):
+        result = self._extract_args(
+            args,
+            default_args=None,
+            expected_args=[self.user_path, self.repo_path, '#'])
+        if result is None:
+            return
+        user, repo, issue_number = result
+        issue = self.gh.issue(user, repo, issue_number)
+        print('repo:', self._format_repo(issue.repository))
+        print('title:', issue.title)
+        print('issue url:', issue.html_url)
+        print('issue number:', issue.number)
+        print('state:', issue.state)
+        print('comments:', issue.comments_count)
+        print('labels:', issue.original_labels)
+        print('milestone:', issue.milestone)
+        print('')
+        print(issue.body)
+        comments = issue.comments()
+        for comment in comments:
+            print('')
+            print('---Comment---')
+            print('')
+            print('user:', comment.user)
+            print('comment url:', comment.html_url)
+            print('created at:', comment.created_at)
+            print('updated at:', comment.updated_at)
+            print('')
+            print(comment.body)
+
     def octocat(self, say=None):
         if say is not None:
             say = ' '.join(say)
