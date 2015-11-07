@@ -169,6 +169,10 @@ class GitSome(object):
             print('Invalid template requested, run the following command to' \
                   ' see available templates:\n    gh gitignore_templates')
 
+    def gitignore_templates(self, args):
+        self._print_items(
+            self._listify(self.gh.gitignore_templates()), headers=['language'])
+
     def octocat(self, say=None):
         if say is not None:
             say = ' '.join(say)
