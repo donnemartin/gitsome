@@ -221,6 +221,15 @@ class GitSome(object):
                        headers=['#', 'repo', 'title', 'comments'],
                        tablefmt='grid'))
 
+    def me(self, args):
+        user = self.gh.me()
+        print(user.login)
+        print('company:', user.company)
+        print('location:', user.location)
+        print('email:', user.email)
+        print('joined on:', user.created_at)
+        print('followers:, user.follow')
+
     def octocat(self, say=None):
         if say is not None:
             say = ' '.join(say)
