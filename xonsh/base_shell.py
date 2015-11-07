@@ -103,7 +103,7 @@ class BaseShell(object):
         self.mlprompt = None
         self.gitsome = None
 
-    def execute_github(self, line):
+    def _execute_gitsome(self, line):
         if self.github is None:
             return False
         line = line.strip('\n')
@@ -134,7 +134,7 @@ class BaseShell(object):
                     else io.StringIO()
         try:
             ts0 = time.time()
-            if not self.execute_github(line):
+            if not self._execute_gitsome(line):
                 self.execer.exec(code, mode='single', glbs=self.ctx)  # no locals
             ts1 = time.time()
             if hist.last_cmd_rtn is None:
