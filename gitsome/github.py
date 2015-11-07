@@ -148,6 +148,15 @@ class GitSome(object):
             self._listify(self.gh.followers_of(user)), headers=['user name'])
         print('Followers:', self.gh.user(user).followers_count)
 
+    def following(self, args):
+        user = self._extract_args(
+            args,
+            default_args=[self.user_path],
+            expected_args=['user id'])
+        self._print_items(
+            self._listify(self.gh.followed_by(user)), headers=['user name'])
+        print('Following:', self.gh.user(user).following_count)
+
     def octocat(self, say=None):
         if say is not None:
             say = ' '.join(say)
