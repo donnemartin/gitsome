@@ -24,7 +24,13 @@ class GitSome(object):
                                                                         default)
         self.user_id = get_env('GITHUB_USER_ID', None)
         self.user_pass = get_env('GITHUB_USER_PASS', None)
-        self.gh = login(self.user_id,
+        self.token = get_env('GITHUB_TOKEN', None)
+        if self.token is not None:
+            self.gh = login(token=self.token,
+                            two_factor_callback=self._two_factor_code)
+            print('Authenticated with token:', self.gh.me().login)
+        else:
+            self.gh = login(self.user_id,
                             self.user_pass,
                             two_factor_callback=self._two_factor_code)
             print('Authenticated with user id and password', self.gh.me().login)
