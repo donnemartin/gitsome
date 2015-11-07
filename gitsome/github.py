@@ -264,6 +264,14 @@ class GitSome(object):
         table = sorted(table, key=itemgetter(1, 0), reverse=True)
         print(tabulate(table, headers=['repo', 'stars'], tablefmt='grid'))
 
+    def search_issues(self, args):
+        query = self._extract_args(
+            args,
+            default_args=[None],
+            expected_args=['query'])
+        self._print_items(self._listify(self.gh.search_issues(query)),
+                          headers=['foo'])
+
     def stars(self, args):
         user, repo = self._extract_args(
             args,
