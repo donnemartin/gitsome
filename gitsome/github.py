@@ -204,6 +204,23 @@ class GitSome(object):
             print('')
             print(comment.body)
 
+    def issues(self, args):
+        issue_filter = self._extract_args(
+            args,
+            default_args=['subscribed'],
+            expected_args=["'assigned', 'created', 'mentioned', 'subscribed'"])
+        issues = self.gh.issues(filter=issue_filter)
+        table = []
+        for issue in issues:
+            table.append([issue.number,
+                          self._format_repo(issue.repository),
+                          issue.title,
+                          issue.comments_count])
+        table = sorted(table, key=itemgetter(1, 0))
+        print(tabulate(table,
+                       headers=['#', 'repo', 'title', 'comments'],
+                       tablefmt='grid'))
+
     def octocat(self, say=None):
         if say is not None:
             say = ' '.join(say)
