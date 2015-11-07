@@ -31,6 +31,12 @@ class GitSome(object):
             code = input('Enter 2FA code: ')
         return code
 
+    def _return_elem_or_list(self, args):
+        if len(args) == 1:
+            return args[0]
+        else:
+            return args
+
     def execute(self, tokens):
         if tokens:
             method = tokens[0]
