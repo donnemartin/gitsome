@@ -96,7 +96,7 @@ def main(argv=None):
         code = shell.execer.compile(code, mode='exec', glbs=shell.ctx)
         shell.execer.exec(code, mode='exec', glbs=shell.ctx)
     else:
-        shell.shell.github = GitSome()
+        shell.shell.gitsome = GitSome()
         # otherwise, enter the shell
         env['XONSH_INTERACTIVE'] = True
         ignore_sigtstp()

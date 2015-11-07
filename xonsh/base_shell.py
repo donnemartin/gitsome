@@ -101,7 +101,7 @@ class BaseShell(object):
         self.buffer = []
         self.need_more_lines = False
         self.mlprompt = None
-        self.github = None
+        self.gitsome = None
 
     def execute_github(self, line):
         if self.github is None:
