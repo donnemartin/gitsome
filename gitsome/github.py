@@ -133,7 +133,9 @@ class GitSome(object):
             self.rate_limit([rate_limit_print_threshold])
         else:
             print("Available commands for 'gh':")
-            self._print_items(self.dispatch.keys())
+            self._print_items(
+                self._listify(self.dispatch.keys()),
+                headers=['command'])
 
     def feeds(self, args):
         self.gh.feeds()
