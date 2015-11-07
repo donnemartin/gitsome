@@ -54,6 +54,9 @@ class GitSome(object):
             return self._return_elem_or_list(input_args)
         return None
 
+    def _format_repo(self, repo):
+        return '/'.join(repo)
+
     def execute(self, tokens):
         if tokens:
             method = tokens[0]
