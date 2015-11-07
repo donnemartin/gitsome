@@ -104,13 +104,13 @@ class BaseShell(object):
         self.gitsome = None
 
     def _execute_gitsome(self, line):
-        if self.github is None:
+        if self.gitsome is None:
             return False
         line = line.strip('\n')
         line = line.strip()
         args = line.split(' ')
         if len(args) > 0 and args[0].lower() == 'gh':
-            self.github.execute(args[1:])
+            self.gitsome.execute(args[1:])
             return True
         return False
 
