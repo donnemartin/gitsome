@@ -25,6 +25,27 @@ class GitSome(object):
         self.user_id = get_env('GITHUB_USER_ID', None)
         self.user_pass = get_env('GITHUB_USER_PASS', None)
         self.gh = GitHub(self.user_id, self.user_pass)
+        self.dispatch = {
+            'emails': self.emails,
+            'emojis': self.emojis,
+            'events': self.events,
+            'feeds': self.feeds,
+            'followers': self.followers,
+            'following': self.following,
+            'gitignore_template': self.gitignore_template,
+            'gitignore_templates': self.gitignore_templates,
+            'issue': self.issue,
+            'issues': self.issues,
+            'me': self.me,
+            'notifications': self.notifications,
+            'octocat': self.octocat,
+            'pull_requests': self.pull_requests,
+            'repo': self.repo,
+            'repos': self.repos,
+            'search_issues': self.search_issues,
+            'search_repositories': self.search_repositories,
+            'stars': self.stars,
+        }
 
     def _two_factor_code(self):
         code = ''
