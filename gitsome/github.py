@@ -1,16 +1,14 @@
-from __future__ import print_function, unicode_literals
 import re
 import requests
-from datetime import datetime
-from github3 import GitHub
-
 import os
 import re
 import builtins
 import pickle
 import subprocess
 import sys
+from operator import itemgetter
 
+from github3 import login
 from tabulate import tabulate
 from xonsh.built_ins import iglobpath
 from xonsh.tools import subexpr_from_unbalanced
