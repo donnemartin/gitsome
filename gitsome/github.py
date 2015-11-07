@@ -34,6 +34,7 @@ class GitSome(object):
                             two_factor_callback=self._two_factor_code)
             print('Authenticated with user id and password', self.gh.me().login)
         self.user_path, self.repo_path = user_and_repo_from_path()
+        self.rate_limit()
         self.dispatch = {
             'emails': self.emails,
             'emojis': self.emojis,
@@ -49,6 +50,7 @@ class GitSome(object):
             'notifications': self.notifications,
             'octocat': self.octocat,
             'pull_requests': self.pull_requests,
+            'rate_limit': self.rate_limit,
             'repo': self.repo,
             'repos': self.repos,
             'search_issues': self.search_issues,
@@ -127,9 +129,8 @@ class GitSome(object):
             command = args[0]
             command_args = args[1:] if args[1:] else None
             self.dispatch[command](command_args)
-            rate_limit = self.gh.ratelimit_remaining
-            if rate_limit < 50:
-                print('Rate limit:', rate_limit)
+            rate_limit_print_threshold = 20
+            self.rate_limit([rate_limit_print_threshold])
         else:
             print("Available commands for 'gh':")
             self._print_items(self.dispatch.keys())
@@ -240,6 +241,15 @@ class GitSome(object):
         output = str(self.gh.octocat(say))
         output = output.replace('\\n', '\n')
         print(output)
+
+    def rate_limit(self, args=None):
+        threshold = self._extract_args(
+            args,
+            default_args=[sys.maxsize],
+            expected_args=['threshold'])
+        limit = self.gh.ratelimit_remaining
+        if limit < threshold:
+            print('Rate limit:', limit)
 
     def repo(self, args):
         user, repo = self._extract_args(
