@@ -230,6 +230,12 @@ class GitSome(object):
         print('joined on:', user.created_at)
         print('followers:, user.follow')
 
+    def notifications(self, args):
+        import pdb; pdb.set_trace()
+        notifs = self.gh.notifications(participating=True)
+        self._print_items(self.gh.notifications(participating=True),
+                          headers=['foo'])
+
     def octocat(self, say=None):
         if say is not None:
             say = ' '.join(say)
