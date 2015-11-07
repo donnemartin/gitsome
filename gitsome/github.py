@@ -94,14 +94,12 @@ class GitSome(object):
             table.append(item)
         print(tabulate(table, headers=headers, tablefmt='grid'))
 
-    def execute(self, tokens):
-        if tokens:
-            method = tokens[0]
-            args = tokens[1:] if tokens[1:] else None
-            if method == 'stars':
-                self.stars(args)
-            elif method == 'octocat':
-                self.octocat(args)
+    def execute(self, args):
+        if args:
+            self.user_path, self.repo_path = user_and_repo_from_path()
+            command = args[0]
+            command_args = args[1:] if args[1:] else None
+            self.dispatch[command](command_args)
 
     def octocat(self, say=None):
         if say is not None:
