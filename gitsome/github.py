@@ -136,6 +136,9 @@ class GitSome(object):
             print("Available commands for 'gh':")
             self._print_items(self.dispatch.keys())
 
+    def feeds(self, args):
+        self.gh.feeds()
+
     def octocat(self, say=None):
         if say is not None:
             say = ' '.join(say)
