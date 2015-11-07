@@ -269,8 +269,21 @@ class GitSome(object):
             args,
             default_args=[None],
             expected_args=['query'])
-        self._print_items(self._listify(self.gh.search_issues(query)),
-                          headers=['foo'])
+        issues = self.gh.search_issues(query)
+        table = []
+        try:
+            for issue in issues:
+                table.append([issue.score,
+                             issue.issue.number,
+                             self._format_repo(issue.issue.repository),
+                             issue.issue.title])
+        except AttributeError:
+            # AttributeError: 'NoneType' object has no attribute 'get'
+            pass
+        table = sorted(table, key=itemgetter(0, 2, 1), reverse=True)
+        print(tabulate(table,
+                       headers=['score', '#', 'repo', 'title'],
+                       tablefmt='grid'))
 
     def search_repositories(self, args):
         query = self._extract_args(
