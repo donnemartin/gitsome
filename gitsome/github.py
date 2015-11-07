@@ -243,6 +243,19 @@ class GitSome(object):
         output = output.replace('\\n', '\n')
         print(output)
 
+    def repo(self, args):
+        user, repo = self._extract_args(
+            args,
+            default_args=[self.user_path, self.repo_path],
+            expected_args=['user', 'repo'])
+        repository = self.gh.repository(user, repo)
+        print('description:', repository.description)
+        print('stars:', repository.stargazers_count)
+        print('forks:', repository.forks_count)
+        print('created at:', repository.created_at)
+        print('updated at:', repository.updated_at)
+        print('clone url:', repository.clone_url)
+
     def stars(self, args):
         user, repo = self._extract_args(
             args,
