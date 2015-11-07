@@ -111,6 +111,18 @@ class GitSome(object):
     def emojis(self, _):
         self._print_items(self._listify(self.gh.emojis()), headers=['emoji'])
 
+    def events(self, _):
+        events = self.gh.all_events()
+        table = []
+        for event in events:
+            table.append([event.created_at,
+                          event.actor,
+                          event.type,
+                          self._format_repo(event.repo)])
+        print(tabulate(table,
+                       headers=['created at', 'actor', 'type', 'repo'],
+                       tablefmt='grid'))
+
     def execute(self, args):
         if args:
             self.user_path, self.repo_path = user_and_repo_from_path()
