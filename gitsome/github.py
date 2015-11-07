@@ -24,7 +24,10 @@ class GitSome(object):
                                                                         default)
         self.user_id = get_env('GITHUB_USER_ID', None)
         self.user_pass = get_env('GITHUB_USER_PASS', None)
-        self.gh = GitHub(self.user_id, self.user_pass)
+        self.gh = login(self.user_id,
+                            self.user_pass,
+                            two_factor_callback=self._two_factor_code)
+            print('Authenticated with user id and password', self.gh.me().login)
         self.dispatch = {
             'emails': self.emails,
             'emojis': self.emojis,
