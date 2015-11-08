@@ -15,7 +15,6 @@ from xonsh.tools import subexpr_from_unbalanced
 from xonsh.tools import ON_WINDOWS
 from xonsh.environ import repo_from_remote
 
-
 class GitSome(object):
 
     def __init__(self):
@@ -130,7 +129,7 @@ class GitSome(object):
 
     def execute(self, args):
         if args:
-            self.repo = user_and_repo_from_path()
+            self.repo = repo_from_remote()
             command = args[0]
             command_args = args[1:] if args[1:] else None
             self.dispatch[command](command_args)
@@ -175,7 +174,7 @@ class GitSome(object):
             print('Invalid template requested, run the following command to' \
                   ' see available templates:\n    gh gitignore_templates')
 
-    def gitignore_templates(self, args):
+    def gitignore_templates(self, _):
         self._print_items(
             self._listify(self.gh.gitignore_templates()), headers=['language'])
 
@@ -244,7 +243,6 @@ class GitSome(object):
         self.repos(args=None)
 
     def notifications(self, args):
-        import pdb; pdb.set_trace()
         notifs = self.gh.notifications(participating=True)
         self._print_items(self.gh.notifications(participating=True),
                           headers=['foo'])
