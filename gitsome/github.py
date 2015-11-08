@@ -8,7 +8,7 @@ import subprocess
 import sys
 from operator import itemgetter
 
-from github3 import login
+from github3 import login, null
 from tabulate import tabulate
 from xonsh.built_ins import iglobpath
 from xonsh.tools import subexpr_from_unbalanced
