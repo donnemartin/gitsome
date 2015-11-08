@@ -64,10 +64,7 @@ class GitSome(object):
         return code
 
     def _return_elem_or_list(self, args):
-        if len(args) == 1:
-            return args[0]
-        else:
-            return args
+        return args[0] if len(args) == 1 else args
 
     def _extract_args(self,
                       input_args,
