@@ -34,27 +34,7 @@ class GitSome(object):
             print('Authenticated with user id and password', self.gh.me().login)
         self.repo = repo_from_remote()
         self.rate_limit()
-        self.dispatch = {
-            'emails': self.emails,
-            'emojis': self.emojis,
-            'events': self.events,
-            'feeds': self.feeds,
-            'followers': self.followers,
-            'following': self.following,
-            'gitignore_template': self.gitignore_template,
-            'gitignore_templates': self.gitignore_templates,
-            'issue': self.issue,
-            'issues': self.issues,
-            'me': self.me,
-            'notifications': self.notifications,
-            'octocat': self.octocat,
-            'rate_limit': self.rate_limit,
-            'repo': self.repo,
-            'repos': self.repos,
-            'search_issues': self.search_issues,
-            'search_repositories': self.search_repositories,
-            'stars': self.stars,
-        }
+        self._init_dispatch()
 
     def _two_factor_code(self):
         code = ''
@@ -88,6 +68,29 @@ class GitSome(object):
 
     def _format_repo(self, repo):
         return '/'.join(repo)
+
+    def _init_dispatch(self):
+        self.dispatch = {
+            'emails': self.emails,
+            'emojis': self.emojis,
+            'events': self.events,
+            'feeds': self.feeds,
+            'followers': self.followers,
+            'following': self.following,
+            'gitignore_template': self.gitignore_template,
+            'gitignore_templates': self.gitignore_templates,
+            'issue': self.issue,
+            'issues': self.issues,
+            'me': self.me,
+            'notifications': self.notifications,
+            'octocat': self.octocat,
+            'rate_limit': self.rate_limit,
+            'repo': self.repo,
+            'repos': self.repos,
+            'search_issues': self.search_issues,
+            'search_repositories': self.search_repositories,
+            'stars': self.stars,
+        }
 
     def _listify(self, items):
         output = []
