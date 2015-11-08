@@ -291,12 +291,12 @@ class GitSome(object):
                              self._format_repo(issue.issue.repository),
                              issue.issue.title])
         except AttributeError:
+            # github3.py sometimes throws the following during iteration:
             # AttributeError: 'NoneType' object has no attribute 'get'
             pass
+        # Sort by score, repo, issue number
         table = sorted(table, key=itemgetter(0, 2, 1), reverse=True)
-        print(tabulate(table,
-                       headers=['score', '#', 'repo', 'title'],
-                       tablefmt='grid'))
+        self._print_table(table, headers=['score', '#', 'repo', 'title'])
 
     def search_repositories(self, args):
         query = self._extract_args(
@@ -312,12 +312,12 @@ class GitSome(object):
                               repo.repository.stargazers_count,
                               repo.repository.forks_count])
         except AttributeError:
+            # github3.py sometimes throws the following during iteration:
             # AttributeError: 'NoneType' object has no attribute 'get'
             pass
+        # Sort by score, repo
         table = sorted(table, key=itemgetter(0, 1), reverse=True)
-        print(tabulate(table,
-                       headers=['score', 'repo', 'stars', 'forks'],
-                       tablefmt='grid'))
+        self._print_table(table, headers=['score', 'repo', 'stars', 'forks'])
 
     def stars(self, args):
         user, repo = self._extract_args(
