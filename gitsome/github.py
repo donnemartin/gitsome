@@ -240,9 +240,11 @@ class GitSome(object):
         self._print_items(self.gh.notifications(participating=True),
                           headers=['foo'])
 
-    def octocat(self, say=None):
-        if say is not None:
-            say = ' '.join(say)
+    def octocat(self, args):
+        say = self._extract_args(
+            args,
+            default_args=[''],
+            expected_args=['say'])
         output = str(self.gh.octocat(say))
         output = output.replace('\\n', '\n')
         print(output)
