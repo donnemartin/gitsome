@@ -122,9 +122,8 @@ class GitSome(object):
                           event.actor,
                           event.type,
                           self._format_repo(event.repo)])
-        print(tabulate(table,
-                       headers=['created at', 'actor', 'type', 'repo'],
-                       tablefmt='grid'))
+        self._print_table(table,
+                          headers=['created at', 'user', 'type', 'repo'])
 
     def execute(self, args):
         if args:
