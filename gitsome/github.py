@@ -66,8 +66,8 @@ class GitSome(object):
             * input_args: A list that represents the user's input args.
             * default_args: A list that represents the default args to be used
                 if the input_args are not provided.
-            * expected_args: A list that represents the expected args to be
-                passed in for the method to work properly.
+            * expected_args_count: An int represents the number of expected
+                args to be passed in for the method to work properly.
 
         Returns:
             An single arg if there is one valid arg.
@@ -75,18 +75,19 @@ class GitSome(object):
             None if the args are invalid.
         """
         default_args = self.dispatch[command].default_args
-        expected_args = self.dispatch[command].expected_args
+        expected_args_count = self.dispatch[command].expected_args_count
         # If we don't have input args, use the default args if they exist
         if not input_args and default_args is not None:
             return self._return_elem_or_list(default_args)
         valid_args = True
         # If we expect args and the we don't get any args or
         # if the number of input args doesn't match the number of expected args
-        if (expected_args is not None and input_args is None) or \
-            len(input_args) != len(expected_args):
+        if (expected_args_count != 0 and input_args is None) or \
+            len(input_args) != expected_args_count:
             valid_args = False
         if not valid_args:
-            print('Error, expected arguments:', expected_args)
+            expected_args_desc = self.dispatch[command].expected_args_desc
+            print('Error, expected arguments:', expected_args_desc)
             return None
         else:
             # All checks pass on the input args for use
@@ -122,99 +123,123 @@ class GitSome(object):
         self.dispatch = {
             self.EMAILS: GitSomeCommand(
                 command=self.EMAILS,
-                expected_args=None,
+                expected_args_count=0,
+                expected_args_desc='',
                 default_args=None,
                 method=self.emails),
             self.EMOJIS: GitSomeCommand(
                 command=self.EMOJIS,
-                expected_args=None,
+                expected_args_count=0,
+                expected_args_desc='',
                 default_args=None,
                 method=self.emojis),
             self.EVENTS: GitSomeCommand(
                 command=self.EVENTS,
-                expected_args=None,
+                expected_args_count=0,
+                expected_args_desc='',
                 default_args=None,
                 method=self.events),
             self.FEEDS: GitSomeCommand(
                 command=self.FEEDS,
-                expected_args=None,
+                expected_args_count=0,
+                expected_args_desc='',
                 default_args=None,
                 method=self.feeds),
             self.FOLLOWERS: GitSomeCommand(
                 command=self.FOLLOWERS,
-                expected_args=['user'],
+                expected_args_count=1,
+                expected_args_desc=\
+                    'user (optional)',
                 default_args=[self.user_id],
                 method=self.followers),
             self.FOLLOWING: GitSomeCommand(
                 command=self.FOLLOWING,
-                expected_args=['user'],
+                expected_args_count=1,
+                expected_args_desc=\
+                    'user (optional)',
                 default_args=[self.user_id],
                 method=self.following),
             self.GITIGNORE_TEMPLATE: GitSomeCommand(
                 command=self.GITIGNORE_TEMPLATE,
-                expected_args=['language'],
+                expected_args_count=1,
+                expected_args_desc='language',
                 default_args=None,
                 method=self.gitignore_template),
             self.GITIGNORE_TEMPLATES: GitSomeCommand(
                 command=self.GITIGNORE_TEMPLATES,
-                expected_args=None,
+                expected_args_count=0,
+                expected_args_desc='',
                 default_args=None,
                 method=self.gitignore_templates),
             self.ISSUE: GitSomeCommand(
                 command=self.ISSUE,
-                expected_args=['user', 'repo', 'issue #'],
+                expected_args_count=3,
+                expected_args_desc='user, repo, issue #',
                 default_args=None,
                 method=self.issue),
             self.ISSUES: GitSomeCommand(
                 command=self.ISSUES,
-                expected_args=[
-                    "'assigned', 'created', 'mentioned', 'subscribed'"],
+                expected_args_count=1,
+                expected_args_desc=\
+                    'filter: assigned created mentioned or subscribed',
                 default_args=['subscribed'],
                 method=self.issues),
             self.ME: GitSomeCommand(
                 command=self.ME,
-                expected_args=None,
+                expected_args_count=0,
+                expected_args_desc='',
                 default_args=None,
                 method=self.me),
             self.NOTIFICATIONS: GitSomeCommand(
                 command=self.NOTIFICATIONS,
-                expected_args=None,
+                expected_args_count=0,
+                expected_args_desc='',
                 default_args=None,
                 method=self.notifications),
             self.OCTOCAT: GitSomeCommand(
                 command=self.OCTOCAT,
-                expected_args=['say'],
+                expected_args_count=1,
+                expected_args_desc=\
+                    'speak (optional)',
                 default_args=[''],
                 method=self.octocat),
             self.RATE_LIMIT: GitSomeCommand(
                 command=self.RATE_LIMIT,
-                expected_args=['threshold'],
+                expected_args_count=1,
+                expected_args_desc=\
+                    'threshold (optional)',
                 default_args=[sys.maxsize],
                 method=self.rate_limit),
             self.REPO: GitSomeCommand(
                 command=self.REPO,
-                expected_args=['user', 'repo'],
+                expected_args_count=2,
+                expected_args_desc='user, repo',
                 default_args=[self.user_id, self.repo],
                 method=self.repository),
             self.REPOS: GitSomeCommand(
                 command=self.REPOS,
-                expected_args=None,
+                expected_args_count=0,
+                expected_args_desc='',
                 default_args=None,
                 method=self.repositories),
             self.SEARCH_ISSUES: GitSomeCommand(
                 command=self.SEARCH_ISSUES,
-                expected_args=['query'],
+                expected_args_count=1,
+                expected_args_desc='query',
                 default_args=[None],
                 method=self.search_issues),
             self.SEARCH_REPOSITORIES: GitSomeCommand(
                 command=self.SEARCH_REPOSITORIES,
-                expected_args=['query'],
+                expected_args_count=1,
+                expected_args_desc='query',
                 default_args=[None],
                 method=self.search_repositories),
             self.STARS: GitSomeCommand(
                 command=self.STARS,
-                expected_args=['user', 'repo'],
-                default_args=[self.user_id, self.repo],
+                expected_args_count=2,
+                expected_args_desc=\
+                    'user, repo',
+                default_args=None,
                 method=self.stars),
         }
 
@@ -392,9 +417,12 @@ class GitSome(object):
             self.rate_limit([rate_limit_print_threshold])
         else:
             print("Available commands for 'gh':")
-            self._print_items(
-                self._listify(self.dispatch.keys()),
-                headers=['command'])
+            table = []
+            for command in self.dispatch.values():
+                table.append([command.command, command.expected_args_desc])
+            # Sort by command
+            table = sorted(table, key=itemgetter(0))
+            self._print_table(table, headers=['command', 'expected args'])
 
     def feeds(self, _=None):
         """Lists GitHub's timeline resources.
@@ -605,7 +633,7 @@ class GitSome(object):
         Returns:
             None.
         """
-        threshold = self._extract_args(args, self.RATE_LIMIT)
+        threshold = int(self._extract_args(args, self.RATE_LIMIT))
         limit = self.gh.ratelimit_remaining
         if limit < threshold:
             print('Rate limit:', limit)
