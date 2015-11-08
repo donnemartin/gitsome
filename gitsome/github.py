@@ -10,10 +10,12 @@ from operator import itemgetter
 
 from github3 import login, null
 from tabulate import tabulate
+from gitsome.gitsome_command import GitSomeCommand
 from xonsh.built_ins import iglobpath
 from xonsh.tools import subexpr_from_unbalanced
 from xonsh.tools import ON_WINDOWS
 from xonsh.environ import repo_from_remote
+
 
 class GitSome(object):
     """Provides integration with the GitHub API.
@@ -22,6 +24,26 @@ class GitSome(object):
         * repo: A string that represents the user's current repo, as
             determined by the .git/ configured remote repo.
     """
+
+    EMAILS = 'emails'
+    EMOJIS = 'emojis'
+    EVENTS = 'events'
+    FEEDS = 'feeds'
+    FOLLOWERS = 'followers'
+    FOLLOWING = 'following'
+    GITIGNORE_TEMPLATE = 'gitignore_template'
+    GITIGNORE_TEMPLATES = 'gitignore_templates'
+    ISSUE = 'issue'
+    ISSUES = 'issues'
+    ME = 'me'
+    NOTIFICATIONS = 'notifications'
+    OCTOCAT = 'octocat'
+    RATE_LIMIT = 'rate_limit'
+    REPO = 'repo'
+    REPOS = 'repos'
+    SEARCH_ISSUES = 'search_issues'
+    SEARCH_REPOSITORIES = 'search_repositories'
+    STARS = 'stars'
 
     def __init__(self):
         """Inits GitSome.
@@ -37,10 +59,7 @@ class GitSome(object):
         self.rate_limit()
         self._init_dispatch()
 
-    def _extract_args(self,
-                      input_args,
-                      default_args,
-                      expected_args):
+    def _extract_args(self, input_args, command):
         """Extracts arguments using the input or default args.
 
         Args:
@@ -55,6 +74,8 @@ class GitSome(object):
             A list of args if there are multiple args.
             None if the args are invalid.
         """
+        default_args = self.dispatch[command].default_args
+        expected_args = self.dispatch[command].expected_args
         # If we don't have input args, use the default args if they exist
         if not input_args and default_args is not None:
             return self._return_elem_or_list(default_args)
@@ -99,25 +120,102 @@ class GitSome(object):
             None.
         """
         self.dispatch = {
-            'emails': self.emails,
-            'emojis': self.emojis,
-            'events': self.events,
-            'feeds': self.feeds,
-            'followers': self.followers,
-            'following': self.following,
-            'gitignore_template': self.gitignore_template,
-            'gitignore_templates': self.gitignore_templates,
-            'issue': self.issue,
-            'issues': self.issues,
-            'me': self.me,
-            'notifications': self.notifications,
-            'octocat': self.octocat,
-            'rate_limit': self.rate_limit,
-            'repo': self.repo,
-            'repos': self.repos,
-            'search_issues': self.search_issues,
-            'search_repositories': self.search_repositories,
-            'stars': self.stars,
+            self.EMAILS: GitSomeCommand(
+                command=self.EMAILS,
+                expected_args=None,
+                default_args=None,
+                method=self.emails),
+            self.EMOJIS: GitSomeCommand(
+                command=self.EMOJIS,
+                expected_args=None,
+                default_args=None,
+                method=self.emojis),
+            self.EVENTS: GitSomeCommand(
+                command=self.EVENTS,
+                expected_args=None,
+                default_args=None,
+                method=self.events),
+            self.FEEDS: GitSomeCommand(
+                command=self.FEEDS,
+                expected_args=None,
+                default_args=None,
+                method=self.feeds),
+            self.FOLLOWERS: GitSomeCommand(
+                command=self.FOLLOWERS,
+                expected_args=['user'],
+                default_args=[self.user_id],
+                method=self.followers),
+            self.FOLLOWING: GitSomeCommand(
+                command=self.FOLLOWING,
+                expected_args=['user'],
+                default_args=[self.user_id],
+                method=self.following),
+            self.GITIGNORE_TEMPLATE: GitSomeCommand(
+                command=self.GITIGNORE_TEMPLATE,
+                expected_args=['language'],
+                default_args=None,
+                method=self.gitignore_template),
+            self.GITIGNORE_TEMPLATES: GitSomeCommand(
+                command=self.GITIGNORE_TEMPLATES,
+                expected_args=None,
+                default_args=None,
+                method=self.gitignore_templates),
+            self.ISSUE: GitSomeCommand(
+                command=self.ISSUE,
+                expected_args=['user', 'repo', 'issue #'],
+                default_args=None,
+                method=self.issue),
+            self.ISSUES: GitSomeCommand(
+                command=self.ISSUES,
+                expected_args=[
+                    "'assigned', 'created', 'mentioned', 'subscribed'"],
+                default_args=['subscribed'],
+                method=self.issues),
+            self.ME: GitSomeCommand(
+                command=self.ME,
+                expected_args=None,
+                default_args=None,
+                method=self.me),
+            self.NOTIFICATIONS: GitSomeCommand(
+                command=self.NOTIFICATIONS,
+                expected_args=None,
+                default_args=None,
+                method=self.notifications),
+            self.OCTOCAT: GitSomeCommand(
+                command=self.OCTOCAT,
+                expected_args=['say'],
+                default_args=[''],
+                method=self.octocat),
+            self.RATE_LIMIT: GitSomeCommand(
+                command=self.RATE_LIMIT,
+                expected_args=['threshold'],
+                default_args=[sys.maxsize],
+                method=self.rate_limit),
+            self.REPO: GitSomeCommand(
+                command=self.REPO,
+                expected_args=['user', 'repo'],
+                default_args=[self.user_id, self.repo],
+                method=self.repository),
+            self.REPOS: GitSomeCommand(
+                command=self.REPOS,
+                expected_args=None,
+                default_args=None,
+                method=self.repositories),
+            self.SEARCH_ISSUES: GitSomeCommand(
+                command=self.SEARCH_ISSUES,
+                expected_args=['query'],
+                default_args=[None],
+                method=self.search_issues),
+            self.SEARCH_REPOSITORIES: GitSomeCommand(
+                command=self.SEARCH_REPOSITORIES,
+                expected_args=['query'],
+                default_args=[None],
+                method=self.search_repositories),
+            self.STARS: GitSomeCommand(
+                command=self.STARS,
+                expected_args=['user', 'repo'],
+                default_args=[self.user_id, self.repo],
+                method=self.stars),
         }
 
     def _listify(self, items):
@@ -231,7 +329,7 @@ class GitSome(object):
             code = input('Enter 2FA code: ')
         return code
 
-    def emails(self, _):
+    def emails(self, _=None):
         """Lists all the user's registered emails.
 
         Args:
@@ -242,7 +340,7 @@ class GitSome(object):
         """
         self._print_items(self.gh.emails(), headers='keys')
 
-    def emojis(self, _):
+    def emojis(self, _=None):
         """Lists all GitHub supported emojis.
 
         Args:
@@ -253,7 +351,7 @@ class GitSome(object):
         """
         self._print_items(self._listify(self.gh.emojis()), headers=['emoji'])
 
-    def events(self, _):
+    def events(self, _=None):
         """Lists all public events.
 
         Args:
@@ -289,16 +387,16 @@ class GitSome(object):
             self.repo = repo_from_remote()
             command = args[0]
             command_args = args[1:] if args[1:] else None
-            self.dispatch[command](command_args)
-            # rate_limit_print_threshold = 20
-            # self.rate_limit([rate_limit_print_threshold])
+            self.dispatch[command].method(command_args)
+            rate_limit_print_threshold = 20
+            self.rate_limit([rate_limit_print_threshold])
         else:
             print("Available commands for 'gh':")
             self._print_items(
                 self._listify(self.dispatch.keys()),
                 headers=['command'])
 
-    def feeds(self, _):
+    def feeds(self, _=None):
         """Lists GitHub's timeline resources.
 
         Requires authentication with user/pass, cannot be used with tokens
@@ -330,10 +428,7 @@ class GitSome(object):
         Returns:
             None.
         """
-        user = self._extract_args(
-            args,
-            default_args=[self.user_id],
-            expected_args=['user'])
+        user = self._extract_args(args, self.FOLLOWERS)
         self._print_items(
             self._listify(self.gh.followers_of(user)), headers=['user'])
         print('Followers:', self.gh.user(user).followers_count)
@@ -351,13 +446,10 @@ class GitSome(object):
         Returns:
             None.
         """
-        user = self._extract_args(
-            args,
-            default_args=[self.user_id],
-            expected_args=['user'])
+        user = self._extract_args(args, self.FOLLOWING)
         self._print_items(
             self._listify(self.gh.followed_by(user)), headers=['user'])
-        print('Following:', self.gh.user(user).followers_count)
+        print('Following:', self.gh.user(user).following_count)
 
     def gitignore_template(self, args):
         """Outputs the gitignore template for the given language.
@@ -368,10 +460,7 @@ class GitSome(object):
         Returns:
             None.
         """
-        language = self._extract_args(
-            args,
-            default_args=None,
-            expected_args=['language'])
+        language = self._extract_args(args, self.GITIGNORE_TEMPLATE)
         template = self.gh.gitignore_template(language)
         if template != '':
             print(template)
@@ -379,7 +468,7 @@ class GitSome(object):
             print('Invalid template requested, run the following command to' \
                   ' see available templates:\n    gh gitignore_templates')
 
-    def gitignore_templates(self, _):
+    def gitignore_templates(self, _=None):
         """Outputs all supported gitignore templates.
 
         Args:
@@ -400,10 +489,7 @@ class GitSome(object):
         Returns:
             None.
         """
-        result = self._extract_args(
-            args,
-            default_args=None,
-            expected_args=['user', 'repo', 'issue #'])
+        result = self._extract_args(args, self.ISSUE)
         if result is None:
             return
         user, repo, issue_number = result
@@ -443,10 +529,7 @@ class GitSome(object):
         Returns:
             None.
         """
-        issue_filter = self._extract_args(
-            args,
-            default_args=['subscribed'],
-            expected_args=["'assigned', 'created', 'mentioned', 'subscribed'"])
+        issue_filter = self._extract_args(args, self.ISSUES)
         issues = self.gh.issues(filter=issue_filter)
         table = []
         for issue in issues:
@@ -458,7 +541,7 @@ class GitSome(object):
         self._print_table(table,
                           headers=['#', 'repo', 'title', 'comments'])
 
-    def me(self, _):
+    def me(self, _=None):
         """Lists information about the logged in user.
 
         Args:
@@ -478,7 +561,7 @@ class GitSome(object):
         print('joined on:', user.created_at)
         print('followers:', user.followers_count)
         print('following:', user.following_count)
-        self.repos(args=None)
+        self.repositories()
 
     def notifications(self, args):
         """Lists all notifications.
@@ -507,10 +590,7 @@ class GitSome(object):
         Returns:
             None.
         """
-        say = self._extract_args(
-            args,
-            default_args=[''],
-            expected_args=['say'])
+        say = self._extract_args(args, self.OCTOCAT)
         output = str(self.gh.octocat(say))
         output = output.replace('\\n', '\n')
         print(output)
@@ -525,15 +605,12 @@ class GitSome(object):
         Returns:
             None.
         """
-        threshold = self._extract_args(
-            args,
-            default_args=[sys.maxsize],
-            expected_args=['threshold'])
+        threshold = self._extract_args(args, self.RATE_LIMIT)
         limit = self.gh.ratelimit_remaining
         if limit < threshold:
             print('Rate limit:', limit)
 
-    def repo(self, args):
+    def repository(self, args):
         """Outputs detailed information about the given repo.
 
         If args does not contain user and repo, attempts to display repo
@@ -545,10 +622,7 @@ class GitSome(object):
         Returns:
             None.
         """
-        user, repo = self._extract_args(
-            args,
-            default_args=[self.user_id, self.repo],
-            expected_args=['user', 'repo'])
+        user, repo = self._extract_args(args, self.REPO)
         repository = self.gh.repository(user, repo)
         print('description:', repository.description)
         print('stars:', repository.stargazers_count)
@@ -557,7 +631,7 @@ class GitSome(object):
         print('updated at:', repository.updated_at)
         print('clone url:', repository.clone_url)
 
-    def repos(self, _):
+    def repositories(self, _=None):
         """Lists all repos.
 
         Args:
@@ -582,10 +656,7 @@ class GitSome(object):
         Returns:
             None.
         """
-        query = self._extract_args(
-            args,
-            default_args=[None],
-            expected_args=['query'])
+        query = self._extract_args(args, self.SEARCH_ISSUES)
         issues = self.gh.search_issues(query)
         table = []
         try:
@@ -611,10 +682,7 @@ class GitSome(object):
         Returns:
             None.
         """
-        query = self._extract_args(
-            args,
-            default_args=[None],
-            expected_args=['query'])
+        query = self._extract_args(args, self.SEARCH_REPOSITORIES)
         repos = self.gh.search_repositories(query)
         table = []
         try:
@@ -643,9 +711,6 @@ class GitSome(object):
         Returns:
             None.
         """
-        user, repo = self._extract_args(
-            args,
-            default_args=[self.user_id, self.repo],
-            expected_args=['user', 'repo'])
+        user, repo = self._extract_args(args, self.STARS)
         stars = str(self.gh.repository(user, repo).stargazers_count)
         print('Stars for ' + user + '/' + repo + ': ' + stars)
