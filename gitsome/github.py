@@ -129,8 +129,8 @@ class GitSome(object):
             command = args[0]
             command_args = args[1:] if args[1:] else None
             self.dispatch[command](command_args)
-            rate_limit_print_threshold = 20
-            self.rate_limit([rate_limit_print_threshold])
+            # rate_limit_print_threshold = 20
+            # self.rate_limit([rate_limit_print_threshold])
         else:
             print("Available commands for 'gh':")
             self._print_items(
