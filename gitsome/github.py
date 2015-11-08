@@ -18,20 +18,7 @@ from xonsh.environ import repo_from_remote
 class GitSome(object):
 
     def __init__(self):
-        get_env = lambda name, default=None: builtins.__xonsh_env__.get(
-            name, default)
-        self.user_id = get_env('GITHUB_USER_ID', None)
-        self.user_pass = get_env('GITHUB_USER_PASS', None)
-        self.token = get_env('GITHUB_TOKEN', None)
-        if self.token is not None:
-            self.gh = login(token=self.token,
-                            two_factor_callback=self._two_factor_code)
-            print('Authenticated with token:', self.gh.me().login)
-        else:
-            self.gh = login(self.user_id,
-                            self.user_pass,
-                            two_factor_callback=self._two_factor_code)
-            print('Authenticated with user id and password', self.gh.me().login)
+        self._login()
         self.repo = repo_from_remote()
         self.rate_limit()
         self._init_dispatch()
@@ -90,6 +77,23 @@ class GitSome(object):
             item_list.append(item)
             output.append(item_list)
         return output
+
+    def _login(self):
+        get_env = lambda name, default=None: builtins.__xonsh_env__.get(
+            name, default)
+        self.user_id = get_env('GITHUB_USER_ID', None)
+        self.user_pass = get_env('GITHUB_USER_PASS', None)
+        self.token = get_env('GITHUB_TOKEN', None)
+        if self.token is not None and False:
+            self.gh = login(token=self.token,
+                            two_factor_callback=self._two_factor_code)
+            print('Authenticated with token:', self.gh.me().login)
+        else:
+            self.gh = login(self.user_id,
+                            self.user_pass,
+                            two_factor_callback=self._two_factor_code)
+            print('Authenticated with user id and password:',
+                  self.gh.me().login)
 
     def _print_items(self, items, headers):
         table = []
