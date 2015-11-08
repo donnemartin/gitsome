@@ -221,9 +221,8 @@ class GitSome(object):
                           issue.title,
                           issue.comments_count])
         table = sorted(table, key=itemgetter(1, 0))
-        print(tabulate(table,
-                       headers=['#', 'repo', 'title', 'comments'],
-                       tablefmt='grid'))
+        self._print_table(table,
+                          headers=['#', 'repo', 'title', 'comments'])
 
     def me(self, _):
         user = self.gh.me()
