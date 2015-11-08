@@ -225,14 +225,19 @@ class GitSome(object):
                        headers=['#', 'repo', 'title', 'comments'],
                        tablefmt='grid'))
 
-    def me(self, args):
+    def me(self, _):
         user = self.gh.me()
         print(user.login)
-        print('company:', user.company)
-        print('location:', user.location)
-        print('email:', user.email)
+        if user.company is not None:
+            print('company:', user.company)
+        if user.location is not None:
+            print('location:', user.location)
+        if user.email is not None:
+            print('email:', user.email)
         print('joined on:', user.created_at)
-        print('followers:, user.follow')
+        print('followers:', user.followers_count)
+        print('following:', user.following_count)
+        self.repos(args=None)
 
     def notifications(self, args):
         import pdb; pdb.set_trace()
