@@ -342,7 +342,7 @@ def locate_binary(name, cwd):
     return binary_location
 
 
-def user_and_repo_from_path(cwd=None):
+def repo_from_remote(cwd=None):
     repo = None
     try:
         cmd = ['git', 'remote', '-v']
@@ -366,12 +366,12 @@ def user_and_repo_from_path(cwd=None):
         s = s.split('/')
         # s:
         #   ['origin\thttps:', '', 'github.com', 'donnemartin', 'gitsome']
-        user, repo = s[3], s[4]
+        repo = s[4]
         # s:
         #   ['donnemartin', 'gitsome']
     except (subprocess.CalledProcessError, FileNotFoundError, IndexError):
         pass
-    return user, repo
+    return repo
 
 
 def ensure_git(func):

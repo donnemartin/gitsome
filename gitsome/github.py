@@ -13,7 +13,7 @@ from tabulate import tabulate
 from xonsh.built_ins import iglobpath
 from xonsh.tools import subexpr_from_unbalanced
 from xonsh.tools import ON_WINDOWS
-from xonsh.environ import user_and_repo_from_path
+from xonsh.environ import repo_from_remote
 
 
 class GitSome(object):
@@ -33,7 +33,7 @@ class GitSome(object):
                             self.user_pass,
                             two_factor_callback=self._two_factor_code)
             print('Authenticated with user id and password', self.gh.me().login)
-        self.user_path, self.repo_path = user_and_repo_from_path()
+        self.repo = repo_from_remote()
         self.rate_limit()
         self.dispatch = {
             'emails': self.emails,
@@ -125,7 +125,7 @@ class GitSome(object):
 
     def execute(self, args):
         if args:
-            self.user_path, self.repo_path = user_and_repo_from_path()
+            self.repo = user_and_repo_from_path()
             command = args[0]
             command_args = args[1:] if args[1:] else None
             self.dispatch[command](command_args)
@@ -143,7 +143,7 @@ class GitSome(object):
     def followers(self, args):
         user = self._extract_args(
             args,
-            default_args=[self.user_path],
+            default_args=[self.user_id],
             expected_args=['user id'])
         self._print_items(
             self._listify(self.gh.followers_of(user)), headers=['user name'])
@@ -152,7 +152,7 @@ class GitSome(object):
     def following(self, args):
         user = self._extract_args(
             args,
-            default_args=[self.user_path],
+            default_args=[self.user_id],
             expected_args=['user id'])
         self._print_items(
             self._listify(self.gh.followed_by(user)), headers=['user name'])
@@ -256,7 +256,7 @@ class GitSome(object):
     def repo(self, args):
         user, repo = self._extract_args(
             args,
-            default_args=[self.user_path, self.repo_path],
+            default_args=[self.user_id, self.repo],
             expected_args=['user', 'repo'])
         repository = self.gh.repository(user, repo)
         print('description:', repository.description)
@@ -319,7 +319,7 @@ class GitSome(object):
     def stars(self, args):
         user, repo = self._extract_args(
             args,
-            default_args=[self.user_path, self.repo_path],
+            default_args=[self.user_id, self.repo],
             expected_args=['user', 'repo'])
         stars = str(self.gh.repository(user, repo).stargazers_count)
         print('Stars for ' + user + '/' + repo + ': ' + stars)
