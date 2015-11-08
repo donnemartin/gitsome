@@ -101,9 +101,8 @@ class GitSome(object):
     def _print_items(self, items, headers):
         table = []
         for item in items:
-            import pdb; pdb.set_trace()
             table.append(item)
-        print(tabulate(table, headers=headers, tablefmt='grid'))
+        self._print_table(table, headers=headers)
 
     def _print_table(self, table, headers):
         print(tabulate(table, headers, tablefmt='grid'))
