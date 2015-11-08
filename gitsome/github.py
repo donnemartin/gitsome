@@ -147,19 +147,19 @@ class GitSome(object):
         user = self._extract_args(
             args,
             default_args=[self.user_id],
-            expected_args=['user id'])
+            expected_args=['user'])
         self._print_items(
-            self._listify(self.gh.followers_of(user)), headers=['user name'])
+            self._listify(self.gh.followers_of(user)), headers=['user'])
         print('Followers:', self.gh.user(user).followers_count)
 
     def following(self, args):
         user = self._extract_args(
             args,
             default_args=[self.user_id],
-            expected_args=['user id'])
+            expected_args=['user'])
         self._print_items(
-            self._listify(self.gh.followed_by(user)), headers=['user name'])
-        print('Following:', self.gh.user(user).following_count)
+            self._listify(self.gh.followed_by(user)), headers=['user'])
+        print('Following:', self.gh.user(user).followers_count)
 
     def gitignore_template(self, args):
         language = self._extract_args(
