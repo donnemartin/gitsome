@@ -74,9 +74,12 @@ class GitSome(object):
                       input_args,
                       default_args,
                       expected_args):
+        # If we don't have input args, use the default args if they exist
         if not input_args and default_args is not None:
             return self._return_elem_or_list(default_args)
         valid_args = True
+        # If we expect args and the we don't get any args or
+        # if the number of input args doesn't match the number of expected args
         if (expected_args is not None and input_args is None) or \
             len(input_args) != len(expected_args):
             valid_args = False
@@ -84,6 +87,7 @@ class GitSome(object):
             print('Error, expected arguments:', expected_args)
             return None
         else:
+            # All checks pass on the input args for use
             return self._return_elem_or_list(input_args)
         return None
 
