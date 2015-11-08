@@ -48,7 +48,6 @@ class GitSome(object):
             'me': self.me,
             'notifications': self.notifications,
             'octocat': self.octocat,
-            'pull_requests': self.pull_requests,
             'rate_limit': self.rate_limit,
             'repo': self.repo,
             'repos': self.repos,
