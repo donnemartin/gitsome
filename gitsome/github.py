@@ -140,7 +140,7 @@ class GitSome(object):
                 self._listify(self.dispatch.keys()),
                 headers=['command'])
 
-    def feeds(self, args):
+    def feeds(self, _):
         self.gh.feeds()
 
     def followers(self, args):
@@ -269,7 +269,7 @@ class GitSome(object):
         print('updated at:', repository.updated_at)
         print('clone url:', repository.clone_url)
 
-    def repos(self, args):
+    def repos(self, _):
         repos = self.gh.repositories()
         table = []
         for repo in repos:
