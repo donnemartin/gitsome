@@ -16,8 +16,22 @@ from xonsh.tools import ON_WINDOWS
 from xonsh.environ import repo_from_remote
 
 class GitSome(object):
+    """Provides integration with the GitHub API.
+
+    Attributes:
+        * repo: A string that represents the user's current repo, as
+            determined by the .git/ configured remote repo.
+    """
 
     def __init__(self):
+        """Inits GitSome.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
         self._login()
         self.repo = repo_from_remote()
         self.rate_limit()
@@ -27,6 +41,20 @@ class GitSome(object):
                       input_args,
                       default_args,
                       expected_args):
+        """Extracts arguments using the input or default args.
+
+        Args:
+            * input_args: A list that represents the user's input args.
+            * default_args: A list that represents the default args to be used
+                if the input_args are not provided.
+            * expected_args: A list that represents the expected args to be
+                passed in for the method to work properly.
+
+        Returns:
+            An single arg if there is one valid arg.
+            A list of args if there are multiple args.
+            None if the args are invalid.
+        """
         # If we don't have input args, use the default args if they exist
         if not input_args and default_args is not None:
             return self._return_elem_or_list(default_args)
@@ -45,9 +73,31 @@ class GitSome(object):
         return None
 
     def _format_repo(self, repo):
+        """Formats a repo tuple for pretty print.
+
+        Example:
+            Input:  ('donnemartin', 'gitsome')
+            Output: donnemartin/gitsome
+
+        Args:
+            * arg: A tuple that contains the user and repo.
+
+        Returns:
+            A string of the form user/repo.
+        """
         return '/'.join(repo)
 
     def _init_dispatch(self):
+        """Initializes the dispatch dictionary.
+
+        The dictionary keys are commands and values are methods.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
         self.dispatch = {
             'emails': self.emails,
             'emojis': self.emojis,
@@ -71,6 +121,20 @@ class GitSome(object):
         }
 
     def _listify(self, items):
+        """Puts each list element in its own list.
+
+        Example:
+            Input: [a, b, c]
+            Output: [[a], [b], [c]]
+
+        This is needed for tabulate to print rows [a], [b], and [c].
+
+        Args:
+            * items: A list to listify.
+
+        Returns:
+            A list that contains elements that are listified.
+        """
         output = []
         for item in items:
             item_list = []
@@ -79,6 +143,18 @@ class GitSome(object):
         return output
 
     def _login(self):
+        """Logs into GitHub.
+
+        Logs in with a token if present, otherwise it uses the user and pass.
+        TODO: Two factor authentication does not seem to be triggering the
+            SMS code: https://github.com/sigmavirus24/github3.py/issues/387
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
         get_env = lambda name, default=None: builtins.__xonsh_env__.get(
             name, default)
         self.user_id = get_env('GITHUB_USER_ID', None)
@@ -96,30 +172,96 @@ class GitSome(object):
                   self.gh.me().login)
 
     def _print_items(self, items, headers):
+        """Prints the items and headers with tabulate.
+
+        Args:
+            * items: A collection of items to print as rows with tabulate.
+                Can be a list or dictionary.
+            * headers: A collection of column headers to print with tabulate.
+                If items is a list, headers should be a list.
+                If items is a dictionary, set headers='keys'.
+
+        Returns:
+            None.
+        """
         table = []
         for item in items:
             table.append(item)
         self._print_table(table, headers=headers)
 
     def _print_table(self, table, headers):
+        """Prints the input table and headers with tabulate.
+
+        Args:
+            * table: A collection of items to print as rows with tabulate.
+                Can be a list or dictionary.
+            * headers: A collection of column headers to print with tabulate.
+                If items is a list, headers should be a list.
+                If items is a dictionary, set headers='keys'.
+
+        Returns:
+            None.
+        """
         print(tabulate(table, headers, tablefmt='grid'))
 
     def _return_elem_or_list(self, args):
+        """Utility function to get a single element if len(args) == 1.
+
+        Args:
+            * args: A list of args.
+
+        Returns:
+            If args contains only one item, returns a single element.
+            Else, returns args.
+        """
         return args[0] if len(args) == 1 else args
 
     def _two_factor_code(self):
+        """Callback if two factor authentication is requested.
+
+        Args:
+            * None.
+
+        Returns:
+            A string that represents the user input two factor
+                authentication code.
+        """
         code = ''
         while not code:
             code = input('Enter 2FA code: ')
         return code
 
     def emails(self, _):
+        """Lists all the user's registered emails.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
         self._print_items(self.gh.emails(), headers='keys')
 
     def emojis(self, _):
+        """Lists all GitHub supported emojis.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
         self._print_items(self._listify(self.gh.emojis()), headers=['emoji'])
 
     def events(self, _):
+        """Lists all public events.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
         events = self.gh.all_events()
         table = []
         for event in events:
@@ -131,6 +273,18 @@ class GitSome(object):
                           headers=['created at', 'user', 'type', 'repo'])
 
     def execute(self, args):
+        """Executes the gh command.
+
+        Calls the dispatch to execute the command.
+        If no command is given, it lists all available commands.
+        Prints the rate limit if it starts to get low.
+
+        Args:
+            * args: A list of user supplied args.
+
+        Returns:
+            None.
+        """
         if args:
             self.repo = repo_from_remote()
             command = args[0]
@@ -145,9 +299,37 @@ class GitSome(object):
                 headers=['command'])
 
     def feeds(self, _):
+        """Lists GitHub's timeline resources.
+
+        Requires authentication with user/pass, cannot be used with tokens
+        due to a limitation with the GitHub API itself.
+
+        TODO: Results in an exception with github3.py.
+
+        Args:
+            * None.
+
+        Returns:
+            A type that does xxx.
+
+        Raises:
+            TypeError: github3.py bug.
+        """
         self.gh.feeds()
 
     def followers(self, args):
+        """Lists all followers and the total follower count.
+
+        If args is None, returns the followers and count for the currently
+            logged in user.
+        Else, returns the followers and count for the specified user.
+
+        Args:
+            * args: A list containing a single user or None.
+
+        Returns:
+            None.
+        """
         user = self._extract_args(
             args,
             default_args=[self.user_id],
@@ -157,6 +339,18 @@ class GitSome(object):
         print('Followers:', self.gh.user(user).followers_count)
 
     def following(self, args):
+        """Lists all followed users and the total followed count.
+
+        If args is None, returns the followed users and count for the currently
+            logged in user.
+        Else, returns the followed users and count for the specified user.
+
+        Args:
+            * args: A list containing a single user or None.
+
+        Returns:
+            None.
+        """
         user = self._extract_args(
             args,
             default_args=[self.user_id],
@@ -166,6 +360,14 @@ class GitSome(object):
         print('Following:', self.gh.user(user).followers_count)
 
     def gitignore_template(self, args):
+        """Outputs the gitignore template for the given language.
+
+        Args:
+            * arg: A string that represents the language.
+
+        Returns:
+            None.
+        """
         language = self._extract_args(
             args,
             default_args=None,
@@ -178,10 +380,26 @@ class GitSome(object):
                   ' see available templates:\n    gh gitignore_templates')
 
     def gitignore_templates(self, _):
+        """Outputs all supported gitignore templates.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
         self._print_items(
             self._listify(self.gh.gitignore_templates()), headers=['language'])
 
     def issue(self, args):
+        """Outputs detailed information about the given issue.
+
+        Args:
+            * args: A list that contains the user, repo, and issue id.
+
+        Returns:
+            None.
+        """
         result = self._extract_args(
             args,
             default_args=None,
@@ -216,6 +434,15 @@ class GitSome(object):
             print(comment.body)
 
     def issues(self, args):
+        """Lists all issues.
+
+        Args:
+            * args: A list that contains an issue filter:
+                'assigned', 'created', 'mentioned', 'subscribed'.
+
+        Returns:
+            None.
+        """
         issue_filter = self._extract_args(
             args,
             default_args=['subscribed'],
@@ -232,6 +459,14 @@ class GitSome(object):
                           headers=['#', 'repo', 'title', 'comments'])
 
     def me(self, _):
+        """Lists information about the logged in user.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
         user = self.gh.me()
         print(user.login)
         if user.company is not None:
@@ -246,11 +481,32 @@ class GitSome(object):
         self.repos(args=None)
 
     def notifications(self, args):
+        """Lists all notifications.
+
+        TODO: Always results in an empty list.
+
+        Args:
+            * arg: A type that does xxx.
+
+        Returns:
+            None.
+        """
         notifs = self.gh.notifications(participating=True)
         self._print_items(self.gh.notifications(participating=True),
                           headers=['foo'])
 
     def octocat(self, args):
+        """Outputs an Easter egg or the given message from Octocat.
+
+        If args is None, Octocat responds with an Easter egg.
+        Else, Octocats responds with the given string.
+
+        Args:
+            * args: A list that contains the string for octocat to say, or None.
+
+        Returns:
+            None.
+        """
         say = self._extract_args(
             args,
             default_args=[''],
@@ -260,6 +516,15 @@ class GitSome(object):
         print(output)
 
     def rate_limit(self, args=None):
+        """Outputs the rate limit.
+
+        Args:
+            * args: A list that contains an int representing the threshold.
+                The rate limit is shown if it falls below the threshold.
+
+        Returns:
+            None.
+        """
         threshold = self._extract_args(
             args,
             default_args=[sys.maxsize],
@@ -269,6 +534,17 @@ class GitSome(object):
             print('Rate limit:', limit)
 
     def repo(self, args):
+        """Outputs detailed information about the given repo.
+
+        If args does not contain user and repo, attempts to display repo
+        information from the .git/ configured remote repo.
+
+        Args:
+            * arg: A list that contains user and repo, or None.
+
+        Returns:
+            None.
+        """
         user, repo = self._extract_args(
             args,
             default_args=[self.user_id, self.repo],
@@ -282,6 +558,14 @@ class GitSome(object):
         print('clone url:', repository.clone_url)
 
     def repos(self, _):
+        """Lists all repos.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
         repos = self.gh.repositories()
         table = []
         for repo in repos:
@@ -290,6 +574,14 @@ class GitSome(object):
         print(tabulate(table, headers=['repo', 'stars'], tablefmt='grid'))
 
     def search_issues(self, args):
+        """Searches all issues with the given query.
+
+        Args:
+            * args: A list that contains a string representing the query.
+
+        Returns:
+            None.
+        """
         query = self._extract_args(
             args,
             default_args=[None],
@@ -311,6 +603,14 @@ class GitSome(object):
         self._print_table(table, headers=['score', '#', 'repo', 'title'])
 
     def search_repositories(self, args):
+        """Searches all repos with the given query.
+
+        Args:
+            * args: A list that contains a string representing the query.
+
+        Returns:
+            None.
+        """
         query = self._extract_args(
             args,
             default_args=[None],
@@ -332,6 +632,17 @@ class GitSome(object):
         self._print_table(table, headers=['score', 'repo', 'stars', 'forks'])
 
     def stars(self, args):
+        """Outputs the number of stars for the given repo.
+
+        If no repo is given, attempts to display repo information from the
+        .git/ configured remote repo.
+
+        Args:
+            * args: A list that contains a string representing the repo.
+
+        Returns:
+            None.
+        """
         user, repo = self._extract_args(
             args,
             default_args=[self.user_id, self.repo],
