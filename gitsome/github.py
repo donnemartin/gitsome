@@ -36,15 +36,6 @@ class GitSome(object):
         self.rate_limit()
         self._init_dispatch()
 
-    def _two_factor_code(self):
-        code = ''
-        while not code:
-            code = input('Enter 2FA code: ')
-        return code
-
-    def _return_elem_or_list(self, args):
-        return args[0] if len(args) == 1 else args
-
     def _extract_args(self,
                       input_args,
                       default_args,
@@ -108,6 +99,15 @@ class GitSome(object):
 
     def _print_table(self, table, headers):
         print(tabulate(table, headers, tablefmt='grid'))
+
+    def _return_elem_or_list(self, args):
+        return args[0] if len(args) == 1 else args
+
+    def _two_factor_code(self):
+        code = ''
+        while not code:
+            code = input('Enter 2FA code: ')
+        return code
 
     def emails(self, _):
         self._print_items(self.gh.emails(), headers='keys')
