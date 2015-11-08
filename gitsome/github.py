@@ -181,11 +181,14 @@ class GitSome(object):
         result = self._extract_args(
             args,
             default_args=None,
-            expected_args=[self.user_path, self.repo_path, '#'])
+            expected_args=['user', 'repo', 'issue #'])
         if result is None:
             return
         user, repo, issue_number = result
         issue = self.gh.issue(user, repo, issue_number)
+        if type(issue) is null.NullObject:
+            print('Error: Invalid issue.')
+            return
         print('repo:', self._format_repo(issue.repository))
         print('title:', issue.title)
         print('issue url:', issue.html_url)
