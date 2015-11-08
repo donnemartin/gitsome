@@ -105,6 +105,9 @@ class GitSome(object):
             table.append(item)
         print(tabulate(table, headers=headers, tablefmt='grid'))
 
+    def _print_table(self, table, headers):
+        print(tabulate(table, headers, tablefmt='grid'))
+
     def emails(self, _):
         self._print_items(self.gh.emails(), headers='keys')
 
