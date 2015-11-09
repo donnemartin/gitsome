@@ -43,6 +43,7 @@ class GitSome(object):
     NOTIFICATIONS = 'notifications'
     OCTOCAT = 'octocat'
     PROFILE = 'profile'
+    PULL_REQUESTS = 'pull_requests'
     RATE_LIMIT = 'rate_limit'
     REPO = 'repo'
     REPOS = 'repos'
@@ -233,6 +234,12 @@ class GitSome(object):
                 expected_args_desc='',
                 default_args=None,
                 method=self.profile),
+            self.PULL_REQUESTS: GitSomeCommand(
+                command=self.PULL_REQUESTS,
+                expected_args_count=0,
+                expected_args_desc='',
+                default_args=None,
+                method=self.pull_requests),
             self.RATE_LIMIT: GitSomeCommand(
                 command=self.RATE_LIMIT,
                 expected_args_count=1,
@@ -714,6 +721,32 @@ class GitSome(object):
         """
         url = 'https://github.com/' + self.user_id
         webbrowser.open(url)
+
+    def pull_requests(self, _=None):
+        """Lists all pull requests.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        pull_requests = []
+        repositories = self.gh.repositories()
+        for repository in repositories:
+            repo_pulls = repository.pull_requests()
+            for repo_pull in repo_pulls:
+                pull_requests.append(repo_pull)
+        table = []
+        for pull_request in pull_requests:
+            user, repo_name = pull_request.repository
+            repo = user.strip('repos/') + '/' + repo_name
+            table.append([pull_request.number,
+                          repo,
+                          pull_request.title])
+        # Sort by repo, pull request number
+        table = sorted(table, key=itemgetter(1, 0))
+        self._print_table(table, headers=['#', 'repo', 'title'])
 
     def rate_limit(self, args=None):
         """Outputs the rate limit.
