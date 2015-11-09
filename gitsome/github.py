@@ -43,6 +43,7 @@ class GitSome(object):
     REPOS = 'repos'
     SEARCH_ISSUES = 'search_issues'
     SEARCH_REPOSITORIES = 'search_repositories'
+    STARRED = 'starred'
     STARS = 'stars'
 
     def __init__(self):
@@ -234,6 +235,12 @@ class GitSome(object):
                 expected_args_desc='query',
                 default_args=[None],
                 method=self.search_repositories),
+            self.STARRED: GitSomeCommand(
+                command=self.STARRED,
+                expected_args_count=1,
+                expected_args_desc='query (optional)',
+                default_args=[''],
+                method=self.starred),
             self.STARS: GitSomeCommand(
                 command=self.STARS,
                 expected_args_count=2,
@@ -726,6 +733,38 @@ class GitSome(object):
         # Sort by score, repo
         table = sorted(table, key=itemgetter(0, 1), reverse=True)
         self._print_table(table, headers=['score', 'stars', 'forks', 'repo'])
+
+    def starred(self, args):
+        """Outputs starred repos.
+
+        If args contains a query, it will output matching starred repos.
+        Else, it will output all starred repos.
+
+        Args:
+            * args: A list that contains query, or None.
+
+        Returns:
+            None.
+        """
+        query = self._extract_args(args, self.STARRED)
+        repos = self.gh.starred()
+        table = []
+        try:
+            for repo in repos:
+                if query in repo.full_name or \
+                    query in repo.description:
+                    table.append([repo.stargazers_count,
+                                  repo.forks_count,
+                                  repo.full_name,
+                                  repo.clone_url])
+        except AttributeError:
+            # github3.py sometimes throws the following during iteration:
+            # AttributeError: 'NoneType' object has no attribute 'get'
+            pass
+        # Sort by repo
+        table = sorted(table, key=itemgetter(0), reverse=True)
+        self._print_table(
+            table, headers=['stars', 'forks', 'repo', 'url'])
 
     def stars(self, args):
         """Outputs the number of stars for the given repo.
