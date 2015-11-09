@@ -104,7 +104,7 @@ class GitSome(object):
             Output: donnemartin/gitsome
 
         Args:
-            * arg: A tuple that contains the user and repo.
+            * args: A tuple that contains the user and repo.
 
         Returns:
             A string of the form user/repo.
@@ -491,7 +491,7 @@ class GitSome(object):
         """Outputs the gitignore template for the given language.
 
         Args:
-            * arg: A string that represents the language.
+            * args: A string that represents the language.
 
         Returns:
             None.
@@ -622,7 +622,7 @@ class GitSome(object):
         TODO: Always results in an empty list.
 
         Args:
-            * arg: A type that does xxx.
+            * args: A type that does xxx.
 
         Returns:
             None.
@@ -670,7 +670,7 @@ class GitSome(object):
         information from the .git/ configured remote repo.
 
         Args:
-            * arg: A list that contains user and repo, or None.
+            * args: A list that contains user and repo, or None.
 
         Returns:
             None.
