@@ -127,7 +127,7 @@ class GitSome(object):
             self.CREATE_REPO: GitSomeCommand(
                 command=self.CREATE_REPO,
                 expected_args_count=1,
-                expected_args_desc='name',
+                expected_args_desc='repo name',
                 default_args=None,
                 method=self.create_repo),
             self.EMAILS: GitSomeCommand(
@@ -189,14 +189,14 @@ class GitSome(object):
             self.ISSUE: GitSomeCommand(
                 command=self.ISSUE,
                 expected_args_count=3,
-                expected_args_desc='user, repo, issue number',
+                expected_args_desc='user, repo name, issue number',
                 default_args=None,
                 method=self.issue),
             self.ISSUES: GitSomeCommand(
                 command=self.ISSUES,
                 expected_args_count=1,
                 expected_args_desc=\
-                    'filter: assigned created mentioned or subscribed',
+                    'query: assigned created mentioned or subscribed',
                 default_args=['subscribed'],
                 method=self.issues),
             self.ME: GitSomeCommand(
@@ -228,7 +228,7 @@ class GitSome(object):
             self.REPO: GitSomeCommand(
                 command=self.REPO,
                 expected_args_count=2,
-                expected_args_desc='user, repo',
+                expected_args_desc='user, repo name',
                 default_args=[self.user_id, self.repo],
                 method=self.repository),
             self.REPOS: GitSomeCommand(
@@ -259,7 +259,7 @@ class GitSome(object):
                 command=self.STARS,
                 expected_args_count=2,
                 expected_args_desc=\
-                    'user, repo',
+                    'user, repo name',
                 default_args=None,
                 method=self.stars),
         }
