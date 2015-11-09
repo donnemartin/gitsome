@@ -104,6 +104,7 @@ class BaseShell(object):
         self.gitsome = None
 
     def _execute_gitsome(self, line):
+        """Calls GitSome if the gh command is present."""
         if self.gitsome is None:
             return False
         line = line.strip('\n')
