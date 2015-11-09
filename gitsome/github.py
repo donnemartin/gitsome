@@ -716,16 +716,16 @@ class GitSome(object):
         try:
             for repo in repos:
                 table.append([repo.score,
-                              repo.repository.full_name,
                               repo.repository.stargazers_count,
-                              repo.repository.forks_count])
+                              repo.repository.forks_count,
+                              repo.repository.full_name])
         except AttributeError:
             # github3.py sometimes throws the following during iteration:
             # AttributeError: 'NoneType' object has no attribute 'get'
             pass
         # Sort by score, repo
         table = sorted(table, key=itemgetter(0, 1), reverse=True)
-        self._print_table(table, headers=['score', 'repo', 'stars', 'forks'])
+        self._print_table(table, headers=['score', 'stars', 'forks', 'repo'])
 
     def stars(self, args):
         """Outputs the number of stars for the given repo.
