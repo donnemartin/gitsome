@@ -11,7 +11,7 @@ from xonsh import __version__
 from xonsh.shell import Shell
 from xonsh.pretty import pprint
 from xonsh.jobs import ignore_sigtstp
-from gitsome.github import GitSome
+from gitsome.gitsome import GitSome
 
 parser = ArgumentParser(description='xonsh')
 parser.add_argument('-V', '--version',
