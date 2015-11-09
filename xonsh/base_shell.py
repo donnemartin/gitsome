@@ -1,6 +1,7 @@
 """The base class for xonsh shell"""
 import io
 import os
+import shlex
 import sys
 import time
 import builtins
@@ -109,7 +110,7 @@ class BaseShell(object):
             return False
         line = line.strip('\n')
         line = line.strip()
-        args = line.split(' ')
+        args = shlex.split(line)
         if len(args) > 0 and args[0].lower() == 'gh':
             self.gitsome.execute(args[1:])
             return True
