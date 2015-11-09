@@ -25,6 +25,7 @@ class GitSome(object):
             determined by the .git/ configured remote repo.
     """
 
+    CREATE_REPO = 'create_repo'
     EMAILS = 'emails'
     EMOJIS = 'emojis'
     EVENTS = 'events'
@@ -123,6 +124,12 @@ class GitSome(object):
             None.
         """
         self.dispatch = {
+            self.CREATE_REPO: GitSomeCommand(
+                command=self.CREATE_REPO,
+                expected_args_count=1,
+                expected_args_desc='name',
+                default_args=None,
+                method=self.create_repo),
             self.EMAILS: GitSomeCommand(
                 command=self.EMAILS,
                 expected_args_count=0,
@@ -367,6 +374,22 @@ class GitSome(object):
         while not code:
             code = input('Enter 2FA code: ')
         return code
+
+    def create_repo(self, args):
+        """Creates a repo.
+
+        Args:
+            * args: A list that contains string representing a repo name.
+
+        Returns:
+            None.
+        """
+        name = self._extract_args(args, self.CREATE_REPO)
+        if name is None:
+            return
+        repo = self.gh.create_repository(name)
+        print('Created repo:', repo.full_name)
+        self.repository(args=[self.user_id, repo.name])
 
     def emails(self, _=None):
         """Lists all the user's registered emails.
