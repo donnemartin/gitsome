@@ -590,6 +590,7 @@ class GitSome(object):
                           self._format_repo(issue.repository),
                           issue.title,
                           issue.comments_count])
+        # Sort by repo, issue number
         table = sorted(table, key=itemgetter(1, 0))
         self._print_table(table,
                           headers=['#', 'repo', 'title', 'comments'])
