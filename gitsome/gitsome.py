@@ -5,6 +5,7 @@ import pickle
 import re
 import subprocess
 import sys
+import webbrowser
 
 from github3 import login, null
 from tabulate import tabulate
@@ -41,6 +42,7 @@ class GitSome(object):
     ME = 'me'
     NOTIFICATIONS = 'notifications'
     OCTOCAT = 'octocat'
+    PROFILE = 'profile'
     RATE_LIMIT = 'rate_limit'
     REPO = 'repo'
     REPOS = 'repos'
@@ -225,6 +227,12 @@ class GitSome(object):
                     'speak (optional)',
                 default_args=[''],
                 method=self.octocat),
+            self.PROFILE: GitSomeCommand(
+                command=self.PROFILE,
+                expected_args_count=0,
+                expected_args_desc='',
+                default_args=None,
+                method=self.profile),
             self.RATE_LIMIT: GitSomeCommand(
                 command=self.RATE_LIMIT,
                 expected_args_count=1,
@@ -694,6 +702,18 @@ class GitSome(object):
         output = str(self.gh.octocat(say))
         output = output.replace('\\n', '\n')
         print(output)
+
+    def profile(self, args):
+        """Opens a web browser to your GitHub profile.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        url = 'https://github.com/' + self.user_id
+        webbrowser.open(url)
 
     def rate_limit(self, args=None):
         """Outputs the rate limit.
