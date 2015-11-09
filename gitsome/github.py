@@ -33,6 +33,7 @@ class GitSome(object):
     FOLLOWING = 'following'
     GITIGNORE_TEMPLATE = 'gitignore_template'
     GITIGNORE_TEMPLATES = 'gitignore_templates'
+    HELP = 'help'
     ISSUE = 'issue'
     ISSUES = 'issues'
     ME = 'me'
@@ -172,6 +173,12 @@ class GitSome(object):
                 expected_args_desc='',
                 default_args=None,
                 method=self.gitignore_templates),
+            self.HELP: GitSomeCommand(
+                command=self.HELP,
+                expected_args_count=0,
+                expected_args_desc='',
+                default_args=None,
+                method=self.help),
             self.ISSUE: GitSomeCommand(
                 command=self.ISSUE,
                 expected_args_count=3,
@@ -423,13 +430,7 @@ class GitSome(object):
             rate_limit_print_threshold = 20
             self.rate_limit([rate_limit_print_threshold])
         else:
-            print("Available commands for 'gh':")
-            table = []
-            for command in self.dispatch.values():
-                table.append([command.command, command.expected_args_desc])
-            # Sort by command
-            table = sorted(table, key=itemgetter(0))
-            self._print_table(table, headers=['command', 'expected args'])
+            self.help()
 
     def feeds(self, _=None):
         """Lists GitHub's timeline resources.
@@ -514,6 +515,23 @@ class GitSome(object):
         """
         self._print_items(
             self._listify(self.gh.gitignore_templates()), headers=['language'])
+
+    def help(self, _=None):
+        """Outputs all commands and arguments.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        print("Available commands for 'gh':")
+        table = []
+        for command in self.dispatch.values():
+            table.append([command.command, command.expected_args_desc])
+        # Sort by command
+        table = sorted(table, key=itemgetter(0))
+        self._print_table(table, headers=['command', 'expected args'])
 
     def issue(self, args):
         """Outputs detailed information about the given issue.
