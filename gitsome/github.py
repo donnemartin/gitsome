@@ -20,6 +20,8 @@ from xonsh.environ import repo_from_remote
 class GitSome(object):
     """Provides integration with the GitHub API.
 
+    TODO: Look into using Click to handle args.
+
     Attributes:
         * repo: A string that represents the user's current repo, as
             determined by the .git/ configured remote repo.
