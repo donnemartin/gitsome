@@ -174,7 +174,7 @@ class GitSome(object):
             self.ISSUE: GitSomeCommand(
                 command=self.ISSUE,
                 expected_args_count=3,
-                expected_args_desc='user, repo, issue #',
+                expected_args_desc='user, repo, issue number',
                 default_args=None,
                 method=self.issue),
             self.ISSUES: GitSomeCommand(
