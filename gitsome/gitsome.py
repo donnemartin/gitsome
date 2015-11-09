@@ -698,7 +698,7 @@ class GitSome(object):
         for repo in repos:
             table.append([repo.name, repo.stargazers_count])
         table = sorted(table, key=itemgetter(1, 0), reverse=True)
-        print(tabulate(table, headers=['repo', 'stars'], tablefmt='grid'))
+        self._print_table(table, headers=['repo', 'stars'])
 
     def search_issues(self, args):
         """Searches all issues with the given query.
