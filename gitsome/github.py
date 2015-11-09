@@ -60,8 +60,8 @@ class GitSome(object):
         """
         self._login()
         self.repo = repo_from_remote()
-        self.rate_limit()
         self._init_dispatch()
+        self.rate_limit()
 
     def _extract_args(self, input_args, command):
         """Extracts arguments using the input or default args.
