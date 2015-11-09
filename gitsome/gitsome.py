@@ -26,6 +26,7 @@ class GitSome(object):
     """
 
     CREATE_REPO = 'create_repo'
+    CREATE_ISSUE = 'create_issue'
     EMAILS = 'emails'
     EMOJIS = 'emojis'
     EVENTS = 'events'
@@ -124,6 +125,12 @@ class GitSome(object):
             None.
         """
         self.dispatch = {
+            self.CREATE_ISSUE: GitSomeCommand(
+                command=self.CREATE_ISSUE,
+                expected_args_count=3,
+                expected_args_desc='user, repo name, title',
+                default_args=None,
+                method=self.create_issue),
             self.CREATE_REPO: GitSomeCommand(
                 command=self.CREATE_REPO,
                 expected_args_count=1,
@@ -374,6 +381,22 @@ class GitSome(object):
         while not code:
             code = input('Enter 2FA code: ')
         return code
+
+    def create_issue(self, args):
+        """Creates an issue.
+
+        Long description.
+
+        Args:
+            * args: A list that contains the user, repo, and issue title.
+
+        Returns:
+            None.
+        """
+        user, repo, title = self._extract_args(args, self.CREATE_ISSUE)
+        issue = self.gh.create_issue(user, repo, title)
+        print('Created issue:', issue.title)
+        self.issue(args=[user, repo, issue.number])
 
     def create_repo(self, args):
         """Creates a repo.
