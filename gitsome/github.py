@@ -1,20 +1,18 @@
-import re
-import requests
-import os
-import re
 import builtins
+from operator import itemgetter
+import os
 import pickle
+import re
 import subprocess
 import sys
-from operator import itemgetter
 
 from github3 import login, null
 from tabulate import tabulate
 from gitsome.gitsome_command import GitSomeCommand
 from xonsh.built_ins import iglobpath
+from xonsh.environ import repo_from_remote
 from xonsh.tools import subexpr_from_unbalanced
 from xonsh.tools import ON_WINDOWS
-from xonsh.environ import repo_from_remote
 
 
 class GitSome(object):
