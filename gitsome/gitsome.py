@@ -43,6 +43,7 @@ class GitSome(object):
     NOTIFICATIONS = 'notifications'
     OCTOCAT = 'octocat'
     PROFILE = 'profile'
+    PULL_REQUEST = 'pull_request'
     PULL_REQUESTS = 'pull_requests'
     RATE_LIMIT = 'rate_limit'
     REPO = 'repo'
@@ -234,6 +235,12 @@ class GitSome(object):
                 expected_args_desc='',
                 default_args=None,
                 method=self.profile),
+            self.PULL_REQUEST: GitSomeCommand(
+                command=self.PULL_REQUEST,
+                expected_args_count=3,
+                expected_args_desc='user, repo name, pull number',
+                default_args=None,
+                method=self.pull_request),
             self.PULL_REQUESTS: GitSomeCommand(
                 command=self.PULL_REQUESTS,
                 expected_args_count=0,
@@ -721,6 +728,17 @@ class GitSome(object):
         """
         url = 'https://github.com/' + self.user_id
         webbrowser.open(url)
+
+    def pull_request(self, args):
+        """Outputs detailed information about the given pull request.
+
+        Args:
+            * args: A list that contains the user, repo, and issue id.
+
+        Returns:
+            None.
+        """
+        self.issue(args)
 
     def pull_requests(self, _=None):
         """Lists all pull requests.
