@@ -42,3 +42,19 @@ class GitHub(object):
         """
         self._login()
         self.repo = repo_from_remote()
+
+    def _format_repo(self, repo):
+        """Formats a repo tuple for pretty print.
+
+        Example:
+            Input:  ('donnemartin', 'gitsome')
+            Output: donnemartin/gitsome
+
+        Args:
+            * args: A tuple that contains the user and repo.
+
+        Returns:
+            A string of the form user/repo.
+        """
+        return '/'.join(repo)
+
