@@ -58,3 +58,24 @@ class GitHub(object):
         """
         return '/'.join(repo)
 
+    def _listify(self, items):
+        """Puts each list element in its own list.
+
+        Example:
+            Input: [a, b, c]
+            Output: [[a], [b], [c]]
+
+        This is needed for tabulate to print rows [a], [b], and [c].
+
+        Args:
+            * items: A list to listify.
+
+        Returns:
+            A list that contains elements that are listified.
+        """
+        output = []
+        for item in items:
+            item_list = []
+            item_list.append(item)
+            output.append(item_list)
+        return output
