@@ -108,3 +108,21 @@ class GitHub(object):
                              two_factor_callback=self._two_factor_code)
             click.echo('Authenticated with user id and password: ' + \
                 self.api.me().login)
+
+    def _print_items(self, items, headers):
+        """Prints the items and headers with tabulate.
+
+        Args:
+            * items: A collection of items to print as rows with tabulate.
+                Can be a list or dictionary.
+            * headers: A collection of column headers to print with tabulate.
+                If items is a list, headers should be a list.
+                If items is a dictionary, set headers='keys'.
+
+        Returns:
+            None.
+        """
+        table = []
+        for item in items:
+            table.append(item)
+        self._print_table(table, headers=headers)
