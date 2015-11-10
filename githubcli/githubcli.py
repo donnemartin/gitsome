@@ -153,3 +153,18 @@ class GitHub(object):
             Else, returns args.
         """
         return args[0] if len(args) == 1 else args
+
+    def _two_factor_code(self):
+        """Callback if two factor authentication is requested.
+
+        Args:
+            * None.
+
+        Returns:
+            A string that represents the user input two factor
+                authentication code.
+        """
+        code = ''
+        while not code:
+            code = input('Enter 2FA code: ')
+        return code
