@@ -141,3 +141,15 @@ class GitHub(object):
             None.
         """
         click.echo(tabulate(table, headers, tablefmt='grid'))
+
+    def _return_elem_or_list(self, args):
+        """Utility function to get a single element if len(args) == 1.
+
+        Args:
+            * args: A list of args.
+
+        Returns:
+            If args contains only one item, returns a single element.
+            Else, returns args.
+        """
+        return args[0] if len(args) == 1 else args
