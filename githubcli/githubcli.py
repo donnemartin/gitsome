@@ -79,3 +79,32 @@ class GitHub(object):
             item_list.append(item)
             output.append(item_list)
         return output
+
+    def _login(self):
+        """Logs into GitHub.
+
+        Logs in with a token if present, otherwise it uses the user and pass.
+        TODO: Two factor authentication does not seem to be triggering the
+            SMS code: https://github.com/sigmavirus24/github3.py/issues/387
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        get_env = lambda name, default=None: builtins.__xonsh_env__.get(
+            name, default)
+        self.user_id = get_env('GITHUB_USER_ID', None)
+        self.user_pass = get_env('GITHUB_USER_PASS', None)
+        self.user_token = get_env('GITHUB_TOKEN', None)
+        if self.user_token is not None and False:
+            self.api = login(token=self.user_token,
+                            two_factor_callback=self._two_factor_code)
+            click.echo('Authenticated with token: ' + self.api.me().login)
+        else:
+            self.api = login(self.user_id,
+                             self.user_pass,
+                             two_factor_callback=self._two_factor_code)
+            click.echo('Authenticated with user id and password: ' + \
+                self.api.me().login)
