@@ -126,3 +126,18 @@ class GitHub(object):
         for item in items:
             table.append(item)
         self._print_table(table, headers=headers)
+
+    def _print_table(self, table, headers):
+        """Prints the input table and headers with tabulate.
+
+        Args:
+            * table: A collection of items to print as rows with tabulate.
+                Can be a list or dictionary.
+            * headers: A collection of column headers to print with tabulate.
+                If items is a list, headers should be a list.
+                If items is a dictionary, set headers='keys'.
+
+        Returns:
+            None.
+        """
+        click.echo(tabulate(table, headers, tablefmt='grid'))
