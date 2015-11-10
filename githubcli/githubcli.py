@@ -187,3 +187,17 @@ class GitHubCli(object):
     @pass_github
     def emails(github):
         github._print_items(github.api.emails(), headers='keys')
+
+    @cli.command()
+    @pass_github
+    def emojis(github):
+        """Lists all GitHub supported emojis.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        github._print_items(github._listify(github.api.emojis()),
+                                            headers=['emoji'])
