@@ -182,3 +182,8 @@ class GitHubCli(object):
         # From this point onwards other commands can refer to it by using the
         # @pass_github decorator.
         ctx.obj = GitHub()
+
+    @cli.command()
+    @pass_github
+    def emails(github):
+        github._print_items(github.api.emails(), headers='keys')
