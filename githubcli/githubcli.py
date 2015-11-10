@@ -201,3 +201,20 @@ class GitHubCli(object):
         """
         github._print_items(github._listify(github.api.emojis()),
                                             headers=['emoji'])
+
+    @cli.command()
+    @click.argument('threshold', required=False, default=20)
+    @pass_github
+    def rate_limit(github, threshold):
+        """Outputs the rate limit.
+
+        Args:
+            * args: A list that contains an int representing the threshold.
+                The rate limit is shown if it falls below the threshold.
+
+        Returns:
+            None.
+        """
+        limit = github.api.ratelimit_remaining
+        if limit < threshold:
+            click.echo('Rate limit: ' + str(limit))
