@@ -168,3 +168,17 @@ class GitHub(object):
         while not code:
             code = input('Enter 2FA code: ')
         return code
+
+
+pass_github = click.make_pass_decorator(GitHub)
+
+
+class GitHubCli(object):
+
+    @click.group()
+    @click.pass_context
+    def cli(ctx):
+        # Create a GitHub object and remember it as as the context object.
+        # From this point onwards other commands can refer to it by using the
+        # @pass_github decorator.
+        ctx.obj = GitHub()
