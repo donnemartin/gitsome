@@ -521,6 +521,23 @@ class GitHubCli(object):
                             headers=['notification'])
 
     @cli.command()
+    @click.argument('say', required=False)
+    @pass_github
+    def octocat(github, say):
+        """Outputs an Easter egg or the given message from Octocat.
+
+        Args:
+            * say: A string for octocat to say.
+                If say is None, octocat speaks an Easter egg.
+
+        Returns:
+            None.
+        """
+        output = str(github.api.octocat(say))
+        output = output.replace('\\n', '\n')
+        click.echo(output)
+
+    @cli.command()
     @click.argument('threshold', required=False, default=20)
     @pass_github
     def rate_limit(github, threshold):
