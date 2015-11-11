@@ -538,6 +538,20 @@ class GitHubCli(object):
         click.echo(output)
 
     @cli.command()
+    @pass_github
+    def profile(github):
+        """Opens a web browser to your GitHub profile.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        url = 'https://github.com/' + github.user_id
+        webbrowser.open(url)
+
+    @cli.command()
     @click.argument('threshold', required=False, default=20)
     @pass_github
     def rate_limit(github, threshold):
