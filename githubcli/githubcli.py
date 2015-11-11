@@ -388,6 +388,26 @@ class GitHubCli(object):
         click.echo('Following ' + github.api.user(user).following_count)
 
     @cli.command()
+    @click.argument('language')
+    @pass_github
+    def gitignore_template(github, language):
+        """Outputs the gitignore template for the given language.
+
+        Args:
+            * language: A string representing the language.
+
+        Returns:
+            None.
+        """
+        template = github.api.gitignore_template(language)
+        if template != '':
+            click.secho(template, fg='red')
+        else:
+            click.echo('Invalid template requested, run the following ' \
+                       'command to see available templates:\n' \
+                       '    gh gitignore_templates')
+
+    @cli.command()
     @click.argument('user')
     @click.argument('repo')
     @click.argument('issue_number')
