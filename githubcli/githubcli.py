@@ -552,6 +552,24 @@ class GitHubCli(object):
         webbrowser.open(url)
 
     @cli.command()
+    @click.argument('user')
+    @click.argument('repo')
+    @click.argument('issue_number')
+    @pass_github
+    def pull_request(github, user, repo, issue_number):
+        """Outputs detailed information about the given pull request.
+
+        Args:
+            * user: A string representing the user login.
+            * repo: A string representing the repo name.
+            * issue_number: An int representing the issue number.
+
+        Returns:
+            None.
+        """
+        github.issue(user, repo, issue_number)
+
+    @cli.command()
     @click.argument('threshold', required=False, default=20)
     @pass_github
     def rate_limit(github, threshold):
