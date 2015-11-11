@@ -366,7 +366,7 @@ class GitHubCli(object):
             user = github.user_id
         github._print_items(
             github._listify(github.api.followers_of(user)), headers=['user'])
-        print('Followers:', github.api.user(user).followers_count)
+        click.echo('Followers: ' + github.api.user(user).followers_count)
 
     @cli.command()
     @click.argument('user', required=False)
@@ -385,7 +385,7 @@ class GitHubCli(object):
             user = github.user_id
         github._print_items(
             github._listify(github.api.followed_by(user)), headers=['user'])
-        print('Following:', github.api.user(user).following_count)
+        click.echo('Following ' + github.api.user(user).following_count)
 
     @cli.command()
     @click.argument('user')
