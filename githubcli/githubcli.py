@@ -329,6 +329,27 @@ class GitHubCli(object):
                                             headers=['emoji'])
 
     @cli.command()
+    @pass_github
+    def feeds(github):
+        """Lists GitHub's timeline resources.
+
+        Requires authentication with user/pass, cannot be used with tokens
+        due to a limitation with the GitHub API itself.
+
+        TODO: Results in an exception with github3.py.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+
+        Raises:
+            TypeError: Seems to be a github3.py bug.
+        """
+        github.api.feeds()
+
+    @cli.command()
     @click.argument('user')
     @click.argument('repo')
     @click.argument('issue_number')
