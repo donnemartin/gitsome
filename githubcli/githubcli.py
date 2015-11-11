@@ -481,6 +481,30 @@ class GitHubCli(object):
                             headers=['#', 'repo', 'title', 'comments'])
 
     @cli.command()
+    @pass_github
+    def me(github):
+        """Lists information about the logged in user.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        user = github.api.me()
+        click.echo(user.login)
+        if user.company is not None:
+            click.echo('company:', user.company)
+        if user.location is not None:
+            click.echo('location:', user.location)
+        if user.email is not None:
+            click.echo('email: ' + user.email)
+        click.echo('joined on: ' + str(user.created_at))
+        click.echo('followers: ' + str(user.followers_count))
+        click.echo('following: ' + str(user.following_count))
+        github.repositories()
+
+    @cli.command()
     @click.argument('threshold', required=False, default=20)
     @pass_github
     def rate_limit(github, threshold):
