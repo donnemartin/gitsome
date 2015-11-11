@@ -244,24 +244,6 @@ class GitHubCli(object):
         github._issue(user, repo, issue.number)
 
     @cli.command()
-    @click.argument('user')
-    @click.argument('repo')
-    @click.argument('issue_number')
-    @pass_github
-    def issue(github, user, repo, issue_number):
-        """Outputs detailed information about the given issue.
-
-        Args:
-            * user: A string representing the user login.
-            * repo: A string representing the repo name.
-            * issue_number: An int representing the issue number.
-
-        Returns:
-            None.
-        """
-        github._issue(user, repo, issue_number)
-
-    @cli.command()
     @pass_github
     def emails(github):
         """Lists all the user's registered emails.
@@ -308,6 +290,24 @@ class GitHubCli(object):
         """
         github._print_items(github._listify(github.api.emojis()),
                                             headers=['emoji'])
+
+    @cli.command()
+    @click.argument('user')
+    @click.argument('repo')
+    @click.argument('issue_number')
+    @pass_github
+    def issue(github, user, repo, issue_number):
+        """Outputs detailed information about the given issue.
+
+        Args:
+            * user: A string representing the user login.
+            * repo: A string representing the repo name.
+            * issue_number: An int representing the issue number.
+
+        Returns:
+            None.
+        """
+        github._issue(user, repo, issue_number)
 
     @cli.command()
     @click.argument('threshold', required=False, default=20)
