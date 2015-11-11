@@ -228,6 +228,22 @@ class GitHub(object):
         click.echo('updated at: ' + str(repo.updated_at))
         click.echo('clone url: ' + repo.clone_url)
 
+    def repositories(self):
+        """Lists all repos.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        repos = self.api.repositories()
+        table = []
+        for repo in repos:
+            table.append([repo.name, repo.stargazers_count])
+        table = sorted(table, key=itemgetter(1, 0), reverse=True)
+        self._print_table(table, headers=['repo', 'stars'])
+
 
 pass_github = click.make_pass_decorator(GitHub)
 
@@ -518,9 +534,4 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        repos = github.api.repositories()
-        table = []
-        for repo in repos:
-            table.append([repo.name, repo.stargazers_count])
-        table = sorted(table, key=itemgetter(1, 0), reverse=True)
-        github._print_table(table, headers=['repo', 'stars'])
+        github.repositories()
