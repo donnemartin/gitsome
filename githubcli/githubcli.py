@@ -441,6 +441,30 @@ class GitHubCli(object):
         github.issue(user, repo, issue_number)
 
     @cli.command()
+    @click.argument('issue_filter', required=False, default='subscribed')
+    @pass_github
+    def issues(github, issue_filter):
+        """Lists all issues.
+
+        Args:
+            * filter: 'assigned', 'created', 'mentioned', 'subscribed'.
+
+        Returns:
+            None.
+        """
+        issues = github.api.issues(filter=issue_filter)
+        table = []
+        for issue in issues:
+            table.append([issue.number,
+                          github._format_repo(issue.repository),
+                          issue.title,
+                          issue.comments_count])
+        # Sort by repo, issue number
+        table = sorted(table, key=itemgetter(1, 0))
+        github._print_table(table,
+                            headers=['#', 'repo', 'title', 'comments'])
+
+    @cli.command()
     @click.argument('threshold', required=False, default=20)
     @pass_github
     def rate_limit(github, threshold):
