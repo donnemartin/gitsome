@@ -265,6 +265,22 @@ class GitHubCli(object):
         github._issue(user, repo, issue.number)
 
     @cli.command()
+    @click.argument('repo_name')
+    @pass_github
+    def create_repo(github, repo_name):
+        """Creates a repo.
+
+        Args:
+            * repo_name: A string representing the repo name.
+
+        Returns:
+            None.
+        """
+        repo = github.api.create_repository(repo_name)
+        click.echo('Created repo: ' + repo.full_name)
+        # self.repository(args=[self.user_id, repo.name])
+
+    @cli.command()
     @pass_github
     def emails(github):
         """Lists all the user's registered emails.
