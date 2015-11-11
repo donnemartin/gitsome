@@ -369,6 +369,25 @@ class GitHubCli(object):
         print('Followers:', github.api.user(user).followers_count)
 
     @cli.command()
+    @click.argument('user', required=False)
+    @pass_github
+    def following(github, user):
+        """Lists all followed users and the total followed count.
+
+        Args:
+            * user: A string representing the user login.
+                If None, returns the followed users of the logged in user.
+
+        Returns:
+            None.
+        """
+        if user is None:
+            user = github.user_id
+        github._print_items(
+            github._listify(github.api.followed_by(user)), headers=['user'])
+        print('Following:', github.api.user(user).following_count)
+
+    @cli.command()
     @click.argument('user')
     @click.argument('repo')
     @click.argument('issue_number')
