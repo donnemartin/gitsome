@@ -58,44 +58,6 @@ class GitHub(object):
         """
         return '/'.join(repo)
 
-    def _issue(self, user, repo, issue_number):
-        """Outputs detailed information about the given issue.
-
-        Args:
-            * user: A string representing the user login.
-            * repo: A string representing the repo name.
-            * issue_number: An int representing the issue number.
-
-        Returns:
-            None.
-        """
-        issue = self.api.issue(user, repo, issue_number)
-        if type(issue) is null.NullObject:
-            click.secho('Error: Invalid issue.', fg='red')
-            return
-        click.echo('repo: ' + self._format_repo(issue.repository))
-        click.echo('title: ' + issue.title)
-        click.echo('issue url: ' + issue.html_url)
-        click.echo('issue number: ' + str(issue.number))
-        click.echo('state: ' + issue.state)
-        click.echo('comments: ' + str(issue.comments_count))
-        click.echo('labels: ' + str(issue.original_labels))
-        if issue.milestone is not None:
-            click.echo('milestone: ' + issue.milestone)
-        click.echo('')
-        click.echo(issue.body)
-        comments = issue.comments()
-        for comment in comments:
-            click.echo('')
-            click.echo('---Comment---')
-            click.echo('')
-            click.echo('user: ' + str(comment.user))
-            click.echo('comment url: ' + comment.html_url)
-            click.echo('created at: ' + str(comment.created_at))
-            click.echo('updated at: ' + str(comment.updated_at))
-            click.echo('')
-            click.echo(comment.body)
-
     def _listify(self, items):
         """Puts each list element in its own list.
 
@@ -207,6 +169,44 @@ class GitHub(object):
             code = input('Enter 2FA code: ')
         return code
 
+    def issue(self, user, repo, issue_number):
+        """Outputs detailed information about the given issue.
+
+        Args:
+            * user: A string representing the user login.
+            * repo: A string representing the repo name.
+            * issue_number: An int representing the issue number.
+
+        Returns:
+            None.
+        """
+        issue = self.api.issue(user, repo, issue_number)
+        if type(issue) is null.NullObject:
+            click.secho('Error: Invalid issue.', fg='red')
+            return
+        click.echo('repo: ' + self._format_repo(issue.repository))
+        click.echo('title: ' + issue.title)
+        click.echo('issue url: ' + issue.html_url)
+        click.echo('issue number: ' + str(issue.number))
+        click.echo('state: ' + issue.state)
+        click.echo('comments: ' + str(issue.comments_count))
+        click.echo('labels: ' + str(issue.original_labels))
+        if issue.milestone is not None:
+            click.echo('milestone: ' + issue.milestone)
+        click.echo('')
+        click.echo(issue.body)
+        comments = issue.comments()
+        for comment in comments:
+            click.echo('')
+            click.echo('---Comment---')
+            click.echo('')
+            click.echo('user: ' + str(comment.user))
+            click.echo('comment url: ' + comment.html_url)
+            click.echo('created at: ' + str(comment.created_at))
+            click.echo('updated at: ' + str(comment.updated_at))
+            click.echo('')
+            click.echo(comment.body)
+
 
 pass_github = click.make_pass_decorator(GitHub)
 
@@ -307,7 +307,7 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        github._issue(user, repo, issue_number)
+        github.issue(user, repo, issue_number)
 
     @cli.command()
     @click.argument('threshold', required=False, default=20)
