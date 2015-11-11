@@ -570,6 +570,34 @@ class GitHubCli(object):
         github.issue(user, repo, issue_number)
 
     @cli.command()
+    @pass_github
+    def pull_requests(github):
+        """Lists all pull requests.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        pull_requests = []
+        repositories = github.api.repositories()
+        for repository in repositories:
+            repo_pulls = repository.pull_requests()
+            for repo_pull in repo_pulls:
+                pull_requests.append(repo_pull)
+        table = []
+        for pull_request in pull_requests:
+            user, repo_name = pull_request.repository
+            repo = user.strip('repos/') + '/' + repo_name
+            table.append([pull_request.number,
+                          repo,
+                          pull_request.title])
+        # Sort by repo, pull request number
+        table = sorted(table, key=itemgetter(1, 0))
+        github._print_table(table, headers=['#', 'repo', 'title'])
+
+    @cli.command()
     @click.argument('threshold', required=False, default=20)
     @pass_github
     def rate_limit(github, threshold):
