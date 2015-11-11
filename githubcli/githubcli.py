@@ -58,6 +58,44 @@ class GitHub(object):
         """
         return '/'.join(repo)
 
+    def _issue(self, user, repo, issue_number):
+        """Outputs detailed information about the given issue.
+
+        Args:
+            * user: A string representing the user login.
+            * repo: A string representing the repo name.
+            * issue_number: An int representing the issue number.
+
+        Returns:
+            None.
+        """
+        issue = self.api.issue(user, repo, issue_number)
+        if type(issue) is null.NullObject:
+            click.secho('Error: Invalid issue.', fg='red')
+            return
+        click.echo('repo: ' + self._format_repo(issue.repository))
+        click.echo('title: ' + issue.title)
+        click.echo('issue url: ' + issue.html_url)
+        click.echo('issue number: ' + str(issue.number))
+        click.echo('state: ' + issue.state)
+        click.echo('comments: ' + str(issue.comments_count))
+        click.echo('labels: ' + str(issue.original_labels))
+        if issue.milestone is not None:
+            click.echo('milestone: ' + issue.milestone)
+        click.echo('')
+        click.echo(issue.body)
+        comments = issue.comments()
+        for comment in comments:
+            click.echo('')
+            click.echo('---Comment---')
+            click.echo('')
+            click.echo('user: ' + str(comment.user))
+            click.echo('comment url: ' + comment.html_url)
+            click.echo('created at: ' + str(comment.created_at))
+            click.echo('updated at: ' + str(comment.updated_at))
+            click.echo('')
+            click.echo(comment.body)
+
     def _listify(self, items):
         """Puts each list element in its own list.
 
@@ -182,6 +220,24 @@ class GitHubCli(object):
         # From this point onwards other commands can refer to it by using the
         # @pass_github decorator.
         ctx.obj = GitHub()
+
+    @cli.command()
+    @click.argument('user')
+    @click.argument('repo')
+    @click.argument('issue_number')
+    @pass_github
+    def issue(github, user, repo, issue_number):
+        """Outputs detailed information about the given issue.
+
+        Args:
+            * user: A string representing the user login.
+            * repo: A string representing the repo name.
+            * issue_number: An int representing the issue number.
+
+        Returns:
+            None.
+        """
+        github._issue(user, repo, issue_number)
 
     @cli.command()
     @pass_github
