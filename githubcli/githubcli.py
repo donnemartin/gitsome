@@ -505,6 +505,22 @@ class GitHubCli(object):
         github.repositories()
 
     @cli.command()
+    @pass_github
+    def notifications(github):
+        """Lists all notifications.
+
+        TODO: Always results in an empty list.  Possible github3.py bug.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        github._print_items(github.api.notifications(participating=True),
+                            headers=['notification'])
+
+    @cli.command()
     @click.argument('threshold', required=False, default=20)
     @pass_github
     def rate_limit(github, threshold):
