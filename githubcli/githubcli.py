@@ -224,6 +224,28 @@ class GitHubCli(object):
     @cli.command()
     @click.argument('user')
     @click.argument('repo')
+    @click.argument('issue_title')
+    @pass_github
+    def create_issue(github, user, repo, issue_title):
+        """Creates an issue.
+
+        Long description.
+
+        Args:
+            * user: A string representing the user login.
+            * repo: A string representing the repo name.
+            * issue_title: A string representing the issue title.
+
+        Returns:
+            None.
+        """
+        issue = github.api.create_issue(user, repo, issue_title)
+        click.echo('Created issue: ' + issue.title)
+        github._issue(user, repo, issue.number)
+
+    @cli.command()
+    @click.argument('user')
+    @click.argument('repo')
     @click.argument('issue_number')
     @pass_github
     def issue(github, user, repo, issue_number):
