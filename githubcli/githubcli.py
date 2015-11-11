@@ -350,6 +350,25 @@ class GitHubCli(object):
         github.api.feeds()
 
     @cli.command()
+    @click.argument('user', required=False)
+    @pass_github
+    def followers(github, user):
+        """Lists all followers and the total follower count.
+
+        Args:
+            * user: A string representing the user login.
+                If None, returns followers of the logged in user.
+
+        Returns:
+            None.
+        """
+        if user is None:
+            user = github.user_id
+        github._print_items(
+            github._listify(github.api.followers_of(user)), headers=['user'])
+        print('Followers:', github.api.user(user).followers_count)
+
+    @cli.command()
     @click.argument('user')
     @click.argument('repo')
     @click.argument('issue_number')
