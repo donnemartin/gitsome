@@ -408,6 +408,21 @@ class GitHubCli(object):
                        '    gh gitignore_templates')
 
     @cli.command()
+    @pass_github
+    def gitignore_templates(github):
+        """Outputs all supported gitignore templates.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        github._print_items(
+            github._listify(github.api.gitignore_templates()),
+                            headers=['language'])
+
+    @cli.command()
     @click.argument('user')
     @click.argument('repo')
     @click.argument('issue_number')
