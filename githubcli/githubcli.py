@@ -388,3 +388,21 @@ class GitHubCli(object):
         click.echo('created at: ' + str(repo.created_at))
         click.echo('updated at: ' + str(repo.updated_at))
         click.echo('clone url: ' + repo.clone_url)
+
+    @cli.command()
+    @pass_github
+    def repositories(github):
+        """Lists all repos.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        repos = github.api.repositories()
+        table = []
+        for repo in repos:
+            table.append([repo.name, repo.stargazers_count])
+        table = sorted(table, key=itemgetter(1, 0), reverse=True)
+        github._print_table(table, headers=['repo', 'stars'])
