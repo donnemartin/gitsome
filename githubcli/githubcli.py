@@ -186,6 +186,14 @@ class GitHubCli(object):
     @cli.command()
     @pass_github
     def emails(github):
+        """Lists all the user's registered emails.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
         github._print_items(github.api.emails(), headers='keys')
 
     @cli.command()
