@@ -207,6 +207,27 @@ class GitHub(object):
             click.echo('')
             click.echo(comment.body)
 
+    def repository(self, user, repo_name):
+        """Outputs detailed information about the given repo.
+
+        If args does not contain user and repo, attempts to display repo
+        information from the .git/ configured remote repo.
+
+        Args:
+            * user: A string representing the user login.
+            * repo_name: A string representing the repo name.
+
+        Returns:
+            None.
+        """
+        repo = self.api.repository(user, repo_name)
+        click.echo('description: ' + repo.description)
+        click.echo('stars: ' + str(repo.stargazers_count))
+        click.echo('forks: ' + str(repo.forks_count))
+        click.echo('created at: ' + str(repo.created_at))
+        click.echo('updated at: ' + str(repo.updated_at))
+        click.echo('clone url: ' + repo.clone_url)
+
 
 pass_github = click.make_pass_decorator(GitHub)
 
@@ -325,3 +346,29 @@ class GitHubCli(object):
         limit = github.api.ratelimit_remaining
         if limit < threshold:
             click.echo('Rate limit: ' + str(limit))
+
+    @cli.command()
+    @click.argument('user')
+    @click.argument('repo_name')
+    @pass_github
+    def repository(github, user, repo_name):
+        """Outputs detailed information about the given repo.
+
+        If args does not contain user and repo, attempts to display repo
+        information from the .git/ configured remote repo.
+
+        Args:
+            * user: A string representing the user login.
+            * repo_name: A string representing the repo name.
+
+        Returns:
+            None.
+        """
+        github.repository(user, repo_name)
+        repo = github.api.repository(user, repo_name)
+        click.echo('description: ' + repo.description)
+        click.echo('stars: ' + str(repo.stargazers_count))
+        click.echo('forks: ' + str(repo.forks_count))
+        click.echo('created at: ' + str(repo.created_at))
+        click.echo('updated at: ' + str(repo.updated_at))
+        click.echo('clone url: ' + repo.clone_url)
