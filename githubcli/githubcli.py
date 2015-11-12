@@ -75,6 +75,21 @@ class GitHub(object):
         """
         return '/'.join(repo)
 
+    def _github_config(self, config):
+        """Attempts to find the github config file.
+
+        Adapted from https://github.com/sigmavirus24/github-cli.
+
+        Args:
+            * config: A String that represents the config file name.
+
+        Returns:
+            A string containing the github config file.
+        """
+        home = os.path.abspath(os.environ.get('HOME', ''))
+        config = os.path.join(home, config)
+        return config
+
     def _listify(self, items):
         """Puts each list element in its own list.
 
