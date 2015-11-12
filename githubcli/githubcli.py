@@ -22,13 +22,32 @@ class GitHub(object):
 
     Attributes:
         * api: An instance of github3 to interact with the GitHub API.
-        * repo: A string that represents the user's current repo, as
-            determined by the .git/ configured remote repo.
+        * APP_NAME: A string representing the app name used for obtaining
+            a GitHub authorization token.
+        * CONFIG: A string representing the config file name.
+        * CONFIG_SECTION: A string representing the main config file section.
+        * CONFIG_USER_ID: A string representing the user id config.
+        * CONFIG_USER_PASS: A string representing the user pass config.
+        * CONFIG_USER_TOKEN: A string representing the user token config.
+        * CONFIG_URL: A string representing the jump to url config file name.
+        * CONFIG_URL_SECTION: A string representing the jump to url config
+            file section.
+        * CONFIG_URL_LIST: A string representing the jump to url list in the
+            config.
         * user_id: A string that represents the user's id in ~/.xonshrc
         * user_pass: A string that represents the user's pass in ~/.xonshrc
         * user_token: A string that represents the user's token in ~/.xonshrc
-
     """
+
+    APP_NAME = 'GitHubCli'
+    CONFIG = '.githubconfig'
+    CONFIG_SECTION = 'github'
+    CONFIG_USER_ID = 'user_id'
+    CONFIG_USER_PASS = 'user_pass'
+    CONFIG_USER_TOKEN = 'user_token'
+    CONFIG_URL = '.githubconfigurl'
+    CONFIG_URL_SECTION = 'url'
+    CONFIG_URL_LIST = 'url_list'
 
     def __init__(self):
         """Inits GitSome.
