@@ -263,6 +263,7 @@ class GitHub(object):
                    '@' + str(issue.user) + ' [' + \
                    issue.state + ']',
                    fg='blue')
+        click.secho('Assignee: ' + str(issue.assignee), fg='blue')
         click.echo('\n' + issue.body)
         comments = issue.comments()
         for comment in comments:
