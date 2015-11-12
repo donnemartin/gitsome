@@ -451,23 +451,28 @@ class GitHubCli(object):
             fg='blue')
 
     @cli.command()
-    @click.argument('user', required=False)
+    @click.argument('user_id', required=False)
     @pass_github
-    def following(github, user):
+    def following(github, user_id):
         """Lists all followed users and the total followed count.
 
         Args:
-            * user: A string representing the user login.
+            * user_id: A string representing the user login.
                 If None, returns the followed users of the logged in user.
 
         Returns:
             None.
         """
-        if user is None:
-            user = github.user_id
-        github._print_items(
-            github._listify(github.api.followed_by(user)), headers=['user'])
-        click.echo('Following ' + github.api.user(user).following_count)
+        if user_id is None:
+            user_id = github.user_id
+        users = github.api.followed_by(user_id)
+        table = []
+        for user in users:
+            table.append([user.login, user.html_url])
+        github._print_table(table, headers=['user', 'profile'])
+        click.secho(
+            'Following ' + str(github.api.user(user_id).following_count),
+            fg='blue')
 
     @cli.command()
     @click.argument('language')
