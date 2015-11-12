@@ -355,8 +355,7 @@ class GitHubCli(object):
             None.
         """
         repo = github.api.create_repository(repo_name)
-        click.echo('Created repo: ' + repo.full_name)
-        # self.repository(args=[self.user_id, repo.name])
+        click.secho('Created repo: ' + repo.full_name, fg='blue')
 
     @cli.command()
     @pass_github
