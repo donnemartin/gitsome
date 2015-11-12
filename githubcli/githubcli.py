@@ -7,6 +7,12 @@ import re
 import subprocess
 import sys
 import webbrowser
+try:
+    # Python 3
+    import configparser
+except ImportError:
+    # Python 2
+    import ConfigParser as configparser
 
 import click
 from github3 import login, null
@@ -115,7 +121,8 @@ class GitHub(object):
     def _login(self):
         """Logs into GitHub.
 
-        Logs in with a token if present, otherwise it uses the user and pass.
+        Adapted from https://github.com/sigmavirus24/github-cli.
+
         TODO: Two factor authentication does not seem to be triggering the
             SMS code: https://github.com/sigmavirus24/github3.py/issues/387
 
@@ -125,21 +132,54 @@ class GitHub(object):
         Returns:
             None.
         """
-        get_env = lambda name, default=None: builtins.__xonsh_env__.get(
-            name, default)
-        self.user_id = get_env('GITHUB_USER_ID', None)
-        self.user_pass = get_env('GITHUB_USER_PASS', None)
-        self.user_token = get_env('GITHUB_TOKEN', None)
-        if self.user_token is not None and False:
-            self.api = login(token=self.user_token,
-                            two_factor_callback=self._two_factor_code)
-            click.echo('Authenticated with token: ' + self.api.me().login)
-        else:
-            self.api = login(self.user_id,
-                             self.user_pass,
+        # Get the full path to the configuration file
+        config = self._github_config(self.CONFIG)
+        parser = configparser.RawConfigParser()
+        # Check to make sure the file exists and we are allowed to read it
+        if os.path.isfile(config) and os.access(config, os.R_OK | os.W_OK):
+            parser.readfp(open(config))
+            self.user_id = parser.get(self.CONFIG_SECTION,
+                                      self.CONFIG_USER_ID)
+            self.api = login(token=parser.get(self.CONFIG_SECTION,
+                                              self.CONFIG_USER_TOKEN),
                              two_factor_callback=self._two_factor_code)
-            click.echo('Authenticated with user id and password: ' + \
-                self.api.me().login)
+        else:
+            # Either the file didn't exist or we didn't have the correct
+            # permissions
+            self.user_id = ''
+            while not user_id:
+                user_id = input('Username: ')
+            user_pass = ''
+            while not user_pass:
+                user_pass = getpass('Password: ')
+            auth = None
+            try:
+                # Get an authorization for this
+                auth = authorize(
+                    user_id,
+                    user_pass,
+                    scopes=['user', 'repo', 'gist'],
+                    note='githubcli',
+                    note_url='https://github.com/donnemartin/github-cli'
+                )
+            except UnprocessableEntity:
+                click.secho('Error creating token.\nVisit the following ' \
+                            'page and verify you do not have an existing ' \
+                            'token named "githubcli":\n' \
+                            'See https://github.com/settings/tokens\n' \
+                            'If a token already exists update your ' + \
+                            self.githubconfig + ' file with your user_token.',
+                            fg='red')
+            parser.add_section(self.CONFIG_SECTION)
+            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_ID, user_id)
+            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_PASS, user_pass)
+            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_TOKEN, auth.token)
+            self.api = login(token=auth.token,
+                             two_factor_callback=self._two_factor_code)
+            # Create the file if it doesn't exist. Otherwise completely blank
+            # out what was there before. Kind of dangerous and destructive but
+            # somewhat necessary
+            parser.write(open(config, 'w+'))
 
     def _print_items(self, items, headers):
         """Prints the items and headers with tabulate.
