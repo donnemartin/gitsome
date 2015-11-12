@@ -487,12 +487,13 @@ class GitHubCli(object):
             None.
         """
         template = github.api.gitignore_template(language)
-        if template != '':
-            click.secho(template, fg='red')
+        if template:
+            click.echo(template)
         else:
-            click.echo('Invalid template requested, run the following ' \
+            click.secho('Invalid template requested, run the following ' \
                        'command to see available templates:\n' \
-                       '    gh gitignore_templates')
+                       '    gh gitignore_templates',
+                       fg='red')
 
     @cli.command()
     @pass_github
