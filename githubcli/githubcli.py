@@ -564,16 +564,15 @@ class GitHubCli(object):
             None.
         """
         user = github.api.me()
-        click.echo(user.login)
+        click.secho(user.login, fg='blue')
         if user.company is not None:
-            click.echo('company:', user.company)
+            click.secho('company:', user.company, fg='blue')
         if user.location is not None:
-            click.echo('location:', user.location)
+            click.secho('location:', user.location, fg='blue')
         if user.email is not None:
-            click.echo('email: ' + user.email)
-        click.echo('joined on: ' + str(user.created_at))
-        click.echo('followers: ' + str(user.followers_count))
-        click.echo('following: ' + str(user.following_count))
+            click.secho('email: ' + user.email, fg='blue')
+        click.secho('followers: ' + str(user.followers_count), fg='blue')
+        click.secho('following: ' + str(user.following_count), fg='blue')
         github.repositories()
 
     @cli.command()
