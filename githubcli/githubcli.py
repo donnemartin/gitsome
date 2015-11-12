@@ -532,17 +532,21 @@ class GitHubCli(object):
 
     @cli.command()
     @click.argument('issue_filter', required=False, default='subscribed')
+    @click.argument('state', required=False, default='open')
     @pass_github
-    def issues(github, issue_filter):
+    def issues(github, issue_filter, state):
         """Lists all issues.
 
         Args:
-            * filter: 'assigned', 'created', 'mentioned', 'subscribed'.
+            * filter: A string with the following accepted values:
+                'assigned', 'created', 'mentioned', 'subscribed'.
+            * state: A string with the following accepted values:
+                'all', 'open', 'closed'.
 
         Returns:
             None.
         """
-        issues = github.api.issues(filter=issue_filter)
+        issues = github.api.issues(filter=issue_filter, state=state)
         table = []
         for issue in issues:
             table.append([issue.state,
