@@ -427,23 +427,28 @@ class GitHubCli(object):
         github.api.feeds()
 
     @cli.command()
-    @click.argument('user', required=False)
+    @click.argument('user_id', required=False)
     @pass_github
-    def followers(github, user):
+    def followers(github, user_id):
         """Lists all followers and the total follower count.
 
         Args:
-            * user: A string representing the user login.
+            * user_id: A string representing the user login.
                 If None, returns followers of the logged in user.
 
         Returns:
             None.
         """
-        if user is None:
-            user = github.user_id
-        github._print_items(
-            github._listify(github.api.followers_of(user)), headers=['user'])
-        click.echo('Followers: ' + github.api.user(user).followers_count)
+        if user_id is None:
+            user_id = github.user_id
+        users = github.api.followers_of(user_id)
+        table = []
+        for user in users:
+            table.append([user.login, user.html_url])
+        github._print_table(table, headers=['user', 'profile'])
+        click.secho(
+            'Followers: ' + str(github.api.user(user_id).followers_count),
+            fg='blue')
 
     @cli.command()
     @click.argument('user', required=False)
