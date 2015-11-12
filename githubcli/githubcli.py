@@ -545,14 +545,17 @@ class GitHubCli(object):
         issues = github.api.issues(filter=issue_filter)
         table = []
         for issue in issues:
-            table.append([issue.number,
+            table.append([issue.state,
                           github._format_repo(issue.repository),
-                          issue.title,
+                          issue.number,
+                          issue.title + ' @' + str(issue.user),
+                          str(issue.assignee),
                           issue.comments_count])
-        # Sort by repo, issue number
-        table = sorted(table, key=itemgetter(1, 0))
+        # Sort by repo, state, issue number
+        table = sorted(table, key=itemgetter(1, 0, 2))
         github._print_table(table,
-                            headers=['#', 'repo', 'title', 'comments'])
+                            headers=['state', 'repo', '#',
+                                     'title', 'assignee', 'comments'])
 
     @cli.command()
     @pass_github
