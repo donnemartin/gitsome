@@ -669,21 +669,17 @@ class GitHubCli(object):
         github._print_table(table, headers=['#', 'repo', 'title'])
 
     @cli.command()
-    @click.argument('threshold', required=False, default=20)
     @pass_github
-    def rate_limit(github, threshold):
+    def rate_limit(github):
         """Outputs the rate limit.
 
         Args:
-            * args: A list that contains an int representing the threshold.
-                The rate limit is shown if it falls below the threshold.
+            * None.
 
         Returns:
             None.
         """
-        limit = github.api.ratelimit_remaining
-        if limit < threshold:
-            click.echo('Rate limit: ' + str(limit))
+        click.echo('Rate limit: ' + str(github.api.ratelimit_remaining))
 
     @cli.command()
     @click.argument('user')
