@@ -331,8 +331,6 @@ class GitHubCli(object):
     def create_issue(github, user, repo, issue_title):
         """Creates an issue.
 
-        Long description.
-
         Args:
             * user: A string representing the user login.
             * repo: A string representing the repo name.
