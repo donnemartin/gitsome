@@ -707,3 +707,54 @@ class GitHubCli(object):
         # Sort by score, repo, issue number
         table = sorted(table, key=itemgetter(0, 2, 1), reverse=True)
         github._print_table(table, headers=['score', '#', 'repo', 'title'])
+
+    @cli.command()
+    @click.argument('query')
+    @pass_github
+    def search_repositories(github, query):
+        """Searches all repos with the given query.
+
+        The query can contain any combination of the following supported
+        qualifers:
+
+        - ``in`` Qualifies which fields are searched. With this qualifier you
+          can restrict the search to just the repository name, description,
+          readme, or any combination of these.
+        - ``size`` Finds repositories that match a certain size (in
+          kilobytes).
+        - ``forks`` Filters repositories based on the number of forks, and/or
+          whether forked repositories should be included in the results at
+          all.
+        - ``created`` or ``pushed`` Filters repositories based on times of
+          creation, or when they were last updated. Format: ``YYYY-MM-DD``.
+          Examples: ``created:<2011``, ``pushed:<2013-02``,
+          ``pushed:>=2013-03-06``
+        - ``user`` or ``repo`` Limits searches to a specific user or
+          repository.
+        - ``language`` Searches repositories based on the language they're
+          written in.
+        - ``stars`` Searches repositories based on the number of stars.
+
+        For more information about these qualifiers, see: http://git.io/4Z8AkA
+
+        Args:
+            * query: A string representing the search query.
+
+        Returns:
+            None.
+        """
+        repos = github.api.search_repositories(query)
+        table = []
+        try:
+            for repo in repos:
+                table.append([repo.score,
+                              repo.repository.stargazers_count,
+                              repo.repository.forks_count,
+                              repo.repository.full_name])
+        except AttributeError:
+            # github3.py sometimes throws the following during iteration:
+            # AttributeError: 'NoneType' object has no attribute 'get'
+            pass
+        # Sort by score, repo
+        table = sorted(table, key=itemgetter(0, 1), reverse=True)
+        github._print_table(table, headers=['score', 'stars', 'forks', 'repo'])
