@@ -256,27 +256,16 @@ class GitHub(object):
         if type(issue) is null.NullObject:
             click.secho('Error: Invalid issue.', fg='red')
             return
-        click.echo('repo: ' + self._format_repo(issue.repository))
-        click.echo('title: ' + issue.title)
-        click.echo('issue url: ' + issue.html_url)
-        click.echo('issue number: ' + str(issue.number))
-        click.echo('state: ' + issue.state)
-        click.echo('comments: ' + str(issue.comments_count))
-        click.echo('labels: ' + str(issue.original_labels))
-        if issue.milestone is not None:
-            click.echo('milestone: ' + issue.milestone)
-        click.echo('')
-        click.echo(issue.body)
+        click.secho('#' + str(issue.number) + ': ' + \
+                   issue.title + ' - ' + \
+                   '@' + str(issue.user) + ' [' + \
+                   issue.state + ']',
+                   fg='blue')
+        click.echo('\n' + issue.body)
         comments = issue.comments()
         for comment in comments:
-            click.echo('')
-            click.echo('---Comment---')
-            click.echo('')
-            click.echo('user: ' + str(comment.user))
-            click.echo('comment url: ' + comment.html_url)
-            click.echo('created at: ' + str(comment.created_at))
-            click.echo('updated at: ' + str(comment.updated_at))
-            click.echo('')
+            click.secho('\n--Comment by @' + str(comment.user) + '---\n',
+                        fg='blue')
             click.echo(comment.body)
 
     def repository(self, user, repo_name):
