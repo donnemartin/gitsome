@@ -58,7 +58,7 @@ class GitHub(object):
     CONFIG_URL_LIST = 'url_list'
 
     def __init__(self):
-        """Inits GitSome.
+        """Inits GitHub.
 
         Args:
             * None.
