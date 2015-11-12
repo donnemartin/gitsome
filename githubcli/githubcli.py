@@ -13,7 +13,6 @@ from github3 import login, null
 from tabulate import tabulate
 from gitsome.gitsome_command import GitSomeCommand
 from xonsh.built_ins import iglobpath
-from xonsh.environ import repo_from_remote
 from xonsh.tools import subexpr_from_unbalanced
 from xonsh.tools import ON_WINDOWS
 
@@ -41,7 +40,6 @@ class GitHub(object):
             None.
         """
         self._login()
-        self.repo = repo_from_remote()
 
     def _format_repo(self, repo):
         """Formats a repo tuple for pretty print.

@@ -342,38 +342,6 @@ def locate_binary(name, cwd):
     return binary_location
 
 
-def repo_from_remote(cwd=None):
-    repo = None
-    try:
-        cmd = ['git', 'remote', '-v']
-        s = subprocess.check_output(cmd,
-                                    stderr=subprocess.PIPE,
-                                    cwd=cwd,
-                                    universal_newlines=True)
-        # s:
-        #   origin  https://github.com/donnemartin/gitsome.git (fetch)\n
-        #   origin  https://github.com/donnemartin/gitsome.git (push)
-        s = s.strip()
-        excludes = ['.git', ' (fetch)', ' (push)']
-        for exclude in excludes:
-            s = s.replace(exclude, '')
-        # s:
-        #   origin  https://github.com/donnemartin/gitsome\n
-        #   origin  https://github.com/donnemartin/gitsome
-        s = s.split('\n')[0]
-        # s:
-        #   origin  https://github.com/donnemartin/gitsome
-        s = s.split('/')
-        # s:
-        #   ['origin\thttps:', '', 'github.com', 'donnemartin', 'gitsome']
-        repo = s[4]
-        # s:
-        #   ['donnemartin', 'gitsome']
-    except (subprocess.CalledProcessError, FileNotFoundError, IndexError):
-        pass
-    return repo
-
-
 def ensure_git(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
