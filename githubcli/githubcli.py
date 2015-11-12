@@ -282,12 +282,13 @@ class GitHub(object):
             None.
         """
         repo = self.api.repository(user, repo_name)
-        click.echo('description: ' + repo.description)
-        click.echo('stars: ' + str(repo.stargazers_count))
-        click.echo('forks: ' + str(repo.forks_count))
-        click.echo('created at: ' + str(repo.created_at))
-        click.echo('updated at: ' + str(repo.updated_at))
-        click.echo('clone url: ' + repo.clone_url)
+        click.secho(repo.full_name, fg='blue')
+        if repo.description:
+            click.secho(repo.description, fg='blue')
+        click.secho('Stars: ' + str(repo.stargazers_count) + ' | '
+                    'Forks: ' + str(repo.forks_count),
+                    fg='blue')
+        click.secho('Url: ' + repo.clone_url, fg='blue')
 
     def repositories(self):
         """Lists all repos.
