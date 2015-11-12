@@ -652,3 +652,58 @@ class GitHubCli(object):
             None.
         """
         github.repositories()
+
+    @cli.command()
+    @click.argument('query')
+    @pass_github
+    def search_issues(github, query):
+        """Searches all issues with the given query.
+
+        The query can contain any combination of the following supported
+        qualifers:
+
+        - ``type`` With this qualifier you can restrict the search to issues
+          or pull request only.
+        - ``in`` Qualifies which fields are searched. With this qualifier you
+          can restrict the search to just the title, body, comments, or any
+          combination of these.
+        - ``author`` Finds issues created by a certain user.
+        - ``assignee`` Finds issues that are assigned to a certain user.
+        - ``mentions`` Finds issues that mention a certain user.
+        - ``commenter`` Finds issues that a certain user commented on.
+        - ``involves`` Finds issues that were either created by a certain user,
+          assigned to that user, mention that user, or were commented on by
+          that user.
+        - ``state`` Filter issues based on whether they’re open or closed.
+        - ``labels`` Filters issues based on their labels.
+        - ``language`` Searches for issues within repositories that match a
+          certain language.
+        - ``created`` or ``updated`` Filters issues based on times of creation,
+          or when they were last updated.
+        - ``comments`` Filters issues based on the quantity of comments.
+        - ``user`` or ``repo`` Limits searches to a specific user or
+          repository.
+
+        For more information about these qualifiers, see: http://git.io/d1oELA
+
+        Args:
+            * query: A string representing the search query.
+
+        Returns:
+            None.
+        """
+        issues = github.api.search_issues(query)
+        table = []
+        try:
+            for issue in issues:
+                table.append([issue.score,
+                             issue.issue.number,
+                             github._format_repo(issue.issue.repository),
+                             issue.issue.title])
+        except AttributeError:
+            # github3.py sometimes throws the following during iteration:
+            # AttributeError: 'NoneType' object has no attribute 'get'
+            pass
+        # Sort by score, repo, issue number
+        table = sorted(table, key=itemgetter(0, 2, 1), reverse=True)
+        github._print_table(table, headers=['score', '#', 'repo', 'title'])
