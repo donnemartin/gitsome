@@ -699,13 +699,6 @@ class GitHubCli(object):
             None.
         """
         github.repository(user, repo_name)
-        repo = github.api.repository(user, repo_name)
-        click.echo('description: ' + repo.description)
-        click.echo('stars: ' + str(repo.stargazers_count))
-        click.echo('forks: ' + str(repo.forks_count))
-        click.echo('created at: ' + str(repo.created_at))
-        click.echo('updated at: ' + str(repo.updated_at))
-        click.echo('clone url: ' + repo.clone_url)
 
     @cli.command()
     @pass_github
