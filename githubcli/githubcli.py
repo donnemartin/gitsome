@@ -827,7 +827,7 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        github.repositories()
+        github.repositories(github.api.repositories())
 
     @cli.command()
     @click.argument('query')
