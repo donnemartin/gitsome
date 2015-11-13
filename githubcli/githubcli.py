@@ -295,6 +295,32 @@ class GitHub(object):
                         fg='blue')
             click.echo(comment.body)
 
+    def open(self, index):
+        """Opens the given index in a browser.
+
+        Loads urls from .githubconfigurl and stores them in self.urls.
+
+        Args:
+            * index: An int that specifies the index to open in a browser.
+
+        Returns:
+            None.
+        """
+        config = self._github_config(self.CONFIG_URL)
+        parser = configparser.RawConfigParser()
+        try:
+            parser.readfp(open(config))
+            urls = parser.get(self.CONFIG_URL_SECTION,
+                               self.CONFIG_URL_LIST)
+            urls = urls.strip()
+            excludes = ['[', ']', "'"]
+            for exclude in excludes:
+                urls = urls.replace(exclude, '')
+            self.urls = urls.split(', ')
+            webbrowser.open(self.urls[index])
+        except Exception as e:
+            click.secho('Error: ' + str(e), fg='red')
+
     def repository(self, user, repo_name):
         """Outputs detailed information about the given repo.
 
@@ -364,6 +390,34 @@ class GitHubCli(object):
         # From this point onwards other commands can refer to it by using the
         # @pass_github decorator.
         ctx.obj = GitHub()
+
+    @cli.command()
+    @click.argument('index')
+    @pass_github
+    def open(github, index):
+        """Opens the given index in a browser.
+
+        This method is meant to be called after one of the following commands
+        which outputs a table of repos or issues:
+
+            * gh repositories
+            * gh search_repositories
+            * gh starred
+
+            * gh issues
+            * gh pull_requests
+            * gh search_issues
+
+        Args:
+            * index: An int that specifies the index to open in a browser.
+                For example, calling gh repositories will list repos with a
+                0-based index for each repo.  Calling gh open [index] will
+                open the url for the associated repo in a browser.
+
+        Returns:
+            None.
+        """
+        github.open(int(index))
 
     @cli.command()
     @click.argument('user')
