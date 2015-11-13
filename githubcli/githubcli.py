@@ -67,6 +67,7 @@ class GitHub(object):
             None.
         """
         self._login()
+        self.urls = []
 
     def _format_repo(self, repo):
         """Formats a repo tuple for pretty print.
@@ -242,6 +243,29 @@ class GitHub(object):
         while not code:
             code = input('Enter 2FA code: ')
         return code
+
+    def build_repo_urls(self, table, url_index, repo_index):
+        """Builds the GitHub urls for the input table containing repo names.
+
+        Note: This method modifies the table's url_index, adding a
+        0-based index that allow you to access a repo url with the
+        gh open [url_index] command.
+
+        Args:
+            * table: A list that contains repo information.
+            * url_index: The index in the table that will allow you to
+                access a repo url with the gh open [url_index] command.
+            * repo_index: The index in the table containing the repo name.
+
+        Returns:
+            None.
+        """
+        number = 0
+        for row in table:
+            row[0] = number
+            number += 1
+            self.urls.append('https://github.com/' + row[repo_index])
+        self.save_urls()
 
     def issue(self, user, repo, issue_number):
         """Outputs detailed information about the given issue.
