@@ -19,10 +19,6 @@ import click
 from github3 import authorize, login, null
 from github3.exceptions import UnprocessableEntity
 from tabulate import tabulate
-from gitsome.gitsome_command import GitSomeCommand
-from xonsh.built_ins import iglobpath
-from xonsh.tools import subexpr_from_unbalanced
-from xonsh.tools import ON_WINDOWS
 
 
 class GitHub(object):
