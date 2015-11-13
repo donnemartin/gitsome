@@ -937,22 +937,4 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        repos = github.api.starred()
-        table = []
-        repo_filter = repo_filter.lower()
-        try:
-            for repo in repos:
-                if repo_filter in repo.full_name.lower() or \
-                    repo_filter in repo.description.lower():
-                    table.append([repo.stargazers_count,
-                                  repo.forks_count,
-                                  repo.full_name,
-                                  repo.clone_url])
-        except AttributeError:
-            # github3.py sometimes throws the following during iteration:
-            # AttributeError: 'NoneType' object has no attribute 'get'
-            pass
-        # Sort by repo
-        table = sorted(table, key=itemgetter(0), reverse=True)
-        github._print_table(
-            table, headers=['stars', 'forks', 'repo', 'url'])
+        github.repositories(github.api.starred(), repo_filter.lower())
