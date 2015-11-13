@@ -343,21 +343,33 @@ class GitHub(object):
                     fg='blue')
         click.secho('Url: ' + repo.clone_url, fg='blue')
 
-    def repositories(self):
-        """Lists all repos.
+    def repositories(self, repos, repo_filter=''):
+        """Lists all repos matching the given filter.
 
         Args:
-            * None.
+            * repos: A list of github3.repos.repo.
+            * repo_filter: A string representing a filter for repo names.
+                Only repos matching the filter will be returned.
+                If None, outputs all starred repos.
 
         Returns:
             None.
         """
-        repos = self.api.repositories()
         table = []
+        number = 0
         for repo in repos:
-            table.append([repo.name, repo.stargazers_count])
-        table = sorted(table, key=itemgetter(1, 0), reverse=True)
-        self._print_table(table, headers=['repo', 'stars'])
+            if repo_filter in repo.full_name.lower() or \
+                    repo_filter in repo.description.lower():
+                table.append([number,
+                              repo.full_name,
+                              repo.clone_url,
+                              repo.stargazers_count,
+                              repo.forks_count])
+            number += 1
+        # Sort by stars, repo name
+        table = sorted(table, key=itemgetter(3, 1), reverse=True)
+        self.build_repo_urls(table, url_index=0, repo_index=1)
+        self._print_table(table, headers=['#', 'repo', 'url', 'stars', 'forks'])
 
     def save_urls(self):
         """Saves the current set of urls to .githubconfigurl.
