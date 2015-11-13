@@ -919,21 +919,27 @@ class GitHubCli(object):
         Returns:
             None.
         """
+        click.secho('Searching repos on GitHub...', fg='blue')
         repos = github.api.search_repositories(query)
         table = []
+        number = 0
         try:
             for repo in repos:
-                table.append([repo.score,
+                table.append([number,
+                              repo.score,
+                              repo.repository.full_name,
                               repo.repository.stargazers_count,
-                              repo.repository.forks_count,
-                              repo.repository.full_name])
+                              repo.repository.forks_count])
+                number += 1
         except AttributeError:
             # github3.py sometimes throws the following during iteration:
             # AttributeError: 'NoneType' object has no attribute 'get'
             pass
         # Sort by score, repo
-        table = sorted(table, key=itemgetter(0, 1), reverse=True)
-        github._print_table(table, headers=['score', 'stars', 'forks', 'repo'])
+        table = sorted(table, key=itemgetter(1, 2), reverse=True)
+        github.build_repo_urls(table, url_index=0, repo_index=2)
+        github._print_table(table, headers=['#', 'score', 'repo',
+                                            'stars', 'forks'])
 
     @cli.command()
     @click.argument('repo_filter', required=False, default='')
