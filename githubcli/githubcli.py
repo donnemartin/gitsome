@@ -333,6 +333,24 @@ class GitHub(object):
         table = sorted(table, key=itemgetter(1, 0), reverse=True)
         self._print_table(table, headers=['repo', 'stars'])
 
+    def save_urls(self):
+        """Saves the current set of urls to .githubconfigurl.
+
+        Args:
+            * None
+
+        Returns:
+            None.
+        """
+        config = self._github_config(self.CONFIG_URL)
+        parser = configparser.RawConfigParser()
+        try:
+            parser.add_section(self.CONFIG_URL_SECTION)
+        except DuplicateSectionError:
+            pass
+        parser.set(self.CONFIG_URL_SECTION, self.CONFIG_URL_LIST, self.urls)
+        parser.write(open(config, 'w+'))
+
 
 pass_github = click.make_pass_decorator(GitHub)
 
