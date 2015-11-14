@@ -339,7 +339,7 @@ class GitHub(object):
         except Exception as e:
             click.secho('Error: ' + str(e), fg='red')
 
-    def repository(self, user, repo_name):
+    def repository(self, user, repo_name, num_readme_lines=25):
         """Outputs detailed information about the given repo.
 
         If args does not contain user and repo, attempts to display repo
@@ -348,11 +348,16 @@ class GitHub(object):
         Args:
             * user: A string representing the user login.
             * repo_name: A string representing the repo name.
+            * num_readme_lines: An int that determines the number of lines
+                to display for the README.
 
         Returns:
             None.
         """
         repo = self.api.repository(user, repo_name)
+        if type(repo) is null.NullObject:
+            click.secho('Repo not found.', fg='red')
+            return
         click.secho(repo.full_name, fg='blue')
         if repo.description:
             click.secho(repo.description, fg='blue')
@@ -360,6 +365,20 @@ class GitHub(object):
                     'Forks: ' + str(repo.forks_count),
                     fg='blue')
         click.secho('Url: ' + repo.clone_url, fg='blue')
+        readme = repo.readme()
+        click.echo('')
+        if type(readme) is null.NullObject:
+            click.secho('No README found.', fg='blue')
+            return
+        click.secho('--First ' + str(num_readme_lines) + \
+                    ' lines of README--\n',
+                    fg='blue')
+        content = readme.decoded.decode('utf-8')
+        lines = content.split('\n')
+        for iterations, line in enumerate(lines):
+            click.echo(line)
+            if iterations >= num_readme_lines:
+                break
 
     def repositories(self, repos, repo_filter=''):
         """Lists all repos matching the given filter.
