@@ -738,7 +738,8 @@ class GitHubCli(object):
             click.secho('email: ' + user.email, fg='blue')
         click.secho('followers: ' + str(user.followers_count), fg='blue')
         click.secho('following: ' + str(user.following_count), fg='blue')
-        github.repositories()
+        click.echo('')
+        github.repositories(github.api.repositories())
 
     @cli.command()
     @pass_github
