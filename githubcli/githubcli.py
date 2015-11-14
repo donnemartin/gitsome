@@ -7,6 +7,7 @@ import re
 import subprocess
 import sys
 import webbrowser
+import urllib
 from getpass import getpass
 try:
     # Python 3
@@ -19,6 +20,7 @@ import click
 from github3 import authorize, login, null
 from github3.exceptions import UnprocessableEntity
 from tabulate import tabulate
+from img2txt.img2txt import img2txt
 
 
 class GitHub(object):
@@ -52,6 +54,7 @@ class GitHub(object):
     CONFIG_URL = '.githubconfigurl'
     CONFIG_URL_SECTION = 'url'
     CONFIG_URL_LIST = 'url_list'
+    CONFIG_AVATAR = '.githubconfigavatar.png'
 
     def __init__(self):
         """Inits GitHub.
@@ -239,6 +242,25 @@ class GitHub(object):
         while not code:
             code = input('Enter 2FA code: ')
         return code
+
+    def avatar(self, url, output_type):
+        """Displays the user's avatar from the specified url.
+
+        Args:
+            * output_type: A string representing the profile output type:
+                'text': Sets the output to render in plain text.
+                'ansi': Sets the output to render in ansi.
+
+        Returns:
+            None.
+        """
+        avatar = self._github_config(self.CONFIG_AVATAR)
+        urllib.request.urlretrieve (url, avatar)
+        ansi = True
+        if output_type == 'text':
+            ansi = False
+        img2txt(avatar, ansi=ansi)
+        os.remove(avatar)
 
     def build_repo_urls(self, table, url_index, repo_index):
         """Builds the GitHub urls for the input table containing repo names.
