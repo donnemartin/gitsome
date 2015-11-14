@@ -687,17 +687,29 @@ class GitHubCli(object):
                                      'title', 'assignee', 'comments'])
 
     @cli.command()
+    @click.option('profile_output', '--text-profile',
+                  flag_value='text', default=False,
+                  help='Output profile in plain text.')
+    @click.option('profile_output', '--ansi-profile',
+                  flag_value='ansi', default=True,
+                  help='Output profile in ansi.')
     @pass_github
-    def me(github):
+    def me(github, profile_output):
         """Lists information about the logged in user.
 
         Args:
-            * None.
+            * profile_output: A string representing the profile output type:
+                --text-profile: profile_output = 'text'
+                    Sets the output to render in plain text.
+                --text-ansi: profile_output = 'ansi' (default)
+                    Sets the output to render in ansi.
 
         Returns:
             None.
         """
         user = github.api.me()
+        github.avatar(user.avatar_url, profile_output)
+        click.echo('')
         click.secho(user.login, fg='blue')
         if user.company is not None:
             click.secho('company:', user.company, fg='blue')
