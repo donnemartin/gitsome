@@ -849,7 +849,7 @@ class GitHubCli(object):
         """
         click.echo('Rate limit: ' + str(github.api.ratelimit_remaining))
 
-    @cli.command()
+    @cli.command('repo')
     @click.argument('user')
     @click.argument('repo_name')
     @pass_github
@@ -868,7 +868,7 @@ class GitHubCli(object):
         """
         github.repository(user, repo_name)
 
-    @cli.command()
+    @cli.command('repos')
     @pass_github
     def repositories(github):
         """Lists all repos.
