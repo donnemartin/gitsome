@@ -920,6 +920,7 @@ class GitHubCli(object):
         Returns:
             None.
         """
+        click.secho('Searching issues on GitHub...', fg='blue')
         issues = github.api.search_issues(query)
         table = []
         try:
