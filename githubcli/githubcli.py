@@ -183,39 +183,6 @@ class GitHub(object):
             # somewhat necessary
             parser.write(open(config, 'w+'))
 
-    def _print_items(self, items, headers):
-        """Prints the items and headers with tabulate.
-
-        Args:
-            * items: A collection of items to print as rows with tabulate.
-                Can be a list or dictionary.
-            * headers: A collection of column headers to print with tabulate.
-                If items is a list, headers should be a list.
-                If items is a dictionary, set headers='keys'.
-
-        Returns:
-            None.
-        """
-        table = []
-        for item in items:
-            table.append(item)
-        self._print_table(table, headers=headers)
-
-    def _print_table(self, table, headers):
-        """Prints the input table and headers with tabulate.
-
-        Args:
-            * table: A collection of items to print as rows with tabulate.
-                Can be a list or dictionary.
-            * headers: A collection of column headers to print with tabulate.
-                If items is a list, headers should be a list.
-                If items is a dictionary, set headers='keys'.
-
-        Returns:
-            None.
-        """
-        click.echo(tabulate(table, headers, tablefmt='grid'))
-
     def _return_elem_or_list(self, args):
         """Utility function to get a single element if len(args) == 1.
 
@@ -341,6 +308,39 @@ class GitHub(object):
         except Exception as e:
             click.secho('Error: ' + str(e), fg='red')
 
+    def print_items(self, items, headers):
+        """Prints the items and headers with tabulate.
+
+        Args:
+            * items: A collection of items to print as rows with tabulate.
+                Can be a list or dictionary.
+            * headers: A collection of column headers to print with tabulate.
+                If items is a list, headers should be a list.
+                If items is a dictionary, set headers='keys'.
+
+        Returns:
+            None.
+        """
+        table = []
+        for item in items:
+            table.append(item)
+        self.print_table(table, headers=headers)
+
+    def print_table(self, table, headers):
+        """Prints the input table and headers with tabulate.
+
+        Args:
+            * table: A collection of items to print as rows with tabulate.
+                Can be a list or dictionary.
+            * headers: A collection of column headers to print with tabulate.
+                If items is a list, headers should be a list.
+                If items is a dictionary, set headers='keys'.
+
+        Returns:
+            None.
+        """
+        click.echo(tabulate(table, headers, tablefmt='grid'))
+
     def repository(self, user, repo_name, num_readme_lines=25):
         """Outputs detailed information about the given repo.
 
@@ -408,7 +408,7 @@ class GitHub(object):
         # Sort by stars, repo name
         table = sorted(table, key=itemgetter(3, 1), reverse=True)
         self.build_repo_urls(table, url_index=0, repo_index=1)
-        self._print_table(table, headers=['#', 'repo', 'url', 'stars', 'forks'])
+        self.print_table(table, headers=['#', 'repo', 'url', 'stars', 'forks'])
 
     def save_urls(self):
         """Saves the current set of urls to .githubconfigurl.
@@ -516,7 +516,7 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        github._print_items(github.api.emails(), headers='keys')
+        github.print_items(github.api.emails(), headers='keys')
 
     @cli.command()
     @pass_github
@@ -536,8 +536,8 @@ class GitHubCli(object):
                           event.actor,
                           event.type,
                           github._format_repo(event.repo)])
-        github._print_table(table,
-                            headers=['created at', 'user', 'type', 'repo'])
+        github.print_table(table,
+                           headers=['created at', 'user', 'type', 'repo'])
 
     @cli.command()
     @pass_github
@@ -550,8 +550,8 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        github._print_items(github._listify(github.api.emojis()),
-                                            headers=['emoji'])
+        github.print_items(github._listify(github.api.emojis()),
+                                           headers=['emoji'])
 
     @cli.command()
     @pass_github
@@ -593,7 +593,7 @@ class GitHubCli(object):
         table = []
         for user in users:
             table.append([user.login, user.html_url])
-        github._print_table(table, headers=['user', 'profile'])
+        github.print_table(table, headers=['user', 'profile'])
         click.secho(
             'Followers: ' + str(github.api.user(user_id).followers_count),
             fg='blue')
@@ -617,7 +617,7 @@ class GitHubCli(object):
         table = []
         for user in users:
             table.append([user.login, user.html_url])
-        github._print_table(table, headers=['user', 'profile'])
+        github.print_table(table, headers=['user', 'profile'])
         click.secho(
             'Following ' + str(github.api.user(user_id).following_count),
             fg='blue')
@@ -654,7 +654,7 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        github._print_items(
+        github.print_items(
             github._listify(github.api.gitignore_templates()),
                             headers=['language'])
 
@@ -703,9 +703,9 @@ class GitHubCli(object):
                           issue.comments_count])
         # Sort by repo, state, issue number
         table = sorted(table, key=itemgetter(1, 0, 2))
-        github._print_table(table,
-                            headers=['state', 'repo', '#',
-                                     'title', 'assignee', 'comments'])
+        github.print_table(table,
+                           headers=['state', 'repo', '#',
+                                    'title', 'assignee', 'comments'])
 
     @cli.command()
     @click.option('profile_output', '--text-profile',
@@ -756,8 +756,8 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        github._print_items(github.api.notifications(participating=True),
-                            headers=['notification'])
+        github.print_items(github.api.notifications(participating=True),
+                           headers=['notification'])
 
     @cli.command()
     @click.argument('say', required=False)
@@ -834,7 +834,7 @@ class GitHubCli(object):
                           pull_request.title])
         # Sort by repo, pull request number
         table = sorted(table, key=itemgetter(1, 0))
-        github._print_table(table, headers=['#', 'repo', 'title'])
+        github.print_table(table, headers=['#', 'repo', 'title'])
 
     @cli.command()
     @pass_github
@@ -935,7 +935,7 @@ class GitHubCli(object):
             pass
         # Sort by score, repo, issue number
         table = sorted(table, key=itemgetter(0, 2, 1), reverse=True)
-        github._print_table(table, headers=['score', '#', 'repo', 'title'])
+        github.print_table(table, headers=['score', '#', 'repo', 'title'])
 
     @cli.command()
     @click.argument('query')
@@ -991,8 +991,8 @@ class GitHubCli(object):
         # Sort by score, repo
         table = sorted(table, key=itemgetter(1, 2), reverse=True)
         github.build_repo_urls(table, url_index=0, repo_index=2)
-        github._print_table(table, headers=['#', 'score', 'repo',
-                                            'stars', 'forks'])
+        github.print_table(table, headers=['#', 'score', 'repo',
+                                           'stars', 'forks'])
 
     @cli.command()
     @click.argument('repo_filter', required=False, default='')
