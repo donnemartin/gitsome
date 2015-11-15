@@ -98,28 +98,6 @@ class GitHub(object):
         config = os.path.join(home, config)
         return config
 
-    def _listify(self, items):
-        """Puts each list element in its own list.
-
-        Example:
-            Input: [a, b, c]
-            Output: [[a], [b], [c]]
-
-        This is needed for tabulate to print rows [a], [b], and [c].
-
-        Args:
-            * items: A list to listify.
-
-        Returns:
-            A list that contains elements that are listified.
-        """
-        output = []
-        for item in items:
-            item_list = []
-            item_list.append(item)
-            output.append(item_list)
-        return output
-
     def _login(self):
         """Logs into GitHub.
 
@@ -269,6 +247,28 @@ class GitHub(object):
             click.secho('\n--Comment by @' + str(comment.user) + '---\n',
                         fg='blue')
             click.echo(comment.body)
+
+    def listify(self, items):
+        """Puts each list element in its own list.
+
+        Example:
+            Input: [a, b, c]
+            Output: [[a], [b], [c]]
+
+        This is needed for tabulate to print rows [a], [b], and [c].
+
+        Args:
+            * items: A list to listify.
+
+        Returns:
+            A list that contains elements that are listified.
+        """
+        output = []
+        for item in items:
+            item_list = []
+            item_list.append(item)
+            output.append(item_list)
+        return output
 
     def open(self, index):
         """Opens the given index in a browser.
@@ -538,8 +538,8 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        github.print_items(github._listify(github.api.emojis()),
-                                           headers=['emoji'])
+        github.print_items(github.listify(github.api.emojis()),
+                                          headers=['emoji'])
 
     @cli.command()
     @pass_github
@@ -643,8 +643,8 @@ class GitHubCli(object):
             None.
         """
         github.print_items(
-            github._listify(github.api.gitignore_templates()),
-                            headers=['language'])
+            github.listify(github.api.gitignore_templates()),
+                           headers=['language'])
 
     @cli.command()
     @click.argument('user')
