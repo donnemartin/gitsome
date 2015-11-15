@@ -183,18 +183,6 @@ class GitHub(object):
             # somewhat necessary
             parser.write(open(config, 'w+'))
 
-    def _return_elem_or_list(self, args):
-        """Utility function to get a single element if len(args) == 1.
-
-        Args:
-            * args: A list of args.
-
-        Returns:
-            If args contains only one item, returns a single element.
-            Else, returns args.
-        """
-        return args[0] if len(args) == 1 else args
-
     def _two_factor_code(self):
         """Callback if two factor authentication is requested.
 
