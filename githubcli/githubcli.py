@@ -68,21 +68,6 @@ class GitHub(object):
         self._login()
         self.urls = []
 
-    def _format_repo(self, repo):
-        """Formats a repo tuple for pretty print.
-
-        Example:
-            Input:  ('donnemartin', 'gitsome')
-            Output: donnemartin/gitsome
-
-        Args:
-            * args: A tuple that contains the user and repo.
-
-        Returns:
-            A string of the form user/repo.
-        """
-        return '/'.join(repo)
-
     def _github_config(self, config):
         """Attempts to find the github config file.
 
@@ -219,6 +204,21 @@ class GitHub(object):
             number += 1
             self.urls.append('https://github.com/' + row[repo_index])
         self.save_urls()
+
+    def format_repo(self, repo):
+        """Formats a repo tuple for pretty print.
+
+        Example:
+            Input:  ('donnemartin', 'gitsome')
+            Output: donnemartin/gitsome
+
+        Args:
+            * args: A tuple that contains the user and repo.
+
+        Returns:
+            A string of the form user/repo.
+        """
+        return '/'.join(repo)
 
     def issue(self, user, repo, issue_number):
         """Outputs detailed information about the given issue.
@@ -523,7 +523,7 @@ class GitHubCli(object):
             table.append([event.created_at,
                           event.actor,
                           event.type,
-                          github._format_repo(event.repo)])
+                          github.format_repo(event.repo)])
         github.print_table(table,
                            headers=['created at', 'user', 'type', 'repo'])
 
@@ -684,7 +684,7 @@ class GitHubCli(object):
         table = []
         for issue in issues:
             table.append([issue.state,
-                          github._format_repo(issue.repository),
+                          github.format_repo(issue.repository),
                           issue.number,
                           issue.title + ' @' + str(issue.user),
                           str(issue.assignee),
@@ -915,7 +915,7 @@ class GitHubCli(object):
             for issue in issues:
                 table.append([issue.score,
                              issue.issue.number,
-                             github._format_repo(issue.issue.repository),
+                             github.format_repo(issue.issue.repository),
                              issue.issue.title])
         except AttributeError:
             # github3.py sometimes throws the following during iteration:
