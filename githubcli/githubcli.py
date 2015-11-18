@@ -20,6 +20,7 @@ import click
 from github3 import authorize, login, null
 from github3.exceptions import UnprocessableEntity
 from tabulate import tabulate
+
 from img2txt.img2txt import img2txt
 
 
@@ -30,7 +31,7 @@ class GitHub(object):
         * api: An instance of github3 to interact with the GitHub API.
         * CONFIG: A string representing the config file name.
         * CONFIG_SECTION: A string representing the main config file section.
-        * CONFIG_USER_ID: A string representing the user id config.
+        * CONFIG_USER_LOGIN: A string representing the user login config.
         * CONFIG_USER_PASS: A string representing the user pass config.
         * CONFIG_USER_TOKEN: A string representing the user token config.
         * CONFIG_URL: A string representing the jump to url config file name.
@@ -38,14 +39,14 @@ class GitHub(object):
             file section.
         * CONFIG_URL_LIST: A string representing the jump to url list in the
             config.
-        * user_id: A string that represents the user's id in ~/.xonshrc
+        * user_login: A string that represents the user's login in ~/.xonshrc
         * user_pass: A string that represents the user's pass in ~/.xonshrc
         * user_token: A string that represents the user's token in ~/.xonshrc
     """
 
     CONFIG = '.githubconfig'
     CONFIG_SECTION = 'github'
-    CONFIG_USER_ID = 'user_id'
+    CONFIG_USER_LOGIN = 'user_login'
     CONFIG_USER_PASS = 'user_pass'
     CONFIG_USER_TOKEN = 'user_token'
     CONFIG_URL = '.githubconfigurl'
@@ -100,17 +101,17 @@ class GitHub(object):
         # Check to make sure the file exists and we are allowed to read it
         if os.path.isfile(config) and os.access(config, os.R_OK | os.W_OK):
             parser.readfp(open(config))
-            self.user_id = parser.get(self.CONFIG_SECTION,
-                                      self.CONFIG_USER_ID)
+            self.user_login = parser.get(self.CONFIG_SECTION,
+                                         self.CONFIG_USER_LOGIN)
             self.api = login(token=parser.get(self.CONFIG_SECTION,
                                               self.CONFIG_USER_TOKEN),
                              two_factor_callback=self._two_factor_code)
         else:
             # Either the file didn't exist or we didn't have the correct
             # permissions
-            self.user_id = ''
-            while not user_id:
-                user_id = input('Username: ')
+            self.user_login = ''
+            while not user_login:
+                user_login = input('User Login: ')
             user_pass = ''
             while not user_pass:
                 user_pass = getpass('Password: ')
@@ -118,7 +119,7 @@ class GitHub(object):
             try:
                 # Get an authorization for this
                 auth = authorize(
-                    user_id,
+                    user_login,
                     user_pass,
                     scopes=['user', 'repo', 'gist'],
                     note='githubcli',
@@ -133,7 +134,7 @@ class GitHub(object):
                             self.githubconfig + ' file with your user_token.',
                             fg='red')
             parser.add_section(self.CONFIG_SECTION)
-            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_ID, user_id)
+            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_LOGIN, user_login)
             parser.set(self.CONFIG_SECTION, self.CONFIG_USER_PASS, user_pass)
             parser.set(self.CONFIG_SECTION, self.CONFIG_USER_TOKEN, auth.token)
             self.api = login(token=auth.token,
@@ -565,51 +566,51 @@ class GitHubCli(object):
         github.api.feeds()
 
     @cli.command()
-    @click.argument('user_id', required=False)
+    @click.argument('user_login', required=False)
     @pass_github
-    def followers(github, user_id):
+    def followers(github, user_login):
         """Lists all followers and the total follower count.
 
         Args:
-            * user_id: A string representing the user login.
+            * user_login: A string representing the user login.
                 If None, returns followers of the logged in user.
 
         Returns:
             None.
         """
-        if user_id is None:
-            user_id = github.user_id
-        users = github.api.followers_of(user_id)
+        if user_login is None:
+            user_login = github.user_login
+        users = github.api.followers_of(user_login)
         table = []
         for user in users:
             table.append([user.login, user.html_url])
         github.print_table(table, headers=['user', 'profile'])
         click.secho(
-            'Followers: ' + str(github.api.user(user_id).followers_count),
+            'Followers: ' + str(github.api.user(user_login).followers_count),
             fg='blue')
 
     @cli.command()
-    @click.argument('user_id', required=False)
+    @click.argument('user_login', required=False)
     @pass_github
-    def following(github, user_id):
+    def following(github, user_login):
         """Lists all followed users and the total followed count.
 
         Args:
-            * user_id: A string representing the user login.
+            * user_login: A string representing the user login.
                 If None, returns the followed users of the logged in user.
 
         Returns:
             None.
         """
-        if user_id is None:
-            user_id = github.user_id
-        users = github.api.followed_by(user_id)
+        if user_login is None:
+            user_login = github.user_login
+        users = github.api.followed_by(user_login)
         table = []
         for user in users:
             table.append([user.login, user.html_url])
         github.print_table(table, headers=['user', 'profile'])
         click.secho(
-            'Following ' + str(github.api.user(user_id).following_count),
+            'Following ' + str(github.api.user(user_login).following_count),
             fg='blue')
 
     @cli.command()
@@ -777,7 +778,7 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        url = 'https://github.com/' + github.user_id
+        url = 'https://github.com/' + github.user_login
         webbrowser.open(url)
 
     @cli.command()
