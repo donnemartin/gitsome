@@ -483,7 +483,7 @@ class GitHubCli(object):
         """
         issue = github.api.create_issue(user, repo_name, issue_title)
         click.echo('Created issue: ' + issue.title)
-        github._issue(user, repo_name, issue.number)
+        github.issue(user, repo_name, issue.number)
 
     @cli.command()
     @click.argument('repo_name')
