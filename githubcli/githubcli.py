@@ -222,7 +222,7 @@ class GitHub(object):
         """
         return '/'.join(repo)
 
-    def issue(self, user, repo, issue_number):
+    def issue(self, user, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
         Args:
@@ -233,7 +233,7 @@ class GitHub(object):
         Returns:
             None.
         """
-        issue = self.api.issue(user, repo, issue_number)
+        issue = self.api.issue(user, repo_name, issue_number)
         if type(issue) is null.NullObject:
             click.secho('Error: Invalid issue.', fg='red')
             return
@@ -467,23 +467,23 @@ class GitHubCli(object):
 
     @cli.command()
     @click.argument('user')
-    @click.argument('repo')
+    @click.argument('repo_name')
     @click.argument('issue_title')
     @pass_github
-    def create_issue(github, user, repo, issue_title):
+    def create_issue(github, user, repo_name, issue_title):
         """Creates an issue.
 
         Args:
             * user: A string representing the user login.
-            * repo: A string representing the repo name.
+            * repo_name: A string representing the repo name.
             * issue_title: A string representing the issue title.
 
         Returns:
             None.
         """
-        issue = github.api.create_issue(user, repo, issue_title)
+        issue = github.api.create_issue(user, repo_name, issue_title)
         click.echo('Created issue: ' + issue.title)
-        github._issue(user, repo, issue.number)
+        github._issue(user, repo_name, issue.number)
 
     @cli.command()
     @click.argument('repo_name')
@@ -658,18 +658,18 @@ class GitHubCli(object):
     @click.argument('repo')
     @click.argument('issue_number')
     @pass_github
-    def issue(github, user, repo, issue_number):
+    def issue(github, user, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
         Args:
             * user: A string representing the user login.
-            * repo: A string representing the repo name.
+            * repo_name: A string representing the repo name.
             * issue_number: An int representing the issue number.
 
         Returns:
             None.
         """
-        github.issue(user, repo, issue_number)
+        github.issue(user, repo_name, issue_number)
 
     @cli.command()
     @click.argument('issue_filter', required=False, default='subscribed')
@@ -790,18 +790,18 @@ class GitHubCli(object):
     @click.argument('repo')
     @click.argument('issue_number')
     @pass_github
-    def pull_request(github, user, repo, issue_number):
+    def pull_request(github, user, repo_name, issue_number):
         """Outputs detailed information about the given pull request.
 
         Args:
             * user: A string representing the user login.
-            * repo: A string representing the repo name.
+            * repo_name: A string representing the repo name.
             * issue_number: An int representing the issue number.
 
         Returns:
             None.
         """
-        github.issue(user, repo, issue_number)
+        github.issue(user, repo_name, issue_number)
 
     @cli.command()
     @pass_github
