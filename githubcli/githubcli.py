@@ -166,6 +166,7 @@ class GitHub(object):
         """Displays the user's avatar from the specified url.
 
         Args:
+            * url: A string representing the user's avatar image.
             * output_type: A string representing the profile output type:
                 'text': Sets the output to render in plain text.
                 'ansi': Sets the output to render in ansi.
@@ -174,7 +175,7 @@ class GitHub(object):
             None.
         """
         avatar = self._github_config(self.CONFIG_AVATAR)
-        urllib.request.urlretrieve (url, avatar)
+        urllib.request.urlretrieve(url, avatar)
         ansi = True
         if output_type == 'text':
             ansi = False
