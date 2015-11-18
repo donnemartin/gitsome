@@ -39,9 +39,12 @@ class GitHub(object):
             file section.
         * CONFIG_URL_LIST: A string representing the jump to url list in the
             config.
-        * user_login: A string that represents the user's login in ~/.xonshrc
-        * user_pass: A string that represents the user's pass in ~/.xonshrc
-        * user_token: A string that represents the user's token in ~/.xonshrc
+        * user_login: A string that represents the user's login in
+            ~/.githubconfig
+        * user_pass: A string that represents the user's pass in
+            ~/.githubconfig
+        * user_token: A string that represents the user's token in
+            ~/.githubconfig
     """
 
     CONFIG = '.githubconfig'
