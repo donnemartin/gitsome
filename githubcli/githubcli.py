@@ -28,8 +28,6 @@ class GitHub(object):
 
     Attributes:
         * api: An instance of github3 to interact with the GitHub API.
-        * APP_NAME: A string representing the app name used for obtaining
-            a GitHub authorization token.
         * CONFIG: A string representing the config file name.
         * CONFIG_SECTION: A string representing the main config file section.
         * CONFIG_USER_ID: A string representing the user id config.
@@ -45,7 +43,6 @@ class GitHub(object):
         * user_token: A string that represents the user's token in ~/.xonshrc
     """
 
-    APP_NAME = 'GitHubCli'
     CONFIG = '.githubconfig'
     CONFIG_SECTION = 'github'
     CONFIG_USER_ID = 'user_id'
