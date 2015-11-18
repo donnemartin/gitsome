@@ -418,6 +418,11 @@ pass_github = click.make_pass_decorator(GitHub)
 
 
 class GitHubCli(object):
+    """Encapsulates the GitHubCli.
+
+    Attributes:
+        * None.
+    """
 
     @click.group()
     @click.pass_context
