@@ -68,20 +68,20 @@ class GitHub(object):
         self._login()
         self.urls = []
 
-    def _github_config(self, config):
+    def _github_config(self, config_file_name):
         """Attempts to find the github config file.
 
         Adapted from https://github.com/sigmavirus24/github-cli.
 
         Args:
-            * config: A String that represents the config file name.
+            * config_file_name: A String that represents the config file name.
 
         Returns:
-            A string containing the github config file.
+            A string that represents the github config file path.
         """
         home = os.path.abspath(os.environ.get('HOME', ''))
-        config = os.path.join(home, config)
-        return config
+        config_file_path = os.path.join(home, config_file_name)
+        return config_file_path
 
     def _login(self):
         """Logs into GitHub.
