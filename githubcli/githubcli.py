@@ -771,20 +771,6 @@ class GitHubCli(object):
         click.echo(output)
 
     @cli.command()
-    @pass_github
-    def profile(github):
-        """Opens a web browser to your GitHub profile.
-
-        Args:
-            * None.
-
-        Returns:
-            None.
-        """
-        url = 'https://github.com/' + github.user_login
-        webbrowser.open(url)
-
-    @cli.command()
     @click.argument('user')
     @click.argument('repo')
     @click.argument('issue_number')
