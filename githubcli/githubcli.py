@@ -891,14 +891,18 @@ class GitHubCli(object):
 
         TODO: Always results in an empty list.  Possible github3.py bug.
 
+        Example(s):
+            gh notifications
+
         Args:
             * None.
 
         Returns:
             None.
         """
-        github.print_items(github.api.notifications(participating=True),
-                           headers=['notification'])
+        click.secho('This command is temporarily unavailable.', fg='red')
+        # github.print_items(github.api.notifications(participating=True),
+        #                    headers=['notification'])
 
     @cli.command()
     @click.argument('say', required=False)
