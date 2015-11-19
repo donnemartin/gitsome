@@ -225,8 +225,10 @@ class GitHub(object):
         Returns:
             None.
         """
-        click.secho('Tip: Open repo urls with the following command:\n' \
-                    '    gh open [#].', fg='blue')
+        click.secho('Tip: View repo details in your terminal or browser' \
+                    ' with the following command:\n' \
+                    '    gh view [#] [-b/--browser]',
+                    fg='blue')
         number = 0
         for row in table:
             row[0] = number
