@@ -182,6 +182,33 @@ class GitHub(object):
         img2txt(avatar, ansi=ansi)
         os.remove(avatar)
 
+    def build_issue_urls(self, table, url_index, issue_index):
+        """Builds the GitHub urls for the input table containing issues.
+
+        Note: This method modifies the table's url_index, adding a
+        0-based index that allow you to access an issue url with the
+        gh view [url_index] command.
+
+        Args:
+            * table: A list that contains repo information.
+            * url_index: The index in the table that will allow you to
+                access a repo url with the gh view [url_index] command.
+            * issue_index: The index in the table containing the issue.
+
+        Returns:
+            None.
+        """
+        click.secho('Tip: View issue details in your terminal or browser' \
+                    ' with the following command:\n' \
+                    '    gh view [#] [-b/--browser]',
+                    fg='blue')
+        number = 0
+        for row in table:
+            row[0] = number
+            number += 1
+            self.urls.append(self.GITHUB_URL + row[issue_index])
+        self.save_urls()
+
     def build_repo_urls(self, table, url_index, repo_index):
         """Builds the GitHub urls for the input table containing repo names.
 
