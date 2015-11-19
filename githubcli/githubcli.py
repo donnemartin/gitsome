@@ -805,11 +805,16 @@ class GitHubCli(object):
     def issues(github, issue_filter, state):
         """Lists all issues.
 
+        Example(s):
+            gh issues
+            gh issues assigned
+            gh issues created all | grep foo
+
         Args:
-            * filter: A string with the following accepted values:
-                'assigned', 'created', 'mentioned', 'subscribed'.
+            * issue_filter: A string with the following accepted values:
+                'assigned', 'created', 'mentioned', 'subscribed' (default).
             * state: A string with the following accepted values:
-                'all', 'open', 'closed'.
+                'all', 'open' (default), 'closed'.
 
         Returns:
             None.
