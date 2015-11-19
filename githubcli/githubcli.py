@@ -778,22 +778,25 @@ class GitHubCli(object):
                            headers=['language'])
 
     @cli.command()
-    @click.argument('user')
-    @click.argument('repo')
+    @click.argument('user_login')
+    @click.argument('repo_name')
     @click.argument('issue_number')
     @pass_github
-    def issue(github, user, repo_name, issue_number):
+    def issue(github, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
+        Example(s):
+            gh donnemartin saws 1
+
         Args:
-            * user: A string representing the user login.
+            * user_login: A string representing the user login.
             * repo_name: A string representing the repo name.
             * issue_number: An int representing the issue number.
 
         Returns:
             None.
         """
-        github.issue(user, repo_name, issue_number)
+        github.issue(user_login, repo_name, issue_number)
 
     @cli.command()
     @click.argument('issue_filter', required=False, default='subscribed')
