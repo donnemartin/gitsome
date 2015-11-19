@@ -166,23 +166,19 @@ class GitHub(object):
             code = input('Enter 2FA code: ')
         return code
 
-    def avatar(self, url, output_type):
+    def avatar(self, url, ansi):
         """Displays the user's avatar from the specified url.
 
         Args:
             * url: A string representing the user's avatar image.
-            * output_type: A string representing the profile output type:
-                'text': Sets the output to render in plain text.
-                'ansi': Sets the output to render in ansi.
+            * ansi: A boolean that determines whether to view the profile
+                avatar in a ansi, or plain text.
 
         Returns:
             None.
         """
         avatar = self._github_config(self.CONFIG_AVATAR)
         urllib.request.urlretrieve(url, avatar)
-        ansi = True
-        if output_type == 'text':
-            ansi = False
         img2txt(avatar, ansi=ansi)
         os.remove(avatar)
 
