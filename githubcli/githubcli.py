@@ -279,6 +279,36 @@ class GitHub(object):
                         fg='blue')
             click.echo(comment.body)
 
+    def issues(self, issue_filter, state):
+        """Lists all issues.
+
+        Args:
+            * issue_filter: A string with the following accepted values:
+                'assigned', 'created', 'mentioned', 'subscribed'.
+            * state: A string with the following accepted values:
+                'all', 'open', 'closed'.
+
+        Returns:
+            None.
+        """
+        issues = self.api.issues(filter=issue_filter, state=state)
+        table = []
+        number = 0
+        for issue in issues:
+            table.append([number,
+                          issue.state,
+                          self.format_repo(issue.repository) + '/' + \
+                          str(self.GITHUB_ISSUES) + str(issue.number),
+                          issue.title + ' @' + str(issue.user),
+                          str(issue.assignee),
+                          issue.comments_count])
+        # Sort by repo, state
+        table = sorted(table, key=itemgetter(1, 0))
+        self.build_issue_urls(table, url_index=0, issue_index=2)
+        self.print_table(table,
+                         headers=['#', 'state', 'issue',
+                                  'title', 'assignee', 'comments'])
+
     def listify(self, items):
         """Puts each list element in its own list.
 
@@ -716,20 +746,7 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        issues = github.api.issues(filter=issue_filter, state=state)
-        table = []
-        for issue in issues:
-            table.append([issue.state,
-                          github.format_repo(issue.repository),
-                          issue.number,
-                          issue.title + ' @' + str(issue.user),
-                          str(issue.assignee),
-                          issue.comments_count])
-        # Sort by repo, state, issue number
-        table = sorted(table, key=itemgetter(1, 0, 2))
-        github.print_table(table,
-                           headers=['state', 'repo', '#',
-                                    'title', 'assignee', 'comments'])
+        github.issues(issue_filter, state)
 
     @cli.command()
     @click.option('-b', '--browser', is_flag=True)
