@@ -849,6 +849,13 @@ class GitHubCli(object):
     def me(github, browser, ansi):
         """Lists information about the logged in user.
 
+        Example(s):
+            gh me
+            gh me -b
+            gh me --browser
+            gh me -a
+            gh me --ansi
+
         Args:
             * browser: A Boolean that determines whether to view the profile
                 in a browser, or in the terminal.
@@ -898,6 +905,10 @@ class GitHubCli(object):
     @pass_github
     def octocat(github, say):
         """Outputs an Easter egg or the given message from Octocat.
+
+        Example(s):
+            gh octocat
+            gh octocat "foo bar"
 
         Args:
             * say: A string for octocat to say.
