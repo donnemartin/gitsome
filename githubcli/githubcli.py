@@ -491,6 +491,15 @@ class GitHubCli(object):
     @click.group()
     @click.pass_context
     def cli(ctx):
+        """Main entry point for GitHubCli.
+
+        Args:
+            * ctx: An instance of click.core.Context that stores an instance
+                 of GitHub used to interact with the GitHub API.
+
+        Returns:
+            None.
+        """
         # Create a GitHub object and remember it as as the context object.
         # From this point onwards other commands can refer to it by using the
         # @pass_github decorator.
