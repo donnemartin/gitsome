@@ -39,6 +39,11 @@ class GitHub(object):
             file section.
         * CONFIG_URL_LIST: A string representing the jump to url list in the
             config.
+        * GITHUB_ISSUES: A string representing the GitHub issues url portion.
+        * GITHUB_URL: A string representing the GitHub main url.
+        * urls: A list containing the last set of urls the user has seen,
+            which allows the user to quickly access a repo url with the
+            gh view [url_index] command.
         * user_login: A string that represents the user's login in
             ~/.githubconfig
         * user_pass: A string that represents the user's pass in
@@ -56,6 +61,8 @@ class GitHub(object):
     CONFIG_URL_SECTION = 'url'
     CONFIG_URL_LIST = 'url_list'
     CONFIG_AVATAR = '.githubconfigavatar.png'
+    GITHUB_ISSUES = 'issues/'
+    GITHUB_URL = 'https://github.com/'
 
     def __init__(self):
         """Inits GitHub.
