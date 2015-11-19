@@ -703,32 +703,39 @@ class GitHubCli(object):
                                     'title', 'assignee', 'comments'])
 
     @cli.command()
+    @click.option('-b', '--browser', is_flag=True)
     @click.option('-a', '--ansi', is_flag=True)
     @pass_github
-    def me(github, ansi):
+    def me(github, browser, ansi):
         """Lists information about the logged in user.
 
         Args:
+            * browser: A Boolean that determines whether to view the profile
+                in a browser, or in the terminal.
             * ansi: A boolean that determines whether to view the profile
                 avatar in a ansi, or plain text.
 
         Returns:
             None.
         """
-        user = github.api.me()
-        github.avatar(user.avatar_url, ansi)
-        click.echo('')
-        click.secho(user.login, fg='blue')
-        if user.company is not None:
-            click.secho('company:', user.company, fg='blue')
-        if user.location is not None:
-            click.secho('location:', user.location, fg='blue')
-        if user.email is not None:
-            click.secho('email: ' + user.email, fg='blue')
-        click.secho('followers: ' + str(user.followers_count), fg='blue')
-        click.secho('following: ' + str(user.following_count), fg='blue')
-        click.echo('')
-        github.repositories(github.api.repositories())
+        if browser:
+            url = 'https://github.com/' + github.user_login
+            webbrowser.open(url)
+        else:
+            user = github.api.me()
+            github.avatar(user.avatar_url, ansi)
+            click.echo('')
+            click.secho(user.login, fg='blue')
+            if user.company is not None:
+                click.secho('company:', user.company, fg='blue')
+            if user.location is not None:
+                click.secho('location:', user.location, fg='blue')
+            if user.email is not None:
+                click.secho('email: ' + user.email, fg='blue')
+            click.secho('followers: ' + str(user.followers_count), fg='blue')
+            click.secho('following: ' + str(user.following_count), fg='blue')
+            click.echo('')
+            github.repositories(github.api.repositories())
 
     @cli.command()
     @pass_github
