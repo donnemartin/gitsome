@@ -258,18 +258,18 @@ class GitHub(object):
         """
         return '/'.join(repo)
 
-    def issue(self, user, repo_name, issue_number):
+    def issue(self, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
         Args:
-            * user: A string representing the user login.
+            * user_login: A string representing the user login.
             * repo: A string representing the repo name.
             * issue_number: An int representing the issue number.
 
         Returns:
             None.
         """
-        issue = self.api.issue(user, repo_name, issue_number)
+        issue = self.api.issue(user_login, repo_name, issue_number)
         if type(issue) is null.NullObject:
             click.secho('Error: Invalid issue.', fg='red')
             return
@@ -279,7 +279,8 @@ class GitHub(object):
                    issue.state + ']',
                    fg='blue')
         click.secho('Assignee: ' + str(issue.assignee), fg='blue')
-        click.echo('\n' + issue.body)
+        if issue.body and issue.body is not None:
+            click.echo('\n' + issue.body)
         comments = issue.comments()
         for comment in comments:
             click.secho('\n--Comment by @' + str(comment.user) + '---\n',
