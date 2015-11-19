@@ -66,6 +66,10 @@ class GitHub(object):
         Returns:
             None.
         """
+        self.api = None
+        self.user_login = None
+        self.user_pass = None
+        self.user_token = None
         self._login()
         self.urls = []
 
