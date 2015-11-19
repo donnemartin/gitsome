@@ -221,12 +221,12 @@ class GitHub(object):
 
         Note: This method modifies the table's url_index, adding a
         0-based index that allow you to access a repo url with the
-        gh open [url_index] command.
+        gh view [url_index] command.
 
         Args:
             * table: A list that contains repo information.
             * url_index: The index in the table that will allow you to
-                access a repo url with the gh open [url_index] command.
+                access a repo url with the gh view [url_index] command.
             * repo_index: The index in the table containing the repo name.
 
         Returns:
@@ -240,7 +240,7 @@ class GitHub(object):
         for row in table:
             row[0] = number
             number += 1
-            self.urls.append('https://github.com/' + row[repo_index])
+            self.urls.append(self.GITHUB_URL + row[repo_index])
         self.save_urls()
 
     def format_repo(self, repo):
