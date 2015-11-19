@@ -338,13 +338,16 @@ class GitHub(object):
             output.append(item_list)
         return output
 
-    def open(self, index):
-        """Opens the given index in a browser.
+    def view(self, index, view_in_browser):
+        """Views the given index in a browser.
 
         Loads urls from .githubconfigurl and stores them in self.urls.
+        Opens a browser with the url based on the given index.
 
         Args:
             * index: An int that specifies the index to open in a browser.
+            * view_in_browser: A boolean that determines whether to view
+                in a web browser or a terminal.
 
         Returns:
             None.
@@ -354,13 +357,25 @@ class GitHub(object):
         try:
             parser.readfp(open(config))
             urls = parser.get(self.CONFIG_URL_SECTION,
-                               self.CONFIG_URL_LIST)
+                              self.CONFIG_URL_LIST)
             urls = urls.strip()
             excludes = ['[', ']', "'"]
             for exclude in excludes:
                 urls = urls.replace(exclude, '')
+                if not view_in_browser:
+                    urls = urls.replace(self.GITHUB_URL, '')
             self.urls = urls.split(', ')
-            webbrowser.open(self.urls[index])
+            if view_in_browser:
+                webbrowser.open(self.urls[index])
+            else:
+                url = self.urls[index]
+                if self.GITHUB_ISSUES in url:
+                    url = url.replace(self.GITHUB_ISSUES, '')
+                    user_login, repo_name, issue_number = url.split('/')
+                    self.issue(user_login, repo_name, issue_number)
+                else:
+                    user_login, repo_name = url.split('/')
+                    self.repository(user_login, repo_name)
         except Exception as e:
             click.secho('Error: ' + str(e), fg='red')
 
