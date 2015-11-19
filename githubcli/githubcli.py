@@ -692,6 +692,9 @@ class GitHubCli(object):
 
         TODO: Results in an exception with github3.py.
 
+        Example(s):
+            gh feeds
+
         Args:
             * None.
 
@@ -701,7 +704,8 @@ class GitHubCli(object):
         Raises:
             TypeError: Seems to be a github3.py bug.
         """
-        github.api.feeds()
+        click.secho('This command is temporarily unavailable.', fg='red')
+        # github.api.feeds()
 
     @cli.command()
     @click.argument('user_login', required=False)
