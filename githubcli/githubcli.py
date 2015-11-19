@@ -629,6 +629,9 @@ class GitHubCli(object):
     def emails(github):
         """Lists all the user's registered emails.
 
+        Example(s):
+            gh emails
+
         Args:
             * None.
 
@@ -641,6 +644,10 @@ class GitHubCli(object):
     @pass_github
     def events(github):
         """Lists all public events.
+
+        Examples:
+            gh events | grep foo
+            gh events | less
 
         Args:
             * None.
@@ -662,6 +669,9 @@ class GitHubCli(object):
     @pass_github
     def emojis(github):
         """Lists all GitHub supported emojis.
+
+        Example(s):
+            gh emojis | grep octo
 
         Args:
             * None.
