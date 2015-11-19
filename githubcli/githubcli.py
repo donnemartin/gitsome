@@ -413,14 +413,14 @@ class GitHub(object):
         """
         click.echo(tabulate(table, headers, tablefmt='grid'))
 
-    def repository(self, user, repo_name, num_readme_lines=25):
+    def repository(self, user_login, repo_name, num_readme_lines=25):
         """Outputs detailed information about the given repo.
 
         If args does not contain user and repo, attempts to display repo
         information from the .git/ configured remote repo.
 
         Args:
-            * user: A string representing the user login.
+            * user_login: A string representing the user login.
             * repo_name: A string representing the repo name.
             * num_readme_lines: An int that determines the number of lines
                 to display for the README.
@@ -428,7 +428,7 @@ class GitHub(object):
         Returns:
             None.
         """
-        repo = self.api.repository(user, repo_name)
+        repo = self.api.repository(user_login, repo_name)
         if type(repo) is null.NullObject:
             click.secho('Repo not found.', fg='red')
             return
@@ -444,7 +444,7 @@ class GitHub(object):
         if type(readme) is null.NullObject:
             click.secho('No README found.', fg='blue')
             return
-        click.secho('--First ' + str(num_readme_lines) + \
+        click.secho('--Displaying first ' + str(num_readme_lines) + \
                     ' lines of README--\n',
                     fg='blue')
         content = readme.decoded.decode('utf-8')
