@@ -761,6 +761,10 @@ class GitHubCli(object):
     def gitignore_template(github, language):
         """Outputs the gitignore template for the given language.
 
+        Example(s):
+            gh gitignore_template Python
+            gh gitignore_template Python > .gitignore
+
         Args:
             * language: A string representing the language.
 
@@ -780,6 +784,9 @@ class GitHubCli(object):
     @pass_github
     def gitignore_templates(github):
         """Outputs all supported gitignore templates.
+
+        Example(s):
+            gh gitignore_templates
 
         Args:
             * None.
