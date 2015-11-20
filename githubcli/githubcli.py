@@ -1002,23 +1002,23 @@ class GitHubCli(object):
         click.echo('Rate limit: ' + str(github.api.ratelimit_remaining))
 
     @cli.command('repo')
-    @click.argument('user')
+    @click.argument('user_login')
     @click.argument('repo_name')
     @pass_github
-    def repository(github, user, repo_name):
+    def repository(github, user_login, repo_name):
         """Outputs detailed information about the given repo.
 
-        If args does not contain user and repo, attempts to display repo
-        information from the .git/ configured remote repo.
+        Example(s):
+            gh repo donnemartin gitsome
 
         Args:
-            * user: A string representing the user login.
+            * user_login: A string representing the user login.
             * repo_name: A string representing the repo name.
 
         Returns:
             None.
         """
-        github.repository(user, repo_name)
+        github.repository(user_login, repo_name)
 
     @cli.command('repos')
     @pass_github
