@@ -1069,6 +1069,10 @@ class GitHubCli(object):
 
         For more information about these qualifiers, see: http://git.io/d1oELA
 
+        Example(s):
+            gh search_issues "foo type:pr author:donnemartin"
+            gh search_issues "foo in:title created:>=2015-01-01" | less
+
         Args:
             * query: A string representing the search query.
 
@@ -1154,6 +1158,9 @@ class GitHubCli(object):
     @pass_github
     def starred(github, repo_filter):
         """Outputs starred repos.
+
+        Example(s):
+            gh starred foo
 
         Args:
             * repo_filter: A string representing a filter for repo names.
