@@ -959,6 +959,9 @@ class GitHubCli(object):
     def pull_requests(github):
         """Lists all pull requests.
 
+        Example(s):
+            gh pull_requests
+
         Args:
             * None.
 
@@ -973,8 +976,8 @@ class GitHubCli(object):
                 pull_requests.append(repo_pull)
         table = []
         for pull_request in pull_requests:
-            user, repo_name = pull_request.repository
-            repo = user.strip('repos/') + '/' + repo_name
+            user_login, repo_name = pull_request.repository
+            repo = user_login.strip('repos/') + '/' + repo_name
             table.append([pull_request.number,
                           repo,
                           pull_request.title])
