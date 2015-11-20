@@ -1098,8 +1098,9 @@ class GitHubCli(object):
 
     @cli.command('search_repos')
     @click.argument('query')
+    @click.argument('sort', required=False, default=None)
     @pass_github
-    def search_repositories(github, query):
+    def search_repositories(github, query, sort):
         """Searches all repos with the given query.
 
         The query can contain any combination of the following supported
@@ -1131,12 +1132,15 @@ class GitHubCli(object):
 
         Args:
             * query: A string representing the search query.
+            * sort: A string that determines sorting (optional).
+                'stars', 'forks', 'updated'.
+                If not specified, sorting is done by query best match.
 
         Returns:
             None.
         """
         click.secho('Searching repos on GitHub...', fg='blue')
-        repos = github.api.search_repositories(query)
+        repos = github.api.search_repositories(query, sort)
         table = []
         number = 0
         try:
