@@ -1096,7 +1096,7 @@ class GitHubCli(object):
         table = sorted(table, key=itemgetter(0, 2, 1), reverse=True)
         github.print_table(table, headers=['score', '#', 'repo', 'title'])
 
-    @cli.command()
+    @cli.command('search_repos')
     @click.argument('query')
     @pass_github
     def search_repositories(github, query):
