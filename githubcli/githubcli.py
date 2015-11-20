@@ -713,6 +713,10 @@ class GitHubCli(object):
     def followers(github, user_login):
         """Lists all followers and the total follower count.
 
+        Example(s):
+            gh followers
+            gh followers donnemartin
+
         Args:
             * user_login: A string representing the user login.
                 If None, returns followers of the logged in user.
@@ -736,6 +740,10 @@ class GitHubCli(object):
     @pass_github
     def following(github, user_login):
         """Lists all followed users and the total followed count.
+
+        Example(s):
+            gh following
+            gh following donnemartin
 
         Args:
             * user_login: A string representing the user login.
