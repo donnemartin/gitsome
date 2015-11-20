@@ -990,6 +990,9 @@ class GitHubCli(object):
     def rate_limit(github):
         """Outputs the rate limit.
 
+        Example(s):
+            gh rate_limit
+
         Args:
             * None.
 
@@ -1021,6 +1024,9 @@ class GitHubCli(object):
     @pass_github
     def repositories(github):
         """Lists all repos.
+
+        Example(s):
+            gh repos
 
         Args:
             * None.
