@@ -1125,6 +1125,10 @@ class GitHubCli(object):
 
         For more information about these qualifiers, see: http://git.io/4Z8AkA
 
+        Example(s):
+            gh search_repos "maps language:python" stars | less
+            gh search_repos "created:>=2015-01-01 stars:>=1000 language:python"
+
         Args:
             * query: A string representing the search query.
 
