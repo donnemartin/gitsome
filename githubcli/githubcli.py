@@ -1,14 +1,14 @@
 # coding: utf-8
 import builtins
+from getpass import getpass
 from operator import itemgetter
 import os
 import pickle
 import re
 import subprocess
 import sys
-import webbrowser
 import urllib
-from getpass import getpass
+import webbrowser
 try:
     # Python 3
     import configparser
