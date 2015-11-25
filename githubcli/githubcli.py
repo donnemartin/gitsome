@@ -42,6 +42,17 @@ class GitHubCli(object):
     def view(github, index, browser):
         """Views the given index in a browser.
 
+        This method is meant to be called after one of the following commands
+        which outputs a table of repos or issues:
+
+            gh repos
+            gh search_repos
+            gh starred
+
+            gh issues
+            gh pull_requests
+            gh search_issues
+
         Example(s):
             gh view repos
             gh view 0
@@ -49,17 +60,6 @@ class GitHubCli(object):
             gh view starred
             gh view 0 -b
             gh view 0 --browser
-
-        This method is meant to be called after one of the following commands
-        which outputs a table of repos or issues:
-
-            * gh repos
-            * gh search_repos
-            * gh starred
-
-            * gh issues
-            * gh pull_requests
-            * gh search_issues
 
         Args:
             * index: An int that specifies the index to open in a browser.
