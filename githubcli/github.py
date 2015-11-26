@@ -394,14 +394,11 @@ class GitHub(object):
         self.print_table(table, headers=headers)
 
     def print_table(self, table, headers):
-        """Prints the input table and headers with tabulate.
+        """Prints the table and headers with tabulate.
 
         Args:
             * table: A collection of items to print as rows with tabulate.
-                Can be a list or dictionary.
             * headers: A collection of column headers to print with tabulate.
-                If items is a list, headers should be a list.
-                If items is a dictionary, set headers='keys'.
 
         Returns:
             None.
