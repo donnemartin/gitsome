@@ -337,7 +337,7 @@ class GitHub(object):
     def view(self, index, view_in_browser):
         """Views the given index in a browser.
 
-        Loads urls from .githubconfigurl and stores them in self.urls.
+        Loads urls from ~/.githubconfigurl and stores them in self.urls.
         Opens a browser with the url based on the given index.
 
         Args:
@@ -475,7 +475,7 @@ class GitHub(object):
         self.print_table(table, headers=['#', 'repo', 'url', 'stars', 'forks'])
 
     def save_urls(self):
-        """Saves the current set of urls to .githubconfigurl.
+        """Saves the current set of urls to ~/.githubconfigurl.
 
         Args:
             * None
