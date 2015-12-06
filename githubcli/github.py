@@ -151,7 +151,10 @@ class GitHub(object):
             # Create the file if it doesn't exist. Otherwise completely blank
             # out what was there before. Kind of dangerous and destructive but
             # somewhat necessary
-            parser.write(open(config, 'w+'))
+            # TODO: Refactor this
+            config_file = open(config, 'w+')
+            parser.write(config_file)
+            config_file.close()
 
     def _two_factor_code(self):
         """Callback if two factor authentication is requested.
@@ -350,8 +353,9 @@ class GitHub(object):
         """
         config = self._github_config(self.CONFIG_URL)
         parser = configparser.RawConfigParser()
+        config_file = open(config)
         try:
-            parser.readfp(open(config))
+            parser.readfp(config_file)
             urls = parser.get(self.CONFIG_URL_SECTION,
                               self.CONFIG_URL_LIST)
             urls = urls.strip()
@@ -374,6 +378,8 @@ class GitHub(object):
                     self.repository(user_login, repo_name)
         except Exception as e:
             click.secho('Error: ' + str(e), fg='red')
+        finally:
+            config_file.close()
 
     def print_items(self, items, headers):
         """Prints the items and headers with tabulate.
@@ -490,4 +496,7 @@ class GitHub(object):
         except DuplicateSectionError:
             pass
         parser.set(self.CONFIG_URL_SECTION, self.CONFIG_URL_LIST, self.urls)
-        parser.write(open(config, 'w+'))
+        # TODO: Refactor this
+        config_file = open(config, 'w+')
+        parser.write(config_file)
+        config_file.close()
