@@ -34,3 +34,14 @@ def listify(items):
         item_list.append(item)
         output.append(item_list)
     return output
+
+def print_error(message):
+    """Prints the given message using click.secho with fg='red'.
+
+    Args:
+        * message: A string to be printed.
+
+    Returns:
+        None.
+    """
+    click.secho(message, fg='red')
