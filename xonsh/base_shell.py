@@ -104,18 +104,6 @@ class BaseShell(object):
         self.mlprompt = None
         self.gitsome = None
 
-    def _execute_gitsome(self, line):
-        """Calls GitSome if the gh command is present."""
-        if self.gitsome is None:
-            return False
-        line = line.strip('\n')
-        line = line.strip()
-        args = shlex.split(line)
-        if len(args) > 0 and args[0].lower() == 'gh':
-            self.gitsome.execute(args[1:])
-            return True
-        return False
-
     def emptyline(self):
         """Called when an empty line has been entered."""
         self.need_more_lines = False
@@ -137,8 +125,7 @@ class BaseShell(object):
                     else io.StringIO()
         try:
             ts0 = time.time()
-            if not self._execute_gitsome(line):
-                self.execer.exec(code, mode='single', glbs=self.ctx)  # no locals
+            self.execer.exec(code, mode='single', glbs=self.ctx)  # no locals
             ts1 = time.time()
             if hist.last_cmd_rtn is None:
                 hist.last_cmd_rtn = 0  # returncode for success
