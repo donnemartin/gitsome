@@ -9,7 +9,7 @@ import webbrowser
 
 from github3 import login, null
 from tabulate import tabulate
-from githubcli.githubcli import GitHubCli
+from gitsome.githubcli import GitHubCli
 from xonsh.built_ins import iglobpath
 from xonsh.tools import subexpr_from_unbalanced
 from xonsh.tools import ON_WINDOWS
