@@ -385,7 +385,7 @@ class GitHubCli(object):
             webbrowser.open(url)
         else:
             user = github.api.me()
-            github.avatar(user.avatar_url, ansi)
+            # github.avatar(user.avatar_url, ansi)
             click.echo('')
             click.secho(user.login, fg='blue')
             if user.company is not None:
