@@ -16,6 +16,7 @@ build/
 dist/
 gitsome.egg-info/
 docs/_build/
+.tox/
 
 # temporary files from vim and emacs
 *~
