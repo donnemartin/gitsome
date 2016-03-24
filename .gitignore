@@ -27,7 +27,6 @@ docs/_build/
 # Virtualenv
 pip-selfcheck.json
 bin/
-lib/
 include/
 
 # Mac
