@@ -16,7 +16,7 @@ from github3 import authorize, login, null
 from github3.exceptions import UnprocessableEntity
 from tabulate import tabulate
 
-# from gitsome.libs.img2txt import img2txt
+# from gitsome.lib.img2txt import img2txt
 
 
 class GitHub(object):
