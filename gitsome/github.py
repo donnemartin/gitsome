@@ -12,8 +12,8 @@ except ImportError:
     import ConfigParser as configparser
 
 import click
-from github3 import authorize, login, null
-from github3.exceptions import UnprocessableEntity
+from gitsome.lib.github3 import authorize, login, null
+from gitsome.lib.github3.exceptions import UnprocessableEntity
 from tabulate import tabulate
 
 # from gitsome.lib.img2txt import img2txt

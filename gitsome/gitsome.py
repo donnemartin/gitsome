@@ -7,9 +7,9 @@ import subprocess
 import sys
 import webbrowser
 
-from github3 import login, null
-from tabulate import tabulate
 from gitsome.githubcli import GitHubCli
+from gitsome.lib.github3 import login, null
+from tabulate import tabulate
 from xonsh.built_ins import iglobpath
 from xonsh.tools import subexpr_from_unbalanced
 from xonsh.tools import ON_WINDOWS
