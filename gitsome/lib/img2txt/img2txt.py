@@ -351,13 +351,13 @@ def img2txt(imgname, maxLen=25, clr='', ansi=False,
             # then when using this reset prior_fg_color to None too
             fill_string = "\x1b[49m"
         fill_string += "\x1b[K"          # does not move the cursor
-        sys.stdout.write(fill_string)
-        sys.stdout.write(
-            generate_ANSI_from_pixels(pixel, width, height, bgcolor))
+        result = fill_string
+        result += generate_ANSI_from_pixels(pixel, width, height, bgcolor)
         # Undo residual color changes, output newline because
         # generate_ANSI_from_pixels does not do so
         # removes all attributes (formatting and colors)
-        sys.stdout.write("\x1b[0m\n")
+        result += "\x1b[0m\n"
+        return result
     else:
         if clr:
             # TODO - should handle bgcolor - probably by setting it as BG on
@@ -390,7 +390,6 @@ def img2txt(imgname, maxLen=25, clr='', ansi=False,
             </body>
             </html>
             """
-            sys.stdout.write(template % (fontSize, string))
+            return template % (fontSize, string)
         else:
-            sys.stdout.write(string)
-    sys.stdout.flush()
+            return string
