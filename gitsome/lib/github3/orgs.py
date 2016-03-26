@@ -37,22 +37,25 @@ class Team(GitHubCore):
 
     """
 
+    # Roles available to members on a team.
+    members_roles = frozenset(['member', 'maintainer', 'all'])
+
     def _update_attributes(self, team):
         self._api = team.get('url', '')
         #: This team's name.
         self.name = team.get('name')
         #: Unique ID of the team.
         self.id = team.get('id')
-        #: Permission leve of the group
+        #: Permission level of the group.
         self.permission = team.get('permission')
         #: Number of members in this team.
         self.members_count = team.get('members_count')
         members = team.get('members_url')
-        #: Members URL Template. Expands with ``member``
+        #: Members URL Template. Expands with ``member``.
         self.members_urlt = URITemplate(members) if members else None
         #: Number of repos owned by this team.
         self.repos_count = team.get('repos_count')
-        #: Repositories url (not a template)
+        #: Repositories url (not a template).
         self.repositories_url = team.get('repositories_url')
 
     def _repr(self):
@@ -143,24 +146,26 @@ class Team(GitHubCore):
         return self._boolean(self._get(url), 204, 404)
 
     @requires_auth
-    def members(self, filter=None, number=-1, etag=None):
+    def members(self, role=None, number=-1, etag=None):
         r"""Iterate over the members of this team.
 
-        :param str filter: (optional), filter members returned by this method.
-            Can be one of: ``"2fa_disabled"``, ``"all",``. Default: ``"all"``.
-            Filtering by ``"2fa_disabled"`` is only available for organization
-            owners with private repositories.
+        :param str role: (optional), filter members returned by their role
+            in the team. Can be one of: ``"member"``, ``"maintainer"``,
+            ``"all"``. Default: ``"all"``.
         :param int number: (optional), number of users to iterate over.
             Default: -1 iterates over all values
         :param str etag: (optional), ETag from a previous request to the same
             endpoint
         :returns: generator of :class:`User <github3.users.User>`\ s
         """
+        headers = {}
         params = {}
-        if filter in set(["2fa_disabled", "all"]):
-            params['filter'] = filter
+        if role in self.members_roles:
+            params['role'] = role
+            headers['Accept'] = 'application/vnd.github.ironman-preview+json'
         url = self._build_url('members', base_url=self._api)
-        return self._iter(int(number), url, User, params=params, etag=etag)
+        return self._iter(int(number), url, User, params=params, etag=etag,
+                          headers=headers)
 
     @requires_auth
     def repositories(self, number=-1, etag=None):
@@ -173,8 +178,10 @@ class Team(GitHubCore):
         :returns: generator of :class:`Repository <github3.repos.Repository>`
             objects
         """
+        headers = {'Accept': 'application/vnd.github.ironman-preview+json'}
         url = self._build_url('repos', base_url=self._api)
-        return self._iter(int(number), url, Repository, etag=etag)
+        return self._iter(int(number), url, Repository, etag=etag,
+                          headers=headers)
 
     @requires_auth
     def membership_for(self, username):
@@ -240,6 +247,13 @@ class Organization(BaseAccount):
     See also: http://developer.github.com/v3/orgs/
 
     """
+
+    # Filters available when listing members. Note: ``"2fa_disabled"``
+    # is only available for organization owners.
+    members_filters = frozenset(['2fa_disabled', 'all'])
+
+    # Roles available to members in an organization.
+    members_roles = frozenset(['all', 'admin', 'member'])
 
     def _update_attributes(self, org):
         super(Organization, self)._update_attributes(org)
@@ -451,17 +465,32 @@ class Organization(BaseAccount):
         url = self._build_url('events', base_url=self._api)
         return self._iter(int(number), url, Event, etag=etag)
 
-    def members(self, number=-1, etag=None):
+    def members(self, filter=None, role=None, number=-1, etag=None):
         r"""Iterate over members of this organization.
 
+        :param str filter: (optional), filter members returned by this method.
+            Can be one of: ``"2fa_disabled"``, ``"all",``. Default: ``"all"``.
+            Filtering by ``"2fa_disabled"`` is only available for organization
+            owners with private repositories.
+        :param str role: (optional), filter members returned by their role.
+            Can be one of: ``"all"``, ``"admin"``, ``"member"``. Default:
+            ``"all"``.
         :param int number: (optional), number of members to return. Default:
             -1 will return all available.
         :param str etag: (optional), ETag from a previous request to the same
             endpoint
         :returns: generator of :class:`User <github3.users.User>`\ s
         """
+        headers = {}
+        params = {}
+        if filter in self.members_filters:
+            params['filter'] = filter
+        if role in self.members_roles:
+            params['role'] = role
+            headers['Accept'] = 'application/vnd.github.ironman-preview+json'
         url = self._build_url('members', base_url=self._api)
-        return self._iter(int(number), url, User, etag=etag)
+        return self._iter(int(number), url, User, params=params, etag=etag,
+                          headers=headers)
 
     def public_members(self, number=-1, etag=None):
         r"""Iterate over public members of this organization.

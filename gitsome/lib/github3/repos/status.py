@@ -8,11 +8,11 @@ This module contains the Status object for GitHub's commit status API
 """
 from __future__ import unicode_literals
 
-from ..models import GitHubObject
+from ..models import GitHubCore
 from ..users import User
 
 
-class Status(GitHubObject):
+class Status(GitHubCore):
     """The :class:`Status <Status>` object. This represents information from
     the Repo Status API.
 

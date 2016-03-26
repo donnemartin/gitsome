@@ -23,8 +23,9 @@ from .repos.repo import Repository, repo_issue_params
 from .search import (CodeSearchResult, IssueSearchResult,
                      RepositorySearchResult, UserSearchResult)
 from .structs import SearchIterator
-from .users import User, Key
+from . import users
 from .notifications import Thread
+from .licenses import License
 from uritemplate import URITemplate
 
 
@@ -66,6 +67,20 @@ class GitHub(GitHubCore):
             return '<GitHub [{0[0]}]>'.format(self.session.auth)
         return '<GitHub at 0x{0:x}>'.format(id(self))
 
+    @requires_auth
+    def add_email_addresses(self, addresses=[]):
+        """Add the email addresses in ``addresses`` to the authenticated
+        user's account.
+
+        :param list addresses: (optional), email addresses to be added
+        :returns: list of :class:`~github3.users.Email`
+        """
+        json = []
+        if addresses:
+            url = self._build_url('user', 'emails')
+            json = self._json(self._post(url, data=addresses), 201)
+        return [users.Email(email) for email in json] if json else []
+
     def all_events(self, number=-1, etag=None):
         """Iterate over public events.
 
@@ -77,6 +92,26 @@ class GitHub(GitHubCore):
         """
         url = self._build_url('events')
         return self._iter(int(number), url, Event, etag=etag)
+
+    def all_organizations(self, number=-1, since=None, etag=None,
+                          per_page=None):
+        """Iterate over every organization in the order they were created.
+
+        :param int number: (optional), number of organizations to return.
+            Default: -1, returns all of them
+        :param int since: (optional), last organization id seen (allows
+            restarting this iteration)
+        :param str etag: (optional), ETag from a previous request to the same
+            endpoint
+        :param int per_page: (optional), number of organizations to list per
+            request
+        :returns: generator of :class:`Organization
+            <github3.orgs.Organization>`
+        """
+        url = self._build_url('organizations')
+        return self._iter(int(number), url, Organization,
+                          params={'since': since, 'per_page': per_page},
+                          etag=etag)
 
     def all_repositories(self, number=-1, since=None, etag=None,
                          per_page=None):
@@ -113,7 +148,7 @@ class GitHub(GitHubCore):
         :returns: generator of :class:`User <github3.users.User>`
         """
         url = self._build_url('users')
-        return self._iter(int(number), url, User, etag=etag,
+        return self._iter(int(number), url, users.User, etag=etag,
                           params={'per_page': per_page, 'since': since})
 
     @requires_basic_auth
@@ -263,21 +298,24 @@ class GitHub(GitHubCore):
         return self._instance_or_null(Issue, None)
 
     @requires_auth
-    def create_key(self, title, key):
+    def create_key(self, title, key, read_only=False):
         """Create a new key for the authenticated user.
 
         :param str title: (required), key title
-        :param key: (required), actual key contents, accepts path as a string
-            or file-like object
+        :param str key: (required), actual key contents, accepts path
+            as a string or file-like object
+        :param bool read_only: (optional), restrict key access to read-only,
+            default to False
         :returns: :class:`Key <github3.users.Key>`
         """
         json = None
 
         if title and key:
+            data = {'title': title, 'key': key, 'read_only': read_only}
             url = self._build_url('user', 'keys')
-            req = self._post(url, data={'title': title, 'key': key})
+            req = self._post(url, data=data)
             json = self._json(req, 201)
-        return self._instance_or_null(Key, json)
+        return self._instance_or_null(users.Key, json)
 
     @requires_auth
     def create_repository(self, name, description='', homepage='',
@@ -311,6 +349,18 @@ class GitHub(GitHubCore):
         return self._instance_or_null(Repository, json)
 
     @requires_auth
+    def delete_email_addresses(self, addresses=[]):
+        """Delete the email addresses in ``addresses`` from the
+        authenticated user's account.
+
+        :param list addresses: (optional), email addresses to be removed
+        :returns: bool
+        """
+        url = self._build_url('user', 'emails')
+        return self._boolean(self._delete(url, data=json.dumps(addresses)),
+                             204, 404)
+
+    @requires_auth
     def emails(self, number=-1, etag=None):
         """Iterate over email addresses for the authenticated user.
 
@@ -321,7 +371,7 @@ class GitHub(GitHubCore):
         :returns: generator of dicts
         """
         url = self._build_url('user', 'emails')
-        return self._iter(int(number), url, dict, etag=etag)
+        return self._iter(int(number), url, users.Email, etag=etag)
 
     def emojis(self):
         """Retrieves a dictionary of all of the emojis that GitHub supports.
@@ -335,7 +385,7 @@ class GitHub(GitHubCore):
                 }
         """
         url = self._build_url('emojis')
-        return self._json(self._get(url), 200)
+        return self._json(self._get(url), 200, include_cache_info=False)
 
     @requires_basic_auth
     def feeds(self):
@@ -343,25 +393,54 @@ class GitHub(GitHubCore):
 
         :returns: dictionary parsed to include URITemplates
         """
+        def replace_href(feed_dict):
+            if not feed_dict:
+                return feed_dict
+            ret_dict = {}
+            # Let's pluck out what we're most interested in, the href value
+            href = feed_dict.pop('href', None)
+            # Then we update the return dictionary with the rest of the values
+            ret_dict.update(feed_dict)
+            if href is not None:
+                # So long as there is something to template, let's template it
+                ret_dict['href'] = URITemplate(href)
+            return ret_dict
+
         url = self._build_url('feeds')
-        json = self._json(self._get(url), 200)
-        del json['ETag']
-        del json['Last-Modified']
+        json = self._json(self._get(url), 200, include_cache_info=False)
+        if json is None:  # If something went wrong, get out early
+            return None
 
-        urls = [
-            'timeline_url', 'user_url', 'current_user_public_url',
-            'current_user_url', 'current_user_actor_url',
-            'current_user_organization_url',
-            ]
+        # We have a response body to parse
+        feeds = {}
 
-        for url in urls:
-            json[url] = URITemplate(json[url])
+        # Let's pop out the old links so we don't have to skip them below
+        old_links = json.pop('_links', {})
+        _links = {}
+        # If _links is in the response JSON, iterate over that and recreate it
+        # so that any templates contained inside can be turned into
+        # URITemplates
+        for key, value in old_links.items():
+            if isinstance(value, list):
+                # If it's an array/list of links, let's replace that with a
+                # new list of links
+                _links[key] = [replace_href(d) for d in value]
+            else:
+                # Otherwise, just use the new value
+                _links[key] = replace_href(value)
 
-        links = json.get('_links', {})
-        for d in links.values():
-            d['href'] = URITemplate(d['href'])
+        # Start building up our return dictionary
+        feeds['_links'] = _links
 
-        return json
+        for key, value in json.items():
+            # This should roughly be the same logic as above.
+            if isinstance(value, list):
+                feeds[key] = [URITemplate(v) for v in value]
+            else:
+                feeds[key] = URITemplate(value)
+
+        import pdb; pdb.set_trace()
+        return feeds
 
     @requires_auth
     def follow(self, username):
@@ -391,7 +470,7 @@ class GitHub(GitHubCore):
         :returns: generator of :class:`User <github3.users.User>`\ s
         """
         url = self._build_url('users', username, 'following')
-        return self._iter(int(number), url, User, etag=etag)
+        return self._iter(int(number), url, users.User, etag=etag)
 
     @requires_auth
     def followers(self, number=-1, etag=None):
@@ -408,7 +487,7 @@ class GitHub(GitHubCore):
         :returns: generator of :class:`User <github3.users.User>`\ s
         """
         url = self._build_url('user', 'followers')
-        return self._iter(int(number), url, User, etag=etag)
+        return self._iter(int(number), url, users.User, etag=etag)
 
     def followers_of(self, username, number=-1, etag=None):
         """Iterate over followers of ``username``.
@@ -425,7 +504,7 @@ class GitHub(GitHubCore):
         :returns: generator of :class:`User <github3.users.User>`\ s
         """
         url = self._build_url('users', username, 'followers')
-        return self._iter(int(number), url, User, etag=etag)
+        return self._iter(int(number), url, users.User, etag=etag)
 
     @requires_auth
     def following(self, number=-1, etag=None):
@@ -442,7 +521,7 @@ class GitHub(GitHubCore):
         :returns: generator of :class:`User <github3.users.User>`\ s
         """
         url = self._build_url('user', 'following')
-        return self._iter(int(number), url, User, etag=etag)
+        return self._iter(int(number), url, users.User, etag=etag)
 
     def gist(self, id_num):
         """Retrieve the gist using the specified id number.
@@ -636,7 +715,7 @@ class GitHub(GitHubCore):
         if int(id_num) > 0:
             url = self._build_url('user', 'keys', str(id_num))
             json = self._json(self._get(url), 200)
-        return self._instance_or_null(Key, json)
+        return self._instance_or_null(users.Key, json)
 
     @requires_auth
     def keys(self, number=-1, etag=None):
@@ -649,7 +728,27 @@ class GitHub(GitHubCore):
         :returns: generator of :class:`Key <github3.users.Key>`\ s
         """
         url = self._build_url('user', 'keys')
-        return self._iter(int(number), url, Key, etag=etag)
+        return self._iter(int(number), url, users.Key, etag=etag)
+
+    def license(self, name):
+        """Retrieve the license specified by the name.
+
+        :param string name: (required), name of license
+        :returns: :class:`License <github3.licenses.License>`
+        """
+
+        url = self._build_url('licenses', name)
+        json = self._json(self._get(url, headers=License.CUSTOM_HEADERS), 200)
+        return self._instance_or_null(License, json)
+
+    def licenses(self, number=-1, etag=None):
+        """Iterate over open source licenses.
+
+        :returns: generator of :class:`License <github3.licenses.License>`
+        """
+        url = self._build_url('licenses')
+        return self._iter(int(number), url, License, etag=etag,
+                          headers=License.CUSTOM_HEADERS)
 
     def login(self, username=None, password=None, token=None,
               two_factor_callback=None):
@@ -721,7 +820,7 @@ class GitHub(GitHubCore):
         """
         url = self._build_url('user')
         json = self._json(self._get(url), 200)
-        return self._instance_or_null(User, json)
+        return self._instance_or_null(users.User, json)
 
     @requires_auth
     def membership_in(self, organization):
@@ -956,7 +1055,7 @@ class GitHub(GitHubCore):
     @requires_auth
     def repositories(self, type=None, sort=None, direction=None, number=-1,
                      etag=None):
-        """List public repositories for the authenticated user.
+        """List repositories for the authenticated user, filterable by ``type``.
 
         .. versionchanged:: 0.6
 
@@ -1500,7 +1599,7 @@ class GitHub(GitHubCore):
         """
         url = self._build_url('users', username)
         json = self._json(self._get(url), 200)
-        return self._instance_or_null(User, json)
+        return self._instance_or_null(users.User, json)
 
     @requires_auth
     def user_issues(self, filter='', state='', labels='', sort='',
@@ -1569,7 +1668,7 @@ class GitHub(GitHubCore):
         if number > 0:
             url = self._build_url('user', str(number))
             json = self._json(self._get(url), 200)
-        return self._instance_or_null(User, json)
+        return self._instance_or_null(users.User, json)
 
     def zen(self):
         """Returns a quote from the Zen of GitHub. Yet another API Easter Egg
@@ -1601,6 +1700,21 @@ class GitHubEnterprise(GitHub):
 
     def _repr(self):
         return '<GitHub Enterprise [{0.url}]>'.format(self)
+
+    @requires_auth
+    def create_user(self, login, email):
+        """Create a new user.
+        This is only available for administrators of the instance.
+
+        :param str login: (required), The user's username.
+        :param str email: (required), The user's email address.
+
+        :returns: :class:`User <github3.users.User>`, if successful
+        """
+        url = self._build_url('admin', 'users')
+        payload = {'login': login, 'email': email}
+        json_data = self._json(self._post(url, data=payload), 201)
+        return self._instance_or_null(users.User, json_data)
 
     @requires_auth
     def admin_stats(self, option):

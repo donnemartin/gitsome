@@ -8,10 +8,10 @@ This module contains the RepoTag object for GitHub's tag API.
 """
 from __future__ import unicode_literals
 
-from ..models import GitHubObject
+from ..models import GitHubCore
 
 
-class RepoTag(GitHubObject):
+class RepoTag(GitHubCore):
     """The :class:`RepoTag <RepoTag>` object. This stores the information
     representing a tag that was created on a repository.
 

@@ -66,7 +66,7 @@ class IssueEvent(GitHubCore):
         #: :class:`User <github3.users.User>` that is assigned
         self.assignee = event.get('assignee')
         if self.assignee:
-            self.assignee = User(self.assignee, self._session)
+            self.assignee = User(self.assignee, self)
 
         #: Dictionary containing milestone details
         self.milestone = event.get('milestone', {})

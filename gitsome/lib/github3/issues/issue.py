@@ -31,6 +31,12 @@ class Issue(GitHubCore):
 
     """
 
+    # The Accept header will likely be removable once the feature is out of
+    # preview mode. See: https://git.io/vgXmB
+    LOCKING_PREVIEW_HEADERS = {
+        'Accept': 'application/vnd.github.the-key-preview+json'
+    }
+
     def _update_attributes(self, issue):
         self._api = issue.get('url', '')
         #: :class:`User <github3.users.User>` representing the user the issue
@@ -69,6 +75,8 @@ class Issue(GitHubCore):
         labels_url = issue.get('labels_url')
         #: Labels URL Template. Expand with ``name``
         self.labels_urlt = URITemplate(labels_url) if labels_url else None
+        #: Locked status
+        self.locked = issue.get('locked')
         #: :class:`Milestone <github3.issues.milestone.Milestone>` this
         #: issue was assigned to.
         self.milestone = None
@@ -252,6 +260,17 @@ class Issue(GitHubCore):
         url = self._build_url('labels', base_url=self._api)
         return self._iter(int(number), url, Label, etag=etag)
 
+    @requires_auth
+    def lock(self):
+        """Lock an issue.
+
+        :returns: bool
+        """
+        headers = Issue.LOCKING_PREVIEW_HEADERS
+
+        url = self._build_url('lock', base_url=self._api)
+        return self._boolean(self._put(url, headers=headers), 204, 404)
+
     def pull_request(self):
         """Retrieve the pull request associated with this issue.
 
@@ -269,13 +288,12 @@ class Issue(GitHubCore):
         """Removes label ``name`` from this issue.
 
         :param str name: (required), name of the label to remove
-        :returns: bool
+        :returns: list of :class:`Label`
         """
         url = self._build_url('labels', name, base_url=self._api)
-        # Docs say it should be a list of strings returned, practice says it
-        # is just a 204/404 response. I'm tenatively changing this until I
-        # hear back from Support.
-        return self._boolean(self._delete(url), 204, 404)
+        json = self._json(self._delete(url), 200, 404)
+        labels = [Label(label, self) for label in json] if json else []
+        return labels
 
     @requires_auth
     def remove_all_labels(self):
@@ -291,7 +309,7 @@ class Issue(GitHubCore):
         """Replace all labels on this issue with ``labels``.
 
         :param list labels: label names
-        :returns: bool
+        :returns: list of :class:`Label`
         """
         url = self._build_url('labels', base_url=self._api)
         json = self._json(self._put(url, data=dumps(labels)), 200)
@@ -308,3 +326,14 @@ class Issue(GitHubCore):
         labels = [str(l) for l in self.original_labels]
         return self.edit(self.title, self.body, assignee, 'open',
                          number, labels)
+
+    @requires_auth
+    def unlock(self):
+        """Unlock an issue.
+
+        :returns: bool
+        """
+        headers = Issue.LOCKING_PREVIEW_HEADERS
+
+        url = self._build_url('lock', base_url=self._api)
+        return self._boolean(self._delete(url, headers=headers), 204, 404)

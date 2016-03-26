@@ -4,10 +4,10 @@ __title__ = 'github3'
 __author__ = 'Ian Cordasco'
 __author_email__ = 'graffatcolmingov@gmail.com'
 __license__ = 'Modified BSD'
-__copyright__ = 'Copyright 2012-2015 Ian Cordasco'
-__version__ = '1.0.0a2'
+__copyright__ = 'Copyright 2012-2016 Ian Cordasco'
+__version__ = '1.0.0a4'
 __version_info__ = tuple(int(i) for i in __version__.split('.') if i.isdigit())
-__url__ = 'https://github3py.readthedocs.org'
+__url__ = 'http://github3.readthedocs.org'
 
 __all__ = (
     '__package_name__', '__title__', '__author__', '__author_email__',

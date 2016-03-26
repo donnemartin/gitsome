@@ -68,7 +68,7 @@ class Hook(GitHubCore):
             for
         :param list add_events: (optional), events to be added to the list of
            events that this hook triggers for
-        :param list rm_events: (optional), events to be remvoed from the list
+        :param list rm_events: (optional), events to be removed from the list
             of events that this hook triggers for
         :param bool active: (optional), should this event be active
         :returns: bool

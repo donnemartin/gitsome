@@ -9,9 +9,10 @@ This module contains everything relating to Users.
 from __future__ import unicode_literals
 
 from json import dumps
+from github3.auths import Authorization
 from uritemplate import URITemplate
 from .events import Event
-from .models import GitHubObject, GitHubCore, BaseAccount
+from .models import GitHubCore, BaseAccount
 from .decorators import requires_auth
 
 
@@ -29,6 +30,7 @@ class Key(GitHubCore):
         k1.id == k2.id
         k1.id != k2.id
     """
+
     def _update_attributes(self, key, session=None):
         self._api = key.get('url', '')
         #: The text of the actual key
@@ -72,12 +74,13 @@ class Key(GitHubCore):
         return False
 
 
-class Plan(GitHubObject):
+class Plan(GitHubCore):
     """The :class:`Plan <Plan>` object. This makes interacting with the plan
     information about a user easier. Please see GitHub's `Authenticated User
     <http://developer.github.com/v3/users/#get-the-authenticated-user>`_
     documentation for more specifics.
     """
+
     def _update_attributes(self, plan):
         #: Number of collaborators
         self.collaborators = plan.get('collaborators')
@@ -102,8 +105,30 @@ class Plan(GitHubObject):
         return self.name == 'free'  # (No coverage)
 
 
-class User(BaseAccount):
+class Email(GitHubCore):
 
+    """The :class:`Email` object.
+
+    Please see GitHub's `Emails documentation
+    <https://developer.github.com/v3/users/emails/>` for more information.
+    """
+
+    def _update_attributes(self, email):
+        #: Email address
+        self.email = email.get('email')
+        #: Whether the address has been verified
+        self.verified = email.get('verified')
+        #: Whether the address is the primary address
+        self.primary = email.get('primary')
+
+    def _repr(self):
+        return '<Email [{0}]>'.format(self.email)
+
+    def __str__(self):
+        return self.email
+
+
+class User(BaseAccount):
     """The :class:`User <User>` object. This handles and structures information
     in the `User section <http://developer.github.com/v3/users/>`_.
 
@@ -191,51 +216,6 @@ class User(BaseAccount):
 
     def __str__(self):
         return self.login
-
-    @requires_auth
-    def add_email_address(self, address):
-        """Add the single email address to the authenticated user's
-        account.
-
-        :param str address: (required), email address to add
-        :returns: list of email addresses
-        """
-        return self.add_email_addresses([address])
-
-    @requires_auth
-    def add_email_addresses(self, addresses=[]):
-        """Add the email addresses in ``addresses`` to the authenticated
-        user's account.
-
-        :param list addresses: (optional), email addresses to be added
-        :returns: list of email addresses
-        """
-        json = []
-        if addresses:
-            url = self._build_url('user', 'emails')
-            json = self._json(self._post(url, data=addresses), 201)
-        return json
-
-    @requires_auth
-    def delete_email_address(self, address):
-        """Delete the email address from the user's account.
-
-        :param str address: (required), email address to delete
-        :returns: bool
-        """
-        return self.delete_email_addresses([address])
-
-    @requires_auth
-    def delete_email_addresses(self, addresses=[]):
-        """Delete the email addresses in ``addresses`` from the
-        authenticated user's account.
-
-        :param list addresses: (optional), email addresses to be removed
-        :returns: bool
-        """
-        url = self._build_url('user', 'emails')
-        return self._boolean(self._delete(url, data=dumps(addresses)),
-                             204, 404)
 
     def is_assignee_on(self, username, repository):
         """Check if this user can be assigned to issues on username/repository.
@@ -387,7 +367,8 @@ class User(BaseAccount):
         params = {'sort': sort, 'direction': direction}
         self._remove_none(params)
         url = self.starred_urlt.expand(owner=None, repo=None)
-        return self._iter(int(number), url, Repository, params, etag)
+        return self._iter(int(number), url, Repository, params, etag,
+                          headers=Repository.STAR_HEADERS)
 
     def subscriptions(self, number=-1, etag=None):
         """Iterate over repositories subscribed to by this user.
@@ -401,3 +382,117 @@ class User(BaseAccount):
         from .repos import Repository
         url = self._build_url('subscriptions', base_url=self._api)
         return self._iter(int(number), url, Repository, etag=etag)
+
+    @requires_auth
+    def rename(self, login):
+        """Rename the user. This is only available for administrators of
+        a GitHub Enterprise instance.
+
+        :param str login: (required), new name of the user
+        :returns: bool
+        """
+        url = self._build_url('admin', 'users', self.id)
+        payload = {'login': login}
+        resp = self._boolean(self._patch(url, data=payload), 202, 403)
+        return resp
+
+    @requires_auth
+    def impersonate(self, scopes=None):
+        """Obtain an impersonation token for the user.
+
+        The retrieved token will allow impersonation of the user.
+        This is only available for admins of a GitHub Enterprise instance.
+
+        :param list scopes: (optional), areas you want this token to apply to,
+            i.e., 'gist', 'user'
+        :returns: :class:`Authorization <Authorization>`
+        """
+        url = self._build_url('admin', 'users', self.id, 'authorizations')
+        data = {}
+
+        if scopes:
+            data['scopes'] = scopes
+
+        json = self._json(self._post(url, data=data), 201)
+
+        return self._instance_or_null(Authorization, json)
+
+    @requires_auth
+    def revoke_impersonation(self):
+        """Revoke all impersonation tokens for the current user.
+
+        This is only available for admins of a GitHub Enterprise instance.
+
+        :returns: bool -- True if successful, False otherwise
+        """
+        url = self._build_url('admin', 'users', self.id, 'authorizations')
+
+        return self._boolean(self._delete(url), 204, 403)
+
+    @requires_auth
+    def promote(self):
+        """Promote a user to site administrator.
+
+        This is only available for admins of a GitHub Enterprise instance.
+
+        :returns: bool -- True if successful, False otherwise
+        """
+        url = self._build_url('site_admin', base_url=self._api)
+
+        return self._boolean(self._put(url), 204, 403)
+
+    @requires_auth
+    def demote(self):
+        """Demote a site administrator to simple user.
+
+        You can demote any user account except your own.
+
+        This is only available for admins of a GitHub Enterprise instance.
+
+        :returns: bool -- True if successful, False otherwise
+        """
+        url = self._build_url('site_admin', base_url=self._api)
+
+        return self._boolean(self._delete(url), 204, 403)
+
+    @requires_auth
+    def suspend(self):
+        """Suspend the user.
+
+        This is only available for admins of a GitHub Enterprise instance.
+
+        This API is disabled if you use LDAP, check the GitHub API dos for more
+        information.
+
+        :returns: bool -- True if successful, False otherwise
+        """
+        url = self._build_url('suspended', base_url=self._api)
+
+        return self._boolean(self._put(url), 204, 403)
+
+    @requires_auth
+    def unsuspend(self):
+        """Unsuspend the user.
+
+        This is only available for admins of a GitHub Enterprise instance.
+
+        This API is disabled if you use LDAP, check the GitHub API dos for more
+        information.
+
+        :returns: bool -- True if successful, False otherwise
+        """
+        url = self._build_url('suspended', base_url=self._api)
+
+        return self._boolean(self._delete(url), 204, 403)
+
+    @requires_auth
+    def delete(self):
+        """Delete the user. Per GitHub API documentation, it is often preferable
+        to suspend the user.
+
+        This is only available for admins of a GitHub Enterprise instance.
+
+        :returns: bool -- True if successful, False otherwise
+        """
+        url = self._build_url('admin', 'users', self.id)
+        return self._boolean(self._delete(url), 204, 403)

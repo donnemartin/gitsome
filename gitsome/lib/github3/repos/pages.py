@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from ..models import GitHubObject
+from ..models import GitHubCore
 
 
-class PagesInfo(GitHubObject):
+class PagesInfo(GitHubCore):
     def _update_attributes(self, info):
         self._api = info.get('url')
 
@@ -24,7 +24,7 @@ class PagesInfo(GitHubObject):
         return '<Pages Info [{0}]>'.format(info)
 
 
-class PagesBuild(GitHubObject):
+class PagesBuild(GitHubCore):
     def _update_attributes(self, build):
         self._api = build.get('url')
 

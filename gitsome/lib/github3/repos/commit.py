@@ -63,6 +63,9 @@ class RepoCommit(models.BaseCommit):
 
         self._uniq = self.sha
 
+        #: The commit message
+        self.message = getattr(self.commit, 'message', None)
+
     def _repr(self):
         return '<Repository Commit [{0}]>'.format(self.sha[:7])
 

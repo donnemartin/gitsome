@@ -46,14 +46,42 @@ class Release(GitHubCore):
         self.published_at = self._strptime(release.get('published_at'))
         #: Name of the tag
         self.tag_name = release.get('tag_name')
+        #: URL to download a tarball of the release
+        self.tarball_url = release.get('tarball_url')
         #: "Commit" that this release targets
         self.target_commitish = release.get('target_commitish')
         upload_url = release.get('upload_url')
         #: URITemplate to upload an asset with
         self.upload_urlt = URITemplate(upload_url) if upload_url else None
+        #: URL to download a zipball of the release
+        self.zipball_url = release.get('zipball_url')
 
     def _repr(self):
         return '<Release [{0}]>'.format(self.name)
+
+    def archive(self, format, path=''):
+        """Get the tarball or zipball archive for this release.
+
+        :param str format: (required), accepted values: ('tarball',
+            'zipball')
+        :param path: (optional), path where the file should be saved
+            to, default is the filename provided in the headers and will be
+            written in the current directory.
+            it can take a file-like object as well
+        :type path: str, file
+        :returns: bool -- True if successful, False otherwise
+
+        """
+        resp = None
+        if format in ('tarball', 'zipball'):
+            repo_url = self._api[:self._api.rfind('/releases')]
+            url = self._build_url(format, self.tag_name, base_url=repo_url)
+            resp = self._get(url, allow_redirects=True, stream=True)
+
+        if resp and self._boolean(resp, 200, 404):
+            utils.stream_response_to_file(resp, path)
+            return True
+        return False
 
     def asset(self, asset_id):
         """Retrieve the asset from this release with ``asset_id``.
@@ -132,7 +160,7 @@ class Release(GitHubCore):
         return successful
 
     @requires_auth
-    def upload_asset(self, content_type, name, asset):
+    def upload_asset(self, content_type, name, asset, label=None):
         """Upload an asset to this release.
 
         All parameters are required.
@@ -141,11 +169,13 @@ class Release(GitHubCore):
             a list of common media types
         :param str name: The name of the file
         :param asset: The file or bytes object to upload.
+        :param label: (optional), An alternate short description of the asset.
         :returns: :class:`Asset <Asset>`
         """
-        headers = Release.CUSTOM_HEADERS.copy()
-        headers.update({'Content-Type': content_type})
-        url = self.upload_urlt.expand({'name': name})
+        headers = {'Content-Type': content_type}
+        params = {'name': name, 'label': label}
+        self._remove_none(params)
+        url = self.upload_urlt.expand(params)
         r = self._post(url, data=asset, json=False, headers=headers)
         if r.status_code in (201, 202):
             return Asset(r.json(), self)
@@ -165,6 +195,8 @@ class Asset(GitHubCore):
         #: URL to download the asset.
         #: Request headers must include ``Accept: application/octet-stream``.
         self.download_url = self._api
+        # User friendly download URL
+        self.browser_download_url = asset.get('browser_download_url')
         #: GitHub id of the asset
         self.id = asset.get('id')
         #: Short description of the asset

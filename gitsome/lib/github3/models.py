@@ -23,12 +23,26 @@ __timeformat__ = '%Y-%m-%dT%H:%M:%SZ'
 __logs__ = getLogger(__package__)
 
 
-class GitHubObject(object):
-    """The :class:`GitHubObject <GitHubObject>` object. A basic class to be
-    subclassed by GitHubCore and other classes that would otherwise subclass
-    object."""
-    def __init__(self, json):
-        super(GitHubObject, self).__init__()
+class GitHubCore(object):
+
+    """The base object for all objects that require a session.
+
+    The :class:`GitHubCore <GitHubCore>` object provides some
+    basic attributes and methods to other sub-classes that are very useful to
+    have.
+    """
+
+    def __init__(self, json, session=None):
+        if hasattr(session, 'session'):
+            # i.e. session is actually a GitHubCore instance
+            session = session.session
+        elif session is None:
+            session = GitHubSession()
+        self.session = session
+
+        # set a sane default
+        self._github_url = 'https://api.github.com'
+
         if json is not None:
             self.etag = json.pop('ETag', None)
             self.last_modified = json.pop('Last-Modified', None)
@@ -38,6 +52,14 @@ class GitHubObject(object):
 
     def _update_attributes(self, json):
         pass
+
+    def __getattr__(self, attribute):
+        """Proxy access to stored JSON."""
+        if attribute not in self._json_data:
+            raise AttributeError(attribute)
+        value = self._json_data.get(attribute, None)
+        setattr(self, attribute, value)
+        return value
 
     def as_dict(self):
         """Return the attributes for this object as a dictionary.
@@ -79,9 +101,6 @@ class GitHubObject(object):
             return dt.replace(tzinfo=UTC())
         return None
 
-    def _repr(self):
-        return '<github3-object at 0x{0:x}>'.format(id(self))
-
     def __repr__(self):
         repr_string = self._repr()
         if is_py2:
@@ -107,28 +126,6 @@ class GitHubObject(object):
     def __hash__(self):
         return hash(self._uniq)
 
-
-class GitHubCore(GitHubObject):
-
-    """The base object for all objects that require a session.
-
-    The :class:`GitHubCore <GitHubCore>` object provides some
-    basic attributes and methods to other sub-classes that are very useful to
-    have.
-    """
-
-    def __init__(self, json, session=None):
-        if hasattr(session, 'session'):
-            # i.e. session is actually a GitHubCore instance
-            session = session.session
-        elif session is None:
-            session = GitHubSession()
-        self.session = session
-
-        # set a sane default
-        self._github_url = 'https://api.github.com'
-        super(GitHubCore, self).__init__(json)
-
     def _repr(self):
         return '<github3-core at 0x{0:x}>'.format(id(self))
 
@@ -152,7 +149,7 @@ class GitHubCore(GitHubObject):
         except TypeError:  # instance_class is not a subclass of GitHubCore
             return instance_class(json)
 
-    def _json(self, response, status_code):
+    def _json(self, response, status_code, include_cache_info=True):
         ret = None
         if self._boolean(response, status_code, 404) and response.content:
             __logs__.info('Attempting to get JSON information from a Response '
@@ -160,7 +157,8 @@ class GitHubCore(GitHubObject):
                           response.status_code, status_code)
             ret = response.json()
             headers = response.headers
-            if ((headers.get('Last-Modified') or headers.get('ETag')) and
+            if (include_cache_info and
+                    (headers.get('Last-Modified') or headers.get('ETag')) and
                     isinstance(ret, dict)):
                 ret['Last-Modified'] = response.headers.get(
                     'Last-Modified', ''
@@ -193,11 +191,6 @@ class GitHubCore(GitHubObject):
     def _post(self, url, data=None, json=True, **kwargs):
         if json:
             data = dumps(data) if data is not None else data
-        elif 'headers' in kwargs:
-            # Override the Content-Type header
-            kwargs['headers'] = {
-                'Content-Type': None
-                }.update(kwargs['headers'])
         __logs__.debug('POST %s with %s, %s', url, data, kwargs)
         return self.session.post(url, data, **kwargs)
 
@@ -218,7 +211,7 @@ class GitHubCore(GitHubObject):
         self._uri = urlparse(uri)
         self.url = uri
 
-    def _iter(self, count, url, cls, params=None, etag=None):
+    def _iter(self, count, url, cls, params=None, etag=None, headers=None):
         """Generic iterator for this project.
 
         :param int count: How many items to return.
@@ -226,11 +219,12 @@ class GitHubCore(GitHubObject):
         :param class cls: cls to return an object of
         :param params dict: (optional) Parameters for the request
         :param str etag: (optional), ETag from the last call
+        :param dict headers: (optional) HTTP Headers for the request
         :returns: A lazy iterator over the pagianted resource
         :rtype: :class:`GitHubIterator <github3.structs.GitHubIterator>`
         """
         from .structs import GitHubIterator
-        return GitHubIterator(count, url, cls, self, params, etag)
+        return GitHubIterator(count, url, cls, self, params, etag, headers)
 
     @property
     def ratelimit_remaining(self):

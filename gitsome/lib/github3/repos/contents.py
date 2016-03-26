@@ -53,7 +53,7 @@ class Contents(GitHubCore):
 
         # content, base64 encoded and decoded
         #: Base64-encoded content of the file.
-        self.content = content.get('content', '')
+        self.content = content.get('content')
 
         #: Decoded content of the file as a bytes object. If we try to decode
         #: to character set for you, we might encounter an exception which
@@ -62,7 +62,7 @@ class Contents(GitHubCore):
         #: with the character set you wish to use, e.g.,
         #: ``content.decoded.decode('utf-8')``.
         #: .. versionchanged:: 0.5.2
-        self.decoded = b''
+        self.decoded = self.content
         if self.encoding == 'base64' and self.content:
             self.decoded = b64decode(self.content.encode())
 
@@ -116,9 +116,9 @@ class Contents(GitHubCore):
                     'author': validate_commmitter(author)}
             self._remove_none(data)
             json = self._json(self._delete(self._api, data=dumps(data)), 200)
-            if 'commit' in json:
+            if json and 'commit' in json:
                 json['commit'] = Commit(json['commit'], self)
-            if 'content' in json:
+            if json and 'content' in json:
                 json['content'] = self._instance_or_null(Contents,
                                                          json['content'])
         return json
@@ -156,10 +156,10 @@ class Contents(GitHubCore):
                     'author': validate_commmitter(author)}
             self._remove_none(data)
             json = self._json(self._put(self._api, data=dumps(data)), 200)
-            if 'content' in json:
+            if json and 'content' in json:
                 self._update_attributes(json['content'])
                 json['content'] = self
-            if 'commit' in json:
+            if json and 'commit' in json:
                 json['commit'] = Commit(json['commit'], self)
         return json
 

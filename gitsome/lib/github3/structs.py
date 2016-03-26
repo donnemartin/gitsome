@@ -80,7 +80,7 @@ class GitHubIterator(models.GitHubCore, collections.Iterator):
 
             # languages returns a single dict. We want the items.
             if isinstance(json, dict):
-                if issubclass(self.cls, models.GitHubObject):
+                if issubclass(self.cls, models.GitHubCore):
                     raise exceptions.UnprocessableResponseBody(
                         "GitHub's API returned a body that could not be"
                         " handled", json

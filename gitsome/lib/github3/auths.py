@@ -70,11 +70,11 @@ class Authorization(GitHubCore):
 
     @requires_basic_auth
     def add_scopes(self, scopes, note=None, note_url=None):
-        """Remove the scopes from this authorization.
+        """Adds the scopes to this authorization.
 
         .. versionadded:: 1.0
 
-        :param list scopes: Remove these scopes from the ones present on this
+        :param list scopes: Adds these scopes to the ones present on this
             authorization
         :param str note: (optional), Note about the authorization
         :param str note_url: (optional), URL to link to when the user views

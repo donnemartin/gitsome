@@ -3,9 +3,9 @@
 github3
 =======
 
-See http://github3py.rtfd.org/ for documentation.
+See http://github3.readthedocs.org/ for documentation.
 
-:copyright: (c) 2012-2014 by Ian Cordasco
+:copyright: (c) 2012-2016 by Ian Cordasco
 :license: Modified BSD, see LICENSE for more details
 
 """
@@ -22,7 +22,7 @@ from .api import (
     gitignore_templates, all_repositories, all_users, all_events,
     organizations_with, repositories_by, starred_by, subscriptions_for,
     rate_limit, repository, search_code, search_repositories, search_users,
-    user, zen
+    search_issues, user, zen
 )
 from .github import GitHub, GitHubEnterprise, GitHubStatus
 from .exceptions import (
@@ -42,7 +42,7 @@ __all__ = (
     'all_repositories', 'all_users', 'all_events', 'organizations_with',
     'repositories_by', 'starred_by', 'subscriptions_for', 'rate_limit',
     'repository', 'search_code', 'search_repositories', 'search_users',
-    'user', 'zen',
+    'search_issues', 'user', 'zen',
     # Metadata attributes
     '__package_name__', '__title__', '__author__', '__author_email__',
     '__license__', '__copyright__', '__version__', '__version_info__',
