@@ -45,3 +45,23 @@ class ViewEntry(object):
         self.sort_key_primary = sort_key_primary
         self.sort_key_secondary = sort_key_secondary
         self.sort_key_tertiary = sort_key_tertiary
+
+    def __lt__(self, other):
+        """Implements 'less than' used for sorting.
+
+        Args:
+            * other: An instance of ViewEntry used for comparison.
+
+        Returns:
+            A bool indicating whether the current ViewEntry is less than the
+                `other` view entry.
+        """
+        if self.sort_key_primary != other.sort_key_primary or \
+                not self.sort_key_secondary:
+            return self.sort_key_primary < other.sort_key_primary
+        else:
+            if self.sort_key_secondary != other.sort_key_secondary or \
+                not self.sort_key_tertiary:
+                return self.sort_key_secondary < other.sort_key_secondary
+            else:
+                return self.sort_key_tertiary < other.sort_key_tertiary
