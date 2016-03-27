@@ -309,12 +309,12 @@ def load_and_resize_image(imgname, antialias, maxLen):
     return img
 
 
-def img2txt(imgname, maxLen=25, clr='', ansi=False,
+def img2txt(imgname, maxLen=35, clr='', ansi=False,
             html=False, fontSize='', bgcolor='', antialias=True):
     try:
         maxLen = float(maxLen)
     except:
-        maxLen = 25.0   # default maxlen: 30px
+        maxLen = 35.0   # default maxlen: 30px
     try:
         fontSize = int(fontSize)
     except:
