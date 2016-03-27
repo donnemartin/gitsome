@@ -56,12 +56,12 @@ class Table(object):
             if index >= limit:
                 break
         if len(view_entries) > limit:
-            click.secho(('  Hiding ' +
+            click.secho(('       <Hiding ' +
                          str(len(view_entries) - limit) +
                          ' item(s), use -l/--limit ' +
                          str(len(view_entries)) +
-                         ' to view all items.'),
-                        fg='magenta')
+                         ' to view all items.>'),
+                        fg=None)
         if index == 0:
             click.secho('No results found', fg=None)
         else:
