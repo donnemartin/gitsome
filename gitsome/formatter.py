@@ -20,6 +20,11 @@ from .lib.pretty_date_time import pretty_date_time
 
 
 class Formatter(object):
+    """Handles formatting of isssues, repos, threads, etc.
+
+    Attributes:
+        * None.
+    """
 
     def format_issues_url_from_issue(self, issue):
         """Formats the issue url based on the given issue.
