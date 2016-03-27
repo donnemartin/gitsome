@@ -89,11 +89,10 @@ class Table(object):
         Returns:
             A string representation of the formatted tip.
         """
-        tip = click.style('  Tip: View the repo or issue for ', fg=None)
+        tip = click.style('  View the repo or issue for ', fg=None)
         tip += click.style('1 through ', fg='magenta')
         tip += click.style(str(max_index), fg='magenta')
         tip += click.style(' with the following command:\n', fg=None)
         tip += click.style('    gh view [#] ', fg='magenta')
-        tip += click.style('optional: [-b/--browser] [--help]' + '\n', fg=None)
-        tip += click.style('')
+        tip += click.style('optional: [-b/--browser] [--help]\n', fg=None)
         return tip
