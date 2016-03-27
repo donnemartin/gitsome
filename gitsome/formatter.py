@@ -99,3 +99,29 @@ class Formatter(object):
                              str(issue.assignee).ljust(10) + ' '),
                             fg='yellow')
         return item
+
+    def format_repo(self, view_entry):
+        """Formats a repo.
+
+        Args:
+            * view_entry: xxx.
+
+        Returns:
+            A string representing the formatted item.
+        """
+        repo = view_entry.item
+        item = self.format_index_title(view_entry.index,
+                                       repo.full_name)
+        language = repo.language if repo.language is not None else 'Unknown'
+        item += click.style('(' + language + ')',
+                            fg=None)
+        item += '\n'
+        item += click.style(('        ' + 'Stars: ' +
+                             str(repo.stargazers_count).ljust(5) + ' '),
+                            fg='green')
+        item += click.style('Forks: ' + str(repo.forks_count).ljust(4) + ' ',
+                            fg='cyan')
+        item += click.style(('Updated: ' +
+                             str(pretty_date_time(repo.updated_at)) + ' '),
+                            fg='yellow')
+        return item
