@@ -64,3 +64,38 @@ class Formatter(object):
         formatted_index_title += click.style(title + ' ',
                                              fg='white')
         return formatted_index_title
+
+    def format_issue(self, view_entry):
+        """Formats an issue.
+
+        Args:
+            * view_entry: xxx.
+
+        Returns:
+            A string representing the formatted item.
+        """
+        issue = view_entry.item
+        item = self.format_index_title(view_entry.index,
+                                       issue.title)
+        item += click.style('@' + str(issue.user) + ' ', fg='white')
+        item += click.style(('(' +
+                             self.format_issues_url_from_issue(issue) +
+                             ')'),
+                            fg='magenta')
+        item += '\n'
+        indent = '        '
+        if len(item) == 8:
+            item += click.style(('        Score: ' +
+                                 str(item[7]).ljust(10) + ' '),
+                                fg='yellow')
+            indent = '  '
+        item += click.style((indent + 'State: ' +
+                             str(issue.state).ljust(10) + ' '),
+                            fg='green')
+        item += click.style(('Comments: ' +
+                             str(issue.comments_count).ljust(5) + ' '),
+                            fg='cyan')
+        item += click.style(('Assignee: ' +
+                             str(issue.assignee).ljust(10) + ' '),
+                            fg='yellow')
+        return item
