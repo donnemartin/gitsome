@@ -48,3 +48,19 @@ class Formatter(object):
         issues_uri = 'issues'
         issue_id = url_parts[7]
         return '/'.join([user, repo, issues_uri, issue_id])
+
+    def format_index_title(self, index, title):
+        """Formats and item's index and title.
+
+        Args:
+            * index: An int that specifies the index for the given item.
+            * title: A string that represents the item's title.
+
+        Returns:
+            A string representation of the formatted index and title.
+        """
+        formatted_index_title = click.style('  ' + (str(index) + '.').ljust(5),
+                                            fg='magenta')
+        formatted_index_title += click.style(title + ' ',
+                                             fg='white')
+        return formatted_index_title
