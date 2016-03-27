@@ -125,3 +125,29 @@ class Formatter(object):
                              str(pretty_date_time(repo.updated_at)) + ' '),
                             fg='yellow')
         return item
+
+    def format_thread(self, view_entry):
+        """Formats a thread.
+
+        Args:
+            * view_entry: xxx.
+
+        Returns:
+            A string representing the formatted item.
+        """
+        thread = view_entry.item
+        item = self.format_index_title(view_entry.index,
+                                       thread.subject['title'])
+        item += click.style('(' + view_entry.url + ')',
+                            fg='magenta')
+        item += '\n'
+        item += click.style(('        ' + 'Seen: ' +
+                             str(not thread.unread).ljust(7) + ' '),
+                            fg='green')
+        item += click.style(('Type: ' +
+                             str(thread.subject['type']).ljust(12) + ' '),
+                            fg='cyan')
+        item += click.style(('Updated: ' +
+                             str(pretty_date_time(thread.updated_at)) + ' '),
+                            fg='yellow')
+        return item
