@@ -151,3 +151,23 @@ class Formatter(object):
                              str(pretty_date_time(thread.updated_at)) + ' '),
                             fg='yellow')
         return item
+
+    def format_user_repo(self, repo):
+        """Formats a repo tuple for pretty print.
+
+        Example:
+            Input:  ('donnemartin', 'gitsome')
+            Output: donnemartin/gitsome
+            Input:  ('repos/donnemartin', 'gitsome')
+            Output: donnemartin/gitsome
+
+        Args:
+            * args: A tuple that contains the user and repo.
+
+        Returns:
+            A string of the form user/repo.
+        """
+        result = '/'.join(repo)
+        if result.startswith('repos/'):
+            return result[len('repos/'):]
+        return result
