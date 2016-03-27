@@ -79,3 +79,21 @@ class Table(object):
         for view_entry in view_entries:
             self.config.urls.append('https://github.com/' + view_entry.url)
         self.config.save_urls()
+
+    def create_tip(self, max_index):
+        """Creates the tip about the view command.
+
+        Args:
+            * max_index: A string that represents the index upper bound.
+
+        Returns:
+            A string representation of the formatted tip.
+        """
+        tip = click.style('  Tip: View the repo or issue for ', fg=None)
+        tip += click.style('1 through ', fg='magenta')
+        tip += click.style(str(max_index), fg='magenta')
+        tip += click.style(' with the following command:\n', fg=None)
+        tip += click.style('    gh view [#] ', fg='magenta')
+        tip += click.style('optional: [-b/--browser] [--help]' + '\n', fg=None)
+        tip += click.style('')
+        return tip
