@@ -66,3 +66,16 @@ class Table(object):
             click.secho('No results found', fg=None)
         else:
             click.secho(self.create_tip(index))
+
+    def build_table_urls(self, view_entries):
+        """Builds the GitHub urls for the specified view_entries.
+
+        Args:
+            * table: A list of view_entry.
+
+        Returns:
+            None.
+        """
+        for view_entry in view_entries:
+            self.config.urls.append('https://github.com/' + view_entry.url)
+        self.config.save_urls()
