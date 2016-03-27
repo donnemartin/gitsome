@@ -69,6 +69,7 @@ class Config(object):
         self.user_login = None
         self.user_pass = None
         self.user_token = None
+        self.authenticate()
         self.urls = []
 
     def get_github_config_path(self, config_file_name):
@@ -85,3 +86,95 @@ class Config(object):
         home = os.path.abspath(os.environ.get('HOME', ''))
         config_file_path = os.path.join(home, config_file_name)
         return config_file_path
+
+    def authenticate(self):
+        """Logs into GitHub.
+
+        Adapted from https://github.com/sigmavirus24/github-cli.
+
+        Two factor authentication does not seem to be triggering the
+        SMS code: https://github.com/sigmavirus24/github3.py/issues/387.
+        To log in with 2FA enabled, use a token instead.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        # Get the full path to the configuration file
+        config = self.get_github_config_path(self.CONFIG)
+        parser = configparser.RawConfigParser()
+        # Check to make sure the file exists and we are allowed to read it
+        if os.path.isfile(config) and os.access(config, os.R_OK | os.W_OK):
+            with open(config) as config_file:
+                parser.readfp(config_file)
+                self.user_login = parser.get(self.CONFIG_SECTION,
+                                             self.CONFIG_USER_LOGIN)
+                try:
+                    self.api = login(
+                        username=parser.get(self.CONFIG_SECTION,
+                                            self.CONFIG_USER_LOGIN),
+                        token=parser.get(self.CONFIG_SECTION,
+                                         self.CONFIG_USER_TOKEN),
+                        two_factor_callback=self.request_two_factor_code)
+                except configparser.NoOptionError:
+                    self.api = login(
+                        username=parser.get(self.CONFIG_SECTION,
+                                            self.CONFIG_USER_LOGIN),
+                        password=parser.get(self.CONFIG_SECTION,
+                                            self.CONFIG_USER_PASS),
+                        two_factor_callback=self.request_two_factor_code)
+        else:
+            # Either the file didn't exist or we didn't have the correct
+            # permissions
+            self.user_login = ''
+            while not user_login:
+                user_login = input('User Login: ')
+            user_pass = ''
+            while not user_pass:
+                user_pass = getpass('Password: ')
+            auth = None
+            try:
+                # Get an authorization for this
+                auth = authorize(
+                    user_login,
+                    user_pass,
+                    scopes=['user', 'repo', 'gist'],
+                    note='githubcli',
+                    note_url='https://github.com/donnemartin/github-cli'
+                )
+            except UnprocessableEntity:
+                click.secho('Error creating token.\nVisit the following ' \
+                            'page and verify you do not have an existing ' \
+                            'token named "githubcli":\n' \
+                            'See https://github.com/settings/tokens\n' \
+                            'If a token already exists update your ' + \
+                            self.githubconfig + ' file with your user_token.',
+                            fg='red')
+            parser.add_section(self.CONFIG_SECTION)
+            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_LOGIN, user_login)
+            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_PASS, user_pass)
+            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_TOKEN, auth.token)
+            self.api = login(token=auth.token,
+                             two_factor_callback=self.request_two_factor_code)
+            # Create the file if it doesn't exist. Otherwise completely blank
+            # out what was there before. Kind of dangerous and destructive but
+            # somewhat necessary
+            with open(config, 'w+') as config_file:
+                parser.write(config_file)
+
+    def request_two_factor_code(self):
+        """Callback if two factor authentication is requested.
+
+        Args:
+            * None.
+
+        Returns:
+            A string that represents the user input two factor
+                authentication code.
+        """
+        code = ''
+        while not code:
+            code = input('Enter 2FA code: ')
+        return code
