@@ -32,3 +32,19 @@ class Formatter(object):
         """
         return self.format_user_repo(issue.repository) + '/' + \
             'issues/' + str(issue.number)
+
+    def format_issues_url_from_thread(self, thread):
+        """Formats the issue url based on the given thread.
+
+        Args:
+            * thread: An instance of github3.notifications.Thread.
+
+        Returns:
+            A string representing the formatted issues url.
+        """
+        url_parts = thread.subject['url'].split('/')
+        user = url_parts[4]
+        repo = url_parts[5]
+        issues_uri = 'issues'
+        issue_id = url_parts[7]
+        return '/'.join([user, repo, issues_uri, issue_id])
