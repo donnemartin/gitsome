@@ -15,7 +15,11 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
+import sys
+
 import click
+
+from .view_entry import ViewEntry
 
 
 class Table(object):
@@ -94,6 +98,21 @@ class Table(object):
                          limit=limit,
                          format_method=format_method,
                          build_urls=build_urls)
+
+    def build_table_setup_feed(self, items, format_method):
+        """Performs feed-specific processing before calling `build_table`.
+
+        Args:
+            * items: A list of github3 items.
+            * format_method: A method called to format each item in the table.
+
+        Returns:
+            None.
+        """
+        self.build_table_setup(items=items.entries,
+                               format_method=format_method,
+                               limit=sys.maxsize,
+                               build_urls=False)
 
     def build_table_urls(self, view_entries):
         """Builds the GitHub urls for the specified view_entries.
