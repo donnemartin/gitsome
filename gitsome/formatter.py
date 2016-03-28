@@ -91,6 +91,21 @@ class Formatter(object):
             fg=None)
         return item
 
+    def format_license_name(self, view_entry):
+        """Formats a license template name.
+
+        Args:
+            * view_entry: An instance of github3.licenses.License.
+
+        Returns:
+            A string representing the formatted item.
+        """
+        license_template_name = view_entry.item
+        item = self.format_index_title(view_entry.index,
+                                       license_template_name.key)
+        item += click.style('(' + license_template_name.name + ')', fg=None)
+        return item
+
     def format_issues_url_from_issue(self, issue):
         """Formats the issue url based on the given issue.
 
