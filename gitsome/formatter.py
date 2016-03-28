@@ -46,6 +46,19 @@ class Formatter(object):
                             fg='cyan')
         return item
 
+    def format_emoji(self, view_entry):
+        """Formats an emoji.
+
+        Args:
+            * view_entry: A string representing an emoji name.
+
+        Returns:
+            A string representing the formatted item.
+        """
+        emoji = view_entry.item
+        item = self.format_index_title(view_entry.index, emoji)
+        return item
+
     def format_issues_url_from_issue(self, issue):
         """Formats the issue url based on the given issue.
 
