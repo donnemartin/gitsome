@@ -15,8 +15,8 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
-import click
 from .lib.pretty_date_time import pretty_date_time
+import click
 
 
 class Formatter(object):
@@ -80,8 +80,7 @@ class Formatter(object):
             A string representing the formatted item.
         """
         issue = view_entry.item
-        item = self.format_index_title(view_entry.index,
-                                       issue.title)
+        item = self.format_index_title(view_entry.index, issue.title)
         item += click.style('@' + str(issue.user) + ' ', fg='white')
         item += click.style(('(' +
                              self.format_issues_url_from_issue(issue) +
@@ -115,8 +114,7 @@ class Formatter(object):
             A string representing the formatted item.
         """
         repo = view_entry.item
-        item = self.format_index_title(view_entry.index,
-                                       repo.full_name)
+        item = self.format_index_title(view_entry.index, repo.full_name)
         language = repo.language if repo.language is not None else 'Unknown'
         item += click.style('(' + language + ')',
                             fg=None)
