@@ -74,7 +74,7 @@ class Formatter(object):
         """Formats an issue.
 
         Args:
-            * view_entry: xxx.
+            * view_entry: An instance of github3.issue.Issue.
 
         Returns:
             A string representing the formatted item.
@@ -108,7 +108,7 @@ class Formatter(object):
         """Formats a repo.
 
         Args:
-            * view_entry: xxx.
+            * view_entry: An instance of github3.repo.Repository.
 
         Returns:
             A string representing the formatted item.
@@ -133,7 +133,7 @@ class Formatter(object):
         """Formats a thread.
 
         Args:
-            * view_entry: xxx.
+            * view_entry: An instance of github3.notifications.Thread.
 
         Returns:
             A string representing the formatted item.
