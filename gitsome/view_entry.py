@@ -27,7 +27,7 @@ class ViewEntry(object):
         * sort_key_tertiary: A member representing the tertiary sort key.
     """
 
-    def __init__(self, item, url, index=-1,
+    def __init__(self, item, url=None, index=-1,
                  sort_key_primary=None,
                  sort_key_secondary=None,
                  sort_key_tertiary=None):
