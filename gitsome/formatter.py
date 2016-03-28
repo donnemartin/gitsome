@@ -26,6 +26,26 @@ class Formatter(object):
         * None.
     """
 
+    def format_email(self, view_entry):
+        """Formats an email.
+
+        Args:
+            * view_entry: An instance of a github3.users.Email.
+
+        Returns:
+            A string representing the formatted item.
+        """
+        email = view_entry.item
+        item = self.format_index_title(view_entry.index, email.email)
+        item += '\n'
+        item += click.style(('        ' + 'Primary: ' +
+                             str(email.primary).ljust(7) + ' '),
+                            fg='green')
+        item += click.style(('Verified: ' +
+                             str(email.verified).ljust(5) + ' '),
+                            fg='cyan')
+        return item
+
     def format_issues_url_from_issue(self, issue):
         """Formats the issue url based on the given issue.
 
