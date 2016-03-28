@@ -73,6 +73,24 @@ class Formatter(object):
                                        gitignore_template_name)
         return item
 
+    def format_feed_entry(self, view_entry):
+        """Formats a feed entry.
+
+        Args:
+            * view_entry: A dictionary parsed to include feed URITemplates.
+
+        Returns:
+            A string representing the formatted item.
+        """
+        feed_entry = view_entry.item
+        item = self.format_index_title(view_entry.index,
+                                       feed_entry.title)
+        from datetime import datetime
+        item += click.style(
+            '(' + str(pretty_date_time(feed_entry.published_parsed)) + ')',
+            fg=None)
+        return item
+
     def format_issues_url_from_issue(self, issue):
         """Formats the issue url based on the given issue.
 
