@@ -114,6 +114,29 @@ class Table(object):
                                limit=sys.maxsize,
                                build_urls=False)
 
+    def build_table_setup_user(self, items, format_method,
+                               limit, build_urls=True):
+        """Converts items to a list of ViewEntry before calling `build_table`.
+
+        Specific to GitHub3.User.users.
+
+        Args:
+            * items: A list of github3 items.
+            * format_method: A method called to format each item in the table.
+            * limit: An int that specifies the number of items to show.
+            * build_urls: A bool that determines whether to build urls for the
+                gh view # command.
+
+        Returns:
+            None.
+        """
+        view_entries = []
+        for item in items:
+            view_entries.append(ViewEntry(item=item, url=item.login))
+        self.build_table(view_entries,
+                         limit=sys.maxsize,
+                         format_method=format_method)
+
     def build_table_urls(self, view_entries):
         """Builds the GitHub urls for the specified view_entries.
 
