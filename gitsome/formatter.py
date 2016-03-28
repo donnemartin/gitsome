@@ -106,6 +106,19 @@ class Formatter(object):
         item += click.style('(' + license_template_name.name + ')', fg=None)
         return item
 
+    def format_user(self, view_entry):
+        """Formats a user.
+
+        Args:
+            * view_entry: An instance of github3.users.User.
+
+        Returns:
+            A string representing the formatted item.
+        """
+        user = view_entry.item
+        item = self.format_index_title(view_entry.index, user.login)
+        return item
+
     def format_issues_url_from_issue(self, issue):
         """Formats the issue url based on the given issue.
 
