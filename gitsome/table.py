@@ -36,18 +36,21 @@ class Table(object):
         """
         self.config = config
 
-    def build_table(self, view_entries, limit, format_method):
-        """Builds the table and headers with tabulate.
+    def build_table(self, view_entries, limit, format_method, build_urls=True):
+        """Builds the table used for the gh view command.
 
         Args:
-            * view_entries: xxx.
+            * view_entries: A list of github3 items.
             * limit: An int that specifies the number of items to show.
             * format_method: A method called to format each item in the table.
+            * build_urls: A bool that determines whether to build urls for the
+                gh view # command.
 
         Returns:
             None.
         """
-        self.build_table_urls(view_entries)
+        if build_urls:
+            self.build_table_urls(view_entries)
         index = 0
         for view_entry in view_entries:
             index += 1
@@ -55,17 +58,20 @@ class Table(object):
             click.echo(format_method(view_entry))
             if index >= limit:
                 break
-        if len(view_entries) > limit:
-            click.secho(('       <Hiding ' +
-                         str(len(view_entries) - limit) +
-                         ' item(s), use -l/--limit ' +
-                         str(len(view_entries)) +
-                         ' to view all items.>'),
-                        fg=None)
+        if build_urls:
+            if len(view_entries) > limit:
+                click.secho(('       <Hiding ' +
+                             str(len(view_entries) - limit) +
+                             ' item(s), use -l/--limit ' +
+                             str(len(view_entries)) +
+                             ' to view all items.>'),
+                            fg=None)
         if index == 0:
             click.secho('No results found', fg=None)
-        else:
+        elif build_urls:
             click.secho(self.create_tip(index))
+        else:
+            click.echo('')
 
     def build_table_urls(self, view_entries):
         """Builds the GitHub urls for the specified view_entries.
