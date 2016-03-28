@@ -59,6 +59,20 @@ class Formatter(object):
         item = self.format_index_title(view_entry.index, emoji)
         return item
 
+    def format_gitignore_template_name(self, view_entry):
+        """Formats a gitignore template name.
+
+        Args:
+            * view_entry: A string representing a gitignore template name.
+
+        Returns:
+            A string representing the formatted item.
+        """
+        gitignore_template_name = view_entry.item
+        item = self.format_index_title(view_entry.index,
+                                       gitignore_template_name)
+        return item
+
     def format_issues_url_from_issue(self, issue):
         """Formats the issue url based on the given issue.
 
