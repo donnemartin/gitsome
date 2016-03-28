@@ -34,7 +34,12 @@ class ViewEntry(object):
         """Inits ViewEntry.
 
         Args:
-            * None.
+            * item: An instance of a github3 repo, issue, thread, etc.
+            * url: A string representing the item's url.
+            * index: An int representing the row index.
+            * sort_key_primary: A member representing the primary sort key.
+            * sort_key_secondary: A member representing the secondary sort key.
+            * sort_key_tertiary: A member representing the tertiary sort key.
 
         Returns:
             None.
