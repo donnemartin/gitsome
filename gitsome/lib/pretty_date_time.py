@@ -16,8 +16,10 @@
 from __future__ import print_function
 from __future__ import division
 
+import calendar
 from datetime import datetime
 import pytz
+import time
 
 
 def pretty_date_time(date_time):
@@ -38,6 +40,10 @@ def pretty_date_time(date_time):
     now = datetime.now(pytz.utc)
     if type(date_time) is int:
         diff = now - datetime.fromtimestamp(date_time)
+    elif type(date_time) is time.struct_time:
+        date_time = datetime.fromtimestamp(calendar.timegm(date_time),
+                                           tz=pytz.utc)
+        diff = now - date_time
     elif isinstance(date_time, datetime):
         diff = now - date_time
     elif not date_time:
