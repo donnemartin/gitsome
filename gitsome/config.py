@@ -187,6 +187,31 @@ class Config(object):
             code = input('Enter 2FA code: ')
         return code
 
+    def load_urls(self, view_in_browser):
+        """Loads the current set of urls from ~/.githubconfigurl.
+
+        Args:
+            * None
+            * view_in_browser: A boolean that determines whether to view
+                in a web browser or a terminal.
+
+        Returns:
+            A list of urls.
+        """
+        config = self.get_github_config_path(self.CONFIG_URL)
+        parser = configparser.RawConfigParser()
+        with open(config) as config_file:
+            parser.readfp(config_file)
+            urls = parser.get(self.CONFIG_URL_SECTION,
+                              self.CONFIG_URL_LIST)
+            urls = urls.strip()
+            excludes = ['[', ']', "'"]
+            for exclude in excludes:
+                urls = urls.replace(exclude, '')
+                if not view_in_browser:
+                    urls = urls.replace('https://github.com/', '')
+            return urls.split(', ')
+
     def save_urls(self):
         """Saves the current set of urls to ~/.githubconfigurl.
 
