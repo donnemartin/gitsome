@@ -30,6 +30,10 @@ class Config(object):
         * CONFIG_USER_LOGIN: A string representing the user login config.
         * CONFIG_USER_PASS: A string representing the user pass config.
         * CONFIG_USER_TOKEN: A string representing the user token config.
+        * CONFIG_USER_FEED: A string representing the user feed config.  This
+            is the feed on https://github.com/ when logged in and requires the
+            basic auth model, which doesn't work when logging in with tokens or
+            2FA.  This config listed the pre-signed url to access the feed.
         * CONFIG_URL: A string representing the jump to url config file name.
         * CONFIG_URL_SECTION: A string representing the jump to url config
             file section.
@@ -51,6 +55,7 @@ class Config(object):
     CONFIG_USER_LOGIN = 'user_login'
     CONFIG_USER_PASS = 'user_pass'
     CONFIG_USER_TOKEN = 'user_token'
+    CONFIG_USER_FEED = 'user_feed'
     CONFIG_URL = '.githubconfigurl'
     CONFIG_URL_SECTION = 'url'
     CONFIG_URL_LIST = 'url_list'
@@ -69,6 +74,7 @@ class Config(object):
         self.user_login = None
         self.user_pass = None
         self.user_token = None
+        self.user_feed = None
         self.authenticate()
         self.urls = []
 
@@ -125,6 +131,8 @@ class Config(object):
                         password=parser.get(self.CONFIG_SECTION,
                                             self.CONFIG_USER_PASS),
                         two_factor_callback=self.request_two_factor_code)
+                self.user_feed = parser.get(self.CONFIG_SECTION,
+                                            self.CONFIG_USER_FEED)
         else:
             # Either the file didn't exist or we didn't have the correct
             # permissions
