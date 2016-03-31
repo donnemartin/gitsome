@@ -99,8 +99,18 @@ class PromptToolkitShell(BaseShell):
             styles = {
                 Token.Menu.Completions.Completion.Current: 'bg:#00aaaa #000000',
                 Token.Menu.Completions.Completion: 'bg:#008888 #ffffff',
+                Token.Menu.Completions.Meta.Current: 'bg:#00aaaa #000000',
+                Token.Menu.Completions.Meta: 'bg:#00aaaa #ffffff',
                 Token.Menu.Completions.ProgressButton: 'bg:#003333',
                 Token.Menu.Completions.ProgressBar: 'bg:#00aaaa',
+                Token.Toolbar: 'bg:#222222 #cccccc',
+                Token.Toolbar.Off: 'bg:#222222 #696969',
+                Token.Toolbar.On: 'bg:#222222 #ffffff',
+                Token.Toolbar.Search: 'noinherit bold',
+                Token.Toolbar.Search.Text: 'nobold',
+                Token.Toolbar.System: 'noinherit bold',
+                Token.Toolbar.Arg: 'noinherit bold',
+                Token.Toolbar.Arg.Text: 'nobold',
                 Token.AutoSuggestion: '#666666',
                 Token.Aborted: '#888888',
             }
