@@ -135,3 +135,22 @@ class CompleterGitsome(Completer):
             if option in words:
                 return True
         return False
+
+    def arg_completions(self, words, word_before_cursor):
+        """Generates arguments completions based on the input.
+
+        Args:
+            * words: A list of words repsenting the input text.
+            * word_before_cursor: A string that represents the current word
+                 before the cursor, which might be one or more blank spaces.
+
+        Returns:
+            A list of completions.
+        """
+        if 'gh' not in words:
+            return []
+        for subcommand, args_opts in COMPLETIONS_GH.items():
+            if subcommand in words:
+                args = list(COMPLETIONS_GH[subcommand]['args'].keys())
+                return args if args else []
+        return []
