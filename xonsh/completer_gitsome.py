@@ -95,3 +95,22 @@ class CompleterGitsome(Completer):
             return True
         else:
             return False
+
+    def completing_subcommand_option(self, words, word_before_cursor):
+        """Determines if we are currently completing an option.
+
+        Args:
+            * words: A list of words repsenting the input text.
+            * word_before_cursor: A string that represents the current word
+                 before the cursor, which might be one or more blank spaces.
+
+        Returns:
+            A boolean representing the options.
+        """
+        options = []
+        for subcommand, args_opts in COMPLETIONS_GH.items():
+            if subcommand in words and \
+                (words[-2] == subcommand or
+                    self.completing_subcommand_option_util(subcommand, words)):
+                options.extend(COMPLETIONS_GH[subcommand]['opts'])
+        return options
