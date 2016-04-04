@@ -83,12 +83,16 @@ class Formatter(object):
             A string representing the formatted item.
         """
         feed_entry = view_entry.item
-        item = self.format_index_title(view_entry.index,
-                                       feed_entry.title)
-        from datetime import datetime
+        item_parts = feed_entry.title.split(' ')
+        title = item_parts[0]
+        action = item_parts[1:-1]
+        repo = item_parts[-1]
+        item = self.format_index_title(view_entry.index, title)
+        item += click.style(' '.join(action), fg='green')
+        item += click.style(' ' + repo + ' ', fg='cyan')
         item += click.style(
-            '(' + str(pretty_date_time(feed_entry.published_parsed)) + ')',
-            fg=None)
+            '(' + str(pretty_date_time(feed_entry.updated_parsed)) + ')',
+            fg='yellow')
         return item
 
     def format_license_name(self, view_entry):
