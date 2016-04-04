@@ -9,7 +9,7 @@ This module contains everything relating to Users.
 from __future__ import unicode_literals
 
 from json import dumps
-from github3.auths import Authorization
+from .auths import Authorization
 from uritemplate import URITemplate
 from .events import Event
 from .models import GitHubCore, BaseAccount
