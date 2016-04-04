@@ -26,6 +26,20 @@ class Formatter(object):
         * None.
     """
 
+    def _format_push_event(self, event):
+        item = click.style(self.event_type_mapping[event.type], fg='green')
+        branch = event.payload['ref'].split('/')[-1]
+        item += click.style(' ' + branch, fg='cyan')
+        item += click.style(' at ', fg='green')
+        item += click.style(self.format_user_repo(event.repo), fg='cyan')
+        item += self._format_time(event)
+        for commit in event.payload['commits']:
+            item += click.style('\n')
+            sha = click.style(self._format_sha(commit['sha']) + ': ', fg=None)
+            message = self._format_commit_or_comment(commit['message'], sha=sha)
+            item += click.style(message, fg=None)
+        return item
+
     def _format_general_event(self, event):
         item = click.style(self.event_type_mapping[event.type] + ' ',
                            fg='green')
