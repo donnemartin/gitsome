@@ -64,7 +64,7 @@ class Formatter(object):
             'CreateEvent': self._format_create_delete_event,
             'DeleteEvent': self._format_create_delete_event,
             'FollowEvent': self._format_general_event,
-            'ForkEvent': self._format_general_event,
+            'ForkEvent': self._format_fork_event,
             'ForkApplyEvent': self._format_general_event,
             'GistEvent': self._format_general_event,
             'GollumEvent': self._format_general_event,
@@ -129,6 +129,15 @@ class Formatter(object):
             item += click.style(' ' + event.payload['ref'], fg='cyan')
         item += click.style(' at ', fg='green')
         item += click.style(self.format_user_repo(event.repo), fg='cyan')
+        item += self._format_time(event)
+        return item
+
+    def _format_fork_event(self, event):
+        item = click.style(self.event_type_mapping[event.type], fg='green')
+        forkee = str(event.payload['forkee'])
+        item += click.style(self.format_user_repo(event.repo), fg='cyan')
+        item += click.style(' to', fg='green')
+        item += click.style(' ' + forkee, fg='green')
         item += self._format_time(event)
         return item
 
