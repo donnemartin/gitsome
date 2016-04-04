@@ -23,8 +23,40 @@ class Formatter(object):
     """Handles formatting of isssues, repos, threads, etc.
 
     Attributes:
-        * None.
+        * event_type_mapping: A mapping of raw event types to more
+            human readable text.
+            See: https://developer.github.com/v3/activity/events/types/
     """
+
+    def __init__(self):
+        """Inits Formatter.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        self.event_type_mapping = {
+            'CommitCommentEvent': 'commented on commit',
+            'CreateEvent': 'created',
+            'DeleteEvent': 'deleted',
+            'FollowEvent': 'followed',
+            'ForkEvent': 'forked',
+            'GistEvent': 'created/updated gist',
+            'GollumEvent': 'created/updated wiki',
+            'IssueCommentEvent': 'commented on',
+            'IssuesEvent': '',
+            'MemberEvent': 'added collaborator',
+            'MembershipEvent': 'added/removed user',
+            'PublicEvent': 'open sourced',
+            'PullRequestEvent': '',
+            'PullRequestReviewCommentEvent': 'commented on pull request',
+            'PushEvent': 'pushed to',
+            'ReleaseEvent': 'released',
+            'RepositoryEvent': 'created repository',
+            'WatchEvent': 'starred',
+        }
 
     def _format_time(self, event):
         item = click.style(
