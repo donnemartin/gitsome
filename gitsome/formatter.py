@@ -26,6 +26,16 @@ class Formatter(object):
         * None.
     """
 
+    def _format_commit_or_comment(self, message, sha=''):
+        indent = '         '
+        subsequent_indent = indent if sha == '' else '                  '
+        message = self.strip_line_breaks(message)
+        formatted_message = click.wrap_text(
+            text=click.style(sha, fg='cyan')+message,
+            initial_indent=indent,
+            subsequent_indent=subsequent_indent)
+        return formatted_message
+
     def _format_sha(self, sha):
         return sha[:7]
 
