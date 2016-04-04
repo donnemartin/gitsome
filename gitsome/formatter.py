@@ -26,6 +26,13 @@ class Formatter(object):
         * None.
     """
 
+    def _format_general_event(self, event):
+        item = click.style(self.event_type_mapping[event.type] + ' ',
+                           fg='green')
+        item += click.style(self.format_user_repo(event.repo), fg='cyan')
+        item += self._format_time(event)
+        return item
+
     def format_email(self, view_entry):
         """Formats an email.
 
