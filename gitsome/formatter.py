@@ -26,6 +26,12 @@ class Formatter(object):
         * None.
     """
 
+    def _format_issues_event(self, event):
+        item = click.style(event.payload['action'] + ' issue ', fg='green')
+        item += self._format_issue_comment(event, key='issue')
+        item += self._format_time(event)
+        return item
+
     def _format_pull_request_event(self, event):
         item = click.style(event.payload['action'] + ' pull request ',
                            fg='green')
