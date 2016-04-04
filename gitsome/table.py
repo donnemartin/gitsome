@@ -129,7 +129,7 @@ class Table(object):
                                build_urls=False)
 
     def build_table_setup_user(self, items, format_method,
-                               limit, build_urls=True):
+                               limit, pager, build_urls=True):
         """Converts items to a list of ViewEntry before calling `build_table`.
 
         Specific to GitHub3.User.users.
@@ -149,6 +149,7 @@ class Table(object):
             view_entries.append(ViewEntry(item=item, url=item.login))
         self.build_table(view_entries,
                          limit=sys.maxsize,
+                         pager=pager,
                          format_method=format_method)
 
     def build_table_setup_trending(self, items, format_method,
