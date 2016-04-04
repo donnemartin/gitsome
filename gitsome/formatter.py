@@ -26,6 +26,12 @@ class Formatter(object):
         * None.
     """
 
+    def _format_issue_comment(self, event, key):
+        issue = '{repo[0]}/{repo[1]}#{num}'.format(
+            repo=event.payload[key].repository,
+            num=event.payload[key].number)
+        return click.style(issue, fg='cyan')
+
     def _format_commit_or_comment(self, message, sha=''):
         indent = '         '
         subsequent_indent = indent if sha == '' else '                  '
