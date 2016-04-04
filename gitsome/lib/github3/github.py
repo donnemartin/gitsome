@@ -1053,15 +1053,16 @@ class GitHub(GitHubCore):
         return self._json(self._get(url), 200)
 
     @requires_auth
-    def repositories(self, type=None, sort=None, direction=None, number=-1,
-                     etag=None):
-        """List repositories for the authenticated user, filterable by ``type``.
+    def repositories(self, username='', type=None, sort=None, direction=None,
+                     number=-1, etag=None):
+        """List repositories for the given user, filterable by ``type``.
 
         .. versionchanged:: 0.6
 
            Removed the login parameter for correctness. Use repositories_by
            instead
 
+        :param str username: (optional), username
         :param str type: (optional), accepted values:
             ('all', 'owner', 'public', 'private', 'member')
             API default: 'all'
@@ -1078,7 +1079,10 @@ class GitHub(GitHubCore):
         :returns: generator of :class:`Repository <github3.repos.Repository>`
             objects
         """
-        url = self._build_url('user', 'repos')
+        if username:
+            url = self._build_url('users', username, 'repos')
+        else:
+            url = self._build_url('user', 'repos')
 
         params = {}
         if type in ('all', 'owner', 'public', 'private', 'member'):
