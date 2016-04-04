@@ -147,7 +147,7 @@ class Table(object):
             None.
         """
         for view_entry in view_entries:
-            self.config.urls.append('https://github.com/' + view_entry.url)
+            self.config.urls.append(view_entry.url)
         self.config.save_urls()
 
     def create_tip(self, max_index):
