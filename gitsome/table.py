@@ -40,7 +40,8 @@ class Table(object):
         """
         self.config = config
 
-    def build_table(self, view_entries, limit, format_method, build_urls=True):
+    def build_table(self, view_entries, limit, pager, format_method,
+                    build_urls=True, print_output=True):
         """Builds the table used for the gh view command.
 
         Args:
@@ -49,33 +50,45 @@ class Table(object):
             * format_method: A method called to format each item in the table.
             * build_urls: A bool that determines whether to build urls for the
                 gh view # command.
+            * print_output: A bool that determines whether to print the output
+                (True) or return the output as a string (False)
 
         Returns:
-            None.
+            A string representing the output if print_output is True
+            else, returns None.
         """
         if build_urls:
             self.build_table_urls(view_entries)
         index = 0
+        output = ''
         for view_entry in view_entries:
             index += 1
             view_entry.index = index
-            click.echo(format_method(view_entry))
+            output += format_method(view_entry) + '\n'
             if index >= limit:
                 break
         if build_urls:
             if len(view_entries) > limit:
-                click.secho(('       <Hiding ' +
-                             str(len(view_entries) - limit) +
-                             ' item(s), use -l/--limit ' +
-                             str(len(view_entries)) +
-                             ' to view all items.>'),
-                            fg=None)
+                output += click.style(('       <Hiding ' +
+                                       str(len(view_entries) - limit) +
+                                       ' item(s), use -l/--limit ' +
+                                       str(len(view_entries)) +
+                                       ' to view all items.>'),
+                                      fg=None)
         if index == 0:
-            click.secho('No results found', fg=None)
+            output += click.style('No results found', fg=None)
         elif build_urls:
-            click.secho(self.create_tip(index))
+            output += click.style(self.create_tip(index))
         else:
-            click.echo('')
+            output += click.style('')
+        if print_output:
+            if pager:
+                click.echo_via_pager(output)
+            else:
+                click.secho(output)
+            return None
+        else:
+            return output
 
     def build_table_setup(self, items, format_method,
                           limit, pager, build_urls=True):
