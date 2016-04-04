@@ -26,6 +26,20 @@ class Formatter(object):
         * None.
     """
 
+    def _format_commit_comment_event(self, event):
+        item = click.style(self.event_type_mapping[event.type] + ' ',
+                           fg='green')
+        item += click.style(
+            self._format_sha(event.payload['comment'].commit_id),
+            fg='cyan')
+        item += click.style(' at ', fg='green')
+        item += click.style(self.format_user_repo(event.repo), fg='cyan')
+        item += self._format_time(event)
+        item += click.style('\n')
+        message = self._format_commit_or_comment(event.payload['comment'].body)
+        item += click.style(message, fg=None)
+        return item
+
     def _format_create_delete_event(self, event):
         item = click.style(self.event_type_mapping[event.type], fg='green')
         item += click.style(' ' + event.payload['ref_type'], fg='green')
