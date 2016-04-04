@@ -114,3 +114,24 @@ class CompleterGitsome(Completer):
                     self.completing_subcommand_option_util(subcommand, words)):
                 options.extend(COMPLETIONS_GH[subcommand]['opts'])
         return options
+
+    def completing_subcommand_option_util(self, option, words):
+        """Determines if we are currently completing an option.
+
+        Called by completing_subcommand_option as a utility method.
+
+        Args:
+            * words: A list of words repsenting the input text.
+            * word_before_cursor: A string that represents the current word
+                 before the cursor, which might be one or more blank spaces.
+
+        Returns:
+            A boolean that specifies whether we are currently completing an
+                option.
+        """
+        # Example: Return True for: gh view 1 --pag
+        if len(words) > 3:
+            # if words[-3] == option:
+            if option in words:
+                return True
+        return False
