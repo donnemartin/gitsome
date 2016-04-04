@@ -252,8 +252,14 @@ class Formatter(object):
         action = item_parts[1:-1]
         repo = item_parts[-1]
         item = self.format_index_title(view_entry.index, title)
-        item += click.style(' '.join(action), fg='green')
-        item += click.style(' ' + repo + ' ', fg='cyan')
+        if action[0] == 'forked':
+            item += click.style(action[0] + ' ', fg='green')
+            item += click.style(action[1] + ' ', fg='cyan')
+            item += click.style(action[2], fg='green')
+            item += click.style(' ' + repo + ' ', fg='green')
+        else:
+            item += click.style(' '.join(action), fg='green')
+            item += click.style(' ' + repo + ' ', fg='cyan')
         item += click.style(
             '(' + str(pretty_date_time(feed_entry.updated_parsed)) + ')',
             fg='yellow')
