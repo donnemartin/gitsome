@@ -267,3 +267,16 @@ class Formatter(object):
         if result.startswith('repos/'):
             return result[len('repos/'):]
         return result
+
+    def strip_line_breaks(self, text):
+        """Strips \r and \n characters.
+
+        Args:
+            * text: A string representing the text to strip of line breaks.
+
+        Returns:
+            A string without line breaks.
+        """
+        text = re.sub(r'(\r*)', r'', text)
+        text = re.sub(r'(\n*)', r'', text)
+        return text
