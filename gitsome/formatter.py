@@ -59,6 +59,20 @@ class Formatter(object):
         item = self.format_index_title(view_entry.index, emoji)
         return item
 
+    def format_event(self, view_entry):
+        """Formats an event.
+
+        Args:
+            * view_entry: An instance of github3.events.Event.
+
+        Returns:
+            A string representing the formatted item.
+        """
+        event = view_entry.item
+        item = self.format_index_title(view_entry.index, str(event.actor))
+        item += self.event_handlers[event.type](event)
+        return item
+
     def format_gitignore_template_name(self, view_entry):
         """Formats a gitignore template name.
 
