@@ -78,7 +78,7 @@ class Table(object):
             click.echo('')
 
     def build_table_setup(self, items, format_method,
-                          limit, build_urls=True):
+                          limit, pager, build_urls=True):
         """Converts items to a list of ViewEntry before calling `build_table`.
 
         Args:
@@ -93,12 +93,12 @@ class Table(object):
         """
         view_entries = []
         for item in items:
-            view_entries.append(ViewEntry(item=item))
+            view_entries.append(ViewEntry(item))
         self.build_table(view_entries,
-                         limit=limit,
-                         format_method=format_method,
-                         build_urls=build_urls)
-
+                         limit,
+                         pager,
+                         format_method,
+                         build_urls)
     def build_table_setup_feed(self, items, format_method, pager):
         """Performs feed-specific processing before calling `build_table`.
 
