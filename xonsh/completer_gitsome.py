@@ -78,3 +78,20 @@ class CompleterGitsome(Completer):
             return True
         else:
             return False
+
+    def completing_arg(self, words, word_before_cursor):
+        """Determines if we are currently completing an arg.
+
+        Args:
+            * words: A list of words repsenting the input text.
+            * word_before_cursor: A string that represents the current word
+                 before the cursor, which might be one or more blank spaces.
+
+        Returns:
+            A boolean that specifies whether we are currently completing an arg.
+        """
+        if (len(words) == 2 and word_before_cursor == '') \
+                or (len(words) == 3 and word_before_cursor != ''):
+            return True
+        else:
+            return False
