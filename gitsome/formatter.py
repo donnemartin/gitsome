@@ -15,6 +15,8 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
+import re
+
 from .lib.pretty_date_time import pretty_date_time
 import click
 
