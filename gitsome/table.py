@@ -112,6 +112,7 @@ class Table(object):
                          pager,
                          format_method,
                          build_urls)
+
     def build_table_setup_feed(self, items, format_method, pager):
         """Performs feed-specific processing before calling `build_table`.
 
