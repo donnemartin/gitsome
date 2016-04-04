@@ -180,7 +180,10 @@ def list_numbering_start(attrs):
 
 class HTML2Text(HTMLParser.HTMLParser):
     def __init__(self, out=None, baseurl=''):
-        HTMLParser.HTMLParser.__init__(self)
+        try:
+            HTMLParser.HTMLParser.__init__(self, convert_charrefs=False)
+        except TypeError:
+            HTMLParser.HTMLParser.__init__(self)
 
         # Config options
         self.unicode_snob = UNICODE_SNOB
