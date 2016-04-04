@@ -26,6 +26,13 @@ class Formatter(object):
         * None.
     """
 
+    def _format_pull_request_event(self, event):
+        item = click.style(event.payload['action'] + ' pull request ',
+                           fg='green')
+        item += self._format_issue_comment(event, key='pull_request')
+        item += self._format_time(event)
+        return item
+
     def _format_push_event(self, event):
         item = click.style(self.event_type_mapping[event.type], fg='green')
         branch = event.payload['ref'].split('/')[-1]
