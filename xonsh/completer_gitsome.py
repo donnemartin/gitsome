@@ -43,3 +43,20 @@ class CompleterGitsome(Completer):
         """
         self.fuzzy_match = False
         self.text_utils = TextUtils()
+
+    def completing_command(self, words, word_before_cursor):
+        """Determines if we are currently completing the gh command.
+
+        Args:
+            * words: A list of words repsenting the input text.
+            * word_before_cursor: A string that represents the current word
+                 before the cursor, which might be one or more blank spaces.
+
+        Returns:
+            A boolean that specifies whether we are currently completing the
+                gh command.
+        """
+        if len(words) == 1 and word_before_cursor != '':
+            return True
+        else:
+            return False
