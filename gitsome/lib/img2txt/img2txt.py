@@ -2,7 +2,6 @@
 # Code from https://github.com/hit9/img2txt.git by Chao Wang
 import sys
 from docopt import docopt
-from PIL import Image
 
 
 def HTMLColorToRGB(colorstring):
@@ -293,6 +292,7 @@ def generate_grayscale_for_image(pixels, width, height, bgcolor):
 
 
 def load_and_resize_image(imgname, antialias, maxLen):
+    from PIL import Image
     img = Image.open(imgname)
     # force image to RGBA - deals with palettized images (e.g. gif) etc.
     if img.mode != 'RGBA':
@@ -325,9 +325,12 @@ def img2txt(imgname, maxLen=35, clr='', ansi=False,
     except:
         bgcolor = None
     try:
+        from PIL import Image
         img = load_and_resize_image(imgname, antialias, maxLen)
     except IOError:
         exit("File not found: " + imgname)
+    except ImportError:
+        return ''
     # get pixels
     pixel = img.load()
     width, height = img.size
