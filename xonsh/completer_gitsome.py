@@ -154,3 +154,37 @@ class CompleterGitsome(Completer):
                 args = list(COMPLETIONS_GH[subcommand]['args'].keys())
                 return args if args else []
         return []
+
+    def get_completions(self, document, _):
+        """Get completions for the current scope.
+
+        Args:
+            * document: An instance of prompt_toolkit's Document.
+            * _: An instance of prompt_toolkit's CompleteEvent (not used).
+
+        Returns:
+            A generator of prompt_toolkit's Completion objects, containing
+            matched completions.
+        """
+        word_before_cursor = document.get_word_before_cursor(WORD=True)
+        words = self.text_utils.get_tokens(document.text)
+        commands = []
+        if len(words) == 0:
+            return commands
+        if self.completing_command(words, word_before_cursor):
+            commands = ['gh']
+        else:
+            if 'gh' not in words:
+                return commands
+            if self.completing_subcommand(words, word_before_cursor):
+                commands = list(SUBCOMMANDS.keys())
+            else:
+                if self.completing_arg(words, word_before_cursor):
+                    commands = self.arg_completions(words, word_before_cursor)
+                else:
+                    commands = self.completing_subcommand_option(
+                        words,
+                        word_before_cursor)
+        completions = self.text_utils.find_matches(
+            word_before_cursor, commands, fuzzy=self.fuzzy_match)
+        return completions
