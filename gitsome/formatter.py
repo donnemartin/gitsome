@@ -26,6 +26,9 @@ class Formatter(object):
         * None.
     """
 
+    def _format_sha(self, sha):
+        return sha[:7]
+
     def _format_commit_comment_event(self, event):
         item = click.style(self.event_type_mapping[event.type] + ' ',
                            fg='green')
