@@ -248,6 +248,41 @@ class Formatter(object):
                             fg='yellow')
         return item
 
+    def format_trending_entry(self, view_entry):
+        """Formats a trending repo entry.
+
+        Args:
+            * view_entry: A dictionary parsed to include feed URITemplates.
+
+        Returns:
+            A string representing the formatted item.
+        """
+        trending_entry = view_entry.item
+        item_parts = trending_entry.title.split(' ')
+        title = item_parts[0]
+        item = self.format_index_title(view_entry.index, title)
+        summary_parts = trending_entry.summary.split('\n')
+        summary = summary_parts[0] if len(summary_parts) > 1 else ''
+        summary = self.strip_line_breaks(summary)
+        language = summary_parts[-1]
+        if language == '()':
+            language = '(Unknown)'
+        language = re.sub(r'(\()', r'', language)
+        language = re.sub(r'(\))', r'', language)
+        item += click.style(
+            '(' + str(pretty_date_time(trending_entry.updated_parsed)) + ')',
+            fg='yellow')
+        if summary:
+            item += '\n'
+            summary = click.wrap_text(
+                text=summary,
+                initial_indent='         ',
+                subsequent_indent='         ')
+        item += click.style(summary, fg=None)
+        item += '\n'
+        item += click.style('         Language: ' + language, fg='green')
+        return item
+
     def format_user_repo(self, repo):
         """Formats a repo tuple for pretty print.
 
