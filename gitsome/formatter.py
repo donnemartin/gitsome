@@ -57,6 +57,29 @@ class Formatter(object):
             'RepositoryEvent': 'created repository',
             'WatchEvent': 'starred',
         }
+        self.event_handlers = {
+            'CommitCommentEvent': self._format_commit_comment_event,
+            'CreateEvent': self._format_create_delete_event,
+            'DeleteEvent': self._format_create_delete_event,
+            'FollowEvent': self._format_general_event,
+            'ForkEvent': self._format_general_event,
+            'ForkApplyEvent': self._format_general_event,
+            'GistEvent': self._format_general_event,
+            'GollumEvent': self._format_general_event,
+            'IssueCommentEvent': self._format_issue_commment_event,
+            'IssuesEvent': self._format_issues_event,
+            'MemberEvent': self._format_general_event,
+            'MembershipEvent': self._format_general_event,
+            'PublicEvent': self._format_general_event,
+            'PullRequestEvent': self._format_pull_request_event,
+            'PullRequestReviewCommentEvent': self._format_general_event,
+            'PushEvent': self._format_push_event,
+            'ReleaseEvent': self._format_general_event,
+            'StatusEvent': self._format_general_event,
+            'TeamAddEvent': self._format_general_event,
+            'RepositoryEvent': self._format_general_event,
+            'WatchEvent': self._format_general_event,
+        }
 
     def _format_time(self, event):
         item = click.style(
