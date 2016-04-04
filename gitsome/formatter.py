@@ -26,6 +26,12 @@ class Formatter(object):
         * None.
     """
 
+    def _format_time(self, event):
+        item = click.style(
+            ' (' + str(pretty_date_time(event.created_at)) + ')',
+            fg='yellow')
+        return item
+
     def _format_issue_comment(self, event, key):
         issue = '{repo[0]}/{repo[1]}#{num}'.format(
             repo=event.payload[key].repository,
