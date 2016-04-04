@@ -99,7 +99,7 @@ class Table(object):
                          format_method=format_method,
                          build_urls=build_urls)
 
-    def build_table_setup_feed(self, items, format_method):
+    def build_table_setup_feed(self, items, format_method, pager):
         """Performs feed-specific processing before calling `build_table`.
 
         Args:
@@ -109,9 +109,10 @@ class Table(object):
         Returns:
             None.
         """
-        self.build_table_setup(items=items.entries,
-                               format_method=format_method,
+        self.build_table_setup(items.entries,
+                               format_method,
                                limit=sys.maxsize,
+                               pager=pager,
                                build_urls=False)
 
     def build_table_setup_user(self, items, format_method,
