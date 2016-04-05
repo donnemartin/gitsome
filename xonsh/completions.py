@@ -279,3 +279,19 @@ COMPLETIONS_GH = {
         },
     },
 }
+META_LOOKUP_GH = {
+    '10': 'limit: int (opt) limits the posts displayed',
+    '"(?i)(Python|Django)"': ('regex_query: string (opt) applies a regular '
+                              'expression comment filter'),
+    '1': 'index: int (req) views the post index',
+    '"user"': 'user:string (req) shows info on the specified user',
+    'gh': 'Git auto-completer with GitHub integration.',
+}
+SUBCOMMANDS = {}
+for subcommand, args_opts in COMPLETIONS_GH.items():
+    META_LOOKUP_GH.update({subcommand: COMPLETIONS_GH[subcommand]['desc']})
+    SUBCOMMANDS.update({subcommand: COMPLETIONS_GH[subcommand]['desc']})
+    for opt, meta in args_opts['opts'].items():
+        META_LOOKUP_GH.update({opt: meta})
+    for arg, meta in args_opts['args'].items():
+        META_LOOKUP_GH.update({arg: meta})
