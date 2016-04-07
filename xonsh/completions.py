@@ -66,8 +66,8 @@ COMPLETIONS_GH = {
             '--pager': 'flag (req) show results in a pager.',
         },
     },
-    'events': {
-        'desc': 'Lists all events for the given user or repo.',
+    'feed': {
+        'desc': "Lists all activity for the given user or repo, if called with no arg, shows the logged in user's feed.",
         'args': {
             'octocat/Hello-World --pager': "str (opt) user or user/repository combo, if blank, shows the logged in user's feed.",
         },
