@@ -192,7 +192,7 @@ COMPLETIONS_GH = {
             '--pager': 'flag (opt) show results in a pager.',
         },
     },
-    'rate_limit': {
+    'rate-limit': {
         'desc': 'Outputs the rate limit.',
         'args': {},
         'opts': {},
