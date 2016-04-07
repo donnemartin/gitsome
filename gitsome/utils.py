@@ -32,6 +32,21 @@ class TextUtils(object):
         * None.
     """
 
+    def get_tokens(self, text):
+        """Parses out all tokens.
+
+        Args:
+            * text: A string to split into tokens.
+
+        Returns:
+            A list of strings for each word in the text.
+        """
+        if text is not None:
+            text = text.strip()
+            words = self._safe_split(text)
+            return words
+        return []
+
     def _last_token(self, text):
         """Finds the last word in text.
 
