@@ -73,7 +73,7 @@ class Table(object):
                                        str(len(view_entries) - limit) +
                                        ' item(s), use -l/--limit ' +
                                        str(len(view_entries)) +
-                                       ' to view all items.>'),
+                                       ' to view all items.>\n'),
                                       fg=None)
         if index == 0:
             output += click.style('No results found', fg=None)
