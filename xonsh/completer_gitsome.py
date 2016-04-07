@@ -16,9 +16,10 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
-from prompt_toolkit.completion import Completer
+from prompt_toolkit.completion import Completer, Completion
 
 from .completions import SUBCOMMANDS, COMPLETIONS_GH
+from .completions_git import META_LOOKUP_GIT, META_LOOKUP_GIT_EXTRAS
 from .utils import TextUtils
 
 
@@ -43,6 +44,35 @@ class CompleterGitsome(Completer):
         """
         self.fuzzy_match = False
         self.text_utils = TextUtils()
+
+    def build_completions_with_meta(self, line, prefix, completions):
+        """Builds prompt_toolkit Completions with meta info.
+
+        Args:
+            * line: A list of words repsenting the input text.
+            * prefix: A string that represents the current word.
+            * completions: A list of completions to build meta info for.
+
+        Returns:
+            A boolean that specifies whether we are currently completing the
+                gh command.
+        """
+        completions_with_meta = []
+        tokens = line.split(' ')
+        if tokens[0] != 'gh':
+            for comp in completions:
+                display = None
+                display_meta = None
+                if 'git' in line and comp.strip() in META_LOOKUP_GIT:
+                    display_meta = META_LOOKUP_GIT[comp.strip()]
+                elif 'git' in line and comp.strip() in META_LOOKUP_GIT_EXTRAS:
+                    display_meta = META_LOOKUP_GIT_EXTRAS[comp.strip()]
+                completions_with_meta.append(
+                    Completion(comp,
+                               -len(prefix),
+                               display=display,
+                               display_meta=display_meta))
+        return completions_with_meta
 
     def completing_command(self, words, word_before_cursor):
         """Determines if we are currently completing the gh command.
