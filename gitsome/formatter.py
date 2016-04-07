@@ -261,8 +261,6 @@ class Formatter(object):
         if action[0] == 'forked':
             item += click.style(action[0] + ' ', fg='green')
             item += click.style(action[1] + ' ', fg='cyan')
-            item += click.style(action[2], fg='green')
-            item += click.style(' ' + repo + ' ', fg='green')
         else:
             item += click.style(' '.join(action), fg='green')
             item += click.style(' ' + repo + ' ', fg='cyan')
