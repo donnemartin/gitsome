@@ -182,6 +182,9 @@ class CompleterGitsome(Completer):
         for subcommand, args_opts in COMPLETIONS_GH.items():
             if subcommand in words:
                 args = list(COMPLETIONS_GH[subcommand]['args'].keys())
+                if not args:
+                    # Some commands don't have args, complete options instead.
+                    args = list(COMPLETIONS_GH[subcommand]['opts'].keys())
                 return args if args else []
         return []
 
