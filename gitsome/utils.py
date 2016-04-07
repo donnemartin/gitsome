@@ -39,3 +39,21 @@ class TextUtils(object):
         if six.PY2:
             text = text.encode('utf-8')
         return shlex.split(text)
+
+    def _safe_split(self, text):
+        """Safely splits the input text.
+
+        Shlex can't always split. For example, "\" crashes the completer.
+
+        Args:
+            * text: A string to split.
+
+        Returns:
+            A list that contains words for each split element of text.
+
+        """
+        try:
+            words = self._shlex_split(text)
+            return words
+        except:
+            return text
