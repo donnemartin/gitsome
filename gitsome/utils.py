@@ -1,5 +1,3 @@
-# coding: utf-8
-
 # -*- coding: utf-8 -*-
 
 # Copyright 2015 Donne Martin. All Rights Reserved.
@@ -15,50 +13,29 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
-def format_repo(repo):
-    """Formats a repo tuple for pretty print.
+from __future__ import unicode_literals
+from __future__ import print_function
 
-    Example:
-        Input:  ('donnemartin', 'gitsome')
-        Output: donnemartin/gitsome
+import six
+import shlex
 
-    Args:
-        * arg: A tuple that contains the user and repo.
 
-    Returns:
-        A string of the form user/repo.
+class TextUtils(object):
+    """Utilities for parsing and matching text.
+
+    Attributes:
+        * None.
     """
-    return '/'.join(repo)
 
-def listify(items):
-    """Puts each list element in its own list.
+    def _shlex_split(self, text):
+        """Wrapper for shlex, because it does not seem to handle unicode in 2.6.
 
-    Example:
-        Input: [a, b, c]
-        Output: [[a], [b], [c]]
+        Args:
+            * text: A string to split.
 
-    This is needed for tabulate to print rows [a], [b], and [c].
-
-    Args:
-        * items: A list to listify.
-
-    Returns:
-        A list that contains elements that are listified.
-    """
-    output = []
-    for item in items:
-        item_list = []
-        item_list.append(item)
-        output.append(item_list)
-    return output
-
-def print_error(message):
-    """Prints the given message using click.secho with fg='red'.
-
-    Args:
-        * message: A string to be printed.
-
-    Returns:
-        None.
-    """
-    click.secho(message, fg='red')
+        Returns:
+            A list that contains words for each split element of text.
+        """
+        if six.PY2:
+            text = text.encode('utf-8')
+        return shlex.split(text)
