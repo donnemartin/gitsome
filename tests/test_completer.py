@@ -40,3 +40,20 @@ class CompleterTest(unittest.TestCase):
             Document(text=command, cursor_position=position),
             self.completer_event))
         return result
+
+    def verify_completions(self, commands, expected):
+        result = set()
+        for command in commands:
+            # Call the AWS CLI autocompleter
+            result.update(self._get_completions(command))
+        result_texts = []
+        for item in result:
+            # Each result item is a Completion object,
+            # we are only interested in the text portion
+            result_texts.append(item.text)
+        assert result_texts
+        if len(expected) == 1:
+            assert expected[0] in result_texts
+        else:
+            for item in expected:
+                assert item in result_texts
