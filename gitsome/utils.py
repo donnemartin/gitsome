@@ -32,6 +32,26 @@ class TextUtils(object):
         * None.
     """
 
+    def find_matches(self, word, collection, fuzzy):
+        """Finds all matches in collection for word.
+
+        Args:
+            * word: A string representing the word before
+                the cursor.
+            * collection: A collection of words to match.
+            * fuzzy: A boolean that specifies whether to use fuzzy matching.
+
+        Yields:
+            A list of prompt_toolkit's Completions.
+        """
+        word = self._last_token(word).lower()
+        matches = []
+        for suggestion in self._find_collection_matches(word,
+                                                        collection,
+                                                        fuzzy):
+            matches.append(suggestion)
+        return matches
+
     def get_tokens(self, text):
         """Parses out all tokens.
 
