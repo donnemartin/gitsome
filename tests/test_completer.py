@@ -63,3 +63,9 @@ class CompleterTest(unittest.TestCase):
         expected = set([])
         result = self._get_completions(text)
         assert result == expected
+
+    def test_no_completions(self):
+        text = 'foo'
+        expected = set([])
+        result = self._get_completions(text)
+        assert result == expected
