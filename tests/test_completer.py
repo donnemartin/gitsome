@@ -33,3 +33,10 @@ class CompleterTest(unittest.TestCase):
 
     def create_completer_event(self):
         return mock.Mock()
+
+    def _get_completions(self, command):
+        position = len(command)
+        result = set(self.completer.get_completions(
+            Document(text=command, cursor_position=position),
+            self.completer_event))
+        return result
