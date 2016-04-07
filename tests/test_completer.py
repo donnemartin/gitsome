@@ -97,3 +97,6 @@ class CompleterTest(unittest.TestCase):
 
     def test_args(self):
         self.verify_completions(['gh octo '], ['"Keep it logically awesome"'])
+
+    def test_no_args_with_options(self):
+        self.verify_completions(['gh octo '], ['"Keep it logically awesome"'])
