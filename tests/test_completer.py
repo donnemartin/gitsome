@@ -112,3 +112,13 @@ class CompleterTest(unittest.TestCase):
     def test_fuzzy(self):
         self.completer.fuzzy_match = True
         self.verify_completions(['gh ot'], ['octo'])
+
+    def test_build_completions_with_meta(self):
+        result = self.completer.build_completions_with_meta('git ad',
+                                                            'ad',
+                                                            ['add'])
+        assert result[0].display_meta == 'Add file contents to the index.'
+        result = self.completer.build_completions_with_meta('git-alia',
+                                                            'git-alia',
+                                                            ['git-alias'])
+        assert result[0].display_meta == 'Define, search and show aliases.'
