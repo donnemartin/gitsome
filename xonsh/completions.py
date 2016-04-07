@@ -60,8 +60,8 @@ COMPLETIONS_GH = {
     },
     'emojis': {
         'desc': 'Lists all GitHub supported emojis.',
-        'opts': {},
-        'args': {
+        'args': {},
+        'opts': {
             '-p': 'flag (req) show results in a pager.',
             '--pager': 'flag (req) show results in a pager.',
         },
@@ -107,8 +107,8 @@ COMPLETIONS_GH = {
     },
     'gitignore-templates': {
         'desc': 'Outputs all supported gitignore templates.',
-        'opts': {},
-        'args': {
+        'args': {},
+        'opts': {
             '-p': 'flag (opt) show results in a pager.',
             '--pager': 'flag (opt) show results in a pager.',
         },
@@ -122,8 +122,8 @@ COMPLETIONS_GH = {
     },
     'issues': {
         'desc': 'Lists all issues matching the filter.',
-        'opts': {},
-        'args': {
+        'args': {},
+        'opts': {
             '-f': 'str (opt) "assigned", "created", "mentioned", "subscribed" (default).',
             '--issue_filter': 'str (opt) "assigned", "created", "mentioned", "subscribed" (default).',
             '-s': 'str (opt) "all", "open" (default), "closed".',
@@ -146,8 +146,8 @@ COMPLETIONS_GH = {
     },
     'me': {
         'desc': 'Lists information about the logged in user.',
-        'opts': {},
-        'args': {
+        'args': {},
+        'opts': {
             '-b': 'flag (opt) view profile in a browser instead of the terminal.',
             '--browser': 'flag (opt) view profile in a browser instead of the terminal.',
             '-t': 'flag (opt) view profile pic in plain text.',
@@ -158,8 +158,8 @@ COMPLETIONS_GH = {
     },
     'notifications': {
         'desc': 'Lists all notifications.',
-        'opts': {},
-        'args': {
+        'args': {},
+        'opts': {
             '-p': 'flag (opt) show results in a pager.',
             '--pager': 'flag (opt) show results in a pager.',
         },
@@ -178,8 +178,8 @@ COMPLETIONS_GH = {
     },
     'pull-requests': {
         'desc': 'Lists all pull requests.',
-        'opts': {},
-        'args': {
+        'args': {},
+        'opts': {
             '-p': 'flag (opt) show results in a pager.',
             '--pager': 'flag (opt) show results in a pager.',
         },
