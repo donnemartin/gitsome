@@ -74,3 +74,23 @@ class CompleterTest(unittest.TestCase):
         text = ['g']
         expected = ['gh']
         self.verify_completions(text, expected)
+
+    def test_subcommand(self):
+        self.verify_completions(['gh c'], ['configure', 'create-comment',
+                                           'create-issue', 'create-repo'])
+        self.verify_completions(['gh e'], ['emails', 'emojis'])
+        self.verify_completions(['gh f'], ['feed', 'followers', 'following'])
+        self.verify_completions(['gh g'], ['gitignore-template',
+                                           'gitignore-templates'])
+        self.verify_completions(['gh i'], ['issue', 'issues'])
+        self.verify_completions(['gh l'], ['license', 'licenses'])
+        self.verify_completions(['gh m'], ['me'])
+        self.verify_completions(['gh n'], ['notifications'])
+        self.verify_completions(['gh o'], ['octo'])
+        self.verify_completions(['gh p'], ['pull-request', 'pull-requests'])
+        self.verify_completions(['gh r'], ['rate-limit', 'repo', 'repos'])
+        self.verify_completions(['gh s'], ['search-issues', 'search-repos',
+                                           'starred'])
+        self.verify_completions(['gh t'], ['trending'])
+        self.verify_completions(['gh u'], ['user'])
+        self.verify_completions(['gh v'], ['view'])
