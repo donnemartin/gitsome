@@ -20,6 +20,9 @@ import re
 
 import six
 import shlex
+from prompt_toolkit.completion import Completion
+
+from .completions import META_LOOKUP_GH
 
 
 class TextUtils(object):
@@ -60,6 +63,38 @@ class TextUtils(object):
                 suggestions.append((len(r.group()), r.start(), item))
 
         return (z for _, _, z in sorted(suggestions))
+
+    def _find_collection_matches(self, word, collection, fuzzy):
+        """Yields all matching names in list.
+
+        Args:
+            * word: A string representing the word before the cursor.
+            * collection: A collection of words to match.
+            * fuzzy: A boolean that specifies whether to use fuzzy matching.
+
+        Yields:
+            A generator of prompt_toolkit's Completions.
+        """
+        word = word.lower()
+        if fuzzy:
+            for suggestion in self._fuzzy_finder(word,
+                                                 collection,
+                                                 case_sensitive=False):
+                yield Completion(suggestion,
+                                 -len(word),
+                                 display_meta='display_meta')
+        else:
+            for name in sorted(collection):
+                if name.lower().startswith(word) or not word:
+                    display = None
+                    display_meta = None
+                    # print(len(words))
+                    if name in META_LOOKUP_GH:
+                        display_meta = META_LOOKUP_GH[name]
+                    yield Completion(name,
+                                     -len(word),
+                                     display=display,
+                                     display_meta=display_meta)
 
     def _shlex_split(self, text):
         """Wrapper for shlex, because it does not seem to handle unicode in 2.6.
