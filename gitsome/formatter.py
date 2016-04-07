@@ -267,6 +267,20 @@ class Formatter(object):
         item += click.style(
             '(' + str(pretty_date_time(feed_entry.updated_parsed)) + ')',
             fg='yellow')
+        if action[0] == 'commented':
+            comment_parts = feed_entry['summary'].split('blockquote')
+            if len(comment_parts) > 2:
+                comment = comment_parts[-2]
+                parts_mention = comment.split('class="user-mention">')
+                if len(parts_mention) > 1:
+                    comment = parts_mention[1]
+                comment = self._format_commit_or_comment(comment)
+                comment = re.sub(r'(</a>*)', r'', comment)
+                comment = re.sub(r'(<p>*)', r'', comment)
+                comment = re.sub(r'(</p>*)', r'', comment)
+                comment = re.sub(r'(</*)', r'', comment)
+                comment = re.sub(r'(>      *)', r'', comment)
+                item += click.style('\n' + comment, fg=None)
         return item
 
     def format_license_name(self, view_entry):
