@@ -1,6 +1,8 @@
 """Completer implementation to use with prompt_toolkit."""
 from prompt_toolkit.completion import Completer, Completion
 
+from gitsome.completer import CompleterGitsome
+
 
 class PromptToolkitCompleter(Completer):
     """Simple prompt_toolkit Completer object.
@@ -11,6 +13,7 @@ class PromptToolkitCompleter(Completer):
     def __init__(self, completer, ctx):
         """Takes instance of xonsh.completer.Completer and dict with context."""
         self.completer = completer
+        self.completer_gitsome = CompleterGitsome()
         self.ctx = ctx
 
     def get_completions(self, document, complete_event):
@@ -28,5 +31,13 @@ class PromptToolkitCompleter(Completer):
                                               begidx,
                                               endidx,
                                               self.ctx)
-        for comp in completions:
-            yield Completion(comp, -len(prefix))
+        completions_gitsome = \
+            self.completer_gitsome.get_completions(document,
+                                                   complete_event)
+        completions_with_meta = \
+            self.completer_gitsome.build_completions_with_meta(line,
+                                                               prefix,
+                                                               completions)
+        completions_gitsome.extend(completions_with_meta)
+        for comp in completions_gitsome:
+            yield comp
