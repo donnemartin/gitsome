@@ -104,3 +104,7 @@ class CompleterTest(unittest.TestCase):
     def test_options(self):
         self.verify_completions(['gh emojis '],
                                 ['-p', '--pager'])
+
+    def test_multiple_options(self):
+        self.verify_completions(['gh feed -pr --pa'], ['--pager'])
+        self.verify_completions(['gh feed foo -pr --pa'], ['--pager'])
