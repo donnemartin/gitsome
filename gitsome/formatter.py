@@ -134,10 +134,7 @@ class Formatter(object):
 
     def _format_fork_event(self, event):
         item = click.style(self.event_type_mapping[event.type], fg='green')
-        forkee = str(event.payload['forkee'])
-        item += click.style(self.format_user_repo(event.repo), fg='cyan')
-        item += click.style(' to', fg='green')
-        item += click.style(' ' + forkee, fg='green')
+        item += click.style(' ' + self.format_user_repo(event.repo), fg='cyan')
         item += self._format_time(event)
         return item
 
