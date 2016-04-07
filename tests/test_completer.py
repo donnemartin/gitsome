@@ -57,3 +57,9 @@ class CompleterTest(unittest.TestCase):
         else:
             for item in expected:
                 assert item in result_texts
+
+    def test_blank(self):
+        text = ''
+        expected = set([])
+        result = self._get_completions(text)
+        assert result == expected
