@@ -94,3 +94,6 @@ class CompleterTest(unittest.TestCase):
         self.verify_completions(['gh t'], ['trending'])
         self.verify_completions(['gh u'], ['user'])
         self.verify_completions(['gh v'], ['view'])
+
+    def test_args(self):
+        self.verify_completions(['gh octo '], ['"Keep it logically awesome"'])
