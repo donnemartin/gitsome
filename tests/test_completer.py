@@ -108,3 +108,7 @@ class CompleterTest(unittest.TestCase):
     def test_multiple_options(self):
         self.verify_completions(['gh feed -pr --pa'], ['--pager'])
         self.verify_completions(['gh feed foo -pr --pa'], ['--pager'])
+
+    def test_fuzzy(self):
+        self.completer.fuzzy_match = True
+        self.verify_completions(['gh ot'], ['octo'])
