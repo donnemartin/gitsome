@@ -97,3 +97,11 @@ class GitHubCliTest(unittest.TestCase):
                                      '--pager'])
         mock_gh_call.assert_called_with('u', True)
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.following')
+    def test_following(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['following', 'u',
+                                     '--pager'])
+        mock_gh_call.assert_called_with('u', True)
+        assert result.exit_code == 0
