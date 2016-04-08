@@ -145,3 +145,10 @@ class GitHubCliTest(unittest.TestCase):
                                     ['license', 'l'])
         mock_gh_call.assert_called_with('l')
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.licenses')
+    def test_licenses(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['licenses'])
+        mock_gh_call.assert_called_with()
+        assert result.exit_code == 0
