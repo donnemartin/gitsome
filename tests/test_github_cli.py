@@ -40,3 +40,11 @@ class GitHubCliTest(unittest.TestCase):
         result = self.runner.invoke(self.github_cli.cli, ['configure'])
         mock_gh_call.assert_called_with()
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.create_comment')
+    def test_create_comment(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['create-comment', 'u/r/n',
+                                     '--text', 'foo'])
+        mock_gh_call.assert_called_with('u/r/n', 'foo')
+        assert result.exit_code == 0
