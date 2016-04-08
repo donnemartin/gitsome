@@ -48,3 +48,12 @@ class GitHubCliTest(unittest.TestCase):
                                      '--text', 'foo'])
         mock_gh_call.assert_called_with('u/r/n', 'foo')
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.create_issue')
+    def test_create_issue(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['create-issue', 'u/r',
+                                     '--issue_title', 'foo',
+                                     '--issue_desc', 'bar'])
+        mock_gh_call.assert_called_with('u/r', 'foo', 'bar')
+        assert result.exit_code == 0
