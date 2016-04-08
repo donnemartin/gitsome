@@ -34,3 +34,9 @@ class GitHubCliTest(unittest.TestCase):
     def test_cli(self):
         result = self.runner.invoke(self.github_cli.cli)
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.configure')
+    def test_configure(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli, ['configure'])
+        mock_gh_call.assert_called_with()
+        assert result.exit_code == 0
