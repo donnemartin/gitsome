@@ -162,3 +162,12 @@ class GitHubCliTest(unittest.TestCase):
                                      '--pager'])
         mock_gh_call.assert_called_with(True, True, 10, True)
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.notifications')
+    def test_notifications(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['notifications',
+                                     '--limit', 10,
+                                     '--pager'])
+        mock_gh_call.assert_called_with(10, True)
+        assert result.exit_code == 0
