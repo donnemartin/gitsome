@@ -57,3 +57,12 @@ class GitHubCliTest(unittest.TestCase):
                                      '--issue_desc', 'bar'])
         mock_gh_call.assert_called_with('u/r', 'foo', 'bar')
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.create_repo')
+    def test_create_repo(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['create-repo', 'r',
+                                     '--repo_desc', 'foo',
+                                     '--private'])
+        mock_gh_call.assert_called_with('r', 'foo', True)
+        assert result.exit_code == 0
