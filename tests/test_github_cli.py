@@ -112,3 +112,11 @@ class GitHubCliTest(unittest.TestCase):
                                     ['gitignore-template', 'l'])
         mock_gh_call.assert_called_with('l')
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.gitignore_templates')
+    def test_gitignore_templates(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['gitignore-templates',
+                                     '--pager'])
+        mock_gh_call.assert_called_with(True)
+        assert result.exit_code == 0
