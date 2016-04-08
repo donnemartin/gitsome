@@ -138,3 +138,10 @@ class GitHubCliTest(unittest.TestCase):
                                      '--pager'])
         mock_gh_call.assert_called_with('mentioned', 'closed', 10, True)
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.license')
+    def test_license(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['license', 'l'])
+        mock_gh_call.assert_called_with('l')
+        assert result.exit_code == 0
