@@ -81,3 +81,11 @@ class GitHubCliTest(unittest.TestCase):
                                      '--pager'])
         mock_gh_call.assert_called_with(True)
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.feed')
+    def test_feed(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['feed', 'u',
+                                     '--private', '--pager'])
+        mock_gh_call.assert_called_with('u', True, True)
+        assert result.exit_code == 0
