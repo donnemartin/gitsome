@@ -127,3 +127,14 @@ class GitHubCliTest(unittest.TestCase):
                                     ['issue', 'u/r/n'])
         mock_gh_call.assert_called_with('u/r/n')
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.issues_setup')
+    def test_issues(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['issues',
+                                     '--issue_filter', 'mentioned',
+                                     '--issue_state', 'closed',
+                                     '--limit', '10',
+                                     '--pager'])
+        mock_gh_call.assert_called_with('mentioned', 'closed', 10, True)
+        assert result.exit_code == 0
