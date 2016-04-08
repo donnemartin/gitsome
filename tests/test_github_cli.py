@@ -66,3 +66,10 @@ class GitHubCliTest(unittest.TestCase):
                                      '--private'])
         mock_gh_call.assert_called_with('r', 'foo', True)
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.emails')
+    def test_emails(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['emails'])
+        mock_gh_call.assert_called_with()
+        assert result.exit_code == 0
