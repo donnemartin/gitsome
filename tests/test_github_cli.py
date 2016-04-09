@@ -201,3 +201,10 @@ class GitHubCliTest(unittest.TestCase):
                                     ['rate-limit'])
         mock_gh_call.assert_called_with()
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.repository')
+    def test_repository(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['repo', 'u/r'])
+        mock_gh_call.assert_called_with('u/r')
+        assert result.exit_code == 0
