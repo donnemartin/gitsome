@@ -273,3 +273,11 @@ class GitHubCliTest(unittest.TestCase):
                                      '--pager'])
         mock_gh_call.assert_called_with('foo', True, True, 10, True)
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.view')
+    def test_view(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['view', '1',
+                                     '--browser'])
+        mock_gh_call.assert_called_with(1, True)
+        assert result.exit_code == 0
