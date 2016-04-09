@@ -245,3 +245,21 @@ class GitHubCliTest(unittest.TestCase):
                                      '--pager'])
         mock_gh_call.assert_called_with('foo', 10, True)
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.trending')
+    def test_trending(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['trending', 'l',
+                                     '--pager'])
+        mock_gh_call.assert_called_with('l', False, False, True)
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['trending', 'l',
+                                     '--weekly',
+                                     '--pager'])
+        mock_gh_call.assert_called_with('l', True, False, True)
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['trending', 'l',
+                                     '--monthly',
+                                     '--pager'])
+        mock_gh_call.assert_called_with('l', False, True, True)
+        assert result.exit_code == 0
