@@ -178,3 +178,10 @@ class GitHubCliTest(unittest.TestCase):
                                     ['octo', 'foo'])
         mock_gh_call.assert_called_with('foo')
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.issue')
+    def test_pull_request(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['pull-request', 'u/r/n'])
+        mock_gh_call.assert_called_with('u/r/n')
+        assert result.exit_code == 0
