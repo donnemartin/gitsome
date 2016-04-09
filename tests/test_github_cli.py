@@ -217,3 +217,12 @@ class GitHubCliTest(unittest.TestCase):
                                      '--pager'])
         mock_gh_call.assert_called_with('foo', 10, True)
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.search_issues')
+    def test_search_issues(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['search-issues', 'foo',
+                                     '--limit', 10,
+                                     '--pager'])
+        mock_gh_call.assert_called_with('foo', 10, True)
+        assert result.exit_code == 0
