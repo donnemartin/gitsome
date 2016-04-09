@@ -263,3 +263,13 @@ class GitHubCliTest(unittest.TestCase):
                                      '--pager'])
         mock_gh_call.assert_called_with('l', False, True, True)
         assert result.exit_code == 0
+
+    @mock.patch('gitsome.githubcli.GitHub.user')
+    def test_user(self, mock_gh_call):
+        result = self.runner.invoke(self.github_cli.cli,
+                                    ['user', 'foo',
+                                     '--browser', '--text_avatar',
+                                     '--limit', 10,
+                                     '--pager'])
+        mock_gh_call.assert_called_with('foo', True, True, 10, True)
+        assert result.exit_code == 0
