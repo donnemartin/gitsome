@@ -55,3 +55,4 @@ README.md
 README.rst
 __pycache__/
 .cache/
+.coverage
