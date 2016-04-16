@@ -268,6 +268,8 @@ COMPLETIONS_GH = {
             '--monthly': 'flag (opt) show the monthly trending repos.',
             '-D': 'flag (opt) view trending devs.  Only valid with -b/--browser.',
             '--devs': 'flag (opt) view trending devs.  Only valid with -b/--browser.',
+            '-b': 'flag (opt) view profile in a browser instead of the terminal.',
+            '--browser': 'flag (opt) view profile in a browser instead of the terminal.',
             '-p': 'flag (opt) show results in a pager.',
             '--pager': 'flag (opt) show results in a pager.',
         },
