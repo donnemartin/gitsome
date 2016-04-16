@@ -25,7 +25,7 @@ COMPLETIONS_GH = {
             'octocat/Spoon-Knife/1': 'str (req) user/repo/issue_number combo.',
         },
         'opts': {
-            '-t': 'str (req) comment text.',
+            '-t': 'see associated -- option for details.',
             '--text': 'str (req) comment text.',
         },
     },
@@ -35,7 +35,7 @@ COMPLETIONS_GH = {
             'octocat/Spoon-Knife': 'str (req) user/repository combo.',
         },
         'opts': {
-            '-t': 'str (req) issue title.',
+            '-t': 'see associated -- option for details.',
             '--issue_title': 'str (req) issue title.',
             '-d': 'str (opt) issue description.',
             '--issue_desc': 'str (opt) issue description.',
@@ -152,7 +152,7 @@ COMPLETIONS_GH = {
         'opts': {
             '-b': 'flag (opt) view profile in a browser instead of the terminal.',
             '--browser': 'flag (opt) view profile in a browser instead of the terminal.',
-            '-t': 'flag (opt) view profile pic in plain text.',
+            '-t': 'see associated -- option for details.',
             '--text_pic': 'flag (opt) view profile pic in plain text.',
             '-l': 'flag (opt) num items to show, defaults to 1000.',
             '--limit': 'flag (opt) num items to show, defaults to 1000.',
@@ -278,7 +278,7 @@ COMPLETIONS_GH = {
         'opts': {
             '-b': 'flag (opt) view profile in a browser instead of the terminal.',
             '--browser': 'flag (opt) view profile in a browser instead of the terminal.',
-            '-t': 'flag (opt) view profile pic in plain text.',
+            '-t': 'see associated -- option for details.',
             '--text_pic': 'flag (opt) view profile pic in plain text.',
             '-l': 'flag (opt) num items to show, defaults to 1000.',
             '--limit': 'flag (opt) num items to show, defaults to 1000.',
