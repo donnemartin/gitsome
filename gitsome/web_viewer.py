@@ -121,3 +121,33 @@ class WebViewer(object):
         contents = self.html_to_text.handle(raw_response.text)
         contents = self.format_markdown(contents)
         return contents
+
+    def view_url(self, url):
+        """Views the specified url by displaying it in the terminal.
+
+        Args:
+            * url: A string representing the url.
+
+        Returns:
+            None.
+        """
+        contents = self.generate_url_contents(url)
+        header = click.style('Viewing ' + url + '\n\n',
+                             fg=self.config.clr_message)
+        contents = header + contents
+        contents += click.style(('\nView this article in a browser with'
+                                 ' the -b/--browser flag.\n'),
+                                fg=self.config.clr_message)
+        contents += click.style(('\nPress q to quit viewing this '
+                                 'article.\n'),
+                                fg=self.config.clr_message)
+        if contents == '{"error":"Not Found"}\n':
+            click.secho('Invalid user/repo combination.')
+            return
+        if platform.system() == 'Windows':
+            try:
+                click.secho(contents)
+            except IOError:
+                sys.stderr.close()
+        else:
+            click.echo_via_pager(contents)
