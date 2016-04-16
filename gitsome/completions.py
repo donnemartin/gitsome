@@ -266,6 +266,8 @@ COMPLETIONS_GH = {
             '--weekly': 'flag (opt) show the weekly trending repos.',
             '-m': 'flag (opt) show the monthly trending repos.',
             '--monthly': 'flag (opt) show the monthly trending repos.',
+            '-D': 'flag (opt) view trending devs.  Only valid with -b/--browser.',
+            '--devs': 'flag (opt) view trending devs.  Only valid with -b/--browser.',
             '-p': 'flag (opt) show results in a pager.',
             '--pager': 'flag (opt) show results in a pager.',
         },
