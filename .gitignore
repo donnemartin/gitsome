@@ -34,7 +34,6 @@ include/
 .DS_Store
 
 * Misc
-data/
 scratch/
 *.egg-info/
 
