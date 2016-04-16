@@ -330,7 +330,7 @@ def img2txt(imgname, maxLen=35, clr='', ansi=False,
     except IOError:
         exit("File not found: " + imgname)
     except ImportError:
-        return ''
+        return 'PIL not found.'
     # get pixels
     pixel = img.load()
     width, height = img.size
