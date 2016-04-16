@@ -251,17 +251,19 @@ class GitHubCliTest(unittest.TestCase):
         result = self.runner.invoke(self.github_cli.cli,
                                     ['trending', 'l',
                                      '--pager'])
-        mock_gh_call.assert_called_with('l', False, False, True)
+        mock_gh_call.assert_called_with('l', False, False, False, False, True)
         result = self.runner.invoke(self.github_cli.cli,
                                     ['trending', 'l',
                                      '--weekly',
                                      '--pager'])
-        mock_gh_call.assert_called_with('l', True, False, True)
+        mock_gh_call.assert_called_with('l', True, False, False, False, True)
         result = self.runner.invoke(self.github_cli.cli,
                                     ['trending', 'l',
                                      '--monthly',
+                                     '--devs',
+                                     '--browser',
                                      '--pager'])
-        mock_gh_call.assert_called_with('l', False, True, True)
+        mock_gh_call.assert_called_with('l', False, True, True, True, True)
         assert result.exit_code == 0
 
     @mock.patch('gitsome.githubcli.GitHub.user')
