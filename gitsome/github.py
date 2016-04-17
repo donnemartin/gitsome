@@ -185,6 +185,30 @@ class GitHub(object):
         else:
             click.secho('Error creating issue.', fg=self.config.clr_error)
 
+    @authenticate
+    def create_repo(self, repo_name, repo_desc='', private=False):
+        """Creates a repo.
+
+        Args:
+            * repo_name: A string representing the repo name.
+            * repo_desc: A string representing the repo description (optional).
+            * private: A boolean that determines whether the repo is private.
+                Default: False.
+
+        Returns:
+            None.
+        """
+        try:
+            repo = self.config.api.create_repository(repo_name,
+                                                     repo_desc,
+                                                     private=private)
+            click.secho(('Created repo: ' + repo.full_name + '\n' +
+                         repo.description),
+                        fg=self.config.clr_message)
+        except UnprocessableEntity as e:
+            click.secho('Error creating repo: ' + str(e.msg),
+                        fg=self.config.clr_error)
+
     def issue(self, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
