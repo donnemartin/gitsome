@@ -534,6 +534,26 @@ class GitHub(object):
         output = output.replace('\\n', '\n')
         click.secho(output, fg=self.config.clr_message)
 
+    @authenticate
+    def pull_requests(self, limit=1000, pager=False):
+        """Lists all pull requests.
+
+        Args:
+            * limit: An int that specifies the number of items to show.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        issues_list = []
+        repositories = self.config.api.repositories()
+        for repository in repositories:
+            repo_pulls = repository.pull_requests()
+            for repo_pull in repo_pulls:
+                issues_list.append(repo_pull)
+        self.issues(issues_list, limit, pager)
+
     def view(self, index, view_in_browser):
         """Views the given index in a browser.
 
