@@ -231,6 +231,23 @@ class GitHub(object):
                                      pager=False,
                                      build_urls=False)
 
+    @authenticate
+    def emojis(self, pager=False):
+        """Lists all GitHub supported emojis.
+
+        Args:
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        self.table.build_table_setup(self.config.api.emojis(),
+                                     self.formatter.format_emoji,
+                                     limit=sys.maxsize,
+                                     pager=pager,
+                                     build_urls=False)
+
     def issue(self, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
