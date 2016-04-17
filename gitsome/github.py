@@ -736,3 +736,24 @@ class GitHub(object):
         for result in results:
             repos.append(result.repository)
         self.repositories(repos, limit, pager)
+
+    @authenticate
+    def starred(self, repo_filter, limit=1000, pager=False):
+        """Outputs starred repos.
+
+        Args:
+            * repo_filter: A string representing a filter for repo names.
+                Only repos matching the filter will be returned.
+                If None, outputs all starred repos.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        self.repositories(self.config.api.starred(),
+                          limit,
+                          pager,
+                          repo_filter.lower())
