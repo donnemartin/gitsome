@@ -78,6 +78,27 @@ class Config(object):
         self.authenticate()
         self.urls = []
 
+    def check_auth(self):
+        """Checks if the current authorization is valid.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        try:
+            if self.api is not None:
+                # Throws AuthenticationFailed if invalid credentials but
+                # does not deduct from the rate limit.
+                self.api.ratelimit_remaining
+                return True
+            else:
+                self.print_auth_error()
+        except AuthenticationFailed:
+            self.print_auth_error()
+        return False
+
     def get_github_config_path(self, config_file_name):
         """Attempts to find the github config file.
 
