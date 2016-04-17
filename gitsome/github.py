@@ -611,46 +611,23 @@ class GitHub(object):
         finally:
             config_file.close()
 
-    def repository(self, user_login, repo_name, num_readme_lines=25):
+    @authenticate
+    def repository(self, user_repo):
         """Outputs detailed information about the given repo.
 
-        If args does not contain user and repo, attempts to display repo
-        information from the .git/ configured remote repo.
-
         Args:
-            * user_login: A string representing the user login.
-            * repo_name: A string representing the repo name.
-            * num_readme_lines: An int that determines the number of lines
-                to display for the README.
+            * user_repo: A string representing the user/repo.
 
         Returns:
             None.
         """
-        repo = self.api.repository(user_login, repo_name)
-        if type(repo) is null.NullObject:
-            click.secho('Repo not found.', fg='red')
+        try:
+            user, repo = user_repo.split('/')
+        except ValueError:
+            click.secho('Expected argument: user/repo.',
+                        fg=self.config.clr_error)
             return
-        click.secho(repo.full_name, fg='blue')
-        if repo.description:
-            click.secho(repo.description, fg='blue')
-        click.secho('Stars: ' + str(repo.stargazers_count) + ' | '
-                    'Forks: ' + str(repo.forks_count),
-                    fg='blue')
-        click.secho('Url: ' + repo.clone_url, fg='blue')
-        readme = repo.readme()
-        click.echo('')
-        if type(readme) is null.NullObject:
-            click.secho('No README found.', fg='blue')
-            return
-        click.secho('--Displaying first ' + str(num_readme_lines) + \
-                    ' lines of README--\n',
-                    fg='blue')
-        content = readme.decoded.decode('utf-8')
-        lines = content.split('\n')
-        for iterations, line in enumerate(lines):
-            click.echo(line)
-            if iterations >= num_readme_lines:
-                break
+        self.web_viewer.view_url('https://github.com/' + user_repo)
 
     @authenticate
     def repositories(self, repos, limit=1000, pager=False,
