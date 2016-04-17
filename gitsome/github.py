@@ -128,6 +128,35 @@ class GitHub(object):
         self.config.prompt_news_feed()
         self.save_config()
 
+    @authenticate
+    def create_comment(self, user_repo_number, text):
+        """Creates a comment on the given issue.
+
+        Args:
+            * user_repo_number: A string representing the
+                user/repo/issue number.
+            * text: A string representing the comment text.
+
+        Returns:
+            None.
+        """
+        try:
+            user, repo, number = user_repo_number.split('/')
+            int(number)  # Check for int
+        except ValueError:
+            click.secho(('Expected argument: user/repo/# and option -t '
+                         '"comment".'),
+                        fg=self.config.clr_error)
+            return
+        issue = self.config.api.issue(user, repo, number)
+        issue_comment = issue.create_comment(text)
+        if type(issue_comment) is not null.NullObject:
+            click.secho('Created comment: ' + issue_comment.body,
+                        fg=self.config.clr_message)
+        else:
+            click.secho('Error creating comment',
+                        fg=self.config.clr_error)
+
     def issue(self, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
