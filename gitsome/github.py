@@ -404,35 +404,57 @@ class GitHub(object):
                'issues/' + number)
         self.web_viewer.view_url(url)
 
-    def issues(self, issue_filter, state):
+    @authenticate
+    def issues(self, issues_list, limit=1000, pager=False):
         """Lists all issues.
 
         Args:
-            * issue_filter: A string with the following accepted values:
-                'assigned', 'created', 'mentioned', 'subscribed'.
-            * state: A string with the following accepted values:
-                'all', 'open', 'closed'.
+            * issues_list: A list of github3.issue.issue.
+            * limit: An int that specifies the number of items to show.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        issues = self.api.issues(filter=issue_filter, state=state)
-        table = []
-        number = 0
-        for issue in issues:
-            table.append([number,
-                          issue.state,
-                          self.format_repo(issue.repository) + '/' + \
-                          str(self.GITHUB_ISSUES) + str(issue.number),
-                          issue.title + ' @' + str(issue.user),
-                          str(issue.assignee),
-                          issue.comments_count])
-        # Sort by repo, state
-        table = sorted(table, key=itemgetter(1, 0))
-        self.build_issue_urls(table, url_index=0, issue_index=2)
-        self.print_table(table,
-                         headers=['#', 'state', 'issue',
-                                  'title', 'assignee', 'comments'])
+        view_entries = []
+        for current_issue in issues_list:
+            url = self.formatter.format_issues_url_from_issue(current_issue)
+            repo_name = '/'.join(current_issue.repository)
+            view_entries.append(
+                ViewEntry(
+                    current_issue,
+                    url=url,
+                    sort_key_primary=current_issue.state,
+                    sort_key_secondary=current_issue.repository,
+                    sort_key_tertiary=current_issue.created_at))
+        view_entries = sorted(view_entries, reverse=False)
+        self.table.build_table(view_entries,
+                               limit,
+                               pager,
+                               self.formatter.format_issue)
+
+    @authenticate
+    def issues_setup(self, issue_filter='subscribed', issue_state='open',
+                     limit=1000, pager=False):
+        """Prepares to list all issues matching the filter.
+
+        Args:
+            * issue_filter: A string with the following accepted values:
+                'assigned', 'created', 'mentioned', 'subscribed' (default).
+            * issue_state: A string with the following accepted values:
+                'all', 'open' (default), 'closed'.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        self.issues(self.config.api.issues(issue_filter, issue_state),
+                    limit,
+                    pager)
 
     def view(self, index, view_in_browser):
         """Views the given index in a browser.
