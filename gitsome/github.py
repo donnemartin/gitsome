@@ -359,6 +359,29 @@ class GitHub(object):
                          '    gh gitignores'),
                         fg=self.config.clr_error)
 
+    @authenticate
+    def gitignore_templates(self, pager=False):
+        """Outputs all supported gitignore templates.
+
+        Args:
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        self.table.build_table_setup(
+            self.config.api.gitignore_templates(),
+            self.formatter.format_gitignore_template_name,
+            limit=sys.maxsize,
+            pager=pager,
+            build_urls=False)
+        click.secho(('  Run the following command to view or download a '
+                     '.gitignore file:\n'
+                     '    View:     gh gitignore Python\n'
+                     '    Downlaod: gh gitignore Python > .gitignore\n'),
+                    fg=self.config.clr_message)
+
     def issue(self, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
