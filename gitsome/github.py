@@ -96,21 +96,48 @@ class GitHub(object):
                 return func(self, *args, **kwargs)
         return auth_wrapper
 
-    def avatar(self, url, ansi):
+    def avatar(self, url, text_avatar):
         """Displays the user's avatar from the specified url.
+
+        This method requires PIL.
 
         Args:
             * url: A string representing the user's avatar image.
-            * ansi: A boolean that determines whether to view the profile
-                avatar in a ansi, or plain text.
+            * text_avatar: A boolean that determines whether to view the profile
+                avatar in plain text.
 
         Returns:
-            None.
+            avatar_text: A string representing the avatar.
         """
-        avatar = self._github_config(self.CONFIG_AVATAR)
+        avatar = self.config.get_github_config_path(
+            self.config.CONFIG_AVATAR)
         urllib.request.urlretrieve(url, avatar)
-        img2txt(avatar, ansi=ansi)
+        avatar_text = self.img2txt(avatar, ansi=(not text_avatar))
+        avatar_text += '\n'
         os.remove(avatar)
+        return avatar_text
+
+    def avatar_setup(self, url, text_avatar):
+        """Prepares to display the user's avatar from the specified url.
+
+        This method requires PIL.
+
+        Args:
+            * url: A string representing the user's avatar image.
+            * text_avatar: A boolean that determines whether to view the profile
+                avatar in plain text.
+
+        Returns:
+            avatar_text: A string representing the avatar.
+        """
+        try:
+            import PIL
+            return self.avatar(url, text_avatar)
+        except ImportError:
+            avatar_text = click.style(('To view the avatar in your terminal, '
+                                       'install the Python Image Library.\n'),
+                                      fg=self.config.clr_message)
+            return avatar_text
 
     def build_issue_urls(self, table, url_index, issue_index):
         """Builds the GitHub urls for the input table containing issues.
