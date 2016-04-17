@@ -157,6 +157,34 @@ class GitHub(object):
             click.secho('Error creating comment',
                         fg=self.config.clr_error)
 
+    @authenticate
+    def create_issue(self, user_repo, issue_title, issue_desc=''):
+        """Creates an issue.
+
+        Args:
+            * user_repo: A string representing the user/repo.
+            * issue_title: A string representing the issue title.
+            * issue_desc: A string representing the issue body (optional).
+
+        Returns:
+            None.
+        """
+        try:
+            user, repo_name = user_repo.split('/')
+        except ValueError:
+            click.secho('Expected argument: user/repo and option -t "title".',
+                        fg=self.config.clr_error)
+            return
+        issue = self.config.api.create_issue(user,
+                                             repo_name,
+                                             issue_title,
+                                             issue_desc)
+        if type(issue) is not null.NullObject:
+            click.secho('Created issue: ' + issue.title + '\n' + issue.body,
+                        fg=self.config.clr_message)
+        else:
+            click.secho('Error creating issue.', fg=self.config.clr_error)
+
     def issue(self, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
