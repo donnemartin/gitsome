@@ -867,3 +867,21 @@ class GitHub(object):
                 click.echo_via_pager(output)
             else:
                 click.secho(output)
+
+    @authenticate
+    def user_me(self, browser, text_avatar, limit=1000, pager=False):
+        """Lists information about the logged in user.
+
+        Args:
+            * limit: An int that specifies the number of items to show.
+            * browser: A Boolean that determines whether to view the profile
+                in a browser, or in the terminal.
+            * text_avatar: A boolean that determines whether to view the profile
+                avatar in plain text.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        self.user(self.config.user_login, browser, text_avatar, limit, pager)
