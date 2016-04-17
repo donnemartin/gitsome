@@ -32,8 +32,9 @@ from gitsome.lib.github3 import authorize, login, null
 from gitsome.lib.github3.exceptions import UnprocessableEntity
 
 from .config import Config
-
-# from gitsome.lib.img2txt import img2txt
+from .formatter import Formatter
+from .table import Table
+from .view_entry import ViewEntry
 
 
 class GitHub(object):
@@ -42,6 +43,8 @@ class GitHub(object):
     Attributes:
         * api: An instance of github3 to interact with the GitHub API.
         * config: An instance of Config.
+        * formatter: An instance of Formatter.
+        * table: An instance of Table.
     """
 
     def __init__(self):
@@ -54,6 +57,8 @@ class GitHub(object):
             None.
         """
         self.config = Config()
+        self.formatter = Formatter(self.config)
+        self.table = Table(self.config)
 
     def authenticate(func):
         """Decorator that authenticates credentials.
@@ -208,6 +213,23 @@ class GitHub(object):
         except UnprocessableEntity as e:
             click.secho('Error creating repo: ' + str(e.msg),
                         fg=self.config.clr_error)
+
+    @authenticate
+    def emails(self):
+        """Lists all the user's registered emails.
+
+        Args:
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        self.table.build_table_setup(self.config.api.emails(),
+                                     self.formatter.format_email,
+                                     limit=sys.maxsize,
+                                     pager=False,
+                                     build_urls=False)
 
     def issue(self, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
