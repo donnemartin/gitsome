@@ -197,6 +197,29 @@ class Config(object):
                     urls = urls.replace('https://github.com/', '')
             return urls.split(', ')
 
+    def prompt_news_feed(self):
+        """Prompts the user to enter a news feed url.
+
+        Args:
+            * None
+
+        Returns:
+            None.
+        """
+        if click.confirm(('No feed url detected.\n  Calling gh events without '
+                          "an argument\n  displays the logged in user's "
+                          'news feed.\nDo you want gitsome to track your '
+                          'news feed?'),
+                         default=True):
+            click.secho(('Visit the following url while logged into GitHub:\n'
+                         '  https://github.com\n'
+                         'Enter the url found under "Subscribe to your '
+                         'news feed".'),
+                        fg=self.clr_message)
+            self.user_feed = ''
+            while not self.user_feed:
+                self.user_feed = input('URL: ')
+
     def request_two_factor_code(self):
         """Callback if two factor authentication is requested.
 
