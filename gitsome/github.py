@@ -519,6 +519,21 @@ class GitHub(object):
                                pager,
                                self.formatter.format_thread)
 
+    @authenticate
+    def octocat(self, say):
+        """Outputs an Easter egg or the given message from Octocat.
+
+        Args:
+            * say: A string for octocat to say.
+                If say is None, octocat speaks an Easter egg.
+
+        Returns:
+            None.
+        """
+        output = str(self.config.api.octocat(say))
+        output = output.replace('\\n', '\n')
+        click.secho(output, fg=self.config.clr_message)
+
     def view(self, index, view_in_browser):
         """Views the given index in a browser.
 
