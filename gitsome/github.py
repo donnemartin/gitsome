@@ -319,6 +319,27 @@ class GitHub(object):
             limit=sys.maxsize,
             pager=pager)
 
+    @authenticate
+    def following(self, user, pager=False):
+        """Lists all followed users and the total followed count.
+
+        Args:
+            * user: A string representing the user login.
+                If None, returns the followed users of the logged in user.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        if user is None:
+            user = self.config.user_login
+        self.table.build_table_setup_user(
+            self.config.api.followed_by(user),
+            self.formatter.format_user,
+            limit=sys.maxsize,
+            pager=pager)
+
     def issue(self, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
