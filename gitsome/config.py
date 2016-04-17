@@ -197,6 +197,20 @@ class Config(object):
                     urls = urls.replace('https://github.com/', '')
             return urls.split(', ')
 
+    def print_auth_error(self):
+        """Prints a message the authorization has failed.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        click.secho('Authentication error.', fg=self.clr_error)
+        click.secho(('Update your credentials in ~/.gitsomeconfig '
+                     'or run:\n  gh configure'),
+                    fg=self.clr_message)
+
     def prompt_news_feed(self):
         """Prompts the user to enter a news feed url.
 
