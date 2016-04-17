@@ -652,30 +652,61 @@ class GitHub(object):
             if iterations >= num_readme_lines:
                 break
 
-    def repositories(self, repos, repo_filter=''):
+    @authenticate
+    def repositories(self, repos, limit=1000, pager=False,
+                     repo_filter='', print_output=True):
         """Lists all repos matching the given filter.
 
         Args:
             * repos: A list of github3.repos.repo.
+            * limit: An int that specifies the number of items to show.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
             * repo_filter: A string representing a filter for repo names.
                 Only repos matching the filter will be returned.
                 If None, outputs all starred repos.
+            * print_output: A bool that determines whether to print the output
+                (True) or return the output as a string (False)
+
+        Returns:
+            A string representing the output if print_output is True
+            else, returns None.
+        """
+        view_entries = []
+        for repo in repos:
+            url = repo.clone_url
+            if (repo.full_name is not None and
+                repo_filter in repo.full_name.lower()) or \
+               (repo.description is not None and
+                repo_filter in repo.description.lower()):
+                view_entries.append(
+                    ViewEntry(repo,
+                              url=url,
+                              sort_key_primary=repo.stargazers_count))
+        view_entries = sorted(view_entries, reverse=True)
+        return self.table.build_table(view_entries,
+                                      limit,
+                                      pager,
+                                      self.formatter.format_repo,
+                                      print_output=print_output)
+
+    @authenticate
+    def repositories_setup(self, repo_filter, limit=1000, pager=False):
+        """Prepares to list all repos matching the given filter.
+
+        Args:
+            * repo_filter: A string representing a filter for repo names.
+                Only repos matching the filter will be returned.
+                If None, outputs all of the user's repos.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        table = []
-        number = 0
-        for repo in repos:
-            if repo_filter in repo.full_name.lower() or \
-                    repo_filter in repo.description.lower():
-                table.append([number,
-                              repo.full_name,
-                              repo.clone_url,
-                              repo.stargazers_count,
-                              repo.forks_count])
-            number += 1
-        # Sort by stars, repo name
-        table = sorted(table, key=itemgetter(3, 1), reverse=True)
-        self.build_repo_urls(table, url_index=0, repo_index=1)
-        self.print_table(table, headers=['#', 'repo', 'url', 'stars', 'forks'])
+        self.repositories(self.config.api.repositories(),
+                          limit,
+                          pager,
+                          repo_filter)
