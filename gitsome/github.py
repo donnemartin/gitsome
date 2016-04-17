@@ -16,6 +16,8 @@ from gitsome.lib.github3 import authorize, login, null
 from gitsome.lib.github3.exceptions import UnprocessableEntity
 from tabulate import tabulate
 
+from .config import Config
+
 # from gitsome.lib.img2txt import img2txt
 
 
@@ -24,6 +26,7 @@ class GitHub(object):
 
     Attributes:
         * api: An instance of github3 to interact with the GitHub API.
+        * config: An instance of Config.
         * CONFIG: A string representing the config file name.
         * CONFIG_SECTION: A string representing the main config file section.
         * CONFIG_USER_LOGIN: A string representing the user login config.
@@ -68,6 +71,7 @@ class GitHub(object):
         Returns:
             None.
         """
+        self.config = Config()
         self.api = None
         self.user_login = None
         self.user_pass = None
@@ -75,101 +79,22 @@ class GitHub(object):
         self._login()
         self.urls = []
 
-    def _github_config(self, config_file_name):
-        """Attempts to find the github config file.
-
-        Adapted from https://github.com/sigmavirus24/github-cli.
+    def authenticate(func):
+        """Decorator that authenticates credentials.
 
         Args:
-            * config_file_name: A String that represents the config file name.
+            * func: A method to execute if authorization passes.
 
         Returns:
-            A string that represents the github config file path.
+            The return value of func if auth passes, or
+                None if auth fails.
         """
-        home = os.path.abspath(os.environ.get('HOME', ''))
-        config_file_path = os.path.join(home, config_file_name)
-        return config_file_path
-
-    def _login(self):
-        """Logs into GitHub.
-
-        Adapted from https://github.com/sigmavirus24/github-cli.
-
-        TODO: Two factor authentication does not seem to be triggering the
-            SMS code: https://github.com/sigmavirus24/github3.py/issues/387
-
-        Args:
-            * None.
-
-        Returns:
-            None.
-        """
-        # Get the full path to the configuration file
-        config = self._github_config(self.CONFIG)
-        parser = configparser.RawConfigParser()
-        # Check to make sure the file exists and we are allowed to read it
-        if os.path.isfile(config) and os.access(config, os.R_OK | os.W_OK):
-            parser.readfp(open(config))
-            self.user_login = parser.get(self.CONFIG_SECTION,
-                                         self.CONFIG_USER_LOGIN)
-            self.api = login(token=parser.get(self.CONFIG_SECTION,
-                                              self.CONFIG_USER_TOKEN),
-                             two_factor_callback=self._two_factor_code)
-        else:
-            # Either the file didn't exist or we didn't have the correct
-            # permissions
-            self.user_login = ''
-            while not user_login:
-                user_login = input('User Login: ')
-            user_pass = ''
-            while not user_pass:
-                user_pass = getpass('Password: ')
-            auth = None
-            try:
-                # Get an authorization for this
-                auth = authorize(
-                    user_login,
-                    user_pass,
-                    scopes=['user', 'repo', 'gist'],
-                    note='githubcli',
-                    note_url='https://github.com/donnemartin/github-cli'
-                )
-            except UnprocessableEntity:
-                click.secho('Error creating token.\nVisit the following ' \
-                            'page and verify you do not have an existing ' \
-                            'token named "githubcli":\n' \
-                            'See https://github.com/settings/tokens\n' \
-                            'If a token already exists update your ' + \
-                            self.githubconfig + ' file with your user_token.',
-                            fg='red')
-            parser.add_section(self.CONFIG_SECTION)
-            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_LOGIN, user_login)
-            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_PASS, user_pass)
-            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_TOKEN, auth.token)
-            self.api = login(token=auth.token,
-                             two_factor_callback=self._two_factor_code)
-            # Create the file if it doesn't exist. Otherwise completely blank
-            # out what was there before. Kind of dangerous and destructive but
-            # somewhat necessary
-            # TODO: Refactor this
-            config_file = open(config, 'w+')
-            parser.write(config_file)
-            config_file.close()
-
-    def _two_factor_code(self):
-        """Callback if two factor authentication is requested.
-
-        Args:
-            * None.
-
-        Returns:
-            A string that represents the user input two factor
-                authentication code.
-        """
-        code = ''
-        while not code:
-            code = input('Enter 2FA code: ')
-        return code
+        def auth_wrapper(self, *args, **kwargs):
+            self.config.authenticate()
+            self.config.save_config()
+            if self.config.check_auth():
+                return func(self, *args, **kwargs)
+        return auth_wrapper
 
     def avatar(self, url, ansi):
         """Displays the user's avatar from the specified url.
