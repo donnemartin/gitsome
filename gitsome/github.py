@@ -687,3 +687,26 @@ class GitHub(object):
                           limit,
                           pager,
                           repo_filter)
+
+    @authenticate
+    def search_issues(self, query, limit=1000, pager=False):
+        """Searches for all issues matching the given query.
+
+        TODO: Fix sorting.
+
+        Args:
+            * query: A string representing the search query.
+            * limit: An int that specifies the number of items to show.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        click.secho('Searching for all matching issues on GitHub...',
+                    fg=self.config.clr_message)
+        results = self.config.api.search_issues(query)
+        issues_list = []
+        for result in results:
+            issues_list.append(result.issue)
+        self.issues(issues_list, limit, pager)
