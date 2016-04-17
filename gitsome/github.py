@@ -14,7 +14,6 @@ except ImportError:
 import click
 from gitsome.lib.github3 import authorize, login, null
 from gitsome.lib.github3.exceptions import UnprocessableEntity
-from tabulate import tabulate
 
 from .config import Config
 
@@ -27,40 +26,7 @@ class GitHub(object):
     Attributes:
         * api: An instance of github3 to interact with the GitHub API.
         * config: An instance of Config.
-        * CONFIG: A string representing the config file name.
-        * CONFIG_SECTION: A string representing the main config file section.
-        * CONFIG_USER_LOGIN: A string representing the user login config.
-        * CONFIG_USER_PASS: A string representing the user pass config.
-        * CONFIG_USER_TOKEN: A string representing the user token config.
-        * CONFIG_URL: A string representing the jump to url config file name.
-        * CONFIG_URL_SECTION: A string representing the jump to url config
-            file section.
-        * CONFIG_URL_LIST: A string representing the jump to url list in the
-            config.
-        * GITHUB_ISSUES: A string representing the GitHub issues url portion.
-        * GITHUB_URL: A string representing the GitHub main url.
-        * urls: A list containing the last set of urls the user has seen,
-            which allows the user to quickly access a repo url with the
-            gh view [url_index] command.
-        * user_login: A string that represents the user's login in
-            ~/.githubconfig
-        * user_pass: A string that represents the user's pass in
-            ~/.githubconfig
-        * user_token: A string that represents the user's token in
-            ~/.githubconfig
     """
-
-    CONFIG = '.githubconfig'
-    CONFIG_SECTION = 'github'
-    CONFIG_USER_LOGIN = 'user_login'
-    CONFIG_USER_PASS = 'user_pass'
-    CONFIG_USER_TOKEN = 'user_token'
-    CONFIG_URL = '.githubconfigurl'
-    CONFIG_URL_SECTION = 'url'
-    CONFIG_URL_LIST = 'url_list'
-    CONFIG_AVATAR = '.githubconfigavatar.png'
-    GITHUB_ISSUES = 'issues/'
-    GITHUB_URL = 'https://github.com/'
 
     def __init__(self):
         """Inits GitHub.
@@ -72,12 +38,6 @@ class GitHub(object):
             None.
         """
         self.config = Config()
-        self.api = None
-        self.user_login = None
-        self.user_pass = None
-        self.user_token = None
-        self._login()
-        self.urls = []
 
     def authenticate(func):
         """Decorator that authenticates credentials.
@@ -152,75 +112,6 @@ class GitHub(object):
         self.config.prompt_news_feed()
         self.save_config()
 
-    def build_issue_urls(self, table, url_index, issue_index):
-        """Builds the GitHub urls for the input table containing issues.
-
-        Note: This method modifies the table's url_index, adding a
-        0-based index that allow you to access an issue url with the
-        gh view [url_index] command.
-
-        Args:
-            * table: A list that contains repo information.
-            * url_index: The index in the table that will allow you to
-                access a repo url with the gh view [url_index] command.
-            * issue_index: The index in the table containing the issue.
-
-        Returns:
-            None.
-        """
-        click.secho('Tip: View issue details in your terminal or browser' \
-                    ' with the following command:\n' \
-                    '    gh view [#] [-b/--browser]',
-                    fg='blue')
-        number = 0
-        for row in table:
-            row[0] = number
-            number += 1
-            self.urls.append(self.GITHUB_URL + row[issue_index])
-        self.save_urls()
-
-    def build_repo_urls(self, table, url_index, repo_index):
-        """Builds the GitHub urls for the input table containing repo names.
-
-        Note: This method modifies the table's url_index, adding a
-        0-based index that allow you to access a repo url with the
-        gh view [url_index] command.
-
-        Args:
-            * table: A list that contains repo information.
-            * url_index: The index in the table that will allow you to
-                access a repo url with the gh view [url_index] command.
-            * repo_index: The index in the table containing the repo name.
-
-        Returns:
-            None.
-        """
-        click.secho('Tip: View repo details in your terminal or browser' \
-                    ' with the following command:\n' \
-                    '    gh view [#] [-b/--browser]',
-                    fg='blue')
-        number = 0
-        for row in table:
-            row[0] = number
-            number += 1
-            self.urls.append(self.GITHUB_URL + row[repo_index])
-        self.save_urls()
-
-    def format_repo(self, repo):
-        """Formats a repo tuple for pretty print.
-
-        Example:
-            Input:  ('donnemartin', 'gitsome')
-            Output: donnemartin/gitsome
-
-        Args:
-            * args: A tuple that contains the user and repo.
-
-        Returns:
-            A string of the form user/repo.
-        """
-        return '/'.join(repo)
-
     def issue(self, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
@@ -280,28 +171,6 @@ class GitHub(object):
                          headers=['#', 'state', 'issue',
                                   'title', 'assignee', 'comments'])
 
-    def listify(self, items):
-        """Puts each list element in its own list.
-
-        Example:
-            Input: [a, b, c]
-            Output: [[a], [b], [c]]
-
-        This is needed for tabulate to print rows [a], [b], and [c].
-
-        Args:
-            * items: A list to listify.
-
-        Returns:
-            A list that contains elements that are listified.
-        """
-        output = []
-        for item in items:
-            item_list = []
-            item_list.append(item)
-            output.append(item_list)
-        return output
-
     def view(self, index, view_in_browser):
         """Views the given index in a browser.
 
@@ -345,36 +214,6 @@ class GitHub(object):
             click.secho('Error: ' + str(e), fg='red')
         finally:
             config_file.close()
-
-    def print_items(self, items, headers):
-        """Prints the items and headers with tabulate.
-
-        Args:
-            * items: A collection of items to print as rows with tabulate.
-                Can be a list or dictionary.
-            * headers: A collection of column headers to print with tabulate.
-                If items is a list, headers should be a list.
-                If items is a dictionary, set headers='keys'.
-
-        Returns:
-            None.
-        """
-        table = []
-        for item in items:
-            table.append(item)
-        self.print_table(table, headers=headers)
-
-    def print_table(self, table, headers):
-        """Prints the table and headers with tabulate.
-
-        Args:
-            * table: A collection of items to print as rows with tabulate.
-            * headers: A collection of column headers to print with tabulate.
-
-        Returns:
-            None.
-        """
-        click.echo(tabulate(table, headers, tablefmt='grid'))
 
     def repository(self, user_login, repo_name, num_readme_lines=25):
         """Outputs detailed information about the given repo.
@@ -444,24 +283,3 @@ class GitHub(object):
         table = sorted(table, key=itemgetter(3, 1), reverse=True)
         self.build_repo_urls(table, url_index=0, repo_index=1)
         self.print_table(table, headers=['#', 'repo', 'url', 'stars', 'forks'])
-
-    def save_urls(self):
-        """Saves the current set of urls to ~/.githubconfigurl.
-
-        Args:
-            * None
-
-        Returns:
-            None.
-        """
-        config = self._github_config(self.CONFIG_URL)
-        parser = configparser.RawConfigParser()
-        try:
-            parser.add_section(self.CONFIG_URL_SECTION)
-        except DuplicateSectionError:
-            pass
-        parser.set(self.CONFIG_URL_SECTION, self.CONFIG_URL_LIST, self.urls)
-        # TODO: Refactor this
-        config_file = open(config, 'w+')
-        parser.write(config_file)
-        config_file.close()
