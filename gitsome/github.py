@@ -18,18 +18,16 @@
 from getpass import getpass
 from operator import itemgetter
 import os
+import sys
 import urllib
 import webbrowser
-try:
-    # Python 3
-    import configparser
-except ImportError:
-    # Python 2
-    import ConfigParser as configparser
 
+from .compat import configparser
+from .compat import urlparse
+from .lib.github3 import null
+from .lib.github3.exceptions import UnprocessableEntity
 import click
-from gitsome.lib.github3 import authorize, login, null
-from gitsome.lib.github3.exceptions import UnprocessableEntity
+import feedparser
 
 from .config import Config
 from .formatter import Formatter
