@@ -456,6 +456,25 @@ class GitHub(object):
                     limit,
                     pager)
 
+    @authenticate
+    def license(self, license_name):
+        """Outputs the gitignore template for the given language.
+
+        Args:
+            * license_name: A string representing the license name.
+
+        Returns:
+            None.
+        """
+        result = self.config.api.license(license_name)
+        if type(result) is not null.NullObject:
+            click.secho(result.body, fg=self.config.clr_message)
+        else:
+            click.secho(('  Invalid case-sensitive license requested, run the '
+                         'following command to see available licenses:\n'
+                         '    gh licenses'),
+                        fg=self.config.clr_error)
+
     def view(self, index, view_in_browser):
         """Views the given index in a browser.
 
