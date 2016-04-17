@@ -475,6 +475,28 @@ class GitHub(object):
                          '    gh licenses'),
                         fg=self.config.clr_error)
 
+    @authenticate
+    def licenses(self):
+        """Outputs the gitignore template for the given language.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        self.table.build_table_setup(
+            self.config.api.licenses(),
+            self.formatter.format_license_name,
+            limit=sys.maxsize,
+            pager=False,
+            build_urls=False)
+        click.secho(('  Run the following command to view or download a '
+                     'LICENSE file:\n'
+                     '    gh license apache-2.0\n'
+                     '    gh license apache-2.0 > LICENSE\n'),
+                    fg=self.config.clr_message)
+
     def view(self, index, view_in_browser):
         """Views the given index in a browser.
 
