@@ -172,6 +172,27 @@ class Config(object):
             with open(config, 'w+') as config_file:
                 parser.write(config_file)
 
+    def load_section_list(self, parser, section):
+        """Load the given section containing a list from ~/.haxornewsconfig.
+
+        :type parser: :class:`ConfigParser.RawConfigParser`
+        :param parser: An instance of `ConfigParser.RawConfigParser`.
+
+        :type section: str
+        :param section: The section to load.
+
+        :rtype: list
+        :return: Collection of items stored in config.
+
+        :raises: `Exception` if an error occurred reading from the parser.
+        """
+        items_ids = parser.get(self.CONFIG_SECTION, section)
+        items_ids = items_ids.strip()
+        excludes = ['[', ']', "'"]
+        for exclude in excludes:
+            items_ids = items_ids.replace(exclude, '')
+        return items_ids.split(', ')
+
     def load_urls(self, view_in_browser):
         """Loads the current set of urls from ~/.githubconfigurl.
 
