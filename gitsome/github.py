@@ -885,3 +885,33 @@ class GitHub(object):
             None.
         """
         self.user(self.config.user_login, browser, text_avatar, limit, pager)
+
+    @authenticate
+    def view(self, index, view_in_browser=False):
+        """Views the given index in a browser.
+
+        Loads urls from ~/.gitsomeconfigurl and stores them in self.config.urls.
+        Opens a browser with the url based on the given index.
+
+        Args:
+            * index: An int that specifies the index to open.
+            * view_in_browser: A boolean that determines whether to view
+                in a web browser or a terminal.
+
+        Returns:
+            None.
+        """
+        self.config.urls = self.config.load_urls(view_in_browser)
+        url = self.config.urls[index-1]
+        click.secho('Viewing ' + url + '...',
+                        fg=self.config.clr_message)
+        if view_in_browser:
+            webbrowser.open(url)
+        else:
+            if 'issues/' in url:
+                url = url.replace('issues/', '')
+                self.issue(url)
+            elif len(url.split('/')) == 2:
+                self.repository(url)
+            else:
+                self.web_viewer.view_url('https://github.com/' + url)
