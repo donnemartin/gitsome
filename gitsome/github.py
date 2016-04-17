@@ -340,6 +340,25 @@ class GitHub(object):
             limit=sys.maxsize,
             pager=pager)
 
+    @authenticate
+    def gitignore_template(self, language):
+        """Outputs the gitignore template for the given language.
+
+        Args:
+            * language: A string representing the language.
+
+        Returns:
+            None.
+        """
+        template = self.config.api.gitignore_template(language)
+        if template:
+            click.secho(template, fg=self.config.clr_message)
+        else:
+            click.secho(('Invalid case-sensitive template requested, run the '
+                         'following command to see available templates:\n'
+                         '    gh gitignores'),
+                        fg=self.config.clr_error)
+
     def issue(self, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
 
