@@ -33,8 +33,10 @@ from gitsome.lib.github3.exceptions import UnprocessableEntity
 
 from .config import Config
 from .formatter import Formatter
+from .rss_feed import language_rss_map
 from .table import Table
 from .view_entry import ViewEntry
+from .web_viewer import WebViewer
 
 
 class GitHub(object):
@@ -45,6 +47,8 @@ class GitHub(object):
         * config: An instance of Config.
         * formatter: An instance of Formatter.
         * table: An instance of Table.
+        * trend_parser: An instance of feedparser.
+        * web_viewer: An instance of WebViewer.
     """
 
     def __init__(self):
@@ -59,6 +63,8 @@ class GitHub(object):
         self.config = Config()
         self.formatter = Formatter(self.config)
         self.table = Table(self.config)
+        self.web_viewer = WebViewer(self.config)
+        self.trend_parser = feedparser
 
     def authenticate(func):
         """Decorator that authenticates credentials.
@@ -247,6 +253,50 @@ class GitHub(object):
                                      limit=sys.maxsize,
                                      pager=pager,
                                      build_urls=False)
+
+    @authenticate
+    def feed(self, user_or_repo='', private=False, pager=False):
+        """Lists all activity for the given user or repo.
+
+        If blank, lists the logged in user's news feed.
+
+        Args:
+            * user_or_repo: A string representing the user or repo to list
+                events for.  If no entry, defaults to the logged in user's feed.
+            * private: A boolean that determines whether to show the private
+                events (True) or public events (False).
+                Only works for the currently logged in user.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        click.secho('Listing events...', fg=self.config.clr_message)
+        if user_or_repo == '':
+            if self.config.user_feed is None:
+                self.config.prompt_news_feed()
+                self.config.save_config()
+            if self.config.user_feed:
+                items = self.trend_parser.parse(self.config.user_feed)
+                self.table.build_table_setup_feed(
+                    items,
+                    self.formatter.format_feed_entry,
+                    pager)
+        else:
+            if '/' in user_or_repo:
+                user, repo = user_or_repo.split('/')
+                repo = self.config.api.repository(user, repo)
+                items = repo.events()
+            else:
+                public = False if private else True
+                items = self.config.api.user(user_or_repo).events(public=public)
+            self.table.build_table_setup(
+                items,
+                self.formatter.format_event,
+                limit=sys.maxsize,
+                pager=pager,
+                build_urls=False)
 
     def issue(self, user_login, repo_name, issue_number):
         """Outputs detailed information about the given issue.
