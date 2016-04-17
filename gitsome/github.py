@@ -497,6 +497,28 @@ class GitHub(object):
                      '    gh license apache-2.0 > LICENSE\n'),
                     fg=self.config.clr_message)
 
+    @authenticate
+    def notifications(self, limit=1000, pager=False):
+        """Lists all notifications.
+
+        Args:
+            * limit: An int that specifies the number of items to show.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        view_entries = []
+        for thread in self.config.api.notifications(all=True,
+                                                    participating=False):
+            url = self.formatter.format_issues_url_from_thread(thread)
+            view_entries.append(ViewEntry(thread, url=url))
+        self.table.build_table(view_entries,
+                               limit,
+                               pager,
+                               self.formatter.format_thread)
+
     def view(self, index, view_in_browser):
         """Views the given index in a browser.
 
