@@ -15,10 +15,13 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
+import click
+from getpass import getpass
 import os
 
 from .compat import configparser
-from .lib.github3 import authorize, login
+from .lib.github3 import authorize, login, null
+from .lib.github3.exceptions import AuthenticationFailed, UnprocessableEntity
 
 
 class Config(object):
@@ -77,6 +80,52 @@ class Config(object):
         self.user_feed = None
         self.authenticate()
         self.urls = []
+
+    def authenticate_cached_credentials(self, config, parser):
+        """Logs into GitHub.
+
+        Adapted from https://github.com/sigmavirus24/github-cli.
+
+        Two factor authentication does not seem to be triggering the
+        SMS code: https://github.com/sigmavirus24/github3.py/issues/387.
+        To log in with 2FA enabled, use a token instead.
+
+        Args:
+            * config: A string representing the config path.
+            * parser: An instance of configparser.
+
+        Returns:
+            None.
+        """
+        with open(config) as config_file:
+            try:
+                parser.read_file(config_file)
+            except AttributeError:
+                try:
+                    parser.read_file(config_file)
+                except AttributeError:
+                    parser.readfp(config_file)
+            self.user_login = parser.get(self.CONFIG_SECTION,
+                                         self.CONFIG_USER_LOGIN)
+            try:
+                self.user_token = parser.get(self.CONFIG_SECTION,
+                                             self.CONFIG_USER_TOKEN)
+                self.api = login(
+                    username=self.user_login,
+                    token=self.user_token,
+                    two_factor_callback=self.request_two_factor_code)
+            except configparser.NoOptionError:
+                self.user_pass = parser.get(self.CONFIG_SECTION,
+                                             self.CONFIG_USER_PASS)
+                self.api = login(
+                    username=self.user_login,
+                    password=self.user_pass,
+                    two_factor_callback=self.request_two_factor_code)
+            try:
+                self.user_feed = parser.get(self.CONFIG_SECTION,
+                                            self.CONFIG_USER_FEED)
+            except configparser.NoOptionError:
+                pass
 
     def authenticate(self, overwrite=False):
         """Logs into GitHub.
