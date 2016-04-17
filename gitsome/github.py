@@ -757,3 +757,56 @@ class GitHub(object):
                           limit,
                           pager,
                           repo_filter.lower())
+
+    def trending(self, language, weekly, monthly,
+                 devs=False, browser=False, pager=False):
+        """Lists trending repos for the given language.
+
+        Args:
+            * language: A string representing the language.
+            * weekly: A boolean that determines whether to show the weekly
+                rankings.  Daily is the default.
+            * monthly: A boolean that determines whether to show the monthly
+                rankings.  Daily is the default.
+            * devs: A boolean that determines whether to display the trending
+                devs or repos.  Only valid with the -b/--browser option.
+            * browser: A Boolean that determines whether to view the trending
+                list in a browser, or in the terminal.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        language = language.lower()
+        if language in language_rss_map:
+            language = language_rss_map[language]
+        if monthly:
+            period = 'monthly'
+            url_param = '?since=monthly'
+        elif weekly:
+            period = 'weekly'
+            url_param = '?since=weekly'
+        else:
+            period = 'daily'
+            url_param = ''
+        if browser:
+            webbrowser.open(
+                ('https://github.com/trending' +
+                 ('/developers' if devs else '') +
+                 ('/' + language if language is not 'overall' else '') +
+                 url_param))
+        else:
+            click.secho(
+                'Listing {p} trending {l} repos...'.format(l=language,
+                                                           p=period),
+                fg=self.config.clr_message)
+            url = ('http://github-trends.ryotarai.info/rss/github_trends_' +
+                    language + '_')
+            url += period + '.rss'
+            items = self.trend_parser.parse(url)
+            self.table.build_table_setup_trending(
+                items.entries,
+                self.formatter.format_trending_entry,
+                limit=sys.maxsize,
+                pager=pager)
