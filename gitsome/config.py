@@ -78,6 +78,83 @@ class Config(object):
         self.authenticate()
         self.urls = []
 
+    def authenticate(self, overwrite=False):
+        """Logs into GitHub.
+
+        Adapted from https://github.com/sigmavirus24/github-cli.
+
+        Two factor authentication does not seem to be triggering the
+        SMS code: https://github.com/sigmavirus24/github3.py/issues/387.
+        To log in with 2FA enabled, use a token instead.
+
+        Args:
+            * overwrite: A boolean that indicates whether we cant to
+                overwrite the current set of credentials.
+
+        Returns:
+            None.
+        """
+        if self.api is not None and not overwrite:
+            return
+        # Get the full path to the configuration file
+        config = self.get_github_config_path(self.CONFIG)
+        parser = configparser.RawConfigParser()
+        # Check to make sure the file exists and we are allowed to read it
+        if os.path.isfile(config) and os.access(config, os.R_OK | os.W_OK) and \
+                    not overwrite:
+                self.authenticate_cached_credentials(config, parser)
+        else:
+            # The file didn't exist or we don't have the correct permissions
+            self.user_login = ''
+            while not self.user_login:
+                self.user_login = input('User Login: ')
+            if click.confirm(('Do you want to log in with a password?\n '
+                              'If not, you will be prompted for a '
+                              'personal access token instead'),
+                             default=True):
+                self.user_pass = ''
+                while not self.user_pass:
+                    self.user_pass = getpass('Password: ')
+                try:
+                    # Get an authorization for this
+                    auth = authorize(
+                        self.user_login,
+                        self.user_pass,
+                        scopes=['user', 'repo', 'gist'],
+                        note='gitsome',
+                        note_url='https://github.com/donnemartin/github-cli'
+                    )
+                    self.user_token = auth.token
+                except UnprocessableEntity:
+                    click.secho('Error creating token.',
+                                fg=self.clr_error)
+                    click.secho(('Visit the following page and verify you do '
+                                 'not have an existing token named "gitsome":\n'
+                                 '  https://github.com/settings/tokens\n'
+                                 'If a token already exists, update your '
+                                 '~/.gitsomeconfig file with your token:\n'
+                                 '  user_token = TOKEN\n'
+                                 'You can also generate a new token.'),
+                                fg=self.clr_message)
+                    return
+                except AuthenticationFailed:
+                    self.print_auth_error()
+                    return
+            else:
+                self.user_token = None
+                while not self.user_token:
+                    self.user_token = input('User Token: ')
+            if self.user_feed:
+                parser.set(self.CONFIG_SECTION,
+                           self.CONFIG_USER_FEED,
+                           self.user_feed)
+            self.api = login(token=self.user_token,
+                             two_factor_callback=self.request_two_factor_code)
+            if self.check_auth():
+                click.secho('Log in successful.')
+            else:
+                self.print_auth_error()
+
     def check_auth(self):
         """Checks if the current authorization is valid.
 
