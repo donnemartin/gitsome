@@ -710,3 +710,29 @@ class GitHub(object):
         for result in results:
             issues_list.append(result.issue)
         self.issues(issues_list, limit, pager)
+
+    @authenticate
+    def search_repositories(self, query, sort, limit=1000, pager=False):
+        """Searches for all repos matching the given query.
+
+        TODO: Fix sorting.
+
+        Args:
+            * query: A string representing the search query.
+            * sort: A string that determines sorting (optional).
+                'stars', 'forks', 'updated'.
+                If not specified, sorting is done by query best match.
+            * limit: An int that specifies the number of items to show.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        click.secho('Searching for all matching repos on GitHub...',
+                    fg=self.config.clr_message)
+        results = self.config.api.search_repositories(query, sort)
+        repos = []
+        for result in results:
+            repos.append(result.repository)
+        self.repositories(repos, limit, pager)
