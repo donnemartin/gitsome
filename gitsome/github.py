@@ -567,68 +567,6 @@ class GitHub(object):
         click.secho('Rate limit: ' + str(self.config.api.ratelimit_remaining),
                     fg=self.config.clr_message)
 
-    def view(self, index, view_in_browser):
-        """Views the given index in a browser.
-
-        Loads urls from ~/.githubconfigurl and stores them in self.urls.
-        Opens a browser with the url based on the given index.
-
-        Args:
-            * index: An int that specifies the index to open in a browser.
-            * view_in_browser: A boolean that determines whether to view
-                in a web browser or a terminal.
-
-        Returns:
-            None.
-        """
-        config = self._github_config(self.CONFIG_URL)
-        parser = configparser.RawConfigParser()
-        config_file = open(config)
-        try:
-            parser.readfp(config_file)
-            urls = parser.get(self.CONFIG_URL_SECTION,
-                              self.CONFIG_URL_LIST)
-            urls = urls.strip()
-            excludes = ['[', ']', "'"]
-            for exclude in excludes:
-                urls = urls.replace(exclude, '')
-                if not view_in_browser:
-                    urls = urls.replace(self.GITHUB_URL, '')
-            self.urls = urls.split(', ')
-            if view_in_browser:
-                webbrowser.open(self.urls[index])
-            else:
-                url = self.urls[index]
-                if self.GITHUB_ISSUES in url:
-                    url = url.replace(self.GITHUB_ISSUES, '')
-                    user_login, repo_name, issue_number = url.split('/')
-                    self.issue(user_login, repo_name, issue_number)
-                else:
-                    user_login, repo_name = url.split('/')
-                    self.repository(user_login, repo_name)
-        except Exception as e:
-            click.secho('Error: ' + str(e), fg='red')
-        finally:
-            config_file.close()
-
-    @authenticate
-    def repository(self, user_repo):
-        """Outputs detailed information about the given repo.
-
-        Args:
-            * user_repo: A string representing the user/repo.
-
-        Returns:
-            None.
-        """
-        try:
-            user, repo = user_repo.split('/')
-        except ValueError:
-            click.secho('Expected argument: user/repo.',
-                        fg=self.config.clr_error)
-            return
-        self.web_viewer.view_url('https://github.com/' + user_repo)
-
     @authenticate
     def repositories(self, repos, limit=1000, pager=False,
                      repo_filter='', print_output=True):
@@ -687,6 +625,24 @@ class GitHub(object):
                           limit,
                           pager,
                           repo_filter)
+
+    @authenticate
+    def repository(self, user_repo):
+        """Outputs detailed information about the given repo.
+
+        Args:
+            * user_repo: A string representing the user/repo.
+
+        Returns:
+            None.
+        """
+        try:
+            user, repo = user_repo.split('/')
+        except ValueError:
+            click.secho('Expected argument: user/repo.',
+                        fg=self.config.clr_error)
+            return
+        self.web_viewer.view_url('https://github.com/' + user_repo)
 
     @authenticate
     def search_issues(self, query, limit=1000, pager=False):
