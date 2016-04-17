@@ -382,34 +382,27 @@ class GitHub(object):
                      '    Downlaod: gh gitignore Python > .gitignore\n'),
                     fg=self.config.clr_message)
 
-    def issue(self, user_login, repo_name, issue_number):
+    @authenticate
+    def issue(self, user_repo_number):
         """Outputs detailed information about the given issue.
 
         Args:
-            * user_login: A string representing the user login.
-            * repo: A string representing the repo name.
-            * issue_number: An int representing the issue number.
+            * user_repo_number: A string representing the
+                user/repo/issue number.
 
         Returns:
             None.
         """
-        issue = self.api.issue(user_login, repo_name, issue_number)
-        if type(issue) is null.NullObject:
-            click.secho('Error: Invalid issue.', fg='red')
+        try:
+            user, repo, number = user_repo_number.split('/')
+            int(number)  # Check for int
+        except ValueError:
+            click.secho('Expected argument: user/repo/#.',
+                        fg=self.config.clr_error)
             return
-        click.secho('#' + str(issue.number) + ': ' + \
-                   issue.title + ' - ' + \
-                   '@' + str(issue.user) + ' [' + \
-                   issue.state + ']',
-                   fg='blue')
-        click.secho('Assignee: ' + str(issue.assignee), fg='blue')
-        if issue.body and issue.body is not None:
-            click.echo('\n' + issue.body)
-        comments = issue.comments()
-        for comment in comments:
-            click.secho('\n--Comment by @' + str(comment.user) + '---\n',
-                        fg='blue')
-            click.echo(comment.body)
+        url = ('https://github.com/' + user + '/' + repo + '/' +
+               'issues/' + number)
+        self.web_viewer.view_url(url)
 
     def issues(self, issue_filter, state):
         """Lists all issues.
