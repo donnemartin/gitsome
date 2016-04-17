@@ -172,21 +172,6 @@ class Config(object):
             with open(config, 'w+') as config_file:
                 parser.write(config_file)
 
-    def request_two_factor_code(self):
-        """Callback if two factor authentication is requested.
-
-        Args:
-            * None.
-
-        Returns:
-            A string that represents the user input two factor
-                authentication code.
-        """
-        code = ''
-        while not code:
-            code = input('Enter 2FA code: ')
-        return code
-
     def load_urls(self, view_in_browser):
         """Loads the current set of urls from ~/.githubconfigurl.
 
@@ -211,6 +196,21 @@ class Config(object):
                 if not view_in_browser:
                     urls = urls.replace('https://github.com/', '')
             return urls.split(', ')
+
+    def request_two_factor_code(self):
+        """Callback if two factor authentication is requested.
+
+        Args:
+            * None.
+
+        Returns:
+            A string that represents the user input two factor
+                authentication code.
+        """
+        code = ''
+        while not code:
+            code = input('Enter 2FA code: ')
+        return code
 
     def save_urls(self):
         """Saves the current set of urls to ~/.githubconfigurl.
