@@ -139,6 +139,19 @@ class GitHub(object):
                                       fg=self.config.clr_message)
             return avatar_text
 
+    def configure(self):
+        """Configures gitsome.
+
+        Args:
+            * github: An instance of github.GitHub.
+
+        Returns:
+            None.
+        """
+        self.config.authenticate(overwrite=True)
+        self.config.prompt_news_feed()
+        self.save_config()
+
     def build_issue_urls(self, table, url_index, issue_index):
         """Builds the GitHub urls for the input table containing issues.
 
