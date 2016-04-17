@@ -74,9 +74,10 @@ class Table(object):
                                        ' item(s), use -l/--limit ' +
                                        str(len(view_entries)) +
                                        ' to view all items.>\n'),
-                                      fg=None)
+                                      fg=self.config.clr_message)
         if index == 0:
-            output += click.style('No results found', fg=None)
+            output += click.style('No results found',
+                                  fg=self.config.clr_message)
         elif build_urls:
             output += click.style(self.create_tip(index))
         else:
