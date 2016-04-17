@@ -554,6 +554,19 @@ class GitHub(object):
                 issues_list.append(repo_pull)
         self.issues(issues_list, limit, pager)
 
+    @authenticate
+    def rate_limit(self):
+        """Outputs the rate limit.
+
+        Args:
+            * None.
+
+        Returns:
+            None.
+        """
+        click.secho('Rate limit: ' + str(self.config.api.ratelimit_remaining),
+                    fg=self.config.clr_message)
+
     def view(self, index, view_in_browser):
         """Views the given index in a browser.
 
