@@ -28,6 +28,7 @@ class Config(object):
     """GitSome config.
 
     Attributes:
+        * api: A instance of github3.github.Github.
         * CONFIG: A string representing the config file name.
         * CONFIG_SECTION: A string representing the main config file section.
         * CONFIG_USER_LOGIN: A string representing the user login config.
@@ -46,23 +47,43 @@ class Config(object):
             which allows the user to quickly access a repo url with the
             gh view [url_index] command.
         * user_login: A string that represents the user's login in
-            ~/.githubconfig
+            ~/.gitsomeconfig
         * user_pass: A string that represents the user's pass in
-            ~/.githubconfig
+            ~/.gitsomeconfig
         * user_token: A string that represents the user's token in
-            ~/.githubconfig
+            ~/.gitsomeconfig
     """
 
-    CONFIG = '.githubconfig'
+    CONFIG = '.gitsomeconfig'
+    CONFIG_CLR_PRIMARY = 'clr_primary'
+    CONFIG_CLR_SECONDARY = 'clr_secondary'
+    CONFIG_CLR_TERTIARY = 'clr_tertiary'
+    CONFIG_CLR_QUATERNARY = 'clr_quaternary'
+    CONFIG_CLR_BOLD = 'clr_bold'
+    CONFIG_CLR_CODE = 'clr_code'
+    CONFIG_CLR_ERROR = 'clr_error'
+    CONFIG_CLR_HEADER = 'clr_header'
+    CONFIG_CLR_LINK = 'clr_link'
+    CONFIG_CLR_LIST = 'clr_list'
+    CONFIG_CLR_MESSAGE = 'clr_message'
+    CONFIG_CLR_NUM_COMMENTS = 'clr_num_comments'
+    CONFIG_CLR_NUM_POINTS = 'clr_num_points'
+    CONFIG_CLR_TAG = 'clr_tag'
+    CONFIG_CLR_TIME = 'clr_time'
+    CONFIG_CLR_TITLE = 'clr_title'
+    CONFIG_CLR_TOOLTIP = 'clr_tooltip'
+    CONFIG_CLR_USER = 'clr_user'
+    CONFIG_CLR_VIEW_LINK = 'clr_view_link'
+    CONFIG_CLR_VIEW_INDEX = 'clr_view_index'
     CONFIG_SECTION = 'github'
     CONFIG_USER_LOGIN = 'user_login'
     CONFIG_USER_PASS = 'user_pass'
     CONFIG_USER_TOKEN = 'user_token'
     CONFIG_USER_FEED = 'user_feed'
-    CONFIG_URL = '.githubconfigurl'
+    CONFIG_URL = '.gitsomeconfigurl'
     CONFIG_URL_SECTION = 'url'
     CONFIG_URL_LIST = 'url_list'
-    CONFIG_AVATAR = '.githubconfigavatar.png'
+    CONFIG_AVATAR = '.gitsomeconfigavatar.png'
 
     def __init__(self):
         """Inits Config.
@@ -78,8 +99,34 @@ class Config(object):
         self.user_pass = None
         self.user_token = None
         self.user_feed = None
-        self.authenticate()
         self.urls = []
+        self._init_colors()
+        self.load_config([
+            self.load_config_colors,
+        ])
+
+    def _init_colors(self):
+        """Initialize colors to their defaults."""
+        self.clr_primary = None
+        self.clr_secondary = 'green'
+        self.clr_tertiary = 'cyan'
+        self.clr_quaternary = 'yellow'
+        self.clr_bold = 'cyan'
+        self.clr_code = 'cyan'
+        self.clr_error = 'red'
+        self.clr_header = 'yellow'
+        self.clr_link = 'green'
+        self.clr_list = 'cyan'
+        self.clr_message = None
+        self.clr_num_comments = 'green'
+        self.clr_num_points = 'green'
+        self.clr_tag = 'cyan'
+        self.clr_time = 'yellow'
+        self.clr_title = None
+        self.clr_tooltip = None
+        self.clr_user = 'cyan'
+        self.clr_view_link = 'magenta'
+        self.clr_view_index = 'magenta'
 
     def authenticate_cached_credentials(self, config, parser):
         """Logs into GitHub.
@@ -240,84 +287,143 @@ class Config(object):
         config_file_path = os.path.join(home, config_file_name)
         return config_file_path
 
-    def authenticate(self):
-        """Logs into GitHub.
+    def load_config(self, config_funcs):
+        """Load the specified config from ~/.haxornewsconfig.
 
-        Adapted from https://github.com/sigmavirus24/github-cli.
-
-        Two factor authentication does not seem to be triggering the
-        SMS code: https://github.com/sigmavirus24/github3.py/issues/387.
-        To log in with 2FA enabled, use a token instead.
-
-        Args:
-            * None.
-
-        Returns:
-            None.
+        :type config_funcs: list
+        :param config_funcs: The config functions to run.
         """
-        # Get the full path to the configuration file
-        config = self.get_github_config_path(self.CONFIG)
+        config_file_path = self.get_github_config_path(self.CONFIG)
         parser = configparser.RawConfigParser()
-        # Check to make sure the file exists and we are allowed to read it
-        if os.path.isfile(config) and os.access(config, os.R_OK | os.W_OK):
-            with open(config) as config_file:
-                parser.readfp(config_file)
-                self.user_login = parser.get(self.CONFIG_SECTION,
-                                             self.CONFIG_USER_LOGIN)
+        try:
+            with open(config_file_path) as config_file:
                 try:
-                    self.api = login(
-                        username=parser.get(self.CONFIG_SECTION,
-                                            self.CONFIG_USER_LOGIN),
-                        token=parser.get(self.CONFIG_SECTION,
-                                         self.CONFIG_USER_TOKEN),
-                        two_factor_callback=self.request_two_factor_code)
-                except configparser.NoOptionError:
-                    self.api = login(
-                        username=parser.get(self.CONFIG_SECTION,
-                                            self.CONFIG_USER_LOGIN),
-                        password=parser.get(self.CONFIG_SECTION,
-                                            self.CONFIG_USER_PASS),
-                        two_factor_callback=self.request_two_factor_code)
-                self.user_feed = parser.get(self.CONFIG_SECTION,
-                                            self.CONFIG_USER_FEED)
-        else:
-            # Either the file didn't exist or we didn't have the correct
-            # permissions
-            self.user_login = ''
-            while not user_login:
-                user_login = input('User Login: ')
-            user_pass = ''
-            while not user_pass:
-                user_pass = getpass('Password: ')
-            auth = None
-            try:
-                # Get an authorization for this
-                auth = authorize(
-                    user_login,
-                    user_pass,
-                    scopes=['user', 'repo', 'gist'],
-                    note='githubcli',
-                    note_url='https://github.com/donnemartin/github-cli'
-                )
-            except UnprocessableEntity:
-                click.secho('Error creating token.\nVisit the following ' \
-                            'page and verify you do not have an existing ' \
-                            'token named "githubcli":\n' \
-                            'See https://github.com/settings/tokens\n' \
-                            'If a token already exists update your ' + \
-                            self.githubconfig + ' file with your user_token.',
-                            fg='red')
-            parser.add_section(self.CONFIG_SECTION)
-            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_LOGIN, user_login)
-            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_PASS, user_pass)
-            parser.set(self.CONFIG_SECTION, self.CONFIG_USER_TOKEN, auth.token)
-            self.api = login(token=auth.token,
-                             two_factor_callback=self.request_two_factor_code)
-            # Create the file if it doesn't exist. Otherwise completely blank
-            # out what was there before. Kind of dangerous and destructive but
-            # somewhat necessary
-            with open(config, 'w+') as config_file:
-                parser.write(config_file)
+                    parser.read_file(config_file)
+                except AttributeError:
+                    parser.readfp(config_file)
+                for config_func in config_funcs:
+                    config_func(parser)
+        except IOError:
+            # There might not be a cache yet, just silently return.
+            return None
+
+    def load_config_colors(self, parser):
+        """Load the color config from ~/.haxornewsconfig.
+
+        :type parser: :class:`ConfigParser.RawConfigParser`
+        :param parser: An instance of `ConfigParser.RawConfigParser`.
+        """
+        self.load_colors(parser)
+
+    def load_color(self, parser, color_config, default):
+        """Load the specified color from ~/.haxornewsconfig.
+
+        :type parser: :class:`ConfigParser.RawConfigParser`
+        :param parser: An instance of `ConfigParser.RawConfigParser`.
+
+        :type color_config: str
+        :param color_config: The color config label to load.
+
+        :type default: str
+        :param default: The default color if no color config exists.
+        """
+        try:
+            color = parser.get(self.CONFIG_SECTION, color_config)
+            if color == 'none':
+                color = None
+            # Check if the user input a valid color.
+            # If invalid, this will throw a TypeError
+            click.style('', fg=color)
+        except (TypeError, configparser.NoOptionError):
+            return default
+        return color
+
+    def load_colors(self, parser):
+        """Load all colors from ~/.haxornewsconfig.
+
+        :type parser: :class:`ConfigParser.RawConfigParser`
+        :param parser: An instance of `ConfigParser.RawConfigParser`.
+        """
+        self.clr_primary = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_PRIMARY,
+            default=self.clr_primary)
+        self.clr_secondary = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_SECONDARY,
+            default=self.clr_secondary)
+        self.clr_tertiary = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_TERTIARY,
+            default=self.clr_tertiary)
+        self.clr_quaternary = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_QUATERNARY,
+            default=self.clr_quaternary)
+        self.clr_bold = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_BOLD,
+            default=self.clr_bold)
+        self.clr_code = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_CODE,
+            default=self.clr_code)
+        self.clr_code = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_ERROR,
+            default=self.clr_code)
+        self.clr_header = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_HEADER,
+            default=self.clr_header)
+        self.clr_link = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_LINK,
+            default=self.clr_link)
+        self.clr_list = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_LIST,
+            default=self.clr_list)
+        self.clr_message = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_MESSAGE,
+            default=self.clr_message)
+        self.clr_num_comments = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_NUM_COMMENTS,
+            default=self.clr_num_comments)
+        self.clr_num_points = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_NUM_POINTS,
+            default=self.clr_num_points)
+        self.clr_tag = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_TAG,
+            default=self.clr_tag)
+        self.clr_time = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_TIME,
+            default=self.clr_time)
+        self.clr_title = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_TITLE,
+            default=self.clr_title)
+        self.clr_tooltip = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_TOOLTIP,
+            default=self.clr_tooltip)
+        self.clr_user = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_USER,
+            default=self.clr_user)
+        self.clr_view_link = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_VIEW_LINK,
+            default=self.clr_view_link)
+        self.clr_view_index = self.load_color(
+            parser=parser,
+            color_config=self.CONFIG_CLR_VIEW_INDEX,
+            default=self.clr_view_index)
 
     def load_section_list(self, parser, section):
         """Load the given section containing a list from ~/.haxornewsconfig.
@@ -341,7 +447,7 @@ class Config(object):
         return items_ids.split(', ')
 
     def load_urls(self, view_in_browser):
-        """Loads the current set of urls from ~/.githubconfigurl.
+        """Loads the current set of urls from ~/.gitsomeconfigurl.
 
         Args:
             * None
@@ -354,7 +460,10 @@ class Config(object):
         config = self.get_github_config_path(self.CONFIG_URL)
         parser = configparser.RawConfigParser()
         with open(config) as config_file:
-            parser.readfp(config_file)
+            try:
+                parser.read_file(config_file)
+            except AttributeError:
+                parser.readfp(config_file)
             urls = parser.get(self.CONFIG_URL_SECTION,
                               self.CONFIG_URL_LIST)
             urls = urls.strip()
@@ -417,8 +526,97 @@ class Config(object):
             code = input('Enter 2FA code: ')
         return code
 
+    def save_config(self):
+        """Saves the config to ~/.gitsomeconfig.
+
+        Args:
+            * None
+
+        Returns:
+            None.
+        """
+        if self.check_auth():
+            config = self.get_github_config_path(self.CONFIG)
+            parser = configparser.RawConfigParser()
+            parser.add_section(self.CONFIG_SECTION)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_USER_LOGIN,
+                       self.user_login)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_USER_PASS,
+                       self.user_pass)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_USER_TOKEN,
+                       self.user_token)
+            if self.user_feed is not None:
+                parser.set(self.CONFIG_SECTION,
+                           self.CONFIG_USER_FEED,
+                           self.user_feed)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_PRIMARY,
+                       self.clr_primary)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_SECONDARY,
+                       self.clr_secondary)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_TERTIARY,
+                       self.clr_tertiary)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_QUATERNARY,
+                       self.clr_quaternary)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_BOLD,
+                       self.clr_bold)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_CODE,
+                       self.clr_code)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_ERROR,
+                       self.clr_error)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_HEADER,
+                       self.clr_header)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_LINK,
+                       self.clr_link)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_LIST,
+                       self.clr_list)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_MESSAGE,
+                       self.clr_message)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_NUM_COMMENTS,
+                       self.clr_num_comments)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_NUM_POINTS,
+                       self.clr_num_points)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_TAG,
+                       self.clr_tag)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_TIME,
+                       self.clr_time)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_TITLE,
+                       self.clr_title)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_TOOLTIP,
+                       self.clr_tooltip)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_USER,
+                       self.clr_user)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_VIEW_LINK,
+                       self.clr_view_link)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_CLR_VIEW_INDEX,
+                       self.clr_view_index)
+            with open(config, 'w+') as config_file:
+                parser.write(config_file)
+
     def save_urls(self):
-        """Saves the current set of urls to ~/.githubconfigurl.
+        """Saves the current set of urls to ~/.gitsomeconfigurl.
 
         Args:
             * None
