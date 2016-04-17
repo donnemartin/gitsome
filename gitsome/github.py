@@ -810,3 +810,60 @@ class GitHub(object):
                 self.formatter.format_trending_entry,
                 limit=sys.maxsize,
                 pager=pager)
+
+    @authenticate
+    def user(self, user_id, browser=False, text_avatar=False,
+             limit=1000, pager=False):
+        """Lists information about the logged in user.
+
+        Args:
+            * user_id: A string representing the user login.
+            * limit: An int that specifies the number of items to show.
+            * browser: A Boolean that determines whether to view the profile
+                in a browser, or in the terminal.
+            * text_avatar: A boolean that determines whether to view the profile
+                avatar in plain text.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        if browser:
+            webbrowser.open('https://github.com/' + user_id)
+        else:
+            user = self.config.api.user(user_id)
+            if type(user) is null.NullObject:
+                click.secho('Invalid user.', fg=self.config.clr_error)
+                return
+            output = ''
+            output += click.style(self.avatar_setup(user.avatar_url,
+                                                    text_avatar))
+            output += click.style(user.login + '\n', fg=self.config.clr_primary)
+            if user.company is not None:
+                output += click.style(user.company + '\n',
+                                      fg=self.config.clr_secondary)
+            if user.location is not None:
+                output += click.style(user.location + '\n',
+                                      fg=self.config.clr_secondary)
+            if user.email is not None:
+                output += click.style(user.email + '\n',
+                                      fg=self.config.clr_secondary)
+            if user.type == 'Organization':
+                output += click.style('Organization\n\n',
+                                      fg=self.config.clr_tertiary)
+            else:
+                output += click.style(
+                    'Followers: ' + str(user.followers_count) + ' | ',
+                    fg=self.config.clr_tertiary)
+                output += click.style(
+                    'Following: ' + str(user.following_count) + '\n\n',
+                    fg=self.config.clr_tertiary)
+            output += self.repositories(self.config.api.repositories(user_id),
+                                        limit,
+                                        pager,
+                                        print_output=False)
+            if pager:
+                click.echo_via_pager(output)
+            else:
+                click.secho(output)
