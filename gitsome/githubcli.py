@@ -226,9 +226,10 @@ class GitHubCli(object):
         github.followers(user, pager)
 
     @cli.command()
-    @click.argument('user_login', required=False)
+    @click.argument('user', required=False)
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def following(github, user_login):
+    def following(github, user, pager):
         """Lists all followed users and the total followed count.
 
         Example(s):
@@ -236,22 +237,16 @@ class GitHubCli(object):
             gh following donnemartin
 
         Args:
-            * user_login: A string representing the user login.
+            * github: An instance of github.GitHub.
+            * user: A string representing the user login.
                 If None, returns the followed users of the logged in user.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        if user_login is None:
-            user_login = github.user_login
-        users = github.api.followed_by(user_login)
-        table = []
-        for user in users:
-            table.append([user.login, user.html_url])
-        github.print_table(table, headers=['user', 'profile'])
-        click.secho(
-            'Following ' + str(github.api.user(user_login).following_count),
-            fg='blue')
+        github.following(user, pager)
 
     @cli.command()
     @click.argument('language')
