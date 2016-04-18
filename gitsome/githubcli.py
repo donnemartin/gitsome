@@ -67,6 +67,27 @@ class GitHubCli(object):
         """
         github.configure()
 
+    @cli.command('create-comment')
+    @click.argument('user_repo_number')
+    @click.option('-t', '--text')
+    @pass_github
+    def create_comment(github, user_repo_number, text):
+        """Creates a comment on the given issue.
+
+        Example(s):
+            gh create_comment donnemartin/saws/1 --text "hello world"
+
+        Args:
+            * github: An instance of github.GitHub.
+            * user_repo_number: A string representing the
+                user/repo/issue number.
+            * text: A string representing the comment text.
+
+        Returns:
+            None.
+        """
+        github.create_comment(user_repo_number, text)
+
     @cli.command()
     @click.argument('index')
     @click.option('-b', '--browser', is_flag=True)
