@@ -203,9 +203,10 @@ class GitHubCli(object):
         github.feed(user_or_repo, private, pager)
 
     @cli.command()
-    @click.argument('user_login', required=False)
+    @click.argument('user', required=False)
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def followers(github, user_login):
+    def followers(github, user, pager):
         """Lists all followers and the total follower count.
 
         Example(s):
@@ -213,22 +214,16 @@ class GitHubCli(object):
             gh followers donnemartin
 
         Args:
-            * user_login: A string representing the user login.
+            * github: An instance of github.GitHub.
+            * user: A string representing the user login.
                 If None, returns followers of the logged in user.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        if user_login is None:
-            user_login = github.user_login
-        users = github.api.followers_of(user_login)
-        table = []
-        for user in users:
-            table.append([user.login, user.html_url])
-        github.print_table(table, headers=['user', 'profile'])
-        click.secho(
-            'Followers: ' + str(github.api.user(user_login).followers_count),
-            fg='blue')
+        github.followers(user, pager)
 
     @cli.command()
     @click.argument('user_login', required=False)
