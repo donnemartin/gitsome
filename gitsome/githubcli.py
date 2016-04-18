@@ -52,6 +52,22 @@ class GitHubCli(object):
         ctx.obj = GitHub()
 
     @cli.command()
+    @pass_github
+    def configure(github):
+        """Configures gitsome.
+
+        Example(s):
+            gh configure
+
+        Args:
+            * github: An instance of github.GitHub.
+
+        Returns:
+            None.
+        """
+        github.configure()
+
+    @cli.command()
     @click.argument('index')
     @click.option('-b', '--browser', is_flag=True)
     @pass_github
