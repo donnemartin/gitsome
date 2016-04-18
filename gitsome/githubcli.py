@@ -358,6 +358,22 @@ class GitHubCli(object):
         github.license(license_name)
 
     @cli.command()
+    @pass_github
+    def licenses(github):
+        """Outputs all supported license templates.
+
+        Example(s):
+            gh licenses
+
+        Args:
+            * github: An instance of github.GitHub.
+
+        Returns:
+            None.
+        """
+        github.licenses()
+
+    @cli.command()
     @click.option('-b', '--browser', is_flag=True)
     @click.option('-a', '--ansi', is_flag=True)
     @pass_github
