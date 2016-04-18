@@ -178,21 +178,23 @@ class GitHubCli(object):
                            headers=['created at', 'user', 'type', 'repo'])
 
     @cli.command()
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def emojis(github):
+    def emojis(github, pager):
         """Lists all GitHub supported emojis.
 
         Example(s):
             gh emojis | grep octo
 
         Args:
-            * None.
+            * github: An instance of github.GitHub.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        github.print_items(github.listify(github.api.emojis()),
-                                          headers=['emoji'])
+        github.emojis(pager)
 
     @cli.command()
     @pass_github
