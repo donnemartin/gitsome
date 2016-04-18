@@ -89,45 +89,6 @@ class GitHubCli(object):
         github.create_comment(user_repo_number, text)
 
     @cli.command()
-    @click.argument('index')
-    @click.option('-b', '--browser', is_flag=True)
-    @pass_github
-    def view(github, index, browser):
-        """Views the given index in a browser.
-
-        This method is meant to be called after one of the following commands
-        which outputs a table of repos or issues:
-
-            gh repos
-            gh search_repos
-            gh starred
-
-            gh issues
-            gh pull_requests
-            gh search_issues
-
-        Example(s):
-            gh view repos
-            gh view 0
-
-            gh view starred
-            gh view 0 -b
-            gh view 0 --browser
-
-        Args:
-            * index: An int that specifies the index to open in a browser.
-                For example, calling gh repositories will list repos with a
-                0-based index for each repo.  Calling gh view [index] will
-                open the url for the associated repo in a browser.
-            * browser: A boolean that determines whether to view in a
-                web browser or a terminal.
-
-        Returns:
-            None.
-        """
-        github.view(int(index), browser)
-
-    @cli.command()
     @click.argument('user_login')
     @click.argument('repo_name')
     @click.argument('issue_title')
@@ -739,3 +700,43 @@ class GitHubCli(object):
             None.
         """
         github.repositories(github.api.starred(), repo_filter.lower())
+
+    @cli.command()
+    @click.argument('index')
+    @click.option('-b', '--browser', is_flag=True)
+    @pass_github
+    def view(github, index, browser):
+        """Views the given repo or issue index in the terminal or a browser.
+
+        This method is meant to be called after one of the following commands
+        which outputs a table of repos or issues:
+
+            gh repos
+            gh search_repos
+            gh starred
+
+            gh issues
+            gh pull_requests
+            gh search_issues
+
+        Example(s):
+            gh view repos
+            gh view 0
+
+            gh view starred
+            gh view 0 -b
+            gh view 0 --browser
+
+        Args:
+            * github: An instance of github.GitHub.
+            * index: An int that specifies the index to view.
+                For example, calling gh repos will list repos with a
+                1-based index for each repo.  Calling gh view [index] will
+                view the contents of the url for the associated repo.
+            * browser: A boolean that determines whether to view in a
+                web browser or a terminal.
+
+        Returns:
+            None.
+        """
+        github.view(int(index), browser)
