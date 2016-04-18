@@ -248,30 +248,26 @@ class GitHubCli(object):
         """
         github.following(user, pager)
 
-    @cli.command()
+    @cli.command('gitignore-template')
     @click.argument('language')
     @pass_github
     def gitignore_template(github, language):
         """Outputs the gitignore template for the given language.
 
         Example(s):
-            gh gitignore_template Python
-            gh gitignore_template Python > .gitignore
+            gh gitignore Python
+            gh gitignore Python > .gitignore
 
         Args:
+            * github: An instance of github.GitHub.
             * language: A string representing the language.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        template = github.api.gitignore_template(language)
-        if template:
-            click.echo(template)
-        else:
-            click.secho('Invalid template requested, run the following ' \
-                       'command to see available templates:\n' \
-                       '    gh gitignore_templates',
-                       fg='red')
+        github.gitignore_template(language)
 
     @cli.command()
     @pass_github
