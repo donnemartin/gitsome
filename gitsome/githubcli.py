@@ -467,36 +467,28 @@ class GitHubCli(object):
         """
         github.issue(user_repo_number)
 
-    @cli.command()
+    @cli.command('pull-requests')
+    @click.option('-l', '--limit', required=False, default=1000)
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def pull_requests(github):
+    def pull_requests(github, limit, pager):
         """Lists all pull requests.
 
         Example(s):
-            gh pull_requests
+            gh prs
+            gh prs --limit 20
 
         Args:
-            * None.
+            * github: An instance of github.GitHub.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        pull_requests = []
-        repositories = github.api.repositories()
-        for repository in repositories:
-            repo_pulls = repository.pull_requests()
-            for repo_pull in repo_pulls:
-                pull_requests.append(repo_pull)
-        table = []
-        for pull_request in pull_requests:
-            user_login, repo_name = pull_request.repository
-            repo = user_login.strip('repos/') + '/' + repo_name
-            table.append([pull_request.number,
-                          repo,
-                          pull_request.title])
-        # Sort by repo, pull request number
-        table = sorted(table, key=itemgetter(1, 0))
-        github.print_table(table, headers=['#', 'repo', 'title'])
+        github.pull_requests(limit, pager)
 
     @cli.command()
     @pass_github
