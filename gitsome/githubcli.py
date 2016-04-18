@@ -88,34 +88,28 @@ class GitHubCli(object):
         """
         github.create_comment(user_repo_number, text)
 
-    @cli.command()
-    @click.argument('user_login')
-    @click.argument('repo_name')
-    @click.argument('issue_title')
-    @click.argument('issue_body', required=False)
+    @cli.command('create-issue')
+    @click.argument('user_repo')
+    @click.option('-t', '--issue_title')
+    @click.option('-d', '--issue_desc', required=False)
     @pass_github
-    def create_issue(github, user_login, repo_name, issue_title, issue_body):
+    def create_issue(github, user_repo, issue_title, issue_desc):
         """Creates an issue.
 
         Example(s):
-            gh donnemartin gitsome "issue title"
-            gh donnemartin gitsome "issue title" "issue body"
+            gh donnemartin gitsome -t "issue title"
+            gh donnemartin gitsome -t "issue title" -b "issue body"
 
         Args:
-            * user_login: A string representing the user login.
-            * repo_name: A string representing the repo name.
+            * github: An instance of github.GitHub.
+            * user_repo: A string representing the user/repo.
             * issue_title: A string representing the issue title.
-            * issue_body: A string representing the issue body (optional).
+            * issue_desc: A string representing the issue body (optional).
 
         Returns:
             None.
         """
-        issue = github.api.create_issue(user_login,
-                                        repo_name,
-                                        issue_title,
-                                        issue_body)
-        click.echo('Created issue: ' + issue.title)
-        github.issue(user_login, repo_name, issue.number)
+        github.create_issue(user_repo, issue_title, issue_desc)
 
     @cli.command()
     @click.argument('repo_name')
