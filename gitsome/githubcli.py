@@ -408,24 +408,26 @@ class GitHubCli(object):
         github.user_me(browser, text_avatar, limit, pager)
 
     @cli.command()
+    @click.option('-l', '--limit', required=False, default=1000)
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def notifications(github):
+    def notifications(github, limit, pager):
         """Lists all notifications.
-
-        TODO: Always results in an empty list.  Possible github3.py bug.
 
         Example(s):
             gh notifications
 
         Args:
-            * None.
+            * github: An instance of github.GitHub.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        click.secho('This command is temporarily unavailable.', fg='red')
-        # github.print_items(github.api.notifications(participating=True),
-        #                    headers=['notification'])
+        github.notifications(limit, pager)
 
     @cli.command()
     @click.argument('say', required=False)
