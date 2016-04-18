@@ -289,25 +289,23 @@ class GitHubCli(object):
         github.gitignore_templates(pager)
 
     @cli.command()
-    @click.argument('user_login')
-    @click.argument('repo_name')
-    @click.argument('issue_number')
+    @click.argument('user_repo_number')
     @pass_github
-    def issue(github, user_login, repo_name, issue_number):
+    def issue(github, user_repo_number):
         """Outputs detailed information about the given issue.
 
         Example(s):
-            gh donnemartin saws 1
+            gh issue donnemartin/saws/1
 
         Args:
-            * user_login: A string representing the user login.
-            * repo_name: A string representing the repo name.
-            * issue_number: An int representing the issue number.
+            * github: An instance of github.GitHub.
+            * user_repo_number: A string representing the
+                user/repo/issue number.
 
         Returns:
             None.
         """
-        github.issue(user_login, repo_name, issue_number)
+        github.issue(user_repo_number)
 
     @cli.command()
     @click.argument('issue_filter', required=False, default='subscribed')
