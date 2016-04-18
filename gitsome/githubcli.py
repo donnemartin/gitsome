@@ -339,6 +339,25 @@ class GitHubCli(object):
         github.issues_setup(issue_filter, issue_state, limit, pager)
 
     @cli.command()
+    @click.argument('license_name')
+    @pass_github
+    def license(github, license_name):
+        """Outputs the license template for the given license.
+
+        Example(s):
+            gh license "MIT"
+            gh license "MIT" > LICENSE
+
+        Args:
+            * github: An instance of github.GitHub.
+            * license_name: A string representing the license name.
+
+        Returns:
+            None.
+        """
+        github.license(license_name)
+
+    @cli.command()
     @click.option('-b', '--browser', is_flag=True)
     @click.option('-a', '--ansi', is_flag=True)
     @pass_github
