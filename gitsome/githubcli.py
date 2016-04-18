@@ -137,7 +137,6 @@ class GitHubCli(object):
         """
         github.create_repo(repo_name, repo_desc, private)
 
-    @cli.command()
     @pass_github
     def emails(github):
         """Lists all the user's registered emails.
@@ -146,12 +145,12 @@ class GitHubCli(object):
             gh emails
 
         Args:
-            * None.
+            * github: An instance of github.GitHub.
 
         Returns:
             None.
         """
-        github.print_items(github.api.emails(), headers='keys')
+        github.emails()
 
     @cli.command()
     @pass_github
