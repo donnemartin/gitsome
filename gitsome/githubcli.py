@@ -173,31 +173,6 @@ class GitHubCli(object):
 
     @cli.command()
     @pass_github
-    def events(github):
-        """Lists all public events.
-
-        Examples:
-            gh events | grep foo
-            gh events | less
-
-        Args:
-            * None.
-
-        Returns:
-            None.
-        """
-        events = github.api.all_events()
-        table = []
-        for event in events:
-            table.append([event.created_at,
-                          event.actor,
-                          event.type,
-                          github.format_repo(event.repo)])
-        github.print_table(table,
-                           headers=['created at', 'user', 'type', 'repo'])
-
-    @cli.command()
-    @pass_github
     def feeds(github):
         """Lists GitHub's timeline resources.
 
