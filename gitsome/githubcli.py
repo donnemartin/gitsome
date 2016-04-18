@@ -153,6 +153,25 @@ class GitHubCli(object):
         github.emails()
 
     @cli.command()
+    @click.option('-p', '--pager', is_flag=True)
+    @pass_github
+    def emojis(github, pager):
+        """Lists all GitHub supported emojis.
+
+        Example(s):
+            gh emojis | grep octo
+
+        Args:
+            * github: An instance of github.GitHub.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        github.emojis(pager)
+
+    @cli.command()
     @pass_github
     def events(github):
         """Lists all public events.
@@ -176,25 +195,6 @@ class GitHubCli(object):
                           github.format_repo(event.repo)])
         github.print_table(table,
                            headers=['created at', 'user', 'type', 'repo'])
-
-    @cli.command()
-    @click.option('-p', '--pager', is_flag=True)
-    @pass_github
-    def emojis(github, pager):
-        """Lists all GitHub supported emojis.
-
-        Example(s):
-            gh emojis | grep octo
-
-        Args:
-            * github: An instance of github.GitHub.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
-
-        Returns:
-            None.
-        """
-        github.emojis(pager)
 
     @cli.command()
     @pass_github
