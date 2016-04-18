@@ -375,45 +375,37 @@ class GitHubCli(object):
 
     @cli.command()
     @click.option('-b', '--browser', is_flag=True)
-    @click.option('-a', '--ansi', is_flag=True)
+    @click.option('-t', '--text_avatar', is_flag=True)
+    @click.option('-l', '--limit', required=False, default=1000)
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def me(github, browser, ansi):
+    def me(github, browser, text_avatar, limit, pager):
         """Lists information about the logged in user.
 
         Example(s):
             gh me
+            gh me 20
             gh me -b
             gh me --browser
             gh me -a
-            gh me --ansi
+            gh me --text_avatar
+            gh me --limit 20
 
         Args:
+            * github: An instance of github.GitHub.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
             * browser: A Boolean that determines whether to view the profile
                 in a browser, or in the terminal.
-            * ansi: A boolean that determines whether to view the profile
-                avatar in a ansi, or plain text.
+            * text_avatar: A boolean that determines whether to view the profile
+                avatar in plain text.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        if browser:
-            url = 'https://github.com/' + github.user_login
-            webbrowser.open(url)
-        else:
-            user = github.api.me()
-            # github.avatar(user.avatar_url, ansi)
-            click.echo('')
-            click.secho(user.login, fg='blue')
-            if user.company is not None:
-                click.secho('company:', user.company, fg='blue')
-            if user.location is not None:
-                click.secho('location:', user.location, fg='blue')
-            if user.email is not None:
-                click.secho('email: ' + user.email, fg='blue')
-            click.secho('followers: ' + str(user.followers_count), fg='blue')
-            click.secho('following: ' + str(user.following_count), fg='blue')
-            click.echo('')
-            github.repositories(github.api.repositories())
+        github.user_me(browser, text_avatar, limit, pager)
 
     @cli.command()
     @pass_github
