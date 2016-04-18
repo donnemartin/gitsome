@@ -111,21 +111,22 @@ class GitHubCli(object):
         """
         github.create_issue(user_repo, issue_title, issue_desc)
 
-    @cli.command()
+    @cli.command('create-repo')
     @click.argument('repo_name')
-    @click.argument('repo_desc', required=False)
-    @click.option('-p', '--private', is_flag=True)
+    @click.option('-d', '--repo_desc', required=False)
+    @click.option('-pr', '--private', is_flag=True)
     @pass_github
     def create_repo(github, repo_name, repo_desc, private):
         """Creates a repo.
 
         Example(s):
             gh create_repo "repo name"
-            gh create_repo "repo name" "repo description"
-            gh create_repo "repo name" "repo description" -p
-            gh create_repo "repo name" "repo description" --private
+            gh create_repo "repo name" --repo_desc "desc"
+            gh create_repo "repo name" -pr
+            gh create_repo "repo name" --private
 
         Args:
+            * github: An instance of github.GitHub.
             * repo_name: A string representing the repo name.
             * repo_desc: A string representing the repo description (optional).
             * private: A boolean that determines whether the repo is private.
@@ -134,10 +135,7 @@ class GitHubCli(object):
         Returns:
             None.
         """
-        repo = github.api.create_repository(repo_name,
-                                            repo_desc,
-                                            private=private)
-        click.secho('Created repo: ' + repo.full_name, fg='blue')
+        github.create_repo(repo_name, repo_desc, private)
 
     @cli.command()
     @pass_github
