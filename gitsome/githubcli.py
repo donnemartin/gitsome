@@ -172,29 +172,35 @@ class GitHubCli(object):
         github.emojis(pager)
 
     @cli.command()
+    @click.argument('user_or_repo', required=False, default='')
+    @click.option('-pr', '--private', is_flag=True, default=False)
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def feeds(github):
-        """Lists GitHub's timeline resources.
+    def feed(github, user_or_repo, private, pager):
+        """Lists all activity for the given user or repo.
 
-        Requires authentication with user/pass, cannot be used with tokens
-        due to a limitation with the GitHub API itself.
+        If blank, lists the logged in user's news feed.
 
-        TODO: Results in an exception with github3.py.
-
-        Example(s):
-            gh feeds
+        Examples:
+            gh feed | grep foo
+            gh feed | less -r
+            gh feed donnemartin --private
+            gh feed donnemartin/haxor-news
 
         Args:
-            * None.
+            * github: An instance of github.GitHub.
+            * user_or_repo: A string representing the user or repo to list
+                events for.  If no entry, defaults to the logged in user's feed.
+            * private: A boolean that determines whether to show the private
+                events (True) or public events (False).
+                Only works for the currently logged in user.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
-
-        Raises:
-            TypeError: Seems to be a github3.py bug.
         """
-        click.secho('This command is temporarily unavailable.', fg='red')
-        # github.api.feeds()
+        github.feed(user_or_repo, private, pager)
 
     @cli.command()
     @click.argument('user_login', required=False)
