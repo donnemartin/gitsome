@@ -429,7 +429,7 @@ class GitHubCli(object):
         """
         github.notifications(limit, pager)
 
-    @cli.command()
+    @cli.command('octo')
     @click.argument('say', required=False)
     @pass_github
     def octocat(github, say):
@@ -440,15 +440,14 @@ class GitHubCli(object):
             gh octocat "foo bar"
 
         Args:
+            * github: An instance of github.GitHub.
             * say: A string for octocat to say.
                 If say is None, octocat speaks an Easter egg.
 
         Returns:
             None.
         """
-        output = str(github.api.octocat(say))
-        output = output.replace('\\n', '\n')
-        click.echo(output)
+        github.octocat(say)
 
     @cli.command()
     @click.argument('user_login')
