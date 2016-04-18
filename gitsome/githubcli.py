@@ -449,26 +449,23 @@ class GitHubCli(object):
         """
         github.octocat(say)
 
-    @cli.command()
-    @click.argument('user_login')
-    @click.argument('repo_name')
-    @click.argument('issue_number')
+    @cli.command('pull-request')
+    @click.argument('user_repo_number')
     @pass_github
-    def pull_request(github, user_login, repo_name, issue_number):
+    def pull_request(github, user_repo_number):
         """Outputs detailed information about the given pull request.
 
         Example(s):
-            gh pull_request donnemartin awesome-aws 2
+            gh pr donnemartin/awesome-aws/2
 
         Args:
-            * user_login: A string representing the user login.
-            * repo_name: A string representing the repo name.
-            * issue_number: An int representing the issue number.
+            * github: An instance of github.GitHub.
+            * user_repo_number: A string representing the user/repo/number.
 
         Returns:
             None.
         """
-        github.issue(user_login, repo_name, issue_number)
+        github.issue(user_repo_number)
 
     @cli.command()
     @pass_github
