@@ -269,23 +269,24 @@ class GitHubCli(object):
         """
         github.gitignore_template(language)
 
-    @cli.command()
+    @cli.command('gitignore-templates')
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def gitignore_templates(github):
+    def gitignore_templates(github, pager):
         """Outputs all supported gitignore templates.
 
         Example(s):
-            gh gitignore_templates
+            gh gitignores
 
         Args:
-            * None.
+            * github: An instance of github.GitHub.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        github.print_items(
-            github.listify(github.api.gitignore_templates()),
-                           headers=['language'])
+        github.gitignore_templates(pager)
 
     @cli.command()
     @click.argument('user_login')
