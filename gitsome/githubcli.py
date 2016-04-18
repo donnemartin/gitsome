@@ -308,27 +308,35 @@ class GitHubCli(object):
         github.issue(user_repo_number)
 
     @cli.command()
-    @click.argument('issue_filter', required=False, default='subscribed')
-    @click.argument('state', required=False, default='open')
+    @click.option('-f', '--issue_filter', required=False, default='subscribed')
+    @click.option('-s', '--issue_state', required=False, default='open')
+    @click.option('-l', '--limit', required=False, default=1000)
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def issues(github, issue_filter, state):
-        """Lists all issues.
+    def issues(github, issue_filter, issue_state, limit, pager):
+        """Lists all issues matching the filter.
 
         Example(s):
             gh issues
-            gh issues assigned
-            gh issues created all | grep foo
+            gh issues --issue_state closed --limit 20
+            gh issues "foo bar" assigned
+            gh issues created | grep foo
 
         Args:
+            * github: An instance of github.GitHub.
             * issue_filter: A string with the following accepted values:
                 'assigned', 'created', 'mentioned', 'subscribed' (default).
-            * state: A string with the following accepted values:
+            * issue_state: A string with the following accepted values:
                 'all', 'open' (default), 'closed'.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        github.issues(issue_filter, state)
+        github.issues_setup(issue_filter, issue_state, limit, pager)
 
     @cli.command()
     @click.option('-b', '--browser', is_flag=True)
