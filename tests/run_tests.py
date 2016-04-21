@@ -17,6 +17,7 @@
 from compat import unittest
 
 from test_completer import CompleterTest  # NOQA
+from test_github_cli import GitHubCliTest  # NOQA
 
 
 if __name__ == '__main__':
