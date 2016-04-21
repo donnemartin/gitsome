@@ -26,6 +26,7 @@ from .compat import configparser
 from .compat import urlparse
 from .lib.github3 import null
 from .lib.github3.exceptions import UnprocessableEntity
+from .lib.img2txt import img2txt
 import click
 import feedparser
 
@@ -44,6 +45,7 @@ class GitHub(object):
         * api: An instance of github3 to interact with the GitHub API.
         * config: An instance of Config.
         * formatter: An instance of Formatter.
+        * img2txt: A callable from img2txt.
         * table: An instance of Table.
         * trend_parser: An instance of feedparser.
         * web_viewer: An instance of WebViewer.
@@ -60,6 +62,7 @@ class GitHub(object):
         """
         self.config = Config()
         self.formatter = Formatter(self.config)
+        self.img2txt = img2txt.img2txt
         self.table = Table(self.config)
         self.web_viewer = WebViewer(self.config)
         self.trend_parser = feedparser
