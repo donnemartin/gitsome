@@ -686,6 +686,40 @@ class GitHubCli(object):
         github.repositories(github.api.starred(), repo_filter.lower())
 
     @cli.command()
+    @click.argument('language', required=False, default='Overall')
+    @click.option('-w', '--weekly', is_flag=True)
+    @click.option('-m', '--monthly', is_flag=True)
+    @click.option('-D', '--devs', is_flag=True)
+    @click.option('-b', '--browser', is_flag=True)
+    @click.option('-p', '--pager', is_flag=True)
+    @pass_github
+    def trending(github, language, weekly, monthly, devs, browser, pager):
+        """Lists trending repos for the given language.
+
+        Example(s):
+            gh trending
+            gh trending Python -w
+
+        Args:
+            * github: An instance of github.GitHub.
+            * language: A string representing the language.
+            * weekly: A boolean that determines whether to show the weekly
+                rankings.  Daily is the default.
+            * monthly: A boolean that determines whether to show the monthly
+                rankings.  Daily is the default.
+            * devs: A boolean that determines whether to display the trending
+                devs or repos.  Only valid with the -b/--browser option.
+            * browser: A Boolean that determines whether to view the trending
+                page in a browser, or in the terminal.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        github.trending(language, weekly, monthly, devs, browser, pager)
+
+    @cli.command()
     @click.argument('user_id', required=True)
     @click.option('-b', '--browser', is_flag=True)
     @click.option('-t', '--text_avatar', is_flag=True)
