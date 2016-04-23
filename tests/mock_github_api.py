@@ -120,3 +120,15 @@ class MockLicense(object):
     def __init__(self, key, name):
         self.key = key
         self.name = name
+
+
+class MockThread(object):
+
+    def __init__(self, thread_type, title, unread):
+        self.subject = {
+            'title': title,
+            'type': thread_type,
+            'url': 'https://api.github.com/repos/foo/bar/pulls/1',
+        }
+        self.unread = unread
+        self.updated_at = ''
