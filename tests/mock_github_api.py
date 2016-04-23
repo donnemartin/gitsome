@@ -192,3 +192,6 @@ class MockGitHubApi(object):
             MockUser('foo2'),
             MockUser('foo3'),
         ]
+
+    def followed_by(self, user_login):
+        return self.followers_of(user_login)
