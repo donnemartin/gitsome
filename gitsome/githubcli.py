@@ -541,11 +541,13 @@ class GitHubCli(object):
         """
         github.repositories(github.api.repositories())
 
-    @cli.command()
+    @cli.command('search-issues')
     @click.argument('query')
+    @click.option('-l', '--limit', required=False, default=1000)
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def search_issues(github, query):
-        """Searches all issues with the given query.
+    def search_issues(github, query, limit, pager):
+        """Searches for all issues matching the given query.
 
         The query can contain any combination of the following supported
         qualifers:
@@ -575,31 +577,21 @@ class GitHubCli(object):
         For more information about these qualifiers, see: http://git.io/d1oELA
 
         Example(s):
-            gh search_issues "foo type:pr author:donnemartin"
-            gh search_issues "foo in:title created:>=2015-01-01" | less
+            gh search_issues "foo type:pr author:donnemartin" --limit 20
+            gh search_issues "foobarbaz in:title created:>=2015-01-01" | less -r
 
         Args:
+            * github: An instance of github.GitHub.
             * query: A string representing the search query.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        click.secho('Searching issues on GitHub...', fg='blue')
-        issues = github.api.search_issues(query)
-        table = []
-        try:
-            for issue in issues:
-                table.append([issue.score,
-                             issue.issue.number,
-                             github.format_repo(issue.issue.repository),
-                             issue.issue.title])
-        except AttributeError:
-            # github3.py sometimes throws the following during iteration:
-            # AttributeError: 'NoneType' object has no attribute 'get'
-            pass
-        # Sort by score, repo, issue number
-        table = sorted(table, key=itemgetter(0, 2, 1), reverse=True)
-        github.print_table(table, headers=['score', '#', 'repo', 'title'])
+        github.search_issues(query, limit, pager)
 
     @cli.command('search-repos')
     @click.argument('query')
