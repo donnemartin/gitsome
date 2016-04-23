@@ -668,22 +668,30 @@ class GitHubCli(object):
 
     @cli.command()
     @click.argument('repo_filter', required=False, default='')
+    @click.option('-l', '--limit', required=False, default=1000)
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def starred(github, repo_filter):
+    def starred(github, repo_filter, limit, pager):
         """Outputs starred repos.
 
         Example(s):
             gh starred foo
+            gh starred foo --limit 20
 
         Args:
+            * github: An instance of github.GitHub.
             * repo_filter: A string representing a filter for repo names.
                 Only repos matching the filter will be returned.
                 If None, outputs all starred repos.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        github.repositories(github.api.starred(), repo_filter.lower())
+        github.starred(repo_filter, limit, pager)
 
     @cli.command()
     @click.argument('language', required=False, default='Overall')
