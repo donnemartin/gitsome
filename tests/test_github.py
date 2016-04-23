@@ -35,3 +35,10 @@ class GitHubTest(unittest.TestCase):
         avatar_text = self.github.avatar(
             'https://avatars.githubusercontent.com/u/583231?v=3', False)
         assert avatar_text == 'PIL not found.\n'
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_create_comment(self, mock_click_secho):
+        self.github.create_comment('user1/repo1/1', 'text')
+        mock_click_secho.assert_called_with(
+            'Created comment: text',
+            fg=self.github.config.clr_message)
