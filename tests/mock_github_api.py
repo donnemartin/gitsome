@@ -255,3 +255,6 @@ class MockGitHubApi(object):
 
     def search_issues(self, query):
         return self.issues()
+
+    def search_repositories(self, query, sort):
+        return self.repositories()
