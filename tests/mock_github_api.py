@@ -15,6 +15,7 @@
 
 import mock
 
+from gitsome.lib.github3 import null
 from gitsome.lib.github3.exceptions import UnprocessableEntity
 
 
