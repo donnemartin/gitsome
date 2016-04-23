@@ -218,3 +218,10 @@ class MockGitHubApi(object):
             return repo.issues[int(number)]
         except KeyError:
             return null.NullObject('Issue')
+
+    def issues(self, issue_filter='subscribed', issue_state='open'):
+        user = self.users[self.current_user]
+        repo = user.repositories['repo1']
+        issues_dict = repo.issues
+        issues = list(issues_dict.values())
+        return issues
