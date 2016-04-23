@@ -172,3 +172,7 @@ class MockGitHubApi(object):
     def create_repository(self, repo_name, repo_desc='', private=False):
         user = self.users[self.current_user]
         return user.create_repo(repo_name, repo_desc, private)
+
+    def emails(self):
+        user = self.users[self.current_user]
+        return user.emails
