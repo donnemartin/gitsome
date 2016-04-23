@@ -132,3 +132,30 @@ class MockThread(object):
         }
         self.unread = unread
         self.updated_at = ''
+
+
+class MockGitHubApi(object):
+
+    def __init__(self):
+        self.users = {}
+        self.current_user = 'user1'
+        self.ratelimit_remaining = 5000
+        self._generate_mock_data()
+
+    def _generate_mock_data(self):
+        user1 = MockUser(self.current_user, 'User')
+        user1_repo1 = user1.create_repo('repo1')
+        user1_repo2 = user1.create_repo('repo2')
+        user1_repo3 = user1.create_repo('repo3')
+        user1_repo1.create_issue('title1', 'body1')
+        user1_repo1.create_issue('title2', 'body2')
+        user1_repo1.create_issue('title3', 'body3')
+        user1.emails.extend([
+            MockEmail('foo@baz.com', True, False),
+            MockEmail('bar@baz.com', False, True),
+        ])
+        user2 = MockUser('user2', 'Organization')
+        self.users.update({
+            user1.login: user1,
+            user2.login: user2,
+        })
