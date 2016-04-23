@@ -195,3 +195,9 @@ class MockGitHubApi(object):
 
     def followed_by(self, user_login):
         return self.followers_of(user_login)
+
+    def gitignore_template(self, language):
+        if language == 'valid_language':
+            return 'template'
+        else:
+            return ''
