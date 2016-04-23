@@ -185,3 +185,10 @@ class MockGitHubApi(object):
             '100',
             'baby_chick',
         ]
+
+    def followers_of(self, user_login):
+        return [
+            MockUser('foo1'),
+            MockUser('foo2'),
+            MockUser('foo3'),
+        ]
