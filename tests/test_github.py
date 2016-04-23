@@ -78,3 +78,10 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_called_with(
             'Created repo: name\ndesc',
             fg=self.github.config.clr_message)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_create_repo_invalid_args(self, mock_click_secho):
+        self.github.create_repo('repo1', 'desc', True)
+        mock_click_secho.assert_called_with(
+            'Error creating repo: foobar',
+            fg=self.github.config.clr_error)
