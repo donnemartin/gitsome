@@ -86,3 +86,24 @@ class MockRepo(object):
 
     def pull_requests(self):
         return list(self.issues.values())
+
+
+class MockIssue(object):
+
+    def __init__(self, number, repository, title, body=''):
+        self.number = number
+        self.repository = (repository.user.login, repository.full_name)
+        self.title = title
+        self.body = body
+        self.state = 'open'
+        self.comments_count = 1
+        self.assignee = 'user1'
+        self.user = 'user2'
+        self.created_at = ''
+        self.comments = []
+        self.issue = 'foobar'
+
+    def create_comment(self, body):
+        issue_comment = MockIssueComment(body)
+        self.comments.append(issue_comment)
+        return issue_comment
