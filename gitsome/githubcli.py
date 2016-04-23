@@ -526,20 +526,31 @@ class GitHubCli(object):
         github.repository(user_login, repo_name)
 
     @cli.command('repos')
+    @click.argument('repo_filter', required=False, default='')
+    @click.option('-l', '--limit', required=False, default=1000)
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def repositories(github):
-        """Lists all repos.
+    def repositories(github, repo_filter, limit, pager):
+        """Lists all repos matching the given filter.
 
         Example(s):
-            gh repos
+            gh repos --limit 15
+            gh repos "data-science"
 
         Args:
-            * None.
+            * github: An instance of github.GitHub.
+            * repo_filter: A string representing a filter for repo names.
+                Only repos matching the filter will be returned.
+                If None, outputs all of the user's repos.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        github.repositories(github.api.repositories())
+        github.repositories_setup(repo_filter, limit, pager)
 
     @cli.command('search-issues')
     @click.argument('query')
