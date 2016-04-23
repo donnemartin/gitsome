@@ -258,3 +258,11 @@ class MockGitHubApi(object):
 
     def search_repositories(self, query, sort):
         return self.repositories()
+
+    def repositories(self, user_id=None):
+        if user_id is None:
+            user_id = self.current_user
+        user = self.users[user_id]
+        repos = list(user.repositories.values())
+        repos_sorted = sorted(repos)
+        return repos_sorted
