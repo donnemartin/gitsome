@@ -225,3 +225,11 @@ class MockGitHubApi(object):
         issues_dict = repo.issues
         issues = list(issues_dict.values())
         return issues
+
+    def license(self, license):
+        if license == 'valid_license':
+            template = mock.Mock()
+            template.body = 'template'
+            return template
+        else:
+            return null.NullObject('License')
