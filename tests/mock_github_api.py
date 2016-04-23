@@ -55,3 +55,34 @@ class MockUser(object):
 
     def events(self, public):
         return []
+
+
+class MockRepo(object):
+
+    def __init__(self, user, full_name, description='', private=False):
+        self.user = user
+        self.full_name = full_name
+        self.description = description
+        self.private = private
+        self.issues = {}
+        self.clone_url = 'https://github.com/octocat/spoon-knife'
+        self.stargazers_count = 1
+        self.forks_count = 1
+        self.language = ''
+        self.updated_at = ''
+        self.repository = 'foobar'
+
+    def __lt__(self, other):
+        return self.full_name < other.full_name
+
+    def gen_key(self):
+        return len(self.issues) + 1
+
+    def create_issue(self, issue_title, issue_desc=''):
+        number = self.gen_key()
+        issue = MockIssue(number, self, issue_title, issue_desc)
+        self.issues.update({number: issue})
+        return issue
+
+    def pull_requests(self):
+        return list(self.issues.values())
