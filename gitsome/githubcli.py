@@ -601,12 +601,14 @@ class GitHubCli(object):
         table = sorted(table, key=itemgetter(0, 2, 1), reverse=True)
         github.print_table(table, headers=['score', '#', 'repo', 'title'])
 
-    @cli.command('search_repos')
+    @cli.command('search-repos')
     @click.argument('query')
-    @click.argument('sort', required=False, default=None)
+    @click.option('-s', '--sort', required=False, default='')
+    @click.option('-l', '--limit', required=False, default=1000)
+    @click.option('-p', '--pager', is_flag=True)
     @pass_github
-    def search_repositories(github, query, sort):
-        """Searches all repos with the given query.
+    def search_repositories(github, query, sort, limit, pager):
+        """Searches for all repos matching the given query.
 
         The query can contain any combination of the following supported
         qualifers:
@@ -632,39 +634,24 @@ class GitHubCli(object):
         For more information about these qualifiers, see: http://git.io/4Z8AkA
 
         Example(s):
-            gh search_repos "maps language:python" stars | less
+            gh search_repos "maps language:python" -s "stars" | less -r
             gh search_repos "created:>=2015-01-01 stars:>=1000 language:python"
 
         Args:
+            * github: An instance of github.GitHub.
             * query: A string representing the search query.
             * sort: A string that determines sorting (optional).
                 'stars', 'forks', 'updated'.
                 If not specified, sorting is done by query best match.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
 
         Returns:
             None.
         """
-        click.secho('Searching repos on GitHub...', fg='blue')
-        repos = github.api.search_repositories(query, sort)
-        table = []
-        number = 0
-        try:
-            for repo in repos:
-                table.append([number,
-                              repo.score,
-                              repo.repository.full_name,
-                              repo.repository.stargazers_count,
-                              repo.repository.forks_count])
-                number += 1
-        except AttributeError:
-            # github3.py sometimes throws the following during iteration:
-            # AttributeError: 'NoneType' object has no attribute 'get'
-            pass
-        # Sort by score, repo
-        table = sorted(table, key=itemgetter(1, 2), reverse=True)
-        github.build_repo_urls(table, url_index=0, repo_index=2)
-        github.print_table(table, headers=['#', 'score', 'repo',
-                                           'stars', 'forks'])
+        github.search_repositories(query, sort, limit, pager)
 
     @cli.command()
     @click.argument('repo_filter', required=False, default='')
