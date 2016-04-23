@@ -60,3 +60,14 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_called_with(
             'Created issue: title\ndesc',
             fg=self.github.config.clr_message)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_create_issue_invalid_args(self, mock_click_secho):
+        self.github.create_issue('invalid/repo1', 'title', 'desc')
+        mock_click_secho.assert_called_with(
+            'Error creating issue.',
+            fg=self.github.config.clr_error)
+        self.github.create_issue('u', 'title', 'desc')
+        mock_click_secho.assert_called_with(
+            'Expected argument: user/repo and option -t "title".',
+            fg=self.github.config.clr_error)
