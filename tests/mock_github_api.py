@@ -201,3 +201,12 @@ class MockGitHubApi(object):
             return 'template'
         else:
             return ''
+
+    def gitignore_templates(self):
+        return [
+            'Actionscript',
+            'Ada',
+            'Agda',
+            'Android',
+            'AppEngine',
+        ]
