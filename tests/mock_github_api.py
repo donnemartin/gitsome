@@ -113,3 +113,10 @@ class MockIssueComment(object):
 
     def __init__(self, body):
         self.body = body
+
+
+class MockLicense(object):
+
+    def __init__(self, key, name):
+        self.key = key
+        self.name = name
