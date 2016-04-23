@@ -490,7 +490,7 @@ class GitHubCli(object):
         """
         github.pull_requests(limit, pager)
 
-    @cli.command()
+    @cli.command('rate-limit')
     @pass_github
     def rate_limit(github):
         """Outputs the rate limit.
@@ -499,12 +499,12 @@ class GitHubCli(object):
             gh rate_limit
 
         Args:
-            * None.
+            * github: An instance of github.GitHub.
 
         Returns:
             None.
         """
-        click.echo('Rate limit: ' + str(github.api.ratelimit_remaining))
+        github.rate_limit()
 
     @cli.command('repos')
     @click.argument('repo_filter', required=False, default='')
