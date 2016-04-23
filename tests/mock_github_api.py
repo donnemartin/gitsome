@@ -266,3 +266,9 @@ class MockGitHubApi(object):
         repos = list(user.repositories.values())
         repos_sorted = sorted(repos)
         return repos_sorted
+
+    def user(self, user_id):
+        try:
+            return self.users[user_id]
+        except KeyError:
+            return null.NullObject('User')
