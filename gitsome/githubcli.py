@@ -507,23 +507,22 @@ class GitHubCli(object):
         click.echo('Rate limit: ' + str(github.api.ratelimit_remaining))
 
     @cli.command('repo')
-    @click.argument('user_login')
-    @click.argument('repo_name')
+    @click.argument('user_repo')
     @pass_github
-    def repository(github, user_login, repo_name):
+    def repository(github, user_repo):
         """Outputs detailed information about the given repo.
 
         Example(s):
-            gh repo donnemartin gitsome
+            gh repo donnemartin/gitsome
 
         Args:
-            * user_login: A string representing the user login.
-            * repo_name: A string representing the repo name.
+            * github: An instance of github.GitHub.
+            * user_repo: A string representing the user/repo.
 
         Returns:
             None.
         """
-        github.repository(user_login, repo_name)
+        github.repository(user_repo)
 
     @cli.command('repos')
     @click.argument('repo_filter', required=False, default='')
