@@ -107,3 +107,9 @@ class MockIssue(object):
         issue_comment = MockIssueComment(body)
         self.comments.append(issue_comment)
         return issue_comment
+
+
+class MockIssueComment(object):
+
+    def __init__(self, body):
+        self.body = body
