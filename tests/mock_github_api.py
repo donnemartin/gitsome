@@ -168,3 +168,7 @@ class MockGitHubApi(object):
             return issue
         except KeyError:
             return null.NullObject('Issue')
+
+    def create_repository(self, repo_name, repo_desc='', private=False):
+        user = self.users[self.current_user]
+        return user.create_repo(repo_name, repo_desc, private)
