@@ -23,7 +23,6 @@ import click
 
 from .github import GitHub
 
-
 pass_github = click.make_pass_decorator(GitHub)
 
 
@@ -137,6 +136,7 @@ class GitHubCli(object):
         """
         github.create_repo(repo_name, repo_desc, private)
 
+    @cli.command()
     @pass_github
     def emails(github):
         """Lists all the user's registered emails.
