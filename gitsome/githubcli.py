@@ -506,24 +506,6 @@ class GitHubCli(object):
         """
         click.echo('Rate limit: ' + str(github.api.ratelimit_remaining))
 
-    @cli.command('repo')
-    @click.argument('user_repo')
-    @pass_github
-    def repository(github, user_repo):
-        """Outputs detailed information about the given repo.
-
-        Example(s):
-            gh repo donnemartin/gitsome
-
-        Args:
-            * github: An instance of github.GitHub.
-            * user_repo: A string representing the user/repo.
-
-        Returns:
-            None.
-        """
-        github.repository(user_repo)
-
     @cli.command('repos')
     @click.argument('repo_filter', required=False, default='')
     @click.option('-l', '--limit', required=False, default=1000)
@@ -550,6 +532,24 @@ class GitHubCli(object):
             None.
         """
         github.repositories_setup(repo_filter, limit, pager)
+
+    @cli.command('repo')
+    @click.argument('user_repo')
+    @pass_github
+    def repository(github, user_repo):
+        """Outputs detailed information about the given repo.
+
+        Example(s):
+            gh repo donnemartin/gitsome
+
+        Args:
+            * github: An instance of github.GitHub.
+            * user_repo: A string representing the user/repo.
+
+        Returns:
+            None.
+        """
+        github.repository(user_repo)
 
     @cli.command('search-issues')
     @click.argument('query')
