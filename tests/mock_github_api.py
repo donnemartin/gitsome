@@ -176,3 +176,12 @@ class MockGitHubApi(object):
     def emails(self):
         user = self.users[self.current_user]
         return user.emails
+
+    def emojis(self, pager=False):
+        return [
+            'dolls',
+            'palm_tree',
+            'uk',
+            '100',
+            'baby_chick',
+        ]
