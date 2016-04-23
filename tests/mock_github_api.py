@@ -249,3 +249,6 @@ class MockGitHubApi(object):
             MockThread('type2', 'title2', False),
             MockThread('type3', 'title3', True),
         ]
+
+    def octocat(self, say):
+        return say
