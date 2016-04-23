@@ -242,3 +242,10 @@ class MockGitHubApi(object):
             MockLicense('isc', '(ISC License)'),
             MockLicense('epl-1.0', '(Eclipse Public License 1.0)'),
         ]
+
+    def notifications(self, all=True, participating=False):
+        return [
+            MockThread('type1', 'title1', True),
+            MockThread('type2', 'title2', False),
+            MockThread('type3', 'title3', True),
+        ]
