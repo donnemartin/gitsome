@@ -686,6 +686,43 @@ class GitHubCli(object):
         github.repositories(github.api.starred(), repo_filter.lower())
 
     @cli.command()
+    @click.argument('user_id', required=True)
+    @click.option('-b', '--browser', is_flag=True)
+    @click.option('-t', '--text_avatar', is_flag=True)
+    @click.option('-l', '--limit', required=False, default=1000)
+    @click.option('-p', '--pager', is_flag=True)
+    @pass_github
+    def user(github, user_id, browser, text_avatar, limit, pager):
+        """Lists information about the given user.
+
+        Example(s):
+            gh me
+            gh me 20
+            gh me -b
+            gh me --browser
+            gh me -a
+            gh me --text_avatar
+            gh me --limit 20
+
+        Args:
+            * github: An instance of github.GitHub.
+            * user_id: A string representing the user login.
+                If None, returns followers of the logged in user.
+            * limit: An int that specifies the number of items to show.
+                Optional, defaults to 1000.
+            * browser: A Boolean that determines whether to view the profile
+                in a browser, or in the terminal.
+            * text_avatar: A boolean that determines whether to view the profile
+                avatar in plain text.
+            * pager: A boolean that determines whether to show the results
+                in a pager, where available.
+
+        Returns:
+            None.
+        """
+        github.user(user_id, browser, text_avatar, limit, pager)
+
+    @cli.command()
     @click.argument('index')
     @click.option('-b', '--browser', is_flag=True)
     @pass_github
