@@ -42,3 +42,14 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_called_with(
             'Created comment: text',
             fg=self.github.config.clr_message)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_create_comment_invalid_args(self, mock_click_secho):
+        self.github.create_comment('invalid/repo1/1', 'text')
+        mock_click_secho.assert_called_with(
+            'Error creating comment',
+            fg=self.github.config.clr_error)
+        self.github.create_comment('user1/repo1/foo', 'text')
+        mock_click_secho.assert_called_with(
+            'Expected argument: user/repo/# and option -t "comment".',
+            fg=self.github.config.clr_error)
