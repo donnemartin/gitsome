@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # Copyright 2015 Donne Martin. All Rights Reserved.
@@ -14,12 +13,20 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
+from __future__ import print_function
+from __future__ import division
+
+import mock
+
 from compat import unittest
 
-from test_completer import CompleterTest  # NOQA
-from test_github import GitHubTest  # NOQA
-from test_github_cli import GitHubCliTest  # NOQA
+from gitsome.github import GitHub
 
 
-if __name__ == '__main__':
-    unittest.main()
+class GitHubTest(unittest.TestCase):
+
+    def setUp(self):
+        self.github = GitHub()
+        self.github.config.api = MockGitHubApi()
+        self.github.formatter.pretty_dt = pretty_date_time
+        self.github.trend_parser = MockFeedParser()
