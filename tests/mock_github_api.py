@@ -252,3 +252,6 @@ class MockGitHubApi(object):
 
     def octocat(self, say):
         return say
+
+    def search_issues(self, query):
+        return self.issues()
