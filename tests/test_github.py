@@ -30,3 +30,8 @@ class GitHubTest(unittest.TestCase):
         self.github.config.api = MockGitHubApi()
         self.github.formatter.pretty_dt = pretty_date_time
         self.github.trend_parser = MockFeedParser()
+
+    def test_avatar_no_pil(self):
+        avatar_text = self.github.avatar(
+            'https://avatars.githubusercontent.com/u/583231?v=3', False)
+        assert avatar_text == 'PIL not found.\n'
