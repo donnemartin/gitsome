@@ -233,3 +233,12 @@ class MockGitHubApi(object):
             return template
         else:
             return null.NullObject('License')
+
+    def licenses(self):
+        return [
+            MockLicense('mit', '(MIT License)'),
+            MockLicense('gpl-2.0', '(GNU General Public License v2.0)'),
+            MockLicense('bsd-2-clause', '(BSD 2-clause "Simplified" License)'),
+            MockLicense('isc', '(ISC License)'),
+            MockLicense('epl-1.0', '(Eclipse Public License 1.0)'),
+        ]
