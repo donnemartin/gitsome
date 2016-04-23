@@ -210,3 +210,11 @@ class MockGitHubApi(object):
             'Android',
             'AppEngine',
         ]
+
+    def issue(self, user_login, repo_name, number):
+        try:
+            user = self.users[user_login]
+            repo = user.repositories[repo_name]
+            return repo.issues[int(number)]
+        except KeyError:
+            return null.NullObject('Issue')
