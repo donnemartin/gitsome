@@ -173,3 +173,12 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_called_with(
             'template',
             fg=self.github.config.clr_message)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_license_invalid(self, mock_click_secho):
+        self.github.license('invalid_license')
+        mock_click_secho.assert_called_with(
+            ('  Invalid case-sensitive license requested, run the '
+             'following command to see available licenses:\n'
+             '    gh licenses'),
+            fg=self.github.config.clr_error)
