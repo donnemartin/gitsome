@@ -110,3 +110,8 @@ class GitHubTest(unittest.TestCase):
     #     print(mock_click_secho.mock_calls)
     #     print(mock_config.api.mock_calls)
     #     mock_click_secho.assert_called_with(formatted_user_feed)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_emojis(self, mock_click_secho):
+        self.github.emojis()
+        mock_click_secho.assert_called_with(formatted_emojis)
