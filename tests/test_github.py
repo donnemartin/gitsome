@@ -182,3 +182,10 @@ class GitHubTest(unittest.TestCase):
              'following command to see available licenses:\n'
              '    gh licenses'),
             fg=self.github.config.clr_error)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_licenses(self, mock_click_secho):
+        self.github.licenses()
+        mock_click_secho.assert_any_call(formatted_licenses)
+        mock_click_secho.assert_any_call(formatted_licenses_tip,
+                                         fg=self.github.config.clr_message)
