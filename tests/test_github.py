@@ -206,3 +206,10 @@ class GitHubTest(unittest.TestCase):
     def test_pull_requests(self, mock_click_secho):
         self.github.pull_requests()
         mock_click_secho.assert_called_with(formatted_issues)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_rate_limit(self, mock_click_secho):
+        self.github.rate_limit()
+        mock_click_secho.assert_called_with(
+            'Rate limit: 5000',
+            fg=self.github.config.clr_message)
