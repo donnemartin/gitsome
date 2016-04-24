@@ -194,3 +194,10 @@ class GitHubTest(unittest.TestCase):
     def test_notifications(self, mock_click_secho):
         self.github.notifications()
         mock_click_secho.assert_called_with(formatted_threads)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_octocat(self, mock_click_secho):
+        self.github.octocat('foo\\nbar')
+        mock_click_secho.assert_called_with(
+            'foo\nbar',
+            fg=self.github.config.clr_message)
