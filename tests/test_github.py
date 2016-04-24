@@ -85,3 +85,8 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_called_with(
             'Error creating repo: foobar',
             fg=self.github.config.clr_error)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_emails(self, mock_click_secho):
+        self.github.emails()
+        mock_click_secho.assert_called_with(formatted_emails)
