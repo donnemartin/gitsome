@@ -148,3 +148,9 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_any_call(formatted_gitignores)
         mock_click_secho.assert_any_call(formatted_gitignores_tip,
                                          fg=self.github.config.clr_message)
+
+    @mock.patch('gitsome.web_viewer.WebViewer.view_url')
+    def test_issue(self, mock_view_url):
+        self.github.issue('user1/repo1/1')
+        mock_view_url.assert_called_with(
+            'https://github.com/user1/repo1/issues/1')
