@@ -90,3 +90,9 @@ class GitHubTest(unittest.TestCase):
     def test_emails(self, mock_click_secho):
         self.github.emails()
         mock_click_secho.assert_called_with(formatted_emails)
+
+    @mock.patch('gitsome.github.click.secho')
+    @mock.patch('gitsome.config.Config.prompt_news_feed')
+    def test_feed_config(self, mock_config_prompt_news_feed, mock_click_secho):
+        self.github.feed()
+        mock_config_prompt_news_feed.assert_called_with()
