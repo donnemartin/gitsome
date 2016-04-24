@@ -161,3 +161,8 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_called_with(
             'Expected argument: user/repo/#.',
             fg=self.github.config.clr_error)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_issues_setup(self, mock_click_secho):
+        self.github.issues_setup()
+        mock_click_secho.assert_called_with(formatted_issues)
