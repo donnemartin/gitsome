@@ -201,3 +201,8 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_called_with(
             'foo\nbar',
             fg=self.github.config.clr_message)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_pull_requests(self, mock_click_secho):
+        self.github.pull_requests()
+        mock_click_secho.assert_called_with(formatted_issues)
