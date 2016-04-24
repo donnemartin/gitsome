@@ -189,3 +189,8 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_any_call(formatted_licenses)
         mock_click_secho.assert_any_call(formatted_licenses_tip,
                                          fg=self.github.config.clr_message)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_notifications(self, mock_click_secho):
+        self.github.notifications()
+        mock_click_secho.assert_called_with(formatted_threads)
