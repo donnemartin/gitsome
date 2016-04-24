@@ -125,3 +125,10 @@ class GitHubTest(unittest.TestCase):
     def test_following(self, mock_click_secho):
         self.github.following('foo')
         mock_click_secho.assert_called_with(formatted_users)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_gitignore_template(self, mock_click_secho):
+        self.github.gitignore_template('valid_language')
+        mock_click_secho.assert_called_with(
+            'template',
+            fg=self.github.config.clr_message)
