@@ -141,3 +141,10 @@ class GitHubTest(unittest.TestCase):
              'following command to see available templates:\n'
              '    gh gitignores'),
             fg=self.github.config.clr_error)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_gitignore_templates(self, mock_click_secho):
+        self.github.gitignore_templates()
+        mock_click_secho.assert_any_call(formatted_gitignores)
+        mock_click_secho.assert_any_call(formatted_gitignores_tip,
+                                         fg=self.github.config.clr_message)
