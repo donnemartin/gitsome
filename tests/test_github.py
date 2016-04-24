@@ -102,3 +102,11 @@ class GitHubTest(unittest.TestCase):
         self.github.config.user_feed = 'user_feed'
         self.github.feed()
         mock_click_secho.assert_called_with(formatted_user_feed)
+
+    # @mock.patch('gitsome.github.click.secho')
+    # @mock.patch('gitsome.config.Config')
+    # def test_feed_user(self, mock_config, mock_click_secho):
+    #     self.github.feed('user1')
+    #     print(mock_click_secho.mock_calls)
+    #     print(mock_config.api.mock_calls)
+    #     mock_click_secho.assert_called_with(formatted_user_feed)
