@@ -154,3 +154,10 @@ class GitHubTest(unittest.TestCase):
         self.github.issue('user1/repo1/1')
         mock_view_url.assert_called_with(
             'https://github.com/user1/repo1/issues/1')
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_issue_invalid_args(self, mock_click_secho):
+        self.github.issue('user1/repo1/foo')
+        mock_click_secho.assert_called_with(
+            'Expected argument: user/repo/#.',
+            fg=self.github.config.clr_error)
