@@ -166,3 +166,10 @@ class GitHubTest(unittest.TestCase):
     def test_issues_setup(self, mock_click_secho):
         self.github.issues_setup()
         mock_click_secho.assert_called_with(formatted_issues)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_license(self, mock_click_secho):
+        self.github.license('valid_license')
+        mock_click_secho.assert_called_with(
+            'template',
+            fg=self.github.config.clr_message)
