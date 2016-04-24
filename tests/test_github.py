@@ -115,3 +115,8 @@ class GitHubTest(unittest.TestCase):
     def test_emojis(self, mock_click_secho):
         self.github.emojis()
         mock_click_secho.assert_called_with(formatted_emojis)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_followers(self, mock_click_secho):
+        self.github.followers('foo')
+        mock_click_secho.assert_called_with(formatted_users)
