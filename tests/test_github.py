@@ -233,3 +233,10 @@ class GitHubTest(unittest.TestCase):
         self.github.search_issues('foo')
         mock_github_issues.assert_called_with(
             ['foobar', 'foobar', 'foobar'], 1000, False)
+
+    @mock.patch('gitsome.github.click.secho')
+    @mock.patch('gitsome.github.GitHub.repositories')
+    def test_search_repos(self, mock_github_repositories, mock_click_secho):
+        self.github.search_repositories('foo', 'stars')
+        mock_github_repositories.assert_called_with(
+            ['foobar', 'foobar', 'foobar'], 1000, False)
