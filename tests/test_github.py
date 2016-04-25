@@ -266,3 +266,11 @@ class GitHubTest(unittest.TestCase):
         self.github.user('invalid_user', browser=True)
         mock_webbrowser_open.assert_called_with(
             'https://github.com/invalid_user')
+
+    @mock.patch('gitsome.github.click.secho')
+    @mock.patch('gitsome.github.webbrowser.open')
+    def test_view_browser(self, mock_webbrowser_open, mock_click_secho):
+        self.github.config.load_urls = lambda x: ['user1/foo']
+        self.github.view(1, view_in_browser=True)
+        mock_webbrowser_open.assert_called_with(
+            'user1/foo')
