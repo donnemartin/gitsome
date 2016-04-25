@@ -21,6 +21,9 @@ import mock
 from compat import unittest
 
 from gitsome.github import GitHub
+from tests.mock_feed_parser import MockFeedParser
+from tests.mock_github_api import MockGitHubApi
+from tests.mock_pretty_date_time import pretty_date_time
 
 
 class GitHubTest(unittest.TestCase):
