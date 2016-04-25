@@ -183,10 +183,7 @@ class BaseShell(object):
         term = env.get('TERM', None)
         if term is None or term == 'linux':
             return
-        t = env.get('TITLE')
-        if t is None:
-            return
-        t = format_prompt(t)
+        t = 'gitsome'
         if ON_WINDOWS and 'ANSICON' not in env:
             t = escape_windows_title_string(t)
             os.system('title {}'.format(t))
