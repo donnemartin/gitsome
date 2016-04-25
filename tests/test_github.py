@@ -259,3 +259,10 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_called_with(
             'Invalid user.',
             fg=self.github.config.clr_error)
+
+    @mock.patch('gitsome.github.click.secho')
+    @mock.patch('gitsome.github.webbrowser.open')
+    def test_user_browser(self, mock_webbrowser_open, mock_click_secho):
+        self.github.user('invalid_user', browser=True)
+        mock_webbrowser_open.assert_called_with(
+            'https://github.com/invalid_user')
