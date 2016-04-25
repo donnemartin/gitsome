@@ -226,3 +226,10 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_called_with(
             'Expected argument: user/repo.',
             fg=self.github.config.clr_error)
+
+    @mock.patch('gitsome.github.click.secho')
+    @mock.patch('gitsome.github.GitHub.issues')
+    def test_search_issues(self, mock_github_issues, mock_click_secho):
+        self.github.search_issues('foo')
+        mock_github_issues.assert_called_with(
+            ['foobar', 'foobar', 'foobar'], 1000, False)
