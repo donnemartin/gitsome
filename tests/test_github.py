@@ -252,3 +252,10 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_called_with(formatted_user)
         self.github.user('user2')
         mock_click_secho.assert_called_with(formatted_org)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_user_invalid(self, mock_click_secho):
+        self.github.user('invalid_user')
+        mock_click_secho.assert_called_with(
+            'Invalid user.',
+            fg=self.github.config.clr_error)
