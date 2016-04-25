@@ -245,3 +245,10 @@ class GitHubTest(unittest.TestCase):
     def test_trending(self, mock_click_secho):
         self.github.trending('Python', False, False, False)
         mock_click_secho.assert_called_with(formatted_trends)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_user(self, mock_click_secho):
+        self.github.user('user1')
+        mock_click_secho.assert_called_with(formatted_user)
+        self.github.user('user2')
+        mock_click_secho.assert_called_with(formatted_org)
