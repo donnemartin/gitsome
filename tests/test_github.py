@@ -24,6 +24,15 @@ from gitsome.github import GitHub
 from tests.mock_feed_parser import MockFeedParser
 from tests.mock_github_api import MockGitHubApi
 from tests.mock_pretty_date_time import pretty_date_time
+from tests.data.email import formatted_emails
+from tests.data.emoji import formatted_emojis
+from tests.data.user import formatted_org, formatted_user, formatted_users
+from tests.data.gitignores import formatted_gitignores, formatted_gitignores_tip
+from tests.data.issue import formatted_issues
+from tests.data.license import formatted_licenses, formatted_licenses_tip
+from tests.data.thread import formatted_threads
+from tests.data.trends import formatted_trends
+from tests.data.user_feed import formatted_user_feed
 
 
 class GitHubTest(unittest.TestCase):
