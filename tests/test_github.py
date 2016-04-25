@@ -281,3 +281,10 @@ class GitHubTest(unittest.TestCase):
         self.github.config.load_urls = lambda x: ['user1/foo/issues/1']
         self.github.view(0)
         mock_github_issue.assert_called_with('user1/foo/1')
+
+    @mock.patch('gitsome.github.click.secho')
+    @mock.patch('gitsome.github.GitHub.repository')
+    def test_view_repo(self, mock_github_repository, mock_click_secho):
+        self.github.config.load_urls = lambda x: ['user1/foo']
+        self.github.view(0)
+        mock_github_repository.assert_called_with('user1/foo')
