@@ -254,6 +254,11 @@ class MockGitHubApi(object):
     def octocat(self, say):
         return say
 
+    def pull_request(self, owner, repository, number):
+        pull_requests = self.issues()
+        print(owner, repository, number)
+        return pull_requests[0]
+
     def search_issues(self, query):
         return self.issues()
 

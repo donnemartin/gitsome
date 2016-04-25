@@ -28,7 +28,7 @@ from tests.data.email import formatted_emails
 from tests.data.emoji import formatted_emojis
 from tests.data.user import formatted_org, formatted_user, formatted_users
 from tests.data.gitignores import formatted_gitignores, formatted_gitignores_tip
-from tests.data.issue import formatted_issues
+from tests.data.issue import formatted_issues, formatted_pull_requests
 from tests.data.license import formatted_licenses, formatted_licenses_tip
 from tests.data.thread import formatted_threads
 from tests.data.trends import formatted_trends
@@ -217,7 +217,7 @@ class GitHubTest(unittest.TestCase):
     @mock.patch('gitsome.github.click.secho')
     def test_pull_requests(self, mock_click_secho):
         self.github.pull_requests()
-        mock_click_secho.assert_called_with(formatted_issues)
+        mock_click_secho.assert_called_with(formatted_pull_requests)
 
     @mock.patch('gitsome.github.click.secho')
     def test_rate_limit(self, mock_click_secho):
