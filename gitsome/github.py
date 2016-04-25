@@ -99,10 +99,14 @@ class GitHub(object):
         """
         avatar = self.config.get_github_config_path(
             self.config.CONFIG_AVATAR)
-        urllib.request.urlretrieve(url, avatar)
+        try:
+            urllib.request.urlretrieve(url, avatar)
+        except urllib.error.URLError:
+            pass
         avatar_text = self.img2txt(avatar, ansi=(not text_avatar))
         avatar_text += '\n'
-        os.remove(avatar)
+        if os.path.exists(avatar):
+            os.remove(avatar)
         return avatar_text
 
     def avatar_setup(self, url, text_avatar):
