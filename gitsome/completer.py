@@ -18,7 +18,7 @@ from __future__ import print_function
 
 from prompt_toolkit.completion import Completer, Completion
 
-from .completions import SUBCOMMANDS, COMPLETIONS_GH
+from .completions import COMPLETIONS_GH, SUBCOMMANDS
 from .completions_git import META_LOOKUP_GIT, META_LOOKUP_GIT_EXTRAS
 from .utils import TextUtils
 

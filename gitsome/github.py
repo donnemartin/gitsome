@@ -15,6 +15,9 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
+from __future__ import unicode_literals
+from __future__ import print_function
+
 from getpass import getpass
 from operator import itemgetter
 import os

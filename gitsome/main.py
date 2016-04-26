@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # Copyright 2015 Donne Martin. All Rights Reserved.
@@ -16,6 +17,24 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
+from .gitsome import GitSome
 
-def pretty_date_time(date_time):
-    return "just now"
+
+def cli():
+    """Creates and calls GitSome.
+
+    Args:
+        * None.
+
+    Returns:
+        None.
+    """
+    try:
+        gitsome = GitSome()
+        gitsome.run_cli()
+    except (EOFError, KeyboardInterrupt):
+        gitsome.cli.set_return_value(None)
+
+
+if __name__ == "__main__":
+    cli()

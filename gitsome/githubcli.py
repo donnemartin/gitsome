@@ -15,6 +15,9 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
+from __future__ import unicode_literals
+from __future__ import print_function
+
 from operator import itemgetter
 import urllib
 import webbrowser
@@ -22,6 +25,7 @@ import webbrowser
 import click
 
 from .github import GitHub
+
 
 pass_github = click.make_pass_decorator(GitHub)
 
