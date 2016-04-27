@@ -21,14 +21,7 @@ from .gitsome import GitSome
 
 
 def cli():
-    """Creates and calls GitSome.
-
-    Args:
-        * None.
-
-    Returns:
-        None.
-    """
+    """Create and call Gitsome."""
     try:
         gitsome = GitSome()
         gitsome.run_cli()
