@@ -31,23 +31,16 @@ pass_github = click.make_pass_decorator(GitHub)
 
 
 class GitHubCli(object):
-    """Encapsulates the GitHubCli.
-
-    Attributes:
-        * None.
-    """
+    """The GitHubCli, builds `click` commands and runs `GitHub` methods."""
 
     @click.group()
     @click.pass_context
     def cli(ctx):
-        """Main entry point for GitHubCli.
+        """Main entry point for HackerNewsCli.
 
-        Args:
-            * ctx: An instance of click.core.Context that stores an instance
-                 of GitHub used to interact with the GitHub API.
-
-        Returns:
-            None.
+        :type ctx: :class:`click.core.Context`
+        :param ctx: An instance of click.core.Context that stores an instance
+            of `github.GitHub`.
         """
         # Create a GitHub object and remember it as as the context object.
         # From this point onwards other commands can refer to it by using the
@@ -57,16 +50,15 @@ class GitHubCli(object):
     @cli.command()
     @pass_github
     def configure(github):
-        """Configures gitsome.
+        """Configure gitsome.
+
+        Attempts to authenticate the user and to set up the user's news feed.
 
         Example(s):
             gh configure
 
-        Args:
-            * github: An instance of github.GitHub.
-
-        Returns:
-            None.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
         """
         github.configure()
 
@@ -75,19 +67,19 @@ class GitHubCli(object):
     @click.option('-t', '--text')
     @pass_github
     def create_comment(github, user_repo_number, text):
-        """Creates a comment on the given issue.
+        """Create a comment on the given issue.
 
         Example(s):
             gh create_comment donnemartin/saws/1 --text "hello world"
 
-        Args:
-            * github: An instance of github.GitHub.
-            * user_repo_number: A string representing the
-                user/repo/issue number.
-            * text: A string representing the comment text.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type user_repo_number: str
+        :param user_repo_number: The user/repo/issue_number.
+
+        :type text: str
+        :param text: The comment text.
         """
         github.create_comment(user_repo_number, text)
 
@@ -97,20 +89,23 @@ class GitHubCli(object):
     @click.option('-d', '--issue_desc', required=False)
     @pass_github
     def create_issue(github, user_repo, issue_title, issue_desc):
-        """Creates an issue.
+        """Create an issue.
 
         Example(s):
             gh donnemartin gitsome -t "issue title"
             gh donnemartin gitsome -t "issue title" -b "issue body"
 
-        Args:
-            * github: An instance of github.GitHub.
-            * user_repo: A string representing the user/repo.
-            * issue_title: A string representing the issue title.
-            * issue_desc: A string representing the issue body (optional).
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type user_repo: str
+        :param user_repo: The user/repo.
+
+        :type issue_title: str
+        :param issue_title: The issue title.
+
+        :type issue_desc: str
+        :param issue_desc: The issue body (optional).
         """
         github.create_issue(user_repo, issue_title, issue_desc)
 
@@ -120,7 +115,7 @@ class GitHubCli(object):
     @click.option('-pr', '--private', is_flag=True)
     @pass_github
     def create_repo(github, repo_name, repo_desc, private):
-        """Creates a repo.
+        """Create a repo.
 
         Example(s):
             gh create_repo "repo name"
@@ -128,31 +123,30 @@ class GitHubCli(object):
             gh create_repo "repo name" -pr
             gh create_repo "repo name" --private
 
-        Args:
-            * github: An instance of github.GitHub.
-            * repo_name: A string representing the repo name.
-            * repo_desc: A string representing the repo description (optional).
-            * private: A boolean that determines whether the repo is private.
-                Default: False.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type repo_name: str
+        :param repo_name: The repo name.
+
+        :type repo_desc: str
+        :param repo_desc: The repo description (optional).
+
+        :type private: bool
+        :param private: Determines whether the repo is private.  Default: False.
         """
         github.create_repo(repo_name, repo_desc, private)
 
     @cli.command()
     @pass_github
     def emails(github):
-        """Lists all the user's registered emails.
+        """List all the user's registered emails.
 
         Example(s):
             gh emails
 
-        Args:
-            * github: An instance of github.GitHub.
-
-        Returns:
-            None.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
         """
         github.emails()
 
@@ -160,18 +154,17 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def emojis(github, pager):
-        """Lists all GitHub supported emojis.
+        """List all GitHub supported emojis.
 
         Example(s):
             gh emojis | grep octo
 
-        Args:
-            * github: An instance of github.GitHub.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.emojis(pager)
 
@@ -181,7 +174,7 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def feed(github, user_or_repo, private, pager):
-        """Lists all activity for the given user or repo.
+        """List all activity for the given user or repo.
 
         If blank, lists the logged in user's news feed.
 
@@ -191,18 +184,20 @@ class GitHubCli(object):
             gh feed donnemartin --private
             gh feed donnemartin/haxor-news
 
-        Args:
-            * github: An instance of github.GitHub.
-            * user_or_repo: A string representing the user or repo to list
-                events for.  If no entry, defaults to the logged in user's feed.
-            * private: A boolean that determines whether to show the private
-                events (True) or public events (False).
-                Only works for the currently logged in user.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type user_or_repo: str
+        :param user_or_repo: The user or repo to list events for.
+            If no entry, defaults to the logged in user's feed.
+
+        :type private: bool
+        :param private: Determines whether to show the private events (True)
+            or public events (False).
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.feed(user_or_repo, private, pager)
 
@@ -211,21 +206,21 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def followers(github, user, pager):
-        """Lists all followers and the total follower count.
+        """List all followers and the total follower count.
 
         Example(s):
             gh followers
             gh followers donnemartin
 
-        Args:
-            * github: An instance of github.GitHub.
-            * user: A string representing the user login.
-                If None, returns followers of the logged in user.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type user: str
+        :param user: The user login.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.followers(user, pager)
 
@@ -234,21 +229,22 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def following(github, user, pager):
-        """Lists all followed users and the total followed count.
+        """List all followed users and the total followed count.
 
         Example(s):
             gh following
             gh following donnemartin
 
-        Args:
-            * github: An instance of github.GitHub.
-            * user: A string representing the user login.
-                If None, returns the followed users of the logged in user.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type user: str
+        :param user: The user login.
+            If None, returns the followed users of the logged in user.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.following(user, pager)
 
@@ -256,20 +252,17 @@ class GitHubCli(object):
     @click.argument('language')
     @pass_github
     def gitignore_template(github, language):
-        """Outputs the gitignore template for the given language.
+        """Output the gitignore template for the given language.
 
         Example(s):
             gh gitignore Python
             gh gitignore Python > .gitignore
 
-        Args:
-            * github: An instance of github.GitHub.
-            * language: A string representing the language.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type language: str
+        :param language: The language.
         """
         github.gitignore_template(language)
 
@@ -277,18 +270,17 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def gitignore_templates(github, pager):
-        """Outputs all supported gitignore templates.
+        """Output all supported gitignore templates.
 
         Example(s):
             gh gitignores
 
-        Args:
-            * github: An instance of github.GitHub.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.gitignore_templates(pager)
 
@@ -296,18 +288,16 @@ class GitHubCli(object):
     @click.argument('user_repo_number')
     @pass_github
     def issue(github, user_repo_number):
-        """Outputs detailed information about the given issue.
+        """Output detailed information about the given issue.
 
         Example(s):
             gh issue donnemartin/saws/1
 
-        Args:
-            * github: An instance of github.GitHub.
-            * user_repo_number: A string representing the
-                user/repo/issue number.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type user_repo_number: str
+        :param user_repo_number: The user/repo/issue_number.
         """
         github.issue(user_repo_number)
 
@@ -318,7 +308,7 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def issues(github, issue_filter, issue_state, limit, pager):
-        """Lists all issues matching the filter.
+        """List all issues matching the filter.
 
         Example(s):
             gh issues
@@ -326,19 +316,22 @@ class GitHubCli(object):
             gh issues "foo bar" assigned
             gh issues created | grep foo
 
-        Args:
-            * github: An instance of github.GitHub.
-            * issue_filter: A string with the following accepted values:
-                'assigned', 'created', 'mentioned', 'subscribed' (default).
-            * issue_state: A string with the following accepted values:
-                'all', 'open' (default), 'closed'.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type issue_filter: str
+        :param issue_filter: 'assigned', 'created', 'mentioned',
+            'subscribed' (default).
+
+        :type issue_state: str
+        :param issue_state: 'all', 'open' (default), 'closed'.
+
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.issues_setup(issue_filter, issue_state, limit, pager)
 
@@ -346,34 +339,30 @@ class GitHubCli(object):
     @click.argument('license_name')
     @pass_github
     def license(github, license_name):
-        """Outputs the license template for the given license.
+        """Output the license template for the given license.
 
         Example(s):
             gh license "MIT"
             gh license "MIT" > LICENSE
 
-        Args:
-            * github: An instance of github.GitHub.
-            * license_name: A string representing the license name.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type license_name: str
+        :param license_name: The license name.
         """
         github.license(license_name)
 
     @cli.command()
     @pass_github
     def licenses(github):
-        """Outputs all supported license templates.
+        """Output all supported license templates.
 
         Example(s):
             gh licenses
 
-        Args:
-            * github: An instance of github.GitHub.
-
-        Returns:
-            None.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
         """
         github.licenses()
 
@@ -384,7 +373,7 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def me(github, browser, text_avatar, limit, pager):
-        """Lists information about the logged in user.
+        """List information about the logged in user.
 
         Example(s):
             gh me
@@ -395,19 +384,23 @@ class GitHubCli(object):
             gh me --text_avatar
             gh me --limit 20
 
-        Args:
-            * github: An instance of github.GitHub.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * browser: A Boolean that determines whether to view the profile
-                in a browser, or in the terminal.
-            * text_avatar: A boolean that determines whether to view the profile
-                avatar in plain text.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type browser: bool
+        :param browser: Determines whether to view the profile
+                in a browser, or in the terminal.
+
+        :type text_avatar: bool
+        :param text_avatar: Determines whether to view the profile
+                avatar in plain text.
+
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.user_me(browser, text_avatar, limit, pager)
 
@@ -416,20 +409,20 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def notifications(github, limit, pager):
-        """Lists all notifications.
+        """List all notifications.
 
         Example(s):
             gh notifications
 
-        Args:
-            * github: An instance of github.GitHub.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.notifications(limit, pager)
 
@@ -437,19 +430,18 @@ class GitHubCli(object):
     @click.argument('say', required=False)
     @pass_github
     def octocat(github, say):
-        """Outputs an Easter egg or the given message from Octocat.
+        """Output an Easter egg or the given message from Octocat.
 
         Example(s):
             gh octocat
             gh octocat "foo bar"
 
-        Args:
-            * github: An instance of github.GitHub.
-            * say: A string for octocat to say.
-                If say is None, octocat speaks an Easter egg.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type say: str
+        :param say: What Octocat should say.
+                If say is None, octocat speaks an Easter egg.
         """
         github.octocat(say)
 
@@ -457,17 +449,16 @@ class GitHubCli(object):
     @click.argument('user_repo_number')
     @pass_github
     def pull_request(github, user_repo_number):
-        """Outputs detailed information about the given pull request.
+        """Output detailed information about the given pull request.
 
         Example(s):
             gh pr donnemartin/awesome-aws/2
 
-        Args:
-            * github: An instance of github.GitHub.
-            * user_repo_number: A string representing the user/repo/number.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type user_repo_number: str
+        :param user_repo_number: The user/repo/pull_number.
         """
         github.issue(user_repo_number)
 
@@ -476,37 +467,37 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def pull_requests(github, limit, pager):
-        """Lists all pull requests.
+        """List all pull requests.
 
         Example(s):
             gh prs
             gh prs --limit 20
 
-        Args:
-            * github: An instance of github.GitHub.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.pull_requests(limit, pager)
 
     @cli.command('rate-limit')
     @pass_github
     def rate_limit(github):
-        """Outputs the rate limit.
+        """Output the rate limit.
+
+        Logged in users can make 5000 requests per hour.
+        See: https://developer.github.com/v3/#rate-limiting
 
         Example(s):
             gh rate_limit
 
-        Args:
-            * github: An instance of github.GitHub.
-
-        Returns:
-            None.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
         """
         github.rate_limit()
 
@@ -516,24 +507,30 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def repositories(github, repo_filter, limit, pager):
-        """Lists all repos matching the given filter.
+        """List all repos matching the given filter.
 
         Example(s):
             gh repos --limit 15
             gh repos "data-science"
 
-        Args:
-            * github: An instance of github.GitHub.
-            * repo_filter: A string representing a filter for repo names.
-                Only repos matching the filter will be returned.
-                If None, outputs all of the user's repos.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type repo_filter: str
+        :param repo_filter:  The filter for repo names.
+            Only repos matching the filter will be returned.
+            If None, outputs all repos retrieved by the GitHub API.
+
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
+
+        :rtype: str
+        :return: The output if print_output is True
+            else, returns None.
         """
         github.repositories_setup(repo_filter, limit, pager)
 
@@ -541,17 +538,16 @@ class GitHubCli(object):
     @click.argument('user_repo')
     @pass_github
     def repository(github, user_repo):
-        """Outputs detailed information about the given repo.
+        """Output detailed information about the given repo.
 
         Example(s):
             gh repo donnemartin/gitsome
 
-        Args:
-            * github: An instance of github.GitHub.
-            * user_repo: A string representing the user/repo.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type user_repo: str
+        :param user_repo: The user/repo.
         """
         github.repository(user_repo)
 
@@ -561,7 +557,7 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def search_issues(github, query, limit, pager):
-        """Searches for all issues matching the given query.
+        """Search for all issues matching the given query.
 
         The query can contain any combination of the following supported
         qualifers:
@@ -594,16 +590,18 @@ class GitHubCli(object):
             gh search_issues "foo type:pr author:donnemartin" --limit 20
             gh search_issues "foobarbaz in:title created:>=2015-01-01" | less -r
 
-        Args:
-            * github: An instance of github.GitHub.
-            * query: A string representing the search query.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type query: str
+        :param query: The search query.
+
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.search_issues(query, limit, pager)
 
@@ -614,7 +612,7 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def search_repositories(github, query, sort, limit, pager):
-        """Searches for all repos matching the given query.
+        """Search for all repos matching the given query.
 
         The query can contain any combination of the following supported
         qualifers:
@@ -643,19 +641,22 @@ class GitHubCli(object):
             gh search_repos "maps language:python" -s "stars" | less -r
             gh search_repos "created:>=2015-01-01 stars:>=1000 language:python"
 
-        Args:
-            * github: An instance of github.GitHub.
-            * query: A string representing the search query.
-            * sort: A string that determines sorting (optional).
-                'stars', 'forks', 'updated'.
-                If not specified, sorting is done by query best match.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type query: str
+        :param query: The search query.
+
+        :type sort: str
+        :param sort: Optional: 'stars', 'forks', 'updated'.
+            If not specified, sorting is done by query best match.
+
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.search_repositories(query, sort, limit, pager)
 
@@ -665,24 +666,26 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def starred(github, repo_filter, limit, pager):
-        """Outputs starred repos.
+        """Output starred repos.
 
         Example(s):
             gh starred foo
             gh starred foo --limit 20
 
-        Args:
-            * github: An instance of github.GitHub.
-            * repo_filter: A string representing a filter for repo names.
-                Only repos matching the filter will be returned.
-                If None, outputs all starred repos.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type repo_filter: str
+        :param repo_filter:  The filter for repo names.
+            Only repos matching the filter will be returned.
+            If None, outputs all repos retrieved by the GitHub API.
+
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.starred(repo_filter, limit, pager)
 
@@ -695,28 +698,39 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def trending(github, language, weekly, monthly, devs, browser, pager):
-        """Lists trending repos for the given language.
+        """List trending repos for the given language.
 
         Example(s):
             gh trending
             gh trending Python -w
 
-        Args:
-            * github: An instance of github.GitHub.
-            * language: A string representing the language.
-            * weekly: A boolean that determines whether to show the weekly
-                rankings.  Daily is the default.
-            * monthly: A boolean that determines whether to show the monthly
-                rankings.  Daily is the default.
-            * devs: A boolean that determines whether to display the trending
-                devs or repos.  Only valid with the -b/--browser option.
-            * browser: A Boolean that determines whether to view the trending
-                page in a browser, or in the terminal.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type language: str
+        :param language: The language (optional).
+            If blank, shows 'Overall'.
+
+        :type weekly: bool
+        :param weekly: Determines whether to show the weekly rankings.
+            Daily is the default.
+
+        :type monthly: bool
+        :param monthly: Determines whether to show the monthly rankings.
+            Daily is the default.
+            If both `monthly` and `weekly` are set, `monthly` takes precendence.
+
+        :type devs: bool
+        :param devs: determines whether to display the trending
+                devs or repos.  Only valid with the -b/--browser option.
+
+        :type browser: bool
+        :param browser: Determines whether to view the profile
+                in a browser, or in the terminal.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.trending(language, weekly, monthly, devs, browser, pager)
 
@@ -728,7 +742,7 @@ class GitHubCli(object):
     @click.option('-p', '--pager', is_flag=True)
     @pass_github
     def user(github, user_id, browser, text_avatar, limit, pager):
-        """Lists information about the given user.
+        """List information about the given user.
 
         Example(s):
             gh me
@@ -739,21 +753,27 @@ class GitHubCli(object):
             gh me --text_avatar
             gh me --limit 20
 
-        Args:
-            * github: An instance of github.GitHub.
-            * user_id: A string representing the user login.
-                If None, returns followers of the logged in user.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * browser: A Boolean that determines whether to view the profile
-                in a browser, or in the terminal.
-            * text_avatar: A boolean that determines whether to view the profile
-                avatar in plain text.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type user_id: str
+        :param user_id: The user id/login.
+            If None, returns followers of the logged in user.
+
+        :type browser: bool
+        :param browser: Determines whether to view the profile
+                in a browser, or in the terminal.
+
+        :type text_avatar: bool
+        :param text_avatar: Determines whether to view the profile
+                avatar in plain text.
+
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         github.user(user_id, browser, text_avatar, limit, pager)
 
@@ -762,7 +782,7 @@ class GitHubCli(object):
     @click.option('-b', '--browser', is_flag=True)
     @pass_github
     def view(github, index, browser):
-        """Views the given repo or issue index in the terminal or a browser.
+        """View the given repo or issue index in the terminal or a browser.
 
         This method is meant to be called after one of the following commands
         which outputs a table of repos or issues:
@@ -783,16 +803,14 @@ class GitHubCli(object):
             gh view 0 -b
             gh view 0 --browser
 
-        Args:
-            * github: An instance of github.GitHub.
-            * index: An int that specifies the index to view.
-                For example, calling gh repos will list repos with a
-                1-based index for each repo.  Calling gh view [index] will
-                view the contents of the url for the associated repo.
-            * browser: A boolean that determines whether to view in a
-                web browser or a terminal.
+        :type github: :class:`github.GitHub`
+        :param github: An instance of `github.GitHub`.
 
-        Returns:
-            None.
+        :type index: str
+        :param index: Determines the index to view.
+
+        :type browser: bool
+        :param browser: Determines whether to view the profile
+            in a browser, or in the terminal.
         """
         github.view(int(index), browser)
