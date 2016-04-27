@@ -24,38 +24,34 @@ from .utils import TextUtils
 
 
 class CompleterGitsome(Completer):
-    """Completer haxor-news.
+    """Gitsome prompt toolkit completer.
 
-    Attributes:
-        * text_utils: An instance of TextUtils.
-        * fuzzy_match: A boolean that determines whether to use fuzzy matching.
-        * subcommand_to_options_map: A dict mapping the subcommand to
-                its args.
+    :type text_utils: :class:`utils.TextUtils`
+    :param text_utils: An instance of `utils.TextUtils`.
+
+    :type fuzzy_match: bool
+    :param fuzzy_match: Determines whether to use fuzzy matching.
+        Currently, this is always set to False but can be enabled.
     """
 
     def __init__(self):
-        """Initializes Completer.
-
-        Args:
-            * None
-
-        Returns:
-            None.
-        """
         self.fuzzy_match = False
         self.text_utils = TextUtils()
 
     def build_completions_with_meta(self, line, prefix, completions):
-        """Builds prompt_toolkit Completions with meta info.
+        """Build prompt_toolkit Completions with meta info.
 
-        Args:
-            * line: A list of words repsenting the input text.
-            * prefix: A string that represents the current word.
-            * completions: A list of completions to build meta info for.
+        :type line: list
+        :param line: The input text as a list of words.
 
-        Returns:
-            A boolean that specifies whether we are currently completing the
-                gh command.
+        :type prefix: string
+        :param prefix: The current word.
+
+        :type completions: list
+        :param completions: Completions to build meta info for.
+
+        :rtype: list
+        :return: Completions with meta info.
         """
         completions_with_meta = []
         tokens = line.split(' ')
@@ -75,16 +71,17 @@ class CompleterGitsome(Completer):
         return completions_with_meta
 
     def completing_command(self, words, word_before_cursor):
-        """Determines if we are currently completing the gh command.
+        """Determine if we are currently completing the gh command.
 
-        Args:
-            * words: A list of words repsenting the input text.
-            * word_before_cursor: A string that represents the current word
-                 before the cursor, which might be one or more blank spaces.
+        :type words: list
+        :param words: The input text broken into word tokens.
 
-        Returns:
-            A boolean that specifies whether we are currently completing the
-                gh command.
+        :type word_before_cursor: str
+        :param word_before_cursor: The current word before the cursor,
+            which might be one or more blank spaces.
+
+        :rtype: bool
+        :return: Specifies whether we are currently completing the gh command.
         """
         if len(words) == 1 and word_before_cursor != '':
             return True
@@ -92,16 +89,17 @@ class CompleterGitsome(Completer):
             return False
 
     def completing_subcommand(self, words, word_before_cursor):
-        """Determines if we are currently completing a subcommand.
+        """Determine if we are currently completing a subcommand.
 
-        Args:
-            * words: A list of words repsenting the input text.
-            * word_before_cursor: A string that represents the current word
-                 before the cursor, which might be one or more blank spaces.
+        :type words: list
+        :param words: The input text broken into word tokens.
 
-        Returns:
-            A boolean that specifies whether we are currently completing a
-                subcommand.
+        :type word_before_cursor: str
+        :param word_before_cursor: The current word before the cursor,
+            which might be one or more blank spaces.
+
+        :rtype: bool
+        :return: Specifies whether we are currently completing a subcommand.
         """
         if (len(words) == 1 and word_before_cursor == '') \
                 or (len(words) == 2 and word_before_cursor != ''):
@@ -110,15 +108,17 @@ class CompleterGitsome(Completer):
             return False
 
     def completing_arg(self, words, word_before_cursor):
-        """Determines if we are currently completing an arg.
+        """Determine if we are currently completing an arg.
 
-        Args:
-            * words: A list of words repsenting the input text.
-            * word_before_cursor: A string that represents the current word
-                 before the cursor, which might be one or more blank spaces.
+        :type words: list
+        :param words: The input text broken into word tokens.
 
-        Returns:
-            A boolean that specifies whether we are currently completing an arg.
+        :type word_before_cursor: str
+        :param word_before_cursor: The current word before the cursor,
+            which might be one or more blank spaces.
+
+        :rtype: bool
+        :return: Specifies whether we are currently completing an arg.
         """
         if (len(words) == 2 and word_before_cursor == '') \
                 or (len(words) == 3 and word_before_cursor != ''):
@@ -127,15 +127,17 @@ class CompleterGitsome(Completer):
             return False
 
     def completing_subcommand_option(self, words, word_before_cursor):
-        """Determines if we are currently completing an option.
+        """Determine if we are currently completing an option.
 
-        Args:
-            * words: A list of words repsenting the input text.
-            * word_before_cursor: A string that represents the current word
-                 before the cursor, which might be one or more blank spaces.
+        :type words: list
+        :param words: The input text broken into word tokens.
 
-        Returns:
-            A boolean representing the options.
+        :type word_before_cursor: str
+        :param word_before_cursor: The current word before the cursor,
+            which might be one or more blank spaces.
+
+        :rtype: list
+        :return: A list of options.
         """
         options = []
         for subcommand, args_opts in COMPLETIONS_GH.items():
@@ -146,22 +148,22 @@ class CompleterGitsome(Completer):
         return options
 
     def completing_subcommand_option_util(self, option, words):
-        """Determines if we are currently completing an option.
+        """Determine if we are currently completing an option.
 
         Called by completing_subcommand_option as a utility method.
 
-        Args:
-            * words: A list of words repsenting the input text.
-            * word_before_cursor: A string that represents the current word
-                 before the cursor, which might be one or more blank spaces.
+        :type words: list
+        :param words: The input text broken into word tokens.
 
-        Returns:
-            A boolean that specifies whether we are currently completing an
-                option.
+        :type word_before_cursor: str
+        :param word_before_cursor: The current word before the cursor,
+            which might be one or more blank spaces.
+
+        :rtype: bool
+        :return: Specifies whether we are currently completing an option.
         """
         # Example: Return True for: gh view 1 --pag
         if len(words) > 3:
-            # if words[-3] == option:
             if option in words:
                 return True
         return False
@@ -169,13 +171,15 @@ class CompleterGitsome(Completer):
     def arg_completions(self, words, word_before_cursor):
         """Generates arguments completions based on the input.
 
-        Args:
-            * words: A list of words repsenting the input text.
-            * word_before_cursor: A string that represents the current word
-                 before the cursor, which might be one or more blank spaces.
+        :type words: list
+        :param words: The input text broken into word tokens.
 
-        Returns:
-            A list of completions.
+        :type word_before_cursor: str
+        :param word_before_cursor: The current word before the cursor,
+            which might be one or more blank spaces.
+
+        :rtype: list
+        :return: A list of completions.
         """
         if 'gh' not in words:
             return []
@@ -191,13 +195,14 @@ class CompleterGitsome(Completer):
     def get_completions(self, document, _):
         """Get completions for the current scope.
 
-        Args:
-            * document: An instance of prompt_toolkit's Document.
-            * _: An instance of prompt_toolkit's CompleteEvent (not used).
+        :type document: :class:`prompt_toolkit.Document`
+        :param document: An instance of `prompt_toolkit.Document`.
 
-        Returns:
-            A generator of prompt_toolkit's Completion objects, containing
-            matched completions.
+        :type _: :class:`prompt_toolkit.completion.Completion`
+        :param _: (Unused).
+
+        :rtype: generator
+        :return: Yields an instance of `prompt_toolkit.completion.Completion`.
         """
         word_before_cursor = document.get_word_before_cursor(WORD=True)
         words = self.text_utils.get_tokens(document.text)
