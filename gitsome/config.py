@@ -28,33 +28,63 @@ from .lib.github3.exceptions import AuthenticationFailed, UnprocessableEntity
 
 
 class Config(object):
-    """GitSome config.
+    """Gitsome config.
 
-    Attributes:
-        * api: A instance of github3.github.Github.
-        * CONFIG: A string representing the config file name.
-        * CONFIG_SECTION: A string representing the main config file section.
-        * CONFIG_USER_LOGIN: A string representing the user login config.
-        * CONFIG_USER_PASS: A string representing the user pass config.
-        * CONFIG_USER_TOKEN: A string representing the user token config.
-        * CONFIG_USER_FEED: A string representing the user feed config.  This
-            is the feed on https://github.com/ when logged in and requires the
-            basic auth model, which doesn't work when logging in with tokens or
-            2FA.  This config listed the pre-signed url to access the feed.
-        * CONFIG_URL: A string representing the jump to url config file name.
-        * CONFIG_URL_SECTION: A string representing the jump to url config
-            file section.
-        * CONFIG_URL_LIST: A string representing the jump to url list in the
-            config.
-        * urls: A list containing the last set of urls the user has seen,
-            which allows the user to quickly access a repo url with the
-            gh view [url_index] command.
-        * user_login: A string that represents the user's login in
-            ~/.gitsomeconfig
-        * user_pass: A string that represents the user's pass in
-            ~/.gitsomeconfig
-        * user_token: A string that represents the user's token in
-            ~/.gitsomeconfig
+    :type api: :class:`github3.github.Github`
+    :param api: An instance of github3.github.Github.
+
+    :type clr_x: str
+    :param clr_x: Various ansi color config colors to use for highlights.
+
+    :type CONFIG: str
+    :param CONFIG: The config file name.
+
+    :type CONFIG_SECTION: str
+    :param CONFIG_SECTION: The main config file section label.
+
+    :type CONFIG_CLR_X: str
+    :param CONFIG_CLR_X: Various ansi color config labels to use for highlights.
+
+    :type CONFIG_USER_LOGIN: str
+    :param CONFIG_USER_LOGIN: The user login.
+
+    :type CONFIG_USER_PASS: str
+    :param CONFIG_USER_PASS: The user password.
+
+    :type CONFIG_USER_TOKEN: str
+    :param CONFIG_USER_TOKEN: The user token.
+
+    :type CONFIG_USER_FEED: :class:`x.y`
+    :param CONFIG_USER_FEED: The user feed config.  This is the feed on
+        https://github.com/ when logged in and requires the basic auth model,
+        which doesn't work when logging in with tokens or 2FA.  This config
+        listed the pre-signed url to access the feed.
+
+    :type CONFIG_URL: :class:`x.y`
+    :param CONFIG_URL: The config file name that contains urls used in the
+        `gh view` command.
+
+    :type CONFIG_URL_SECTION: str
+    :param CONFIG_URL_SECTION: The config file section that contains urls used
+        in the `gh view  [url_index]` command.
+
+    :type CONFIG_URL_LIST: str
+    :param CONFIG_URL_LIST: The config containing a list of the last set of
+        urls the user has seen, which allows the user to quickly access a repo
+        url with the `gh view [url_index]` command.
+
+    :type urls: list
+    :param urls: The last set of urls the user has seen, which allows the user
+        to quickly access a repo url with the gh view [url_index] command.
+
+    :type user_login: :class:`x.y`
+    :param user_login: The user's login in ~/.gitsomeconfig.
+
+    :type user_pass: :class:`x.y`
+    :param user_pass: The user's pass in ~/.gitsomeconfig.
+
+    :type user_token: :class:`x.y`
+    :param user_token: The user's token in ~/.gitsomeconfig.
     """
 
     CONFIG = '.gitsomeconfig'
@@ -89,14 +119,6 @@ class Config(object):
     CONFIG_AVATAR = '.gitsomeconfigavatar.png'
 
     def __init__(self):
-        """Inits Config.
-
-        Args:
-            * None.
-
-        Returns:
-            None.
-        """
         self.api = None
         self.user_login = None
         self.user_pass = None
@@ -132,20 +154,15 @@ class Config(object):
         self.clr_view_index = 'magenta'
 
     def authenticate_cached_credentials(self, config, parser):
-        """Logs into GitHub.
+        """Authenticate with the user's credentials in ~/.gitsomeconfig.
 
-        Adapted from https://github.com/sigmavirus24/github-cli.
+        See note about two factor authentication in the authenticate method.
 
-        Two factor authentication does not seem to be triggering the
-        SMS code: https://github.com/sigmavirus24/github3.py/issues/387.
-        To log in with 2FA enabled, use a token instead.
+        :type config: str
+        :param config: The config path.
 
-        Args:
-            * config: A string representing the config path.
-            * parser: An instance of configparser.
-
-        Returns:
-            None.
+        :type parser: :class:`ConfigParser.RawConfigParser`
+        :param parser: An instance of `ConfigParser.RawConfigParser.
         """
         with open(config) as config_file:
             try:
@@ -178,7 +195,7 @@ class Config(object):
                 pass
 
     def authenticate(self, overwrite=False):
-        """Logs into GitHub.
+        """Log into GitHub.
 
         Adapted from https://github.com/sigmavirus24/github-cli.
 
@@ -186,12 +203,9 @@ class Config(object):
         SMS code: https://github.com/sigmavirus24/github3.py/issues/387.
         To log in with 2FA enabled, use a token instead.
 
-        Args:
-            * overwrite: A boolean that indicates whether we cant to
-                overwrite the current set of credentials.
-
-        Returns:
-            None.
+        :type overwrite: bool
+        :param overwrite: indicates whether we cant to overwrite the current
+            set of credentials.
         """
         if self.api is not None and not overwrite:
             return
@@ -255,14 +269,7 @@ class Config(object):
                 self.print_auth_error()
 
     def check_auth(self):
-        """Checks if the current authorization is valid.
-
-        Args:
-            * None.
-
-        Returns:
-            None.
-        """
+        """Check if the current authorization is valid."""
         try:
             if self.api is not None:
                 # Throws AuthenticationFailed if invalid credentials but
@@ -276,15 +283,15 @@ class Config(object):
         return False
 
     def get_github_config_path(self, config_file_name):
-        """Attempts to find the github config file.
+        """Attempt to find the github config file.
 
         Adapted from https://github.com/sigmavirus24/github-cli.
 
-        Args:
-            * config_file_name: A String that represents the config file name.
+        :type config_file_name: str
+        :param config_file_name: The config file name.
 
-        Returns:
-            A string that represents the github config file path.
+        :rtype: str
+        :return: The github config file path.
         """
         home = os.path.abspath(os.environ.get('HOME', ''))
         config_file_path = os.path.join(home, config_file_name)
@@ -293,8 +300,8 @@ class Config(object):
     def load_config(self, config_funcs):
         """Load the specified config from ~/.haxornewsconfig.
 
-        :type config_funcs: list
-        :param config_funcs: The config functions to run.
+        :type foo: list
+        :param foo: The config methods to run.
         """
         config_file_path = self.get_github_config_path(self.CONFIG)
         parser = configparser.RawConfigParser()
@@ -450,15 +457,14 @@ class Config(object):
         return items_ids.split(', ')
 
     def load_urls(self, view_in_browser):
-        """Loads the current set of urls from ~/.gitsomeconfigurl.
+        """Load the current set of urls from ~/.gitsomeconfigurl.
 
-        Args:
-            * None
-            * view_in_browser: A boolean that determines whether to view
-                in a web browser or a terminal.
+        :type view_in_browser: bool
+        :param view_in_browser: Determines whether to view the urls in a
+            browser.
 
-        Returns:
-            A list of urls.
+        :rtype: list
+        :return: Collection of urls.
         """
         config = self.get_github_config_path(self.CONFIG_URL)
         parser = configparser.RawConfigParser()
@@ -478,28 +484,14 @@ class Config(object):
             return urls.split(', ')
 
     def print_auth_error(self):
-        """Prints a message the authorization has failed.
-
-        Args:
-            * None.
-
-        Returns:
-            None.
-        """
+        """Print a message the authorization has failed."""
         click.secho('Authentication error.', fg=self.clr_error)
         click.secho(('Update your credentials in ~/.gitsomeconfig '
                      'or run:\n  gh configure'),
                     fg=self.clr_message)
 
     def prompt_news_feed(self):
-        """Prompts the user to enter a news feed url.
-
-        Args:
-            * None
-
-        Returns:
-            None.
-        """
+        """Prompt the user to enter a news feed url."""
         if click.confirm(('No feed url detected.\n  Calling gh events without '
                           "an argument\n  displays the logged in user's "
                           'news feed.\nDo you want gitsome to track your '
@@ -515,14 +507,12 @@ class Config(object):
                 self.user_feed = input('URL: ')
 
     def request_two_factor_code(self):
-        """Callback if two factor authentication is requested.
+        """Request two factor authentication code.
 
-        Args:
-            * None.
+        Callback if two factor authentication is requested.
 
-        Returns:
-            A string that represents the user input two factor
-                authentication code.
+        :rtype: str
+        :return: The user input two factor authentication code.
         """
         code = ''
         while not code:
@@ -530,14 +520,7 @@ class Config(object):
         return code
 
     def save_config(self):
-        """Saves the config to ~/.gitsomeconfig.
-
-        Args:
-            * None
-
-        Returns:
-            None.
-        """
+        """Saves the config to ~/.gitsomeconfig."""
         if self.check_auth():
             config = self.get_github_config_path(self.CONFIG)
             parser = configparser.RawConfigParser()
@@ -619,14 +602,7 @@ class Config(object):
                 parser.write(config_file)
 
     def save_urls(self):
-        """Saves the current set of urls to ~/.gitsomeconfigurl.
-
-        Args:
-            * None
-
-        Returns:
-            None.
-        """
+        """Save the current set of urls to ~/.gitsomeconfigurl."""
         config = self.get_github_config_path(self.CONFIG_URL)
         parser = configparser.RawConfigParser()
         try:
