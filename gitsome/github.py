@@ -42,27 +42,28 @@ from .web_viewer import WebViewer
 
 
 class GitHub(object):
-    """Provides integration with the GitHub API.
+    """Provide integration with the GitHub API.
 
-    Attributes:
-        * api: An instance of github3 to interact with the GitHub API.
-        * config: An instance of Config.
-        * formatter: An instance of Formatter.
-        * img2txt: A callable from img2txt.
-        * table: An instance of Table.
-        * trend_parser: An instance of feedparser.
-        * web_viewer: An instance of WebViewer.
+    :type config: :class:`config.Config`
+    :param config: An instance of `config.Config`.
+
+    :type formatter: :class:`formatter.Formatter`
+    :param formatter: An instance of `formatter.Formatter`.
+
+    :type img2txt: callable
+    :param img2txt: A callable fom img2txt.
+
+    :type table: :class:`table.Table`
+    :param table: An instance of `table.Table`.
+
+    :type trend_parser: :class:`feedparser`
+    :param trend_parser: An instance of `feedparser`.
+
+    :type web_viewer: :class:`web_viewer.WebViewer`
+    :param web_viewer: An instance of `web_viewer.WebViewer`.
     """
 
     def __init__(self):
-        """Inits GitHub.
-
-        Args:
-            * None.
-
-        Returns:
-            None.
-        """
         self.config = Config()
         self.formatter = Formatter(self.config)
         self.img2txt = img2txt.img2txt
@@ -73,12 +74,11 @@ class GitHub(object):
     def authenticate(func):
         """Decorator that authenticates credentials.
 
-        Args:
-            * func: A method to execute if authorization passes.
+        :type func: callable
+        :param func: A method to execute if authorization passes.
 
-        Returns:
-            The return value of func if auth passes, or
-                None if auth fails.
+        :return: The return value of `func` if authorization passes, or
+            None if authorization fails.
         """
         def auth_wrapper(self, *args, **kwargs):
             self.config.authenticate()
@@ -88,17 +88,19 @@ class GitHub(object):
         return auth_wrapper
 
     def avatar(self, url, text_avatar):
-        """Displays the user's avatar from the specified url.
+        """Display the user's avatar from the specified url.
 
         This method requires PIL.
 
-        Args:
-            * url: A string representing the user's avatar image.
-            * text_avatar: A boolean that determines whether to view the profile
-                avatar in plain text.
+        :type url: str
+        :param url: The user's avatar image.
 
-        Returns:
-            avatar_text: A string representing the avatar.
+        :type text_avatar: bool
+        :param text_avatar: Determines whether to view the profile avatar
+            in plain text (True) or in ansi (False).
+
+        :rtype: str
+        :return: The avatar.
         """
         avatar = self.config.get_github_config_path(
             self.config.CONFIG_AVATAR)
@@ -113,17 +115,19 @@ class GitHub(object):
         return avatar_text
 
     def avatar_setup(self, url, text_avatar):
-        """Prepares to display the user's avatar from the specified url.
+        """Prepare to display the user's avatar from the specified url.
 
         This method requires PIL.
 
-        Args:
-            * url: A string representing the user's avatar image.
-            * text_avatar: A boolean that determines whether to view the profile
-                avatar in plain text.
+        :type url: str
+        :param url: The user's avatar image.
 
-        Returns:
-            avatar_text: A string representing the avatar.
+        :type text_avatar: bool
+        :param text_avatar: Determines whether to view the profile avatar
+            in plain text (True) or in ansi (False).
+
+        :rtype: str
+        :return: The avatar.
         """
         try:
             import PIL
@@ -135,13 +139,9 @@ class GitHub(object):
             return avatar_text
 
     def configure(self):
-        """Configures gitsome.
+        """Configure gitsome.
 
-        Args:
-            * github: An instance of github.GitHub.
-
-        Returns:
-            None.
+        Attempts to authenticate the user and to set up the user's news feed.
         """
         self.config.authenticate(overwrite=True)
         self.config.prompt_news_feed()
@@ -149,15 +149,13 @@ class GitHub(object):
 
     @authenticate
     def create_comment(self, user_repo_number, text):
-        """Creates a comment on the given issue.
+        """Create a comment on the given issue.
 
-        Args:
-            * user_repo_number: A string representing the
-                user/repo/issue number.
-            * text: A string representing the comment text.
+        :type user_repo_number: str
+        :param user_repo_number: The user/repo/issue_number.
 
-        Returns:
-            None.
+        :type text: str
+        :param text: The comment text.
         """
         try:
             user, repo, number = user_repo_number.split('/')
@@ -178,15 +176,16 @@ class GitHub(object):
 
     @authenticate
     def create_issue(self, user_repo, issue_title, issue_desc=''):
-        """Creates an issue.
+        """Create an issue.
 
-        Args:
-            * user_repo: A string representing the user/repo.
-            * issue_title: A string representing the issue title.
-            * issue_desc: A string representing the issue body (optional).
+        :type user_repo: str
+        :param user_repo: The user/repo.
 
-        Returns:
-            None.
+        :type issue_title: str
+        :param issue_title: The issue title.
+
+        :type issue_desc: str
+        :param issue_desc: The issue body (optional).
         """
         try:
             user, repo_name = user_repo.split('/')
@@ -206,16 +205,16 @@ class GitHub(object):
 
     @authenticate
     def create_repo(self, repo_name, repo_desc='', private=False):
-        """Creates a repo.
+        """Create a repo.
 
-        Args:
-            * repo_name: A string representing the repo name.
-            * repo_desc: A string representing the repo description (optional).
-            * private: A boolean that determines whether the repo is private.
-                Default: False.
+        :type repo_name: str
+        :param repo_name: The repo name.
 
-        Returns:
-            None.
+        :type repo_desc: str
+        :param repo_desc: The repo description (optional).
+
+        :type private: bool
+        :param private: Determines whether the repo is private.  Default: False.
         """
         try:
             repo = self.config.api.create_repository(repo_name,
@@ -230,15 +229,7 @@ class GitHub(object):
 
     @authenticate
     def emails(self):
-        """Lists all the user's registered emails.
-
-        Args:
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
-
-        Returns:
-            None.
-        """
+        """List all the user's registered emails."""
         self.table.build_table_setup(self.config.api.emails(),
                                      self.formatter.format_email,
                                      limit=sys.maxsize,
@@ -247,14 +238,11 @@ class GitHub(object):
 
     @authenticate
     def emojis(self, pager=False):
-        """Lists all GitHub supported emojis.
+        """List all GitHub supported emojis.
 
-        Args:
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
-
-        Returns:
-            None.
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         self.table.build_table_setup(self.config.api.emojis(),
                                      self.formatter.format_emoji,
@@ -264,21 +252,21 @@ class GitHub(object):
 
     @authenticate
     def feed(self, user_or_repo='', private=False, pager=False):
-        """Lists all activity for the given user or repo.
+        """List all activity for the given user or repo.
 
         If blank, lists the logged in user's news feed.
 
-        Args:
-            * user_or_repo: A string representing the user or repo to list
-                events for.  If no entry, defaults to the logged in user's feed.
-            * private: A boolean that determines whether to show the private
-                events (True) or public events (False).
-                Only works for the currently logged in user.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type user_or_repo: str
+        :param user_or_repo: The user or repo to list events for.
+            If no entry, defaults to the logged in user's feed.
 
-        Returns:
-            None.
+        :type private: bool
+        :param private: Determines whether to show the private events (True)
+            or public events (False).
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         click.secho('Listing events...', fg=self.config.clr_message)
         if user_or_repo == '':
@@ -308,16 +296,15 @@ class GitHub(object):
 
     @authenticate
     def followers(self, user, pager=False):
-        """Lists all followers and the total follower count.
+        """List all followers and the total follower count.
 
-        Args:
-            * user: A string representing the user login.
-                If None, returns followers of the logged in user.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type user: str
+        :param user: The user login.
+            If None, returns followers of the logged in user.
 
-        Returns:
-            None.
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         if user is None:
             user = self.config.user_login
@@ -329,16 +316,15 @@ class GitHub(object):
 
     @authenticate
     def following(self, user, pager=False):
-        """Lists all followed users and the total followed count.
+        """List all followed users and the total followed count.
 
-        Args:
-            * user: A string representing the user login.
-                If None, returns the followed users of the logged in user.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type user: str
+        :param user: The user login.
+            If None, returns the followed users of the logged in user.
 
-        Returns:
-            None.
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         if user is None:
             user = self.config.user_login
@@ -350,13 +336,10 @@ class GitHub(object):
 
     @authenticate
     def gitignore_template(self, language):
-        """Outputs the gitignore template for the given language.
+        """Output the gitignore template for the given language.
 
-        Args:
-            * language: A string representing the language.
-
-        Returns:
-            None.
+        :type language: str
+        :param language: The language.
         """
         template = self.config.api.gitignore_template(language)
         if template:
@@ -369,14 +352,11 @@ class GitHub(object):
 
     @authenticate
     def gitignore_templates(self, pager=False):
-        """Outputs all supported gitignore templates.
+        """Output all supported gitignore templates.
 
-        Args:
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
-
-        Returns:
-            None.
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         self.table.build_table_setup(
             self.config.api.gitignore_templates(),
@@ -392,14 +372,10 @@ class GitHub(object):
 
     @authenticate
     def issue(self, user_repo_number):
-        """Outputs detailed information about the given issue.
+        """Output detailed information about the given issue.
 
-        Args:
-            * user_repo_number: A string representing the
-                user/repo/issue number.
-
-        Returns:
-            None.
+        :type user_repo_number: str
+        :param user_repo_number: The user/repo/issue_number.
         """
         try:
             user, repo, number = user_repo_number.split('/')
@@ -414,16 +390,17 @@ class GitHub(object):
 
     @authenticate
     def issues(self, issues_list, limit=1000, pager=False):
-        """Lists all issues.
+        """List all issues.
 
-        Args:
-            * issues_list: A list of github3.issue.issue.
-            * limit: An int that specifies the number of items to show.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type issues_list: list
+        :param issues_list: A list of `github3` Issues.
 
-        Returns:
-            None.
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         view_entries = []
         for current_issue in issues_list:
@@ -445,20 +422,21 @@ class GitHub(object):
     @authenticate
     def issues_setup(self, issue_filter='subscribed', issue_state='open',
                      limit=1000, pager=False):
-        """Prepares to list all issues matching the filter.
+        """Prepare to list all issues matching the filter.
 
-        Args:
-            * issue_filter: A string with the following accepted values:
-                'assigned', 'created', 'mentioned', 'subscribed' (default).
-            * issue_state: A string with the following accepted values:
-                'all', 'open' (default), 'closed'.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type issue_filter: str
+        :param issue_filter: 'assigned', 'created', 'mentioned',
+            'subscribed' (default).
 
-        Returns:
-            None.
+        :type issue_state: str
+        :param issue_state: 'all', 'open' (default), 'closed'.
+
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         self.issues(self.config.api.issues(issue_filter, issue_state),
                     limit,
@@ -466,13 +444,10 @@ class GitHub(object):
 
     @authenticate
     def license(self, license_name):
-        """Outputs the gitignore template for the given language.
+        """Output the gitignore template for the given language.
 
-        Args:
-            * license_name: A string representing the license name.
-
-        Returns:
-            None.
+        :type license_name: str
+        :param license_name: The license name.
         """
         result = self.config.api.license(license_name)
         if type(result) is not null.NullObject:
@@ -485,14 +460,7 @@ class GitHub(object):
 
     @authenticate
     def licenses(self):
-        """Outputs the gitignore template for the given language.
-
-        Args:
-            * None.
-
-        Returns:
-            None.
-        """
+        """Output the gitignore template for the given language."""
         self.table.build_table_setup(
             self.config.api.licenses(),
             self.formatter.format_license_name,
@@ -507,15 +475,14 @@ class GitHub(object):
 
     @authenticate
     def notifications(self, limit=1000, pager=False):
-        """Lists all notifications.
+        """List all notifications.
 
-        Args:
-            * limit: An int that specifies the number of items to show.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type limit: int
+        :param limit: The number of items to display.
 
-        Returns:
-            None.
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         view_entries = []
         for thread in self.config.api.notifications(all=True,
@@ -529,14 +496,11 @@ class GitHub(object):
 
     @authenticate
     def octocat(self, say):
-        """Outputs an Easter egg or the given message from Octocat.
+        """Output an Easter egg or the given message from Octocat.
 
-        Args:
-            * say: A string for octocat to say.
+        :type say: str
+        :param say: What Octocat should say.
                 If say is None, octocat speaks an Easter egg.
-
-        Returns:
-            None.
         """
         output = str(self.config.api.octocat(say))
         output = output.replace('\\n', '\n')
@@ -544,15 +508,14 @@ class GitHub(object):
 
     @authenticate
     def pull_requests(self, limit=1000, pager=False):
-        """Lists all pull requests.
+        """List all pull requests.
 
-        Args:
-            * limit: An int that specifies the number of items to show.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type limit: int
+        :param limit: The number of items to display.
 
-        Returns:
-            None.
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         issues_list = []
         repositories = self.config.api.repositories()
@@ -567,13 +530,10 @@ class GitHub(object):
 
     @authenticate
     def rate_limit(self):
-        """Outputs the rate limit.
+        """Output the rate limit.
 
-        Args:
-            * None.
-
-        Returns:
-            None.
+        Logged in users can make 5000 requests per hour.
+        See: https://developer.github.com/v3/#rate-limiting
         """
         click.secho('Rate limit: ' + str(self.config.api.ratelimit_remaining),
                     fg=self.config.clr_message)
@@ -581,21 +541,29 @@ class GitHub(object):
     @authenticate
     def repositories(self, repos, limit=1000, pager=False,
                      repo_filter='', print_output=True):
-        """Lists all repos matching the given filter.
+        """List all repos matching the given filter.
 
-        Args:
-            * repos: A list of github3.repos.repo.
-            * limit: An int that specifies the number of items to show.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
-            * repo_filter: A string representing a filter for repo names.
-                Only repos matching the filter will be returned.
-                If None, outputs all starred repos.
-            * print_output: A bool that determines whether to print the output
-                (True) or return the output as a string (False)
+        :type repos: list
+        :param repos: A list of `github3` Repository.
 
-        Returns:
-            A string representing the output if print_output is True
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
+
+        :type repo_filter: str
+        :param repo_filter:  The filter for repo names.
+            Only repos matching the filter will be returned.
+            If None, outputs all repos retrieved by the GitHub API.
+
+        :type print_output: bool
+        :param print_output: Determines whether to print the output
+                (True) or return the output as a string (False).
+
+        :rtype: str
+        :return: The output if print_output is True
             else, returns None.
         """
         view_entries = []
@@ -618,19 +586,19 @@ class GitHub(object):
 
     @authenticate
     def repositories_setup(self, repo_filter, limit=1000, pager=False):
-        """Prepares to list all repos matching the given filter.
+        """Prepare to list all repos matching the given filter.
 
-        Args:
-            * repo_filter: A string representing a filter for repo names.
-                Only repos matching the filter will be returned.
-                If None, outputs all of the user's repos.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type repo_filter: str
+        :param repo_filter:  The filter for repo names.
+            Only repos matching the filter will be returned.
+            If None, outputs all repos retrieved by the GitHub API.
 
-        Returns:
-            None.
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         self.repositories(self.config.api.repositories(),
                           limit,
@@ -639,13 +607,10 @@ class GitHub(object):
 
     @authenticate
     def repository(self, user_repo):
-        """Outputs detailed information about the given repo.
+        """Output detailed information about the given repo.
 
-        Args:
-            * user_repo: A string representing the user/repo.
-
-        Returns:
-            None.
+        :type user_repo: str
+        :param user_repo: The user/repo.
         """
         try:
             user, repo = user_repo.split('/')
@@ -657,18 +622,19 @@ class GitHub(object):
 
     @authenticate
     def search_issues(self, query, limit=1000, pager=False):
-        """Searches for all issues matching the given query.
+        """Search for all issues matching the given query.
 
         TODO: Fix sorting.
 
-        Args:
-            * query: A string representing the search query.
-            * limit: An int that specifies the number of items to show.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type query: str
+        :param query: The search query.
 
-        Returns:
-            None.
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         click.secho('Searching for all matching issues on GitHub...',
                     fg=self.config.clr_message)
@@ -680,21 +646,23 @@ class GitHub(object):
 
     @authenticate
     def search_repositories(self, query, sort, limit=1000, pager=False):
-        """Searches for all repos matching the given query.
+        """Search for all repos matching the given query.
 
         TODO: Fix sorting.
 
-        Args:
-            * query: A string representing the search query.
-            * sort: A string that determines sorting (optional).
-                'stars', 'forks', 'updated'.
-                If not specified, sorting is done by query best match.
-            * limit: An int that specifies the number of items to show.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type query: str
+        :param query: The search query.
 
-        Returns:
-            None.
+        :type sort: str
+        :param sort: Optional: 'stars', 'forks', 'updated'.
+            If not specified, sorting is done by query best match.
+
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         click.secho('Searching for all matching repos on GitHub...',
                     fg=self.config.clr_message)
@@ -706,19 +674,19 @@ class GitHub(object):
 
     @authenticate
     def starred(self, repo_filter, limit=1000, pager=False):
-        """Outputs starred repos.
+        """Output starred repos.
 
-        Args:
-            * repo_filter: A string representing a filter for repo names.
-                Only repos matching the filter will be returned.
-                If None, outputs all starred repos.
-            * limit: An int that specifies the number of items to show.
-                Optional, defaults to 1000.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
+        :type repo_filter: str
+        :param repo_filter:  The filter for repo names.
+            Only repos matching the filter will be returned.
+            If None, outputs all repos retrieved by the GitHub API.
 
-        Returns:
-            None.
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         self.repositories(self.config.api.starred(),
                           limit,
@@ -727,23 +695,32 @@ class GitHub(object):
 
     def trending(self, language, weekly, monthly,
                  devs=False, browser=False, pager=False):
-        """Lists trending repos for the given language.
+        """List trending repos for the given language.
 
-        Args:
-            * language: A string representing the language.
-            * weekly: A boolean that determines whether to show the weekly
-                rankings.  Daily is the default.
-            * monthly: A boolean that determines whether to show the monthly
-                rankings.  Daily is the default.
-            * devs: A boolean that determines whether to display the trending
+        :type language: str
+        :param language: The language (optional).
+            If blank, shows 'Overall'.
+
+        :type weekly: bool
+        :param weekly: Determines whether to show the weekly rankings.
+            Daily is the default.
+
+        :type monthly: bool
+        :param monthly: Determines whether to show the monthly rankings.
+            Daily is the default.
+            If both `monthly` and `weekly` are set, `monthly` takes precendence.
+
+        :type devs: bool
+        :param devs: determines whether to display the trending
                 devs or repos.  Only valid with the -b/--browser option.
-            * browser: A Boolean that determines whether to view the trending
-                list in a browser, or in the terminal.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
 
-        Returns:
-            None.
+        :type browser: bool
+        :param browser: Determines whether to view the profile
+                in a browser, or in the terminal.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         language = language.lower()
         if language in language_rss_map:
@@ -781,20 +758,26 @@ class GitHub(object):
     @authenticate
     def user(self, user_id, browser=False, text_avatar=False,
              limit=1000, pager=False):
-        """Lists information about the logged in user.
+        """List information about the logged in user.
 
-        Args:
-            * user_id: A string representing the user login.
-            * limit: An int that specifies the number of items to show.
-            * browser: A Boolean that determines whether to view the profile
+        :type user_id: str
+        :param user_id: The user id/login.
+            If None, returns followers of the logged in user.
+
+        :type browser: bool
+        :param browser: Determines whether to view the profile
                 in a browser, or in the terminal.
-            * text_avatar: A boolean that determines whether to view the profile
-                avatar in plain text.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
 
-        Returns:
-            None.
+        :type text_avatar: bool
+        :param text_avatar: Determines whether to view the profile
+                avatar in plain text.
+
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         if browser:
             webbrowser.open('https://github.com/' + user_id)
@@ -837,36 +820,38 @@ class GitHub(object):
 
     @authenticate
     def user_me(self, browser, text_avatar, limit=1000, pager=False):
-        """Lists information about the logged in user.
+        """List information about the logged in user.
 
-        Args:
-            * limit: An int that specifies the number of items to show.
-            * browser: A Boolean that determines whether to view the profile
+        :type browser: bool
+        :param browser: Determines whether to view the profile
                 in a browser, or in the terminal.
-            * text_avatar: A boolean that determines whether to view the profile
-                avatar in plain text.
-            * pager: A boolean that determines whether to show the results
-                in a pager, where available.
 
-        Returns:
-            None.
+        :type text_avatar: bool
+        :param text_avatar: Determines whether to view the profile
+                avatar in plain text.
+
+        :type limit: int
+        :param limit: The number of items to display.
+
+        :type pager: bool
+        :param pager: Determines whether to show the output in a pager,
+            if available.
         """
         self.user(self.config.user_login, browser, text_avatar, limit, pager)
 
     @authenticate
     def view(self, index, view_in_browser=False):
-        """Views the given index in a browser.
+        """View the given index in a browser.
 
-        Loads urls from ~/.gitsomeconfigurl and stores them in self.config.urls.
-        Opens a browser with the url based on the given index.
+        Load urls from ~/.gitsomeconfigurl and stores them in self.config.urls.
+        Open a browser with the url based on the given index.
 
-        Args:
-            * index: An int that specifies the index to open.
-            * view_in_browser: A boolean that determines whether to view
-                in a web browser or a terminal.
+        :type index: int
+        :param index: Determines the index to view.
 
-        Returns:
-            None.
+        :type browser: bool
+        :param browser: Determines whether to view the profile
+            in a browser, or in the terminal.
         """
         self.config.urls = self.config.load_urls(view_in_browser)
         url = self.config.urls[index-1]
