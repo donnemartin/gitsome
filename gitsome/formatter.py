@@ -25,26 +25,23 @@ import click
 
 
 class Formatter(object):
-    """Handles formatting of isssues, repos, threads, etc.
+    """Handle formatting of isssues, repos, threads, etc.
 
-    Attributes:
-        * config: An instance of config.Config.
-        * event_handlers: A mapping of raw event types to format methods.
-        * event_type_mapping: A mapping of raw event types to more
-            human readable text.
-            See: https://developer.github.com/v3/activity/events/types/
-        * pretty_dt: An instance of pretty_date_time
+    :type config: :class:`config.Config`
+    :param config: An instance of config.Config.
+
+    :type event_handlers: dict
+    :param event_handlers: A mapping of raw event types to format methods.
+
+    :type event_type_mapping: dict
+    :param event_type_mapping: A mapping of raw event types to more
+        human readable text.
+
+    :type pretty_dt: :class:`pretty_date_time`
+    :param pretty_dt: An instance of pretty_date_time.
     """
 
     def __init__(self, config):
-        """Inits Formatter.
-
-        Args:
-            * config: An instance of config.Config.
-
-        Returns:
-            None.
-        """
         self.config = config
         self.event_type_mapping = {
             'CommitCommentEvent': 'commented on commit',
@@ -92,18 +89,36 @@ class Formatter(object):
         self.pretty_dt = pretty_date_time
 
     def _format_time(self, event):
+        """Format time.
+
+        :type event: :class:`github3` Event.
+        :param event: An instance of `github3` Event.
+        """
         item = click.style(
             ' (' + str(self.pretty_dt(event.created_at)) + ')',
             fg=self.config.clr_time)
         return item
 
     def _format_issue_comment(self, event, key):
+        """Format an issue comment.
+
+        :type event: :class:`github3` Event.
+        :param event: An instance of `github3` Event.
+        """
         issue = '{repo[0]}/{repo[1]}#{num}'.format(
             repo=event.payload[key].repository,
             num=event.payload[key].number)
         return click.style(issue, fg=self.config.clr_tertiary)
 
-    def _format_commit_or_comment(self, message, sha=''):
+    def _format_commit_comment(self, message, sha=''):
+        """Format an issue comment.
+
+        :type message: str
+        :param message: The commit comment.
+
+        :type sha: str
+        :param sha: The commit hash.
+        """
         indent = '         '
         subsequent_indent = indent if sha == '' else '                  '
         message = self.strip_line_breaks(message)
@@ -114,9 +129,19 @@ class Formatter(object):
         return formatted_message
 
     def _format_sha(self, sha):
+        """Format commit hash.
+
+        :type sha: str
+        :param sha: The commit hash.
+        """
         return sha[:7]
 
     def _format_commit_comment_event(self, event):
+        """Format commit comment and commit hash.
+
+        :type event: :class:`github3` Event.
+        :param event: An instance of `github3` Event.
+        """
         item = click.style(self.event_type_mapping[event.type] + ' ',
                            fg=self.config.clr_secondary)
         item += click.style(
@@ -127,11 +152,16 @@ class Formatter(object):
                             fg=self.config.clr_tertiary)
         item += self._format_time(event)
         item += click.style('\n')
-        message = self._format_commit_or_comment(event.payload['comment'].body)
+        message = self._format_commit_comment(event.payload['comment'].body)
         item += click.style(message, fg=self.config.clr_message)
         return item
 
     def _format_create_delete_event(self, event):
+        """Format a create or delete event.
+
+        :type event: :class:`github3` Event.
+        :param event: An instance of `github3` Event.
+        """
         item = click.style(self.event_type_mapping[event.type],
                            fg=self.config.clr_secondary)
         item += click.style(' ' + event.payload['ref_type'],
@@ -146,6 +176,11 @@ class Formatter(object):
         return item
 
     def _format_fork_event(self, event):
+        """Format a repo fork event.
+
+        :type event: :class:`github3` Event.
+        :param event: An instance of `github3` Event.
+        """
         item = click.style(self.event_type_mapping[event.type],
                            fg=self.config.clr_secondary)
         item += click.style(' ' + self.format_user_repo(event.repo),
@@ -154,16 +189,26 @@ class Formatter(object):
         return item
 
     def _format_issue_commment_event(self, event):
+        """Format a repo fork event.
+
+        :type event: :class:`github3` Event.
+        :param event: An instance of `github3` Event.
+        """
         item = click.style(self.event_type_mapping[event.type] + ' ',
                            fg=self.config.clr_secondary)
         item += self._format_issue_comment(event, key='issue')
         item += self._format_time(event)
         item += click.style('\n')
-        message = self._format_commit_or_comment(event.payload['comment'].body)
+        message = self._format_commit_comment(event.payload['comment'].body)
         item += click.style(message, fg=self.config.clr_message)
         return item
 
     def _format_issues_event(self, event):
+        """Format an issue event.
+
+        :type event: :class:`github3` Event.
+        :param event: An instance of `github3` Event.
+        """
         item = click.style(event.payload['action'] + ' issue ',
                            fg=self.config.clr_secondary)
         item += self._format_issue_comment(event, key='issue')
@@ -171,6 +216,11 @@ class Formatter(object):
         return item
 
     def _format_pull_request_event(self, event):
+        """Format a pull request event.
+
+        :type event: :class:`github3` Event.
+        :param event: An instance of `github3` Event.
+        """
         item = click.style(event.payload['action'] + ' pull request ',
                            fg=self.config.clr_secondary)
         item += self._format_issue_comment(event, key='pull_request')
@@ -178,6 +228,11 @@ class Formatter(object):
         return item
 
     def _format_push_event(self, event):
+        """Format a push event.
+
+        :type event: :class:`github3` Event.
+        :param event: An instance of `github3` Event.
+        """
         item = click.style(self.event_type_mapping[event.type],
                            fg=self.config.clr_secondary)
         branch = event.payload['ref'].split('/')[-1]
@@ -190,11 +245,16 @@ class Formatter(object):
             item += click.style('\n')
             sha = click.style(self._format_sha(commit['sha']) + ': ',
                               fg=self.config.clr_message)
-            message = self._format_commit_or_comment(commit['message'], sha=sha)
+            message = self._format_commit_comment(commit['message'], sha=sha)
             item += click.style(message, fg=self.config.clr_message)
         return item
 
     def _format_general_event(self, event):
+        """Format an event, general case used by various event types.
+
+        :type event: :class:`github3` Event.
+        :param event: An instance of `github3` Event.
+        """
         item = click.style(self.event_type_mapping[event.type] + ' ',
                            fg=self.config.clr_secondary)
         item += click.style(self.format_user_repo(event.repo),
@@ -203,13 +263,13 @@ class Formatter(object):
         return item
 
     def format_email(self, view_entry):
-        """Formats an email.
+        """Format an email.
 
-        Args:
-            * view_entry: An instance of a github3.users.Email.
+        :type view_entry: :class:`github3` Email
+        :param view_entry: An instance of `github3` Email.
 
-        Returns:
-            A string representing the formatted item.
+        :rtype: str
+        :return: The formattted email.
         """
         email = view_entry.item
         item = self.format_index_title(view_entry.index, email.email)
@@ -223,26 +283,26 @@ class Formatter(object):
         return item
 
     def format_emoji(self, view_entry):
-        """Formats an emoji.
+        """Format an emoji.
 
-        Args:
-            * view_entry: A string representing an emoji name.
+        :type view_entry: str
+        :param view_entry: The emoji name.
 
-        Returns:
-            A string representing the formatted item.
+        :rtype: str
+        :return: The formattted emoji.
         """
         emoji = view_entry.item
         item = self.format_index_title(view_entry.index, emoji)
         return item
 
     def format_event(self, view_entry):
-        """Formats an event.
+        """Format an event.
 
-        Args:
-            * view_entry: An instance of github3.events.Event.
+        :type view_entry: :class:`github3` Event
+        :param view_entry: An instance of `github3` Event.
 
-        Returns:
-            A string representing the formatted item.
+        :rtype: str
+        :return: The formattted event.
         """
         event = view_entry.item
         item = self.format_index_title(view_entry.index, str(event.actor))
@@ -250,13 +310,13 @@ class Formatter(object):
         return item
 
     def format_gitignore_template_name(self, view_entry):
-        """Formats a gitignore template name.
+        """Format a gitignore template name.
 
-        Args:
-            * view_entry: A string representing a gitignore template name.
+        :type view_entry: str
+        :param view_entry: The gitignore template name.
 
-        Returns:
-            A string representing the formatted item.
+        :rtype: str
+        :return: The formattted gitignore template name.
         """
         gitignore_template_name = view_entry.item
         item = self.format_index_title(view_entry.index,
@@ -264,13 +324,13 @@ class Formatter(object):
         return item
 
     def format_feed_entry(self, view_entry):
-        """Formats a feed entry.
+        """Format a feed entry.
 
-        Args:
-            * view_entry: A dictionary parsed to include feed URITemplates.
+        :type view_entry: dict
+        :param view_entry: The URITemplates feed.
 
-        Returns:
-            A string representing the formatted item.
+        :rtype: str
+        :return: The formattted feed entry.
         """
         feed_entry = view_entry.item
         item_parts = feed_entry.title.split(' ')
@@ -294,7 +354,7 @@ class Formatter(object):
                 parts_mention = comment.split('class="user-mention">')
                 if len(parts_mention) > 1:
                     comment = parts_mention[1]
-                comment = self._format_commit_or_comment(comment)
+                comment = self._format_commit_comment(comment)
                 comment = re.sub(r'(</a>*)', r'', comment)
                 comment = re.sub(r'(<p>*)', r'', comment)
                 comment = re.sub(r'(</p>*)', r'', comment)
@@ -304,13 +364,13 @@ class Formatter(object):
         return item
 
     def format_license_name(self, view_entry):
-        """Formats a license template name.
+        """Format a license template name.
 
-        Args:
-            * view_entry: An instance of github3.licenses.License.
+        :type view_entry: :class:`github3` License
+        :param view_entry: An instance of `github3` License.
 
-        Returns:
-            A string representing the formatted item.
+        :rtype: str
+        :return: The formattted license template name.
         """
         license_template_name = view_entry.item
         item = self.format_index_title(view_entry.index,
@@ -320,38 +380,38 @@ class Formatter(object):
         return item
 
     def format_user(self, view_entry):
-        """Formats a user.
+        """Format a user.
 
-        Args:
-            * view_entry: An instance of github3.users.User.
+        :type view_entry: :class:`github3` User
+        :param view_entry: An instance of `github3` User.
 
-        Returns:
-            A string representing the formatted item.
+        :rtype: str
+        :return: The formattted user.
         """
         user = view_entry.item
         item = self.format_index_title(view_entry.index, user.login)
         return item
 
     def format_issues_url_from_issue(self, issue):
-        """Formats the issue url based on the given issue.
+        """Format the issue url based on the given issue.
 
-        Args:
-            * thread: An instance of github3.issues.Issue.
+        :type issue: :class:`github3` Issue
+        :param issue: An instance of `github3` Issue.
 
-        Returns:
-            A string representing the formatted issues url.
+        :rtype: str
+        :return: The formattted issues url.
         """
         return self.format_user_repo(issue.repository) + '/' + \
             'issues/' + str(issue.number)
 
     def format_issues_url_from_thread(self, thread):
-        """Formats the issue url based on the given thread.
+        """Format the issue url based on the given thread.
 
-        Args:
-            * thread: An instance of github3.notifications.Thread.
+        :type issue: :class:`github3` Thread
+        :param issue: An instance of `github3` Thread.
 
-        Returns:
-            A string representing the formatted issues url.
+        :rtype: str
+        :return: The formattted issues url.
         """
         url_parts = thread.subject['url'].split('/')
         user = url_parts[4]
@@ -361,14 +421,16 @@ class Formatter(object):
         return '/'.join([user, repo, issues_uri, issue_id])
 
     def format_index_title(self, index, title):
-        """Formats and item's index and title.
+        """Format an item's index and title.
 
-        Args:
-            * index: An int that specifies the index for the given item.
-            * title: A string that represents the item's title.
+        :type index: str
+        :param index: The index for the given item.
 
-        Returns:
-            A string representation of the formatted index and title.
+        :type title: str
+        :param title: The item's title.
+
+        :rtype: str
+        :return: The formatted index and title.
         """
         formatted_index_title = click.style('  ' + (str(index) + '.').ljust(5),
                                             fg=self.config.clr_view_index)
@@ -377,13 +439,13 @@ class Formatter(object):
         return formatted_index_title
 
     def format_issue(self, view_entry):
-        """Formats an issue.
+        """Format an issue.
 
-        Args:
-            * view_entry: An instance of github3.issue.Issue.
+        :type view_entry: :class:`github3` Issue
+        :param view_entry: An instance of `github3` Issue.
 
-        Returns:
-            A string representing the formatted item.
+        :rtype: str
+        :return: The formatted issue.
         """
         issue = view_entry.item
         item = self.format_index_title(view_entry.index, issue.title)
@@ -412,13 +474,13 @@ class Formatter(object):
         return item
 
     def format_repo(self, view_entry):
-        """Formats a repo.
+        """Format a repo.
 
-        Args:
-            * view_entry: An instance of github3.repo.Repository.
+        :type view_entry: :class:`github3` Repository
+        :param view_entry: An instance of `github3` Repository.
 
-        Returns:
-            A string representing the formatted item.
+        :rtype: str
+        :return: The formatted repo.
         """
         repo = view_entry.item
         item = self.format_index_title(view_entry.index, repo.full_name)
@@ -437,13 +499,13 @@ class Formatter(object):
         return item
 
     def format_thread(self, view_entry):
-        """Formats a thread.
+        """Format a thread.
 
-        Args:
-            * view_entry: An instance of github3.notifications.Thread.
+        :type view_entry: :class:`github3` Thread
+        :param view_entry: An instance of `github3` Thread.
 
-        Returns:
-            A string representing the formatted item.
+        :rtype: str
+        :return: The formatted thread.
         """
         thread = view_entry.item
         item = self.format_index_title(view_entry.index,
@@ -465,11 +527,11 @@ class Formatter(object):
     def format_trending_entry(self, view_entry):
         """Formats a trending repo entry.
 
-        Args:
-            * view_entry: A dictionary parsed to include feed URITemplates.
+        :type view_entry: dict
+        :param view_entry: The URITemplates feed.
 
-        Returns:
-            A string representing the formatted item.
+        :rtype: str
+        :return: The formattted trending entry.
         """
         trending_entry = view_entry.item
         item_parts = trending_entry.title.split(' ')
@@ -499,7 +561,7 @@ class Formatter(object):
         return item
 
     def format_user_repo(self, user_repo_tuple):
-        """Formats a repo tuple for pretty print.
+        """Format a repo tuple for pretty print.
 
         Example:
             Input:  ('donnemartin', 'gitsome')
@@ -507,11 +569,11 @@ class Formatter(object):
             Input:  ('repos/donnemartin', 'gitsome')
             Output: donnemartin/gitsome
 
-        Args:
-            * user_repo_tuple: A tuple that contains the user and repo.
+        :type user_repo_tuple: tuple
+        :param user_repo_tuple: The user and repo.
 
-        Returns:
-            A string of the form user/repo.
+        :rtype: str
+        :return: A string of the form user/repo.
         """
         result = '/'.join(user_repo_tuple)
         if result.startswith('repos/'):
@@ -521,11 +583,11 @@ class Formatter(object):
     def strip_line_breaks(self, text):
         """Strips \r and \n characters.
 
-        Args:
-            * text: A string representing the text to strip of line breaks.
+        :type text: str
+        :param text: The text to strip of line breaks.
 
-        Returns:
-            A string without line breaks.
+        :rtype: str
+        :return: The input text without line breaks.
         """
         text = re.sub(r'(\r*)', r'', text)
         text = re.sub(r'(\n*)', r'', text)
