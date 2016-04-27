@@ -21,14 +21,7 @@ from .githubcli import GitHubCli
 
 
 def cli():
-    """Creates and calls GitHubCli.
-
-    Args:
-        * None.
-
-    Returns:
-        None.
-    """
+    """Create and call GitHubCli."""
     github = GitHubCli()
     github.cli()
 
