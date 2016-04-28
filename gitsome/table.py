@@ -26,39 +26,38 @@ from .view_entry import ViewEntry
 
 
 class Table(object):
-    """Displays table information for repos, issues, prs, etc.
+    """Display table information for repos, issues, prs, etc.
 
-    Attributes:
-        * None
+    :type config: :class:`config.Config`
+    :param config: An instance of `config.Config`.
     """
 
     def __init__(self, config):
-        """Inits GitHub.
-
-        Args:
-            * config: An instance of Config.
-
-        Returns:
-            None.
-        """
         self.config = config
 
     def build_table(self, view_entries, limit, pager, format_method,
                     build_urls=True, print_output=True):
-        """Builds the table used for the gh view command.
+        """Build the table used for the gh view command.
 
-        Args:
-            * view_entries: A list of github3 items.
-            * limit: An int that specifies the number of items to show.
-            * format_method: A method called to format each item in the table.
-            * build_urls: A bool that determines whether to build urls for the
+        :type view_entries: list
+        :param view_entries: A list of `github3` items.
+
+        :type limit: int
+        :param limit: Determines the number of items to show.
+
+        :type format_method: callable
+        :param format_method: A method called to format each item in the table.
+
+        :type build_urls: bool
+        :param build_urls: Determines whether to build urls for the
                 gh view # command.
-            * print_output: A bool that determines whether to print the output
-                (True) or return the output as a string (False)
 
-        Returns:
-            A string representing the output if print_output is True
-            else, returns None.
+        :type print_output: bool
+        :param print_output: determines whether to print the output
+                (True) or return the output as a string (False).
+
+        :rtype: str
+        :return: the output if print_output is True, else, return None.
         """
         if build_urls:
             self.build_table_urls(view_entries)
@@ -96,17 +95,24 @@ class Table(object):
 
     def build_table_setup(self, items, format_method,
                           limit, pager, build_urls=True):
-        """Converts items to a list of ViewEntry before calling `build_table`.
+        """Convert items to a list of ViewEntry before calling `build_table`.
 
-        Args:
-            * items: A list of github3 items.
-            * format_method: A method called to format each item in the table.
-            * limit: An int that specifies the number of items to show.
-            * build_urls: A bool that determines whether to build urls for the
-                gh view # command.
+        :type items: list
+        :param items: A list of `github3` items.
 
-        Returns:
-            None.
+        :type format_method: callable
+        :param format_method: A method called to format each item in the table.
+
+        :type limit: int
+        :param limit: Determines the number of items to show.
+
+        :type pager: bool
+        :param pager: Determines whether to show results in a pager,
+            if available.
+
+        :type build_urls: bool
+        :param build_urls: determines whether to build urls for the
+                `gh view` [#] command.
         """
         view_entries = []
         for item in items:
@@ -118,14 +124,17 @@ class Table(object):
                          build_urls)
 
     def build_table_setup_feed(self, items, format_method, pager):
-        """Performs feed-specific processing before calling `build_table`.
+        """Perform feed-specific processing before calling `build_table`.
 
-        Args:
-            * items: A list of github3 items.
-            * format_method: A method called to format each item in the table.
+        :type items: list
+        :param items: A list of `github3` items.
 
-        Returns:
-            None.
+        :type format_method: callable
+        :param format_method: A method called to format each item in the table.
+
+        :type pager: bool
+        :param pager: Determines whether to show results in a pager,
+            if available.
         """
         self.build_table_setup(items.entries,
                                format_method,
@@ -135,19 +144,26 @@ class Table(object):
 
     def build_table_setup_user(self, items, format_method,
                                limit, pager, build_urls=True):
-        """Converts items to a list of ViewEntry before calling `build_table`.
+        """Convert items to a list of ViewEntry before calling `build_table`.
 
         Specific to GitHub3.User.users.
 
-        Args:
-            * items: A list of github3 items.
-            * format_method: A method called to format each item in the table.
-            * limit: An int that specifies the number of items to show.
-            * build_urls: A bool that determines whether to build urls for the
-                gh view # command.
+        :type items: list
+        :param items: A list of `github3` items.
 
-        Returns:
-            None.
+        :type format_method: callable
+        :param format_method: A method called to format each item in the table.
+
+        :type limit: int
+        :param limit: Determines the number of items to show.
+
+        :type pager: bool
+        :param pager: Determines whether to show results in a pager,
+            if available.
+
+        :type build_urls: bool
+        :param build_urls: determines whether to build urls for the
+                `gh view` [#] command.
         """
         view_entries = []
         for item in items:
@@ -159,19 +175,26 @@ class Table(object):
 
     def build_table_setup_trending(self, items, format_method,
                                    limit, pager, build_urls=True):
-        """Converts items to a list of ViewEntry before calling `build_table`.
+        """Convert items to a list of ViewEntry before calling `build_table`.
 
         Specific to feedparser entries.
 
-        Args:
-            * items: A list of feedparser entries.
-            * format_method: A method called to format each item in the table.
-            * limit: An int that specifies the number of items to show.
-            * build_urls: A bool that determines whether to build urls for the
-                gh view # command.
+        :type items: list
+        :param items: A list of `github3` items.
 
-        Returns:
-            None.
+        :type format_method: callable
+        :param format_method: A method called to format each item in the table.
+
+        :type limit: int
+        :param limit: Determines the number of items to show.
+
+        :type pager: bool
+        :param pager: Determines whether to show results in a pager,
+            if available.
+
+        :type build_urls: bool
+        :param build_urls: determines whether to build urls for the
+                `gh view` [#] command.
         """
         view_entries = []
         for item in items:
@@ -183,26 +206,23 @@ class Table(object):
                          format_method=format_method)
 
     def build_table_urls(self, view_entries):
-        """Builds the GitHub urls for the specified view_entries.
+        """Build the GitHub urls for the specified view_entries.
 
-        Args:
-            * table: A list of view_entry.
-
-        Returns:
-            None.
+        :type view_entries: list
+        :param view_entries: A list of ViewEntry items.
         """
         for view_entry in view_entries:
             self.config.urls.append(view_entry.url)
         self.config.save_urls()
 
     def create_tip(self, max_index):
-        """Creates the tip about the view command.
+        """Create the tip about the view command after showing a table.
 
-        Args:
-            * max_index: A string that represents the index upper bound.
+        :type max_index: int
+        :param max_index: The index upper bound.
 
-        Returns:
-            A string representation of the formatted tip.
+        :rtype: str
+        :return: The formatted tip.
         """
         tip = click.style('  View the repo or issue for ',
                           fg=self.config.clr_message)
