@@ -20,34 +20,31 @@ from __future__ import print_function
 
 
 class ViewEntry(object):
-    """Encapsulates a table entry used with the `gh view` command.
+    """A table entry used with the `gh view` command.
 
-    Attributes:
-        * index: An int representing the row index.
-        * item: An instance of a github3 repo, issue, thread, etc.
-        * sort_key_primary: A member representing the primary sort key.
-        * sort_key_secondary: A member representing the secondary sort key.
-        * sort_key_tertiary: A member representing the tertiary sort key.
-        * url: A string representing the item's url.
+    :type index: int
+    :param index: The row index.
+
+    :type item: :class:`github3` repo, issue, thread, etc.
+    :param item: An instance of a `github3` repo, issue, thread, etc.
+
+    :param sort_key_primary: A class member representing the primary
+        sort key.
+
+    :param sort_key_secondary: A class member representing the secondary
+        sort key.
+
+    :param sort_key_tertiary: A class member representing the tertiary
+        sort key.
+
+    :type url: str
+    :param url: The item's url.
     """
 
     def __init__(self, item, url=None, index=-1,
                  sort_key_primary=None,
                  sort_key_secondary=None,
                  sort_key_tertiary=None):
-        """Inits ViewEntry.
-
-        Args:
-            * item: An instance of a github3 repo, issue, thread, etc.
-            * url: A string representing the item's url.
-            * index: An int representing the row index.
-            * sort_key_primary: A member representing the primary sort key.
-            * sort_key_secondary: A member representing the secondary sort key.
-            * sort_key_tertiary: A member representing the tertiary sort key.
-
-        Returns:
-            None.
-        """
         self.item = item
         self.url = url
         self.index = index
@@ -56,13 +53,13 @@ class ViewEntry(object):
         self.sort_key_tertiary = sort_key_tertiary
 
     def __lt__(self, other):
-        """Implements 'less than' used for sorting.
+        """Implement 'less than' used for sorting.
 
-        Args:
-            * other: An instance of ViewEntry used for comparison.
+        :type other: :class:`ViewEntry`
+        :param other: An instance of `ViewEntry` used for comparison.
 
-        Returns:
-            A bool indicating whether the current ViewEntry is less than the
+        :rtype: bool
+        :return: Determines whether the current ViewEntry is less than the
                 `other` view entry.
         """
         if self.sort_key_primary != other.sort_key_primary or \
