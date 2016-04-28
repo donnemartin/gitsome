@@ -26,23 +26,22 @@ from .completions import META_LOOKUP_GH
 
 
 class TextUtils(object):
-    """Utilities for parsing and matching text.
-
-    Attributes:
-        * None.
-    """
+    """Utilities for parsing and matching text."""
 
     def find_matches(self, word, collection, fuzzy):
-        """Finds all matches in collection for word.
+        """Find all matches in collection for word.
 
-        Args:
-            * word: A string representing the word before
-                the cursor.
-            * collection: A collection of words to match.
-            * fuzzy: A boolean that specifies whether to use fuzzy matching.
+        :type word: str
+        :param word: The word before the cursor.
 
-        Yields:
-            A list of prompt_toolkit's Completions.
+        :type collection: iterable
+        :param collection: A collection of words to match.
+
+        :type fuzzy: bool
+        :param fuzzy: Determines whether to use fuzzy matching.
+
+        :rtype: generator
+        :return: Yields an instance of `prompt_toolkit.completion.Completion`.
         """
         word = self._last_token(word).lower()
         matches = []
@@ -53,13 +52,13 @@ class TextUtils(object):
         return matches
 
     def get_tokens(self, text):
-        """Parses out all tokens.
+        """Parse out all tokens.
 
-        Args:
-            * text: A string to split into tokens.
+        :type text: str
+        :param text: A string to be split into tokens.
 
-        Returns:
-            A list of strings for each word in the text.
+        :rtype: list
+        :return: A list of strings for each word in the text.
         """
         if text is not None:
             text = text.strip()
@@ -68,13 +67,13 @@ class TextUtils(object):
         return []
 
     def _last_token(self, text):
-        """Finds the last word in text.
+        """Find the last word in text.
 
-        Args:
-            * text: A string to parse and obtain the last word.
+        :type text: str
+        :param text: A string to parse and obtain the last word.
 
-        Returns:
-            A string representing the last word in the text.
+        :rtype: str
+        :return: The last word in the text.
         """
         if text is not None:
             text = text.strip()
@@ -89,16 +88,20 @@ class TextUtils(object):
 
         Adapted from: https://github.com/amjith/fuzzyfinder.
 
-        Args:
-            text: A string which is typically entered by a user.
-            collection: An iterable that represents a collection of strings
-                which will be filtered based on the input `text`.
-            case_sensitive: A boolean that indicates whether the find
-                will be case sensitive.
+        :type text: str
+        :param text: Input string entered by user.
 
-        Returns:
-            A generator object that produces a list of suggestions
-            narrowed down from `collections` using the `text` input.
+        :type collection: iterable
+        :param collection: collection of strings which will be filtered based
+            on the input `text`.
+
+        :type case_sensitive: bool
+        :param case_sensitive: Determines whether the find will be case
+            sensitive.
+
+        :rtype: generator
+        :return: Yields a list of suggestions narrowed down from `collections`
+            using the `text` input.
         """
         suggestions = []
         if case_sensitive:
@@ -117,15 +120,19 @@ class TextUtils(object):
         return (z for _, _, z in sorted(suggestions))
 
     def _find_collection_matches(self, word, collection, fuzzy):
-        """Yields all matching names in list.
+        """Yield all matching names in list.
 
-        Args:
-            * word: A string representing the word before the cursor.
-            * collection: A collection of words to match.
-            * fuzzy: A boolean that specifies whether to use fuzzy matching.
+        :type word: str
+        :param word: The word before the cursor.
 
-        Yields:
-            A generator of prompt_toolkit's Completions.
+        :type collection: iterable
+        :param collection: A collection of words to match.
+
+        :type fuzzy: bool
+        :param fuzzy: Determines whether to use fuzzy matching.
+
+        :rtype: generator
+        :return: Yields an instance of `prompt_toolkit.completion.Completion`.
         """
         word = word.lower()
         if fuzzy:
@@ -151,11 +158,11 @@ class TextUtils(object):
     def _shlex_split(self, text):
         """Wrapper for shlex, because it does not seem to handle unicode in 2.6.
 
-        Args:
-            * text: A string to split.
+        :type text: str
+        :param text: A string to split.
 
-        Returns:
-            A list that contains words for each split element of text.
+        :rtype: list
+        :return: A list that contains words for each split element of text.
         """
         if six.PY2:
             text = text.encode('utf-8')
@@ -166,12 +173,11 @@ class TextUtils(object):
 
         Shlex can't always split. For example, "\" crashes the completer.
 
-        Args:
-            * text: A string to split.
+        :type text: str
+        :param text: A string to split.
 
-        Returns:
-            A list that contains words for each split element of text.
-
+        :rtype: list
+        :return: A list that contains words for each split element of text.
         """
         try:
             words = self._shlex_split(text)
