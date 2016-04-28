@@ -310,10 +310,16 @@ META_LOOKUP_GH = {
     'gh': 'Git auto-completer with GitHub integration.',
 }
 SUBCOMMANDS = {}
-for subcommand, args_opts in COMPLETIONS_GH.items():
-    META_LOOKUP_GH.update({subcommand: COMPLETIONS_GH[subcommand]['desc']})
-    SUBCOMMANDS.update({subcommand: COMPLETIONS_GH[subcommand]['desc']})
-    for opt, meta in args_opts['opts'].items():
-        META_LOOKUP_GH.update({opt: meta})
-    for arg, meta in args_opts['args'].items():
-        META_LOOKUP_GH.update({arg: meta})
+
+
+def build_meta_lookups():
+    for subcommand, args_opts in COMPLETIONS_GH.items():
+        META_LOOKUP_GH.update({subcommand: COMPLETIONS_GH[subcommand]['desc']})
+        SUBCOMMANDS.update({subcommand: COMPLETIONS_GH[subcommand]['desc']})
+        for opt, meta in args_opts['opts'].items():
+            META_LOOKUP_GH.update({opt: meta})
+        for arg, meta in args_opts['args'].items():
+            META_LOOKUP_GH.update({arg: meta})
+
+
+build_meta_lookups()
