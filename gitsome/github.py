@@ -18,15 +18,11 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
-from getpass import getpass
-from operator import itemgetter
 import os
 import sys
 import urllib
 import webbrowser
 
-from .compat import configparser
-from .compat import urlparse
 from .lib.github3 import null
 from .lib.github3.exceptions import UnprocessableEntity
 from .lib.img2txt import img2txt
@@ -130,7 +126,7 @@ class GitHub(object):
         :return: The avatar.
         """
         try:
-            import PIL
+            import PIL  # NOQA
             return self.avatar(url, text_avatar)
         except ImportError:
             avatar_text = click.style(('To view the avatar in your terminal, '
@@ -405,7 +401,6 @@ class GitHub(object):
         view_entries = []
         for current_issue in issues_list:
             url = self.formatter.format_issues_url_from_issue(current_issue)
-            repo_name = '/'.join(current_issue.repository)
             view_entries.append(
                 ViewEntry(
                     current_issue,
@@ -570,9 +565,9 @@ class GitHub(object):
         for repo in repos:
             url = repo.clone_url
             if (repo.full_name is not None and
-                repo_filter in repo.full_name.lower()) or \
+                    repo_filter in repo.full_name.lower()) or \
                (repo.description is not None and
-                repo_filter in repo.description.lower()):
+                    repo_filter in repo.description.lower()):
                 view_entries.append(
                     ViewEntry(repo,
                               url=url,
@@ -746,7 +741,7 @@ class GitHub(object):
                                                            p=period),
                 fg=self.config.clr_message)
             url = ('http://github-trends.ryotarai.info/rss/github_trends_' +
-                    language + '_')
+                   language + '_')
             url += period + '.rss'
             items = self.trend_parser.parse(url)
             self.table.build_table_setup_trending(
@@ -855,8 +850,7 @@ class GitHub(object):
         """
         self.config.urls = self.config.load_urls(view_in_browser)
         url = self.config.urls[index-1]
-        click.secho('Viewing ' + url + '...',
-                        fg=self.config.clr_message)
+        click.secho('Viewing ' + url + '...', fg=self.config.clr_message)
         if view_in_browser:
             webbrowser.open(url)
         else:
