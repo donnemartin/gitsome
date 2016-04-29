@@ -607,7 +607,7 @@ class Config(object):
         parser = configparser.RawConfigParser()
         try:
             parser.add_section(self.CONFIG_URL_SECTION)
-        except DuplicateSectionError:
+        except configparser.DuplicateSectionError:
             pass
         parser.set(self.CONFIG_URL_SECTION, self.CONFIG_URL_LIST, self.urls)
         with open(config, 'w+') as config_file:
