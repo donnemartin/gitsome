@@ -612,3 +612,13 @@ class Config(object):
         parser.set(self.CONFIG_URL_SECTION, self.CONFIG_URL_LIST, self.urls)
         with open(config, 'w+') as config_file:
             parser.write(config_file)
+
+    def show_bash_completions_info(self):
+        """Show info on how to enable bash completions"""
+        click.secho(('By default, gitsome looks at the following locations '
+                     'to enable bash completions:\n'
+                     '  https://github.com/donnemartin/gitsome/blob/master/xonsh/environ.py#L123-L130\n'
+                     'If bash completions are not working for you, check out '
+                     'the following link:\n'
+                     '  https://github.com/donnemartin/gitsome#enabling-bash-completions'),
+                    fg=self.clr_message)
