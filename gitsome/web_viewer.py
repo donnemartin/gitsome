@@ -20,6 +20,7 @@ from __future__ import print_function
 
 import platform
 import re
+import sys
 
 from .compat import HTMLParser
 import click
