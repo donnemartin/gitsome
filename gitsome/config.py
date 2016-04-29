@@ -617,8 +617,8 @@ class Config(object):
         """Show info on how to enable bash completions"""
         click.secho(('By default, gitsome looks at the following locations '
                      'to enable bash completions:\n'
-                     '  https://github.com/donnemartin/gitsome/blob/master/xonsh/environ.py#L123-L130\n'
+                     '  https://github.com/donnemartin/gitsome/blob/master/xonsh/environ.py#L123-L130\n'  # NOQA
                      'If bash completions are not working for you, check out '
                      'the following link:\n'
-                     '  https://github.com/donnemartin/gitsome#enabling-bash-completions'),
+                     '  https://github.com/donnemartin/gitsome#enabling-bash-completions'),  # NOQA
                     fg=self.clr_message)
