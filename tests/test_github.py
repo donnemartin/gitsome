@@ -227,7 +227,7 @@ class GitHubTest(unittest.TestCase):
             fg=self.github.config.clr_message)
 
     @mock.patch('gitsome.web_viewer.WebViewer.view_url')
-    def test_issue(self, mock_view_url):
+    def test_repository(self, mock_view_url):
         self.github.repository('user1/repo1')
         mock_view_url.assert_called_with(
             'https://github.com/user1/repo1')
