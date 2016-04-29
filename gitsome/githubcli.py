@@ -18,10 +18,6 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
-from operator import itemgetter
-import urllib
-import webbrowser
-
 import click
 
 from .github import GitHub
