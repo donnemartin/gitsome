@@ -149,8 +149,6 @@ class MockGitHubApi(object):
     def _generate_mock_data(self):
         user1 = MockUser(self.current_user, 'User')
         user1_repo1 = user1.create_repo('repo1')
-        user1_repo2 = user1.create_repo('repo2')
-        user1_repo3 = user1.create_repo('repo3')
         user1_repo1.create_issue('title1', 'body1')
         user1_repo1.create_issue('title2', 'body2')
         user1_repo1.create_issue('title3', 'body3')
