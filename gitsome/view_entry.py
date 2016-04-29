@@ -67,7 +67,7 @@ class ViewEntry(object):
             return self.sort_key_primary < other.sort_key_primary
         else:
             if self.sort_key_secondary != other.sort_key_secondary or \
-                not self.sort_key_tertiary:
+                    not self.sort_key_tertiary:
                 return self.sort_key_secondary < other.sort_key_secondary
             else:
                 return self.sort_key_tertiary < other.sort_key_tertiary
