@@ -121,7 +121,8 @@ DEFAULT_VALUES = {
     'AUTO_PUSHD': False,
     'AUTO_SUGGEST': True,
     'BASH_COMPLETIONS': (('/usr/local/etc/bash_completion',
-                             '/opt/local/etc/profile.d/bash_completion.sh')
+                             '/opt/local/etc/profile.d/bash_completion.sh',
+                             '/usr/local/etc/bash_completion.d/git-completion.bash')
                         if ON_MAC else
                         ('/usr/share/bash-completion/bash_completion',
                              '/usr/share/bash-completion/completions/git')
