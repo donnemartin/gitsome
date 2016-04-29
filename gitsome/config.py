@@ -23,7 +23,7 @@ from getpass import getpass
 import os
 
 from .compat import configparser
-from .lib.github3 import authorize, login, null
+from .lib.github3 import authorize, login
 from .lib.github3.exceptions import AuthenticationFailed, UnprocessableEntity
 
 
@@ -183,7 +183,7 @@ class Config(object):
                     two_factor_callback=self.request_two_factor_code)
             except configparser.NoOptionError:
                 self.user_pass = parser.get(self.CONFIG_SECTION,
-                                             self.CONFIG_USER_PASS)
+                                            self.CONFIG_USER_PASS)
                 self.api = login(
                     username=self.user_login,
                     password=self.user_pass,
@@ -214,8 +214,8 @@ class Config(object):
         parser = configparser.RawConfigParser()
         # Check to make sure the file exists and we are allowed to read it
         if os.path.isfile(config) and os.access(config, os.R_OK | os.W_OK) and \
-                    not overwrite:
-                self.authenticate_cached_credentials(config, parser)
+                not overwrite:
+            self.authenticate_cached_credentials(config, parser)
         else:
             # The file didn't exist or we don't have the correct permissions
             self.user_login = ''
