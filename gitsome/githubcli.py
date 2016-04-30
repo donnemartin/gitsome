@@ -165,6 +165,9 @@ class GitHubCli(object):
     def emojis(github, pager):
         """List all GitHub supported emojis.
 
+        Usage:
+            gh emojis [-p/--pager]
+
         Example(s):
             gh emojis | grep octo
 
