@@ -66,8 +66,12 @@ class GitHubCli(object):
     def create_comment(github, user_repo_number, text):
         """Create a comment on the given issue.
 
+        Usage:
+            gh create-comment [user_repo_number] [-t/--text]
+
         Example(s):
-            gh create_comment donnemartin/saws/1 --text "hello world"
+            gh create-comment donnemartin/saws/1 -t "hello world"
+            gh create-comment donnemartin/saws/1 --text "hello world"
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
