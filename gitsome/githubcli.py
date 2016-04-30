@@ -51,7 +51,7 @@ class GitHubCli(object):
 
         Attempts to authenticate the user and to set up the user's news feed.
 
-        Example(s):
+        Usage/Example(s):
             gh configure
 
         :type github: :class:`github.GitHub`

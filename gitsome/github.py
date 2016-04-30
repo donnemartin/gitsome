@@ -138,6 +138,10 @@ class GitHub(object):
         """Configure gitsome.
 
         Attempts to authenticate the user and to set up the user's news feed.
+
+        If `gitsome` has not yet been configured, calling a `gh` command that
+        requires authentication will automatically invoke the `configure`
+        command.
         """
         self.config.authenticate(overwrite=True)
         self.config.prompt_news_feed()
