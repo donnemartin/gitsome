@@ -382,9 +382,12 @@ class GitHubCli(object):
     def license(github, license_name):
         """Output the license template for the given license.
 
+        Usage:
+            gh license [license_name]
+
         Example(s):
-            gh license "MIT"
-            gh license "MIT" > LICENSE
+            gh license apache-2.0
+            gh license mit > LICENSE
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
