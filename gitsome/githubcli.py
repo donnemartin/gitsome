@@ -301,8 +301,13 @@ class GitHubCli(object):
     def gitignore_templates(github, pager):
         """Output all supported gitignore templates.
 
+        Usage:
+            gh gitignore-templates
+
         Example(s):
-            gh gitignores
+            gh gitignore-templates
+            gh gitignore-templates -p
+            gh gitignore-templates --pager
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
