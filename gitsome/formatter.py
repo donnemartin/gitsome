@@ -489,9 +489,9 @@ class Formatter(object):
                             fg=self.config.clr_message)
         item += '\n'
         item += click.style(('        ' + 'Stars: ' +
-                             str(repo.stargazers_count).ljust(5) + ' '),
+                             str(repo.stargazers_count).ljust(6) + ' '),
                             fg=self.config.clr_secondary)
-        item += click.style('Forks: ' + str(repo.forks_count).ljust(4) + ' ',
+        item += click.style('Forks: ' + str(repo.forks_count).ljust(6) + ' ',
                             fg=self.config.clr_tertiary)
         item += click.style(('Updated: ' +
                              str(self.pretty_dt(repo.updated_at)) + ' '),
