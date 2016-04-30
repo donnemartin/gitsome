@@ -402,7 +402,7 @@ class GitHubCli(object):
     def licenses(github):
         """Output all supported license templates.
 
-        Example(s):
+        Usage/Example(s):
             gh licenses
 
         :type github: :class:`github.GitHub`
