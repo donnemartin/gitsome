@@ -456,8 +456,13 @@ class GitHubCli(object):
     def notifications(github, limit, pager):
         """List all notifications.
 
+        Usage:
+            gh notifications [-l/--limit] [-p/--pager]
+
         Example(s):
             gh notifications
+            gh notifications -l 20 -p
+            gh notifications --limit 20 --pager
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
