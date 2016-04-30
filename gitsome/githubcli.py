@@ -419,14 +419,15 @@ class GitHubCli(object):
     def me(github, browser, text_avatar, limit, pager):
         """List information about the logged in user.
 
+        Usage:
+            gh me [-b/--browser] [-t/--text_avatar] [-l/--limit] [-p/--pager]
+
         Example(s):
             gh me
-            gh me 20
             gh me -b
             gh me --browser
-            gh me -a
-            gh me --text_avatar
-            gh me --limit 20
+            gh me -t -l 20 -p
+            gh me --text_avatar --limit 20 --pager
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
@@ -437,10 +438,10 @@ class GitHubCli(object):
 
         :type text_avatar: bool
         :param text_avatar: Determines whether to view the profile
-                avatar in plain text.
+                avatar in plain text instead of ansi (default).
 
         :type limit: int
-        :param limit: The number of items to display.
+        :param limit: The number of user repos to display.
 
         :type pager: bool
         :param pager: Determines whether to show the output in a pager,
