@@ -347,21 +347,25 @@ class GitHubCli(object):
     def issues(github, issue_filter, issue_state, limit, pager):
         """List all issues matching the filter.
 
+        Usage:
+            gh issues [-f/--issue_filter] [-s/--issue_state] [-l/--limit] [-p/--pager]  # NOQA
+
         Example(s):
             gh issues
-            gh issues --issue_state closed --limit 20
-            gh issues "foo bar" assigned
-            gh issues created | grep foo
+            gh issues -f assigned
+            gh issues ---issue_filter created
+            gh issues -s all -l 20 -p
+            gh issues --issue_state closed --limit 20 --pager
+            gh issues -f created -s all -p
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
 
         :type issue_filter: str
-        :param issue_filter: 'assigned', 'created', 'mentioned',
-            'subscribed' (default).
+        :param issue_filter: assigned, created, mentioned, subscribed (default).
 
         :type issue_state: str
-        :param issue_state: 'all', 'open' (default), 'closed'.
+        :param issue_state: all, open (default), closed.
 
         :type limit: int
         :param limit: The number of items to display.
