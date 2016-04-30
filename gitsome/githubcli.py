@@ -253,9 +253,13 @@ class GitHubCli(object):
     def following(github, user, pager):
         """List all followed users and the total followed count.
 
+        Usage:
+            gh following [user] [-p/--pager]
+
         Example(s):
             gh following
-            gh following donnemartin
+            gh following -p
+            gh following octocat --pager
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
