@@ -23,6 +23,7 @@ import click
 from .github import GitHub
 
 
+click.disable_unicode_literals_warning = True
 pass_github = click.make_pass_decorator(GitHub)
 
 
