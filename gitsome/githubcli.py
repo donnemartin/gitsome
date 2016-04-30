@@ -324,6 +324,9 @@ class GitHubCli(object):
     def issue(github, user_repo_number):
         """Output detailed information about the given issue.
 
+        Usage:
+            gh issue [user_repo_number]
+
         Example(s):
             gh issue donnemartin/saws/1
 
