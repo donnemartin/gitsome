@@ -33,7 +33,7 @@ class GitHubCli(object):
     @click.group()
     @click.pass_context
     def cli(ctx):
-        """Main entry point for HackerNewsCli.
+        """Main entry point for GitHubCli.
 
         :type ctx: :class:`click.core.Context`
         :param ctx: An instance of click.core.Context that stores an instance
