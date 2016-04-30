@@ -151,7 +151,7 @@ class GitHubCli(object):
     def emails(github):
         """List all the user's registered emails.
 
-        Example(s):
+        Usage/Example(s):
             gh emails
 
         :type github: :class:`github.GitHub`
