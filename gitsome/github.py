@@ -255,10 +255,10 @@ class GitHub(object):
     def feed(self, user_or_repo='', private=False, pager=False):
         """List all activity for the given user or repo.
 
-        If blank, lists the logged in user's news feed.
+        If user_or_repo blank, list the logged in user's news feed.
 
         :type user_or_repo: str
-        :param user_or_repo: The user or repo to list events for.
+        :param user_or_repo: The user or repo to list events for (optional).
             If no entry, defaults to the logged in user's feed.
 
         :type private: bool

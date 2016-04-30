@@ -188,19 +188,24 @@ class GitHubCli(object):
     def feed(github, user_or_repo, private, pager):
         """List all activity for the given user or repo.
 
-        If blank, lists the logged in user's news feed.
+        If user_or_repo is blank, list the logged in user's news feed.
+
+        Usage:
+            gh feed [user_or_repo] [-p/--private] [-p/--pager]
 
         Examples:
+            gh feed
             gh feed | grep foo
-            gh feed | less -r
-            gh feed donnemartin --private
-            gh feed donnemartin/haxor-news
+            gh feed donnemartin
+            gh feed donnemartin -pr -p
+            gh feed donnemartin --private --pager
+            gh feed donnemartin/haxor-news -p
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
 
         :type user_or_repo: str
-        :param user_or_repo: The user or repo to list events for.
+        :param user_or_repo: The user or repo to list events for (optional).
             If no entry, defaults to the logged in user's feed.
 
         :type private: bool
