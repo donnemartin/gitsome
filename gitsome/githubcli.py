@@ -280,9 +280,12 @@ class GitHubCli(object):
     def gitignore_template(github, language):
         """Output the gitignore template for the given language.
 
+        Usage:
+            gh gitignore-template [language]
+
         Example(s):
-            gh gitignore Python
-            gh gitignore Python > .gitignore
+            gh gitignore-template Python
+            gh gitignore-template Python > .gitignore
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
