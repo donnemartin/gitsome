@@ -122,11 +122,15 @@ class GitHubCli(object):
     def create_repo(github, repo_name, repo_desc, private):
         """Create a repo.
 
+        Usage:
+            gh create-repo [repo_name] [-d/--repo_desc] [-pr/--private]
+
         Example(s):
-            gh create_repo "repo name"
-            gh create_repo "repo name" --repo_desc "desc"
-            gh create_repo "repo name" -pr
-            gh create_repo "repo name" --private
+            gh create-repo repo_name
+            gh create-repo repo_name -d "desc"
+            gh create-repo repo_name --repo_desc "desc"
+            gh create-repo repo_name -pr
+            gh create-repo repo_name --repo_desc "desc" --private
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
