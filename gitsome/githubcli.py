@@ -225,15 +225,20 @@ class GitHubCli(object):
     def followers(github, user, pager):
         """List all followers and the total follower count.
 
+        Usage:
+            gh followers [user] [-p/--pager]
+
         Example(s):
             gh followers
-            gh followers donnemartin
+            gh followers -p
+            gh followers octocat --pager
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
 
         :type user: str
-        :param user: The user login.
+        :param user: The user login (optional).
+            If None, returns the followers of the logged in user.
 
         :type pager: bool
         :param pager: Determines whether to show the output in a pager,

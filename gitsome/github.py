@@ -300,8 +300,8 @@ class GitHub(object):
         """List all followers and the total follower count.
 
         :type user: str
-        :param user: The user login.
-            If None, returns followers of the logged in user.
+        :param user: The user login (optional).
+            If None, returns the followers of the logged in user.
 
         :type pager: bool
         :param pager: Determines whether to show the output in a pager,
