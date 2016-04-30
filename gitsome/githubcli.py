@@ -92,9 +92,13 @@ class GitHubCli(object):
     def create_issue(github, user_repo, issue_title, issue_desc):
         """Create an issue.
 
+        Usage:
+            gh create-issue [user_repo] [-t/--issue_title] [-d/--issue_desc]
+
         Example(s):
-            gh donnemartin gitsome -t "issue title"
-            gh donnemartin gitsome -t "issue title" -b "issue body"
+            gh create-issue donnemartin/gitsome -t "title"
+            gh create-issue donnemartin/gitsome -t "title" -d "desc"
+            gh create-issue donnemartin/gitsome --issue_title "title" --issue_desc "desc"  # NOQA
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
