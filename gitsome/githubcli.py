@@ -823,14 +823,15 @@ class GitHubCli(object):
     def user(github, user_id, browser, text_avatar, limit, pager):
         """List information about the given user.
 
+        Usage:
+            gh user [user_id] [-b/--browser] [-t/--text_avatar] [-l/--limit] [-p/--pager]  # NOQA
+
         Example(s):
             gh me
-            gh me 20
             gh me -b
             gh me --browser
-            gh me -a
-            gh me --text_avatar
-            gh me --limit 20
+            gh me -t -l 10 -p
+            gh me --text_avatar --limit 10 --pager
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
@@ -841,11 +842,11 @@ class GitHubCli(object):
 
         :type browser: bool
         :param browser: Determines whether to view the profile
-                in a browser, or in the terminal.
+            in a browser, or in the terminal.
 
         :type text_avatar: bool
         :param text_avatar: Determines whether to view the profile
-                avatar in plain text.
+            avatar in plain text instead of ansi (default).
 
         :type limit: int
         :param limit: The number of items to display.

@@ -766,11 +766,11 @@ class GitHub(object):
 
         :type browser: bool
         :param browser: Determines whether to view the profile
-                in a browser, or in the terminal.
+            in a browser, or in the terminal.
 
         :type text_avatar: bool
         :param text_avatar: Determines whether to view the profile
-                avatar in plain text.
+            avatar in plain text instead of ansi (default).
 
         :type limit: int
         :param limit: The number of items to display.
