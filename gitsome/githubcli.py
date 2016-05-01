@@ -525,9 +525,13 @@ class GitHubCli(object):
     def pull_requests(github, limit, pager):
         """List all pull requests.
 
+        Usage:
+            gh pull-requests [-l/--limit] [-p/--pager]
+
         Example(s):
-            gh prs
-            gh prs --limit 20
+            gh pull-requests
+            gh pull-requests -l 20 -p
+            gh pull-requests --limit 20 --pager
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
