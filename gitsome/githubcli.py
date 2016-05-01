@@ -774,9 +774,14 @@ class GitHubCli(object):
     def trending(github, language, weekly, monthly, devs, browser, pager):
         """List trending repos for the given language.
 
+        Usage:
+            gh trending [language] [-w/--weekly] [-m/--monthly] [-D/--devs] [-b/--browser] [-p/--pager]  # NOQA
+
         Example(s):
             gh trending
-            gh trending Python -w
+            gh trending Python -w -p
+            gh trending Python --monthly --devs --pager
+            gh trending --browser
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
