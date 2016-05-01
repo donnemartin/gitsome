@@ -601,6 +601,9 @@ class GitHubCli(object):
     def repository(github, user_repo):
         """Output detailed information about the given repo.
 
+        Usage:
+            gh repo [user_repo]
+
         Example(s):
             gh repo donnemartin/gitsome
 
