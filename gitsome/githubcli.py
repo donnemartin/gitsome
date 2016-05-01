@@ -504,6 +504,9 @@ class GitHubCli(object):
     def pull_request(github, user_repo_number):
         """Output detailed information about the given pull request.
 
+        Usage:
+            gh pull-request [user_repo_number]
+
         Example(s):
             gh pr donnemartin/awesome-aws/2
 
