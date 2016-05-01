@@ -233,7 +233,7 @@ class Config(object):
                     auth = authorize(
                         self.user_login,
                         self.user_pass,
-                        scopes=['user', 'repo', 'gist'],
+                        scopes=['user', 'repo'],
                         note='gitsome',
                         note_url='https://github.com/donnemartin/github-cli'
                     )
