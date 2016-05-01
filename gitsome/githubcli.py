@@ -569,9 +569,14 @@ class GitHubCli(object):
     def repositories(github, repo_filter, limit, pager):
         """List all repos matching the given filter.
 
+        Usage:
+            gh repos [repo_filter] [-l/--limit] [-p/--pager]
+
         Example(s):
-            gh repos --limit 15
+            gh repos
             gh repos "data-science"
+            gh repos "data-science" -l 20 -p
+            gh repos "data-science" --limit 20 --pager
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
@@ -579,7 +584,7 @@ class GitHubCli(object):
         :type repo_filter: str
         :param repo_filter:  The filter for repo names.
             Only repos matching the filter will be returned.
-            If None, outputs all repos retrieved by the GitHub API.
+            If None, outputs all the logged in user's repos.
 
         :type limit: int
         :param limit: The number of items to display.
@@ -587,10 +592,6 @@ class GitHubCli(object):
         :type pager: bool
         :param pager: Determines whether to show the output in a pager,
             if available.
-
-        :rtype: str
-        :return: The output if print_output is True
-            else, returns None.
         """
         github.repositories_setup(repo_filter, limit, pager)
 

@@ -556,7 +556,7 @@ class GitHub(object):
         :type repo_filter: str
         :param repo_filter:  The filter for repo names.
             Only repos matching the filter will be returned.
-            If None, outputs all repos retrieved by the GitHub API.
+            If None, outputs all repos.
 
         :type print_output: bool
         :param print_output: Determines whether to print the output
