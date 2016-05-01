@@ -482,9 +482,12 @@ class GitHubCli(object):
     def octocat(github, say):
         """Output an Easter egg or the given message from Octocat.
 
+        Usage:
+            gh octo [say]
+
         Example(s):
-            gh octocat
-            gh octocat "foo bar"
+            gh octo
+            gh octo "foo bar"
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
