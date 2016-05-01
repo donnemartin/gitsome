@@ -623,36 +623,39 @@ class GitHubCli(object):
     def search_issues(github, query, limit, pager):
         """Search for all issues matching the given query.
 
+        Usage:
+            gh search-issues [query] [-l/--limit] [-p/--pager]
+
+        Example(s):
+            gh search-issues "foo type:pr author:donnemartin" -l 20 -p
+            gh search-issues "foobarbaz in:title created:>=2015-01-01" --limit 20 --pager  # NOQA
+
         The query can contain any combination of the following supported
         qualifers:
 
-        - ``type`` With this qualifier you can restrict the search to issues
+        - `type` With this qualifier you can restrict the search to issues
           or pull request only.
-        - ``in`` Qualifies which fields are searched. With this qualifier you
+        - `in` Qualifies which fields are searched. With this qualifier you
           can restrict the search to just the title, body, comments, or any
           combination of these.
-        - ``author`` Finds issues created by a certain user.
-        - ``assignee`` Finds issues that are assigned to a certain user.
-        - ``mentions`` Finds issues that mention a certain user.
-        - ``commenter`` Finds issues that a certain user commented on.
-        - ``involves`` Finds issues that were either created by a certain user,
+        - `author` Finds issues created by a certain user.
+        - `assignee` Finds issues that are assigned to a certain user.
+        - `mentions` Finds issues that mention a certain user.
+        - `commenter` Finds issues that a certain user commented on.
+        - `involves` Finds issues that were either created by a certain user,
           assigned to that user, mention that user, or were commented on by
           that user.
-        - ``state`` Filter issues based on whether they’re open or closed.
-        - ``labels`` Filters issues based on their labels.
-        - ``language`` Searches for issues within repositories that match a
+        - `state` Filter issues based on whether they’re open or closed.
+        - `labels` Filters issues based on their labels.
+        - `language` Searches for issues within repositories that match a
           certain language.
-        - ``created`` or ``updated`` Filters issues based on times of creation,
+        - `created` or `updated` Filters issues based on times of creation,
           or when they were last updated.
-        - ``comments`` Filters issues based on the quantity of comments.
-        - ``user`` or ``repo`` Limits searches to a specific user or
+        - `comments` Filters issues based on the quantity of comments.
+        - `user` or `repo` Limits searches to a specific user or
           repository.
 
         For more information about these qualifiers, see: http://git.io/d1oELA
-
-        Example(s):
-            gh search_issues "foo type:pr author:donnemartin" --limit 20
-            gh search_issues "foobarbaz in:title created:>=2015-01-01" | less -r
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
