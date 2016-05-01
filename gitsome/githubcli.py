@@ -738,9 +738,13 @@ class GitHubCli(object):
     def starred(github, repo_filter, limit, pager):
         """Output starred repos.
 
+        Usage:
+            gh starred [repo_filter] [-l/--limit] [-p/--pager]
+
         Example(s):
-            gh starred foo
-            gh starred foo --limit 20
+            gh starred
+            gh starred foo -l 20 -p
+            gh starred foo --limit 20 --pager
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
@@ -748,7 +752,7 @@ class GitHubCli(object):
         :type repo_filter: str
         :param repo_filter:  The filter for repo names.
             Only repos matching the filter will be returned.
-            If None, outputs all repos retrieved by the GitHub API.
+            If None, outputs all starred repos.
 
         :type limit: int
         :param limit: The number of items to display.
