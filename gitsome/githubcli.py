@@ -553,8 +553,8 @@ class GitHubCli(object):
         Logged in users can make 5000 requests per hour.
         See: https://developer.github.com/v3/#rate-limiting
 
-        Example(s):
-            gh rate_limit
+        Usage/Example(s):
+            gh rate-limit
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
