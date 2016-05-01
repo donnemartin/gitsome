@@ -1,22 +1,65 @@
-*.pyc
-*.out
-*.xcf
-*.egg
-.eggs/
-lexer_table.py
-parser_table.py
-parser_test_table.py
-gitsome/lexer_table.py
-gitsome/parser_table.py
-tests/lexer_table.py
-tests/parser_table.py
-tests/lexer_test_table.py
-tests/parser_test_table.py
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
 build/
+develop-eggs/
 dist/
-gitsome.egg-info/
-docs/_build/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
 .tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+#Ipython Notebook
+.ipynb_checkpoints
 
 # temporary files from vim and emacs
 *~
@@ -37,22 +80,27 @@ include/
 scratch/
 *.egg-info/
 
-docs/
-scripts/
+*.pyc
+*.out
+*.xcf
+
 recipe/
-travis.yml
-.appveyor.yml
-appveyor.yml
 .binstar.yml
 binstar.yml
 .landscape.yaml
-CONTRIBUTING
-LICENSE.txt
-license
-setup.py
-setup_gitsome.py
-README.md
-README.rst
-__pycache__/
 .cache/
-.coverage
+build/
+dist/
+gitsome.egg-info/
+docs/_build/
+.tox/
+
+lexer_table.py
+parser_table.py
+parser_test_table.py
+gitsome/lexer_table.py
+gitsome/parser_table.py
+tests/lexer_table.py
+tests/parser_table.py
+tests/lexer_test_table.py
+tests/parser_test_table.py
