@@ -862,10 +862,10 @@ class GitHubCli(object):
     @click.option('-b', '--browser', is_flag=True)
     @pass_github
     def view(github, index, browser):
-        """View the given repo or issue index in the terminal or a browser.
+        """View the given notification/repo/issue/pull_request/user index.
 
         This method is meant to be called after one of the following commands
-        which outputs a table of repos or issues:
+        which outputs a table of notifications/repos/issues/pull_requests/users:
 
             gh repos
             gh search_repos
@@ -875,13 +875,22 @@ class GitHubCli(object):
             gh pull_requests
             gh search_issues
 
-        Example(s):
-            gh view repos
-            gh view 0
+            gh notifications
+            gh trending
 
-            gh view starred
-            gh view 0 -b
-            gh view 0 --browser
+            gh user
+            gh me
+
+        Usage:
+            gh view [index] [-b/--browser]
+
+        Example(s):
+            gh repos
+            gh view 1
+
+            gh starred
+            gh view 1 -b
+            gh view 1 --browser
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
