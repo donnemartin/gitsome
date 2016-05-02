@@ -390,7 +390,7 @@ class GitHub(object):
         self.web_viewer.view_url(url)
 
     @authenticate
-    def issues(self, issues_list, limit=1000, pager=False):
+    def issues(self, issues_list, limit=1000, pager=False, sort=True):
         """List all issues.
 
         :type issues_list: list
@@ -402,6 +402,10 @@ class GitHub(object):
         :type pager: bool
         :param pager: Determines whether to show the output in a pager,
             if available.
+
+        :type sort: bool
+        :param sort: Determines whether to sort the issues by:
+            state, repo, created_at.
         """
         view_entries = []
         for current_issue in issues_list:
@@ -413,7 +417,8 @@ class GitHub(object):
                     sort_key_primary=current_issue.state,
                     sort_key_secondary=current_issue.repository,
                     sort_key_tertiary=current_issue.created_at))
-        view_entries = sorted(view_entries, reverse=False)
+        if sort:
+            view_entries = sorted(view_entries, reverse=False)
         self.table.build_table(view_entries,
                                limit,
                                pager,
@@ -642,7 +647,7 @@ class GitHub(object):
         issues_list = []
         for result in results:
             issues_list.append(result.issue)
-        self.issues(issues_list, limit, pager)
+        self.issues(issues_list, limit, pager, sort=False)
 
     @authenticate
     def search_repositories(self, query, sort, limit=1000, pager=False):
