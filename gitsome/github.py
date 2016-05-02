@@ -545,7 +545,7 @@ class GitHub(object):
 
     @authenticate
     def repositories(self, repos, limit=1000, pager=False,
-                     repo_filter='', print_output=True):
+                     repo_filter='', print_output=True, sort=True):
         """List all repos matching the given filter.
 
         :type repos: list
@@ -567,6 +567,10 @@ class GitHub(object):
         :param print_output: Determines whether to print the output
                 (True) or return the output as a string (False).
 
+        :type sort: bool
+        :param sort: Determines whether to sort the issues by:
+            state, repo, created_at.
+
         :rtype: str
         :return: The output if print_output is True
             else, returns None.
@@ -582,7 +586,8 @@ class GitHub(object):
                     ViewEntry(repo,
                               url=url,
                               sort_key_primary=repo.stargazers_count))
-        view_entries = sorted(view_entries, reverse=True)
+        if sort:
+            view_entries = sorted(view_entries, reverse=True)
         return self.table.build_table(view_entries,
                                       limit,
                                       pager,
@@ -675,7 +680,7 @@ class GitHub(object):
         repos = []
         for result in results:
             repos.append(result.repository)
-        self.repositories(repos, limit, pager)
+        self.repositories(repos, limit, pager, sort=False)
 
     @authenticate
     def starred(self, repo_filter, limit=1000, pager=False):
