@@ -848,11 +848,11 @@ class GitHubCli(object):
             gh user [user_id] [-b/--browser] [-t/--text_avatar] [-l/--limit] [-p/--pager]  # NOQA
 
         Example(s):
-            gh me
-            gh me -b
-            gh me --browser
-            gh me -t -l 10 -p
-            gh me --text_avatar --limit 10 --pager
+            gh user octocat
+            gh user octocat -b
+            gh user octocat --browser
+            gh user octocat -t -l 10 -p
+            gh user octocat --text_avatar --limit 10 --pager
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
@@ -868,6 +868,8 @@ class GitHubCli(object):
         :type text_avatar: bool
         :param text_avatar: Determines whether to view the profile
             avatar in plain text instead of ansi (default).
+            On Windows this value is always set to True due to lack of
+            support of `img2txt` on Windows.
 
         :type limit: int
         :param limit: The number of items to display.
