@@ -18,6 +18,8 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
+import platform
+import re
 import sys
 
 import click
@@ -86,6 +88,10 @@ class Table(object):
             output += click.style('')
         if print_output:
             if pager:
+                if platform.system() == 'Windows':
+                    # Strip out Unicode, which seems to have issues on
+                    # Windows with click.echo_via_pager.
+                    output = re.sub(r'[^\x00-\x7F]+', '', output)
                 click.echo_via_pager(output)
             else:
                 click.secho(output)
