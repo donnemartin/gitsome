@@ -224,7 +224,7 @@ class Table(object):
         :rtype: str
         :return: The formatted tip.
         """
-        tip = click.style('  View the repo or issue for ',
+        tip = click.style('  View the page for ',
                           fg=self.config.clr_message)
         tip += click.style('1 through ', fg=self.config.clr_view_index)
         tip += click.style(str(max_index), fg=self.config.clr_view_index)
