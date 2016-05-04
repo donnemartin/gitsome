@@ -121,6 +121,9 @@ class WebViewer(object):
             contents += 'Try running gh view # with the --browser/-b flag\n'
             return contents
         contents = self.html_to_text.handle(raw_response.text)
+        # Strip out Unicode, which seems to have issues when html2txt is
+        # coupled with click.echo_via_pager.
+        contents = re.sub(r'[^\x00-\x7F]+', '', contents)
         contents = self.format_markdown(contents)
         return contents
 
