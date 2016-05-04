@@ -153,7 +153,7 @@ class GitHub(object):
         self.config.authenticate(overwrite=True)
         self.config.prompt_news_feed()
         self.config.show_bash_completions_info()
-        self.save_config()
+        self.config.save_config()
 
     @authenticate
     def create_comment(self, user_repo_number, text):
