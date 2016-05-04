@@ -118,7 +118,7 @@ class WebViewer(object):
         except (requests.exceptions.SSLError,
                 requests.exceptions.ConnectionError) as e:
             contents = 'Error: ' + str(e) + '\n'
-            contents += 'Try running hn view # with the --browser/-b flag\n'
+            contents += 'Try running gh view # with the --browser/-b flag\n'
             return contents
         contents = self.html_to_text.handle(raw_response.text)
         contents = self.format_markdown(contents)
