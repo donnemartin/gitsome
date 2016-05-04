@@ -188,7 +188,10 @@ class GitHubCli(object):
     def feed(github, user_or_repo, private, pager):
         """List all activity for the given user or repo.
 
-        If user_or_repo is blank, list the logged in user's news feed.
+        If `user_or_repo` is not provided, uses the logged in user's news feed
+        seen while visiting https://github.com.  If `user_or_repo` is provided,
+        shows either the public or `[-p/--private]` feed activity of the user
+        or repo.
 
         Usage:
             gh feed [user_or_repo] [-p/--private] [-p/--pager]
