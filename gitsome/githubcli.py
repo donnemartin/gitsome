@@ -801,7 +801,7 @@ class GitHubCli(object):
         Example(s):
             gh trending
             gh trending Python -w -p
-            gh trending Python --monthly --devs --pager
+            gh trending Python --weekly --devs --browser
             gh trending --browser
 
         :type github: :class:`github.GitHub`
