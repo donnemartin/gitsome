@@ -513,7 +513,7 @@ class GitHubCli(object):
             gh pull-request [user_repo_number]
 
         Example(s):
-            gh pull-request donnemartin/awesome-aws/2
+            gh pull-request donnemartin/saws/80
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
