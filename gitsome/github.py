@@ -19,6 +19,7 @@ from __future__ import unicode_literals
 from __future__ import print_function
 
 import os
+import platform
 import sys
 import urllib
 import webbrowser
@@ -94,10 +95,14 @@ class GitHub(object):
         :type text_avatar: bool
         :param text_avatar: Determines whether to view the profile avatar
             in plain text (True) or in ansi (False).
+            On Windows this value is always set to True due to lack of
+            support of `img2txt` on Windows.
 
         :rtype: str
         :return: The avatar.
         """
+        if platform.system() == 'Windows':
+            text_avatar = True
         avatar = self.config.get_github_config_path(
             self.config.CONFIG_AVATAR)
         try:
@@ -121,6 +126,8 @@ class GitHub(object):
         :type text_avatar: bool
         :param text_avatar: Determines whether to view the profile avatar
             in plain text (True) or in ansi (False).
+            On Windows this value is always set to True due to lack of
+            support of `img2txt` on Windows.
 
         :rtype: str
         :return: The avatar.
@@ -781,6 +788,8 @@ class GitHub(object):
         :type text_avatar: bool
         :param text_avatar: Determines whether to view the profile
             avatar in plain text instead of ansi (default).
+            On Windows this value is always set to True due to lack of
+            support of `img2txt` on Windows.
 
         :type limit: int
         :param limit: The number of items to display.
@@ -838,7 +847,9 @@ class GitHub(object):
 
         :type text_avatar: bool
         :param text_avatar: Determines whether to view the profile
-                avatar in plain text.
+            avatar in plain text.
+            On Windows this value is always set to True due to lack of
+            support of `img2txt` on Windows.
 
         :type limit: int
         :param limit: The number of items to display.
