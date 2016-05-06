@@ -77,3 +77,10 @@ class ConfigTest(unittest.TestCase):
     def test_request_two_factor_code(self):
         with mock.patch('builtins.input', return_value='code'):
             assert self.github.config.request_two_factor_code() == 'code'
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_prompt_news_feed(self, mock_click_secho):
+        with mock.patch('click.confirm', return_value='y'):
+            with mock.patch('builtins.input', return_value='feed'):
+                self.github.config.prompt_news_feed()
+                assert self.github.config.user_feed == 'feed'
