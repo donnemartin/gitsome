@@ -234,3 +234,33 @@ Example(s):
     $ gh following octocat --pager
 
 Also check out the [`gh user`](#gh-user) command.
+
+### gh followers
+
+List all followers and the total follower count.
+
+Usage:
+
+    $ gh followers [user] [-p/--pager]
+
+Param(s):
+
+```
+:type user: str
+:param user: The user login (optional).
+    If None, returns the followers of the logged in user.
+```
+
+Option(s):
+
+```
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh followers
+    $ gh followers -p
+    $ gh followers octocat --pager
