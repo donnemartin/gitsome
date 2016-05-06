@@ -379,3 +379,11 @@ Example(s):
 
     $ gh license apache-2.0
     $ gh license mit > LICENSE
+
+### gh licenses
+
+Output all supported license templates.
+
+Usage/Licenses:
+
+    $ gh licenses
