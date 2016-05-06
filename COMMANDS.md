@@ -202,3 +202,35 @@ Example(s):
     $ gh feed donnemartin -pr -p
     $ gh feed donnemartin --private --pager
     $ gh feed donnemartin/haxor-news -p
+
+### gh following
+
+List all followed users and the total followed count.
+
+Usage:
+
+    $ gh following [user] [-p/--pager]
+
+Param(s):
+
+```
+:type user: str
+:param user: The user login.
+    If None, returns the followed users of the logged in user.
+```
+
+Option(s):
+
+```
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh following
+    $ gh following -p
+    $ gh following octocat --pager
+
+Also check out the [`gh user`](#gh-user) command.
