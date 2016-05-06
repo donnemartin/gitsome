@@ -451,3 +451,24 @@ Example(s):
     $ gh notifications
     $ gh notifications -l 20 -p
     $ gh notifications --limit 20 --pager
+
+### gh octo
+
+Output an Easter egg or the given message from Octocat.
+
+Usage:
+
+    $ gh octo [say]
+
+Param(s):
+
+```
+:type say: str
+:param say: What Octocat should say.
+        If say is None, octocat speaks an Easter egg.
+```
+
+Example(s):
+
+    $ gh octo
+    $ gh octo "foo bar"
