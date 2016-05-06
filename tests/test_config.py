@@ -62,3 +62,10 @@ class ConfigTest(unittest.TestCase):
             with mock.patch('builtins.input', return_value='foo'):
                 self.github.config.authenticate(overwrite=True)
         mock_click_secho.assert_called_with('Log in successful.')
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_check_auth_error(self, mock_click_secho):
+        self.github.config.api = None
+        self.github.config.check_auth()
+        mock_click_secho.assert_any_call('Authentication error.', fg='red')
+        mock_click_secho.assert_any_call('Update your credentials in ~/.gitsomeconfig or run:\n  gh configure', fg=None)  # NOQA
