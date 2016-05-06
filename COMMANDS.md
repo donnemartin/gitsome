@@ -41,3 +41,30 @@ To integrate `gitsome` with your news feed, visit the following url while logged
 You will be asked to enter the url found when clicking 'Subscribe to your news feed', which will look something like this:
 
     https://github.com/donnemartin.private.atom?token=TOKEN
+
+### gh create-comment
+
+Create a comment on the given issue.
+
+Usage:
+
+    $ gh create-comment [user_repo_number] [-t/--text]
+
+Param(s):
+
+```
+:type user_repo_number: str
+:param user_repo_number: The user/repo/issue_number.
+```
+
+Option(s):
+
+```
+:type text: str
+:param text: The comment text.
+```
+
+Example(s):
+
+    $ gh create-comment donnemartin/saws/1 -t "hello world"
+    $ gh create-comment donnemartin/saws/1 --text "hello world"
