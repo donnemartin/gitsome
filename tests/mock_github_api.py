@@ -16,7 +16,9 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
+from datetime import datetime
 import mock
+import pytz
 
 from gitsome.lib.github3 import null
 from gitsome.lib.github3.exceptions import UnprocessableEntity
@@ -136,6 +138,19 @@ class MockThread(object):
         }
         self.unread = unread
         self.updated_at = ''
+
+
+class MockEvent(object):
+
+    def __init__(self, event_type, payload=''):
+        self.id = 1
+        self.created_at = datetime.now(pytz.utc)
+        self.actor = 'donnemartin'
+        self.org = 'org'
+        self.type = event_type
+        self.payload = payload
+        self.repo = ('user1', 'repo1')
+        self.public = True
 
 
 class MockGitHubApi(object):
