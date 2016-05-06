@@ -472,3 +472,22 @@ Example(s):
 
     $ gh octo
     $ gh octo "foo bar"
+
+### gh pull-request
+
+Output detailed information about the given pull request.
+
+Usage:
+
+    $ gh pull-request [user_repo_number]
+
+Param(s):
+
+```
+:type user_repo_number: str
+:param user_repo_number: The user/repo/pull_number.
+```
+
+Example(s):
+
+    $ gh pull-request donnemartin/saws/80
