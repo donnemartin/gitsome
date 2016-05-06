@@ -69,3 +69,7 @@ class ConfigTest(unittest.TestCase):
         self.github.config.check_auth()
         mock_click_secho.assert_any_call('Authentication error.', fg='red')
         mock_click_secho.assert_any_call('Update your credentials in ~/.gitsomeconfig or run:\n  gh configure', fg=None)  # NOQA
+
+    def test_load_urls(self):
+        urls = self.github.config.load_urls(view_in_browser=False)
+        assert urls == ['octocat/spoon-knife']
