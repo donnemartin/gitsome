@@ -73,3 +73,7 @@ class ConfigTest(unittest.TestCase):
     def test_load_urls(self):
         urls = self.github.config.load_urls(view_in_browser=False)
         assert urls == ['octocat/spoon-knife']
+
+    def test_request_two_factor_code(self):
+        with mock.patch('builtins.input', return_value='code'):
+            assert self.github.config.request_two_factor_code() == 'code'
