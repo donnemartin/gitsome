@@ -121,6 +121,13 @@ class MockIssueComment(object):
         self.body = body
 
 
+class MockRepoComment(object):
+
+    def __init__(self):
+        self.commit_id = 'AAA23e2c6cb6997d25cfe61673aea6d701e9bZZZ'
+        self.body = 'foo'
+
+
 class MockLicense(object):
 
     def __init__(self, key, name):
