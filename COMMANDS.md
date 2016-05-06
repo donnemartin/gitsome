@@ -68,3 +68,34 @@ Example(s):
 
     $ gh create-comment donnemartin/saws/1 -t "hello world"
     $ gh create-comment donnemartin/saws/1 --text "hello world"
+
+### gh create-issue
+
+Create an issue.
+
+Usage:
+
+    $ gh create-issue [user_repo] [-t/--issue_title] [-d/--issue_desc]
+
+Param(s):
+
+```
+:type user_repo: str
+:param user_repo: The user/repo.
+```
+
+Option(s):
+
+```
+:type issue_title: str
+:param issue_title: The issue title.
+
+:type issue_desc: str
+:param issue_desc: The issue body (optional).
+```
+
+Example(s):
+
+    $ gh create-issue donnemartin/gitsome -t "title"
+    $ gh create-issue donnemartin/gitsome -t "title" -d "desc"
+    $ gh create-issue donnemartin/gitsome --issue_title "title" --issue_desc "desc"
