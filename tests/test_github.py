@@ -250,7 +250,7 @@ class GitHubTest(unittest.TestCase):
     def test_search_repos(self, mock_github_repositories, mock_click_secho):
         self.github.search_repositories('foo', 'stars')
         mock_github_repositories.assert_called_with(
-            ['foobar'], 1000, False)
+            ['foobar'], 1000, False, sort=False)
 
     @mock.patch('gitsome.github.click.secho')
     def test_trending(self, mock_click_secho):
