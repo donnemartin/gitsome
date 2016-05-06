@@ -306,3 +306,22 @@ Example(s):
     $ gh gitignore-templates
     $ gh gitignore-templates -p
     $ gh gitignore-templates --pager
+
+### gh issue
+
+Output detailed information about the given issue.
+
+Usage:
+
+    $ gh issue [user_repo_number]
+
+Param(s):
+
+```
+:type user_repo_number: str
+:param user_repo_number: The user/repo/issue_number.
+```
+
+Example(s):
+
+    $ gh issue donnemartin/saws/1
