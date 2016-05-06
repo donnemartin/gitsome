@@ -284,3 +284,25 @@ Example(s):
 
     $ gh gitignore-template Python
     $ gh gitignore-template Python > .gitignore
+
+### gh gitignore-templates
+
+Output all supported gitignore templates.
+
+Usage:
+
+    $ gh gitignore-templates [-p/--pager]
+
+Option(s):
+
+```
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh gitignore-templates
+    $ gh gitignore-templates -p
+    $ gh gitignore-templates --pager
