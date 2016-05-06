@@ -141,3 +141,25 @@ List all the user's registered emails.
 Usage/Example(s):
 
     $ gh emails
+
+### gh emojis
+
+List all GitHub supported emojis.
+
+Usage:
+
+    $ gh emojis [-p/--pager]
+
+Option(s):
+
+```
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh emojis
+    $ gh emojis -p
+    $ gh emojis --pager
