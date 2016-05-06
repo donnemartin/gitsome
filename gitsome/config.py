@@ -171,10 +171,7 @@ class Config(object):
             try:
                 parser.read_file(config_file)
             except AttributeError:
-                try:
-                    parser.read_file(config_file)
-                except AttributeError:
-                    parser.readfp(config_file)
+                parser.readfp(config_file)
             self.user_login = parser.get(self.CONFIG_SECTION,
                                          self.CONFIG_USER_LOGIN)
             try:
