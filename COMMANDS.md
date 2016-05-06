@@ -133,3 +133,11 @@ Example(s):
     $ gh create-repo repo_name --repo_desc "desc"
     $ gh create-repo repo_name -pr
     $ gh create-repo repo_name --repo_desc "desc" --private
+
+### gh emails
+
+List all the user's registered emails.
+
+Usage/Example(s):
+
+    $ gh emails
