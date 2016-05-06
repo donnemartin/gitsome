@@ -54,3 +54,11 @@ class ConfigTest(unittest.TestCase):
         assert self.github.config.user_login == 'foo'
         assert self.github.config.user_token == 'bar'
         assert self.github.config.api
+
+    @mock.patch('gitsome.github.click.secho')
+    @mock.patch('gitsome.config.Config.authenticate_cached_credentials')
+    def test_authenticate(self, mock_auth, mock_click_secho):
+        with mock.patch('click.confirm', return_value='y'):
+            with mock.patch('builtins.input', return_value='foo'):
+                self.github.config.authenticate(overwrite=True)
+        mock_click_secho.assert_called_with('Log in successful.')
