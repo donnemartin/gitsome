@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # Copyright 2015 Donne Martin. All Rights Reserved.
@@ -17,14 +16,14 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
-from compat import unittest
+import mock
+from tests.compat import unittest
 
-from test_completer import CompleterTest  # NOQA
-from test_config import ConfigTest  # NOQA
-from test_github import GitHubTest  # NOQA
-from test_github_cli import GitHubCliTest  # NOQA
-from test_web_viewer import WebViewerTest  # NOQA
+from gitsome.github import GitHub
+from tests.data.markdown import formatted_markdown, raw_markdown, ssl_error
 
 
-if __name__ == '__main__':
-    unittest.main()
+class WebViewerTest(unittest.TestCase):
+
+    def setUp(self):
+        self.github = GitHub()
