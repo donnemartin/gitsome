@@ -163,3 +163,42 @@ Example(s):
     $ gh emojis
     $ gh emojis -p
     $ gh emojis --pager
+
+### gh feed
+
+List all activity for the given user or repo.
+
+If `user_or_repo` is not provided, uses the logged in user's news feed seen while visiting https://github.com.  If `user_or_repo` is provided, shows either the public or `[-p/--private]` feed activity of the user or repo.
+
+Usage:
+
+    $ gh feed [user_or_repo] [-p/--private] [-p/--pager]
+
+Param(s):
+
+```
+:type user_or_repo: str
+:param user_or_repo: The user or repo to list events for (optional).
+    If no entry, defaults to the logged in user's feed.
+```
+
+Option(s):
+
+```
+:type private: bool
+:param private: Determines whether to show the private events (True)
+    or public events (False).
+
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh feed
+    $ gh feed | grep foo
+    $ gh feed donnemartin
+    $ gh feed donnemartin -pr -p
+    $ gh feed donnemartin --private --pager
+    $ gh feed donnemartin/haxor-news -p
