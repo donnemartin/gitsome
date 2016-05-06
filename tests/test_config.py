@@ -33,3 +33,9 @@ class ConfigTest(unittest.TestCase):
         self.github.config.login = mock.Mock()
         self.github.config.authorize = mock.Mock()
         self.github.config.getpass = mock.Mock()
+
+    def test_config(self):
+        expected = os.path.join(os.path.abspath(os.environ.get('HOME', '')),
+                                self.github.config.CONFIG)
+        assert self.github.config \
+            .get_github_config_path(self.github.config.CONFIG) == expected
