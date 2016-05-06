@@ -39,3 +39,18 @@ class ConfigTest(unittest.TestCase):
                                 self.github.config.CONFIG)
         assert self.github.config \
             .get_github_config_path(self.github.config.CONFIG) == expected
+
+    def test_authenticate_cached_credentials(self):
+        self.github.config.user_login = 'foo'
+        self.github.config.user_token = 'bar'
+        self.github.config.save_config()
+        self.github.config.user_login = ''
+        self.github.config.user_token = ''
+        self.github.config.api = None
+        config = self.github.config.get_github_config_path(
+            self.github.config.CONFIG)
+        parser = configparser.RawConfigParser()
+        self.github.config.authenticate_cached_credentials(config, parser)
+        assert self.github.config.user_login == 'foo'
+        assert self.github.config.user_token == 'bar'
+        assert self.github.config.api
