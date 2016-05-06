@@ -426,3 +426,28 @@ Example(s):
     $ gh me --browser
     $ gh me -t -l 20 -p
     $ gh me --text_avatar --limit 20 --pager
+
+### gh notifications
+
+List all notifications.
+
+Usage:
+
+    $ gh notifications [-l/--limit] [-p/--pager]
+
+Option(s):
+
+```
+:type limit: int
+:param limit: The number of items to display.
+
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh notifications
+    $ gh notifications -l 20 -p
+    $ gh notifications --limit 20 --pager
