@@ -27,3 +27,7 @@ class WebViewerTest(unittest.TestCase):
 
     def setUp(self):
         self.github = GitHub()
+
+    def test_format_markdown(self):
+        result = self.github.web_viewer.format_markdown(raw_markdown)
+        assert result == formatted_markdown
