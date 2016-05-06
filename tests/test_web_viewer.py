@@ -31,3 +31,9 @@ class WebViewerTest(unittest.TestCase):
     def test_format_markdown(self):
         result = self.github.web_viewer.format_markdown(raw_markdown)
         assert result == formatted_markdown
+
+    @mock.patch('gitsome.github.click.echo_via_pager')
+    def test_view_url(self, mock_click_echo_via_pager):
+        url = 'https://www.github.com/donnemartin/gitsome'
+        self.github.web_viewer.view_url(url)
+        assert mock_click_echo_via_pager.mock_calls
