@@ -359,3 +359,23 @@ Example(s):
     $ gh issues -s all -l 20 -p
     $ gh issues --issue_state closed --limit 20 --pager
     $ gh issues -f created -s all -p
+
+### gh license
+
+Output the license template for the given license.
+
+Usage:
+
+    $ gh license [license_name]
+
+Param(s):
+
+```
+:type license_name: str
+:param license_name: The license name.
+```
+
+Example(s):
+
+    $ gh license apache-2.0
+    $ gh license mit > LICENSE
