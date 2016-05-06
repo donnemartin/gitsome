@@ -264,3 +264,23 @@ Example(s):
     $ gh followers
     $ gh followers -p
     $ gh followers octocat --pager
+
+### gh gitignore-template
+
+Output the gitignore template for the given language.
+
+Usage:
+
+    $ gh gitignore-template [language]
+
+Param(s):
+
+```
+:type language: str
+:param language: The language.
+```
+
+Example(s):
+
+    $ gh gitignore-template Python
+    $ gh gitignore-template Python > .gitignore
