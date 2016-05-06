@@ -26,6 +26,7 @@ from tests.mock_github_api import MockGitHubApi
 from tests.mock_pretty_date_time import pretty_date_time
 from tests.data.email import formatted_emails
 from tests.data.emoji import formatted_emojis
+from tests.data.events import formatted_events
 from tests.data.user import formatted_org, formatted_user, formatted_users
 from tests.data.gitignores import formatted_gitignores, formatted_gitignores_tip
 from tests.data.issue import formatted_issues, formatted_pull_requests
@@ -115,13 +116,11 @@ class GitHubTest(unittest.TestCase):
         self.github.feed()
         mock_click_secho.assert_called_with(formatted_user_feed)
 
-    # @mock.patch('gitsome.github.click.secho')
-    # @mock.patch('gitsome.config.Config')
-    # def test_feed_user(self, mock_config, mock_click_secho):
-    #     self.github.feed('user1')
-    #     print(mock_click_secho.mock_calls)
-    #     print(mock_config.api.mock_calls)
-    #     mock_click_secho.assert_called_with(formatted_user_feed)
+    @mock.patch('gitsome.github.click.secho')
+    @mock.patch('gitsome.config.Config')
+    def test_feed_user(self, mock_config, mock_click_secho):
+        self.github.feed('user1')
+        mock_click_secho.assert_called_with(formatted_events)
 
     @mock.patch('gitsome.github.click.secho')
     def test_emojis(self, mock_click_secho):
