@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # Copyright 2015 Donne Martin. All Rights Reserved.
@@ -17,13 +16,20 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
-from compat import unittest
+import mock
+import os
+from gitsome.compat import configparser
+from tests.compat import unittest
 
-from test_completer import CompleterTest  # NOQA
-from test_config import ConfigTest  # NOQA
-from test_github import GitHubTest  # NOQA
-from test_github_cli import GitHubCliTest  # NOQA
+from gitsome.github import GitHub
+from tests.mock_github_api import MockGitHubApi
 
 
-if __name__ == '__main__':
-    unittest.main()
+class ConfigTest(unittest.TestCase):
+
+    def setUp(self):
+        self.github = GitHub()
+        self.github.config.api = MockGitHubApi()
+        self.github.config.login = mock.Mock()
+        self.github.config.authorize = mock.Mock()
+        self.github.config.getpass = mock.Mock()
