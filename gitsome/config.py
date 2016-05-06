@@ -129,6 +129,9 @@ class Config(object):
         self.load_config([
             self.load_config_colors,
         ])
+        self.login = login
+        self.authorize = authorize
+        self.getpass = getpass
 
     def _init_colors(self):
         """Initialize colors to their defaults."""
@@ -177,14 +180,14 @@ class Config(object):
             try:
                 self.user_token = parser.get(self.CONFIG_SECTION,
                                              self.CONFIG_USER_TOKEN)
-                self.api = login(
+                self.api = self.login(
                     username=self.user_login,
                     token=self.user_token,
                     two_factor_callback=self.request_two_factor_code)
             except configparser.NoOptionError:
                 self.user_pass = parser.get(self.CONFIG_SECTION,
                                             self.CONFIG_USER_PASS)
-                self.api = login(
+                self.api = self.login(
                     username=self.user_login,
                     password=self.user_pass,
                     two_factor_callback=self.request_two_factor_code)
@@ -227,10 +230,10 @@ class Config(object):
                              default=True):
                 self.user_pass = ''
                 while not self.user_pass:
-                    self.user_pass = getpass('Password: ')
+                    self.user_pass = self.getpass('Password: ')
                 try:
                     # Get an authorization for this
-                    auth = authorize(
+                    auth = self.authorize(
                         self.user_login,
                         self.user_pass,
                         scopes=['user', 'repo'],
@@ -261,8 +264,9 @@ class Config(object):
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_USER_FEED,
                            self.user_feed)
-            self.api = login(token=self.user_token,
-                             two_factor_callback=self.request_two_factor_code)
+            self.api = self.login(
+                token=self.user_token,
+                two_factor_callback=self.request_two_factor_code)
             if self.check_auth():
                 click.secho('Log in successful.')
             else:
