@@ -37,3 +37,9 @@ class WebViewerTest(unittest.TestCase):
         url = 'https://www.github.com/donnemartin/gitsome'
         self.github.web_viewer.view_url(url)
         assert mock_click_echo_via_pager.mock_calls
+
+    @mock.patch('gitsome.github.click.echo_via_pager')
+    def test_view_url_ssl_error(self, mock_click_echo_via_pager):
+        url = 'https://requestb.in'
+        self.github.web_viewer.view_url(url)
+        mock_click_echo_via_pager.assert_called_with(ssl_error)
