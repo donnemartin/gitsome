@@ -491,3 +491,28 @@ Param(s):
 Example(s):
 
     $ gh pull-request donnemartin/saws/80
+
+### gh pull-requests
+
+List all pull requests.
+
+Usage:
+
+    $ gh pull-requests [-l/--limit] [-p/--pager]
+
+Option(s):
+
+```
+:type limit: int
+:param limit: The number of items to display.
+
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh pull-requests
+    $ gh pull-requests -l 20 -p
+    $ gh pull-requests --limit 20 --pager
