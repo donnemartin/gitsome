@@ -141,3 +141,13 @@ The commands `gh user` and `gh me` will always have the `-t/--text_avatar` flag 
 #### `cmder` and `conemu`
 
 Although you can use the standard Windows command prompt, you'll probably have a better experience with either [cmder](https://github.com/cmderdev/cmder) or [conemu](https://github.com/Maximus5/ConEmu).
+
+## Developer Installation
+
+If you're interested in contributing to `gitsome`, run the following commands:
+
+    $ git clone https://github.com/donnemartin/gitsome.git
+    $ pip install -e .
+    $ pip install -r requirements-dev.txt
+    $ gitsome
+    $ gh <command> [param] [options]
