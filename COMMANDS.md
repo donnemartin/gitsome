@@ -578,3 +578,83 @@ Example(s):
     $ gh repos "data-science"
     $ gh repos "data-science" -l 20 -p
     $ gh repos "data-science" --limit 20 --pager
+
+### gh search-issues
+
+Search for all issues matching the given query.
+
+For more information about the query qualifiers, visit the [searching issues reference](https://help.github.com/articles/searching-issues/).
+
+Usage:
+
+    $ gh search-issues [query] [-l/--limit] [-p/--pager]
+
+Param(s):
+
+```
+:type query: str
+:param query: The search query.
+
+The query can contain any combination of the following supported
+qualifers:
+
+- `type` With this qualifier you can restrict the search to issues
+  or pull request only.
+- `in` Qualifies which fields are searched. With this qualifier you
+  can restrict the search to just the title, body, comments, or any
+  combination of these.
+- `author` Finds issues created by a certain user.
+- `assignee` Finds issues that are assigned to a certain user.
+- `mentions` Finds issues that mention a certain user.
+- `commenter` Finds issues that a certain user commented on.
+- `involves` Finds issues that were either created by a certain user,
+  assigned to that user, mention that user, or were commented on by
+  that user.
+- `state` Filter issues based on whether they’re open or closed.
+- `labels` Filters issues based on their labels.
+- `language` Searches for issues within repositories that match a
+  certain language.
+- `created` or `updated` Filters issues based on times of creation,
+  or when they were last updated.
+- `comments` Filters issues based on the quantity of comments.
+- `user` or `repo` Limits searches to a specific user or
+  repository.
+
+For more information about these qualifiers, see: http://git.io/d1oELA
+```
+
+Option(s):
+
+```
+:type limit: int
+:param limit: The number of items to display.
+
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh search-issues "foo type:pr author:donnemartin" -l 20 -p
+    $ gh search-issues "foobarbaz in:title created:>=2015-01-01" --limit 20 --pager
+
+
+Additional Example(s):
+
+```
+Search issues that have your user name tagged @donnemartin:
+    gh search-issues "is:issue donnemartin is:open" -p
+
+Search issues that have the most +1s:
+    gh search-issues "is:open is:issue sort:reactions-+1-desc" -p
+
+Search issues that have the most comments:
+    gh search-issues "is:open is:issue sort:comments-desc" -p
+
+Search issues with the "help wanted" tag:
+    gh search-issues "is:open is:issue label:\"help wanted\"" -p
+
+Search all your open private issues:
+    gh search-issues "is:open is:issue is:private" -p
+```
