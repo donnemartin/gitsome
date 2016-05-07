@@ -79,3 +79,15 @@ Reload your `bashrc`:
 Tip: `.` is the short form of `source`, so you can run this instead:
 
     $ . ~/.bashrc
+
+### Optional: Installing `PIL` or `Pillow`
+
+Displaying the avatar for the `gh me` and `gh user` commands will require installing the optional `PIL` or `Pillow` dependency.
+
+Windows* and Mac:
+
+    $ pip install Pillow
+
+*See the [Windows Support](#windows-support) section for limitations on the avatar.
+
+Ubuntu users, check out these [instructions on askubuntu](http://askubuntu.com/a/272095)
