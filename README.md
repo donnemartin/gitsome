@@ -33,3 +33,11 @@ Running the `gitsome` shell will provide you with autocompletion, interactive he
 It is recommended that you install Python packages in a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) to avoid potential issues with dependencies or permissions.
 
 To view `gitsome` `virtualenv` installation instructions, click [here](https://github.com/donnemartin/gitsome/blob/master/INSTALLATION.md).
+
+### Running the `gh configure` Command
+
+To properly integrate with GitHub, `gitsome` must be properly configured:
+
+    $ gh configure
+
+View more details in the [gh configure](https://github.com/donnemartin/haxor-news/blob/master/COMMANDS.md#gh-configure) section.
