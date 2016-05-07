@@ -181,3 +181,12 @@ Source code documentation will soon be available on [Readthedocs.org](https://re
 Run the following to build the docs:
 
     $ scripts/update_docs.sh
+
+## Contributing
+
+Contributions are welcome!
+
+Review the [Contributing Guidelines](https://github.com/donnemartin/gitsome/blob/master/CONTRIBUTING.md) for details on how to:
+
+* Submit issues
+* Submit pull requests
