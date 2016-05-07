@@ -905,3 +905,12 @@ Usage:
 
     $ gh <command> [param] [options] -p
     $ gh <command> [param] [options] --pager
+
+### Option: View in a Browser
+
+Many `gh` commands support a `-b/--browser` option that displays results in your default browser instead of your terminal.
+
+Usage:
+
+    $ gh <command> [param] [options] -b
+    $ gh <command> [param] [options] --browser
