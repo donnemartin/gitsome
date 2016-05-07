@@ -157,3 +157,19 @@ If you're interested in contributing to `gitsome`, run the following commands:
 [![Build Status](https://travis-ci.org/donnemartin/gitsome.svg?branch=master)](https://travis-ci.org/donnemartin/gitsome)
 
 Continuous integration details are available on [Travis CI](https://travis-ci.org/donnemartin/gitsome).
+
+### Unit Tests and Code Coverage
+
+[![Codecov](https://img.shields.io/codecov/c/github/donnemartin/gitsome.svg)](https://codecov.io/github/donnemartin/gitsome/gitsome)
+
+![](http://codecov.io/github/donnemartin/gitsome/branch.svg?branch=master)
+
+Code coverage details are available on [Codecov](https://codecov.io/github/donnemartin/gitsome/gitsome).
+
+Run unit tests in your active Python environment:
+
+    $ python tests/run_tests.py
+
+Run unit tests with [tox](https://pypi.python.org/pypi/tox) on multiple Python environments:
+
+    $ tox
