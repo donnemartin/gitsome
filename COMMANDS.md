@@ -896,3 +896,12 @@ Example(s):
     $ gh starred
     $ gh view 1 -b
     $ gh view 1 --browser
+
+### Option: View in a Pager
+
+Many `gh` commands support a `-p/--pager` option that displays results in a pager, where available.
+
+Usage:
+
+    $ gh <command> [param] [options] -p
+    $ gh <command> [param] [options] --pager
