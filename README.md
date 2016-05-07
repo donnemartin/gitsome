@@ -91,3 +91,10 @@ Windows* and Mac:
 *See the [Windows Support](#windows-support) section for limitations on the avatar.
 
 Ubuntu users, check out these [instructions on askubuntu](http://askubuntu.com/a/272095)
+
+### Supported Python Versions
+
+* Python 3.4
+* Python 3.5
+
+`gitsome` is powered by `xonsh` which does not currently support Python 2.x, as discussed in this [ticket](https://github.com/scopatz/xonsh/issues/66).
