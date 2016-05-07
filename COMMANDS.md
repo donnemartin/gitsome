@@ -516,3 +516,11 @@ Example(s):
     $ gh pull-requests
     $ gh pull-requests -l 20 -p
     $ gh pull-requests --limit 20 --pager
+
+### gh rate-limit
+
+Output the rate limit.
+
+Usage/Example(s):
+
+    $ gh rate-limit
