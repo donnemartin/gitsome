@@ -800,3 +800,50 @@ Example(s):
     $ gh trending Python -w -p
     gh trending Python --weekly --devs --browser
     $ gh trending --browser
+
+### gh user
+
+List information about the given user.
+
+Displaying the avatar will require [installing the optional `PIL` dependency](#installing-pil).
+
+Usage:
+
+    $ gh user [user_id] [-b/--browser] [-t/--text_avatar] [-l/--limit] [-p/--pager]
+
+Param(s):
+
+```
+:type user_id: str
+:param user_id: The user id/login.
+    If None, returns followers of the logged in user.
+```
+
+Option(s):
+
+```
+:type browser: bool
+:param browser: Determines whether to view the profile
+    in a browser, or in the terminal.
+
+:type text_avatar: bool
+:param text_avatar: Determines whether to view the profile
+    avatar in plain text instead of ansi (default).
+    On Windows this value is always set to True due to lack of
+    support of `img2txt` on Windows.
+
+:type limit: int
+:param limit: The number of items to display.
+
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh user octocat
+    $ gh user octocat -b
+    $ gh user octocat --browser
+    $ gh user octocat -t -l 10 -p
+    $ gh user octocat --text_avatar --limit 10 --pager
