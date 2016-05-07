@@ -718,3 +718,37 @@ Example(s):
 
     $ gh search-repos "maps language:python" -s stars -l 20 -p
     $ gh search-repos "created:>=2015-01-01 stars:>=1000 language:python" --sort stars --limit 20 --pager
+
+### gh starred
+
+Output starred repos.
+
+Usage:
+
+    $ gh starred [repo_filter] [-l/--limit] [-p/--pager]
+
+Param(s):
+
+```
+:type repo_filter: str
+:param repo_filter:  The filter for repo names.
+    Only repos matching the filter will be returned.
+    If None, outputs all starred repos.
+```
+
+Option(s):
+
+```
+:type limit: int
+:param limit: The number of items to display.
+
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh starred
+    $ gh starred foo -l 20 -p
+    $ gh starred foo --limit 20 --pager
