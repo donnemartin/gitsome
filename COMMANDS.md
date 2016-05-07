@@ -847,3 +847,52 @@ Example(s):
     $ gh user octocat --browser
     $ gh user octocat -t -l 10 -p
     $ gh user octocat --text_avatar --limit 10 --pager
+
+### gh view
+
+View the given notification/repo/issue/pull_request/user index in the terminal or a browser.
+
+This method is meant to be called after one of the following commands
+which outputs a table of notifications/repos/issues/pull_requests/users:
+
+    gh repos
+    gh search_repos
+    gh starred
+
+    gh issues
+    gh pull_requests
+    gh search_issues
+
+    gh notifications
+    gh trending
+
+    gh user
+    gh me
+
+Usage:
+
+    $ gh view [index] [-b/--browser]
+
+Param(s):
+
+```
+:type index: str
+:param index: Determines the index to view.
+```
+
+Option(s):
+
+```
+:type browser: bool
+:param browser: Determines whether to view the profile
+    in a browser, or in the terminal.
+```
+
+Example(s):
+
+    $ gh repos
+    $ gh view 1
+
+    $ gh starred
+    $ gh view 1 -b
+    $ gh view 1 --browser
