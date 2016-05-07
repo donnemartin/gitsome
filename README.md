@@ -98,3 +98,12 @@ Ubuntu users, check out these [instructions on askubuntu](http://askubuntu.com/a
 * Python 3.5
 
 `gitsome` is powered by `xonsh` which does not currently support Python 2.x, as discussed in this [ticket](https://github.com/scopatz/xonsh/issues/66).
+
+### Supported Platforms
+
+* Mac OS X
+    * Tested on OS X 10.10
+* Linux, Unix
+    * Tested on Ubuntu 14.04 LTS
+* Windows
+    * Tested on Windows 10
