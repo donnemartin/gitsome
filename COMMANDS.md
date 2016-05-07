@@ -524,3 +524,57 @@ Output the rate limit.
 Usage/Example(s):
 
     $ gh rate-limit
+
+### gh repo
+
+Output detailed information about the given filter.
+
+Usage:
+
+    $ gh repo [user_repo]
+
+Param(s):
+
+```
+:type user_repo: str
+:param user_repo: The user/repo.
+```
+
+Example(s):
+
+    $ gh repo donnemartin/haxor-news
+
+### gh repos
+
+List all repos matching the given filter.
+
+Usage:
+
+    $ gh repos [repo_filter] [-l/--limit] [-p/--pager]
+
+Param(s):
+
+```
+:type repo_filter: str
+:param repo_filter:  The filter for repo names.
+    Only repos matching the filter will be returned.
+    If None, outputs all the logged in user's repos.
+```
+
+Option(s):
+
+```
+:type limit: int
+:param limit: The number of items to display.
+
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh repos
+    $ gh repos "data-science"
+    $ gh repos "data-science" -l 20 -p
+    $ gh repos "data-science" --limit 20 --pager
