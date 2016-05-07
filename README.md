@@ -151,3 +151,9 @@ If you're interested in contributing to `gitsome`, run the following commands:
     $ pip install -r requirements-dev.txt
     $ gitsome
     $ gh <command> [param] [options]
+
+### Continuous Integration
+
+[![Build Status](https://travis-ci.org/donnemartin/gitsome.svg?branch=master)](https://travis-ci.org/donnemartin/gitsome)
+
+Continuous integration details are available on [Travis CI](https://travis-ci.org/donnemartin/gitsome).
