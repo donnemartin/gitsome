@@ -658,3 +658,63 @@ Search issues with the "help wanted" tag:
 Search all your open private issues:
     gh search-issues "is:open is:issue is:private" -p
 ```
+
+### gh search-repos
+
+Search for all repos matching the given query.
+
+For more information about the query qualifiers, visit the [searching repos reference](https://help.github.com/articles/searching-repositories/).
+
+Usage:
+
+    $ gh search-repos [query] [-s/--sort] [-l/--limit] [-p/--pager]
+
+Param(s):
+
+```
+:type query: str
+:param query: The search query.
+
+The query can contain any combination of the following supported
+qualifers:
+
+- `in` Qualifies which fields are searched. With this qualifier you
+  can restrict the search to just the repository name, description,
+  readme, or any combination of these.
+- `size` Finds repositories that match a certain size (in
+  kilobytes).
+- `forks` Filters repositories based on the number of forks, and/or
+  whether forked repositories should be included in the results at
+  all.
+- `created` or `pushed` Filters repositories based on times of
+  creation, or when they were last updated. Format: `YYYY-MM-DD`.
+  Examples: `created:<2011`, `pushed:<2013-02`,
+  `pushed:>=2013-03-06`
+- `user` or `repo` Limits searches to a specific user or
+  repository.
+- `language` Searches repositories based on the language they're
+  written in.
+- `stars` Searches repositories based on the number of stars.
+
+For more information about these qualifiers, see: http://git.io/4Z8AkA
+```
+
+Option(s):
+
+```
+:type sort: str
+:param sort: Optional: 'stars', 'forks', 'updated'.
+    If not specified, sorting is done by query best match.
+
+:type limit: int
+:param limit: The number of items to display.
+
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh search-repos "maps language:python" -s stars -l 20 -p
+    $ gh search-repos "created:>=2015-01-01 stars:>=1000 language:python" --sort stars --limit 20 --pager
