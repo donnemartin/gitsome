@@ -752,3 +752,51 @@ Example(s):
     $ gh starred
     $ gh starred foo -l 20 -p
     $ gh starred foo --limit 20 --pager
+
+### gh trending
+
+List trending repos for the given language.
+
+Usage:
+
+    $ gh trending [language] [-w/--weekly] [-m/--monthly] [-D/--devs] [-b/--browser] [-p/--pager]
+
+Param(s):
+
+```
+:type language: str
+:param language: The language (optional).
+    If blank, shows 'Overall'.
+```
+
+Option(s):
+
+```
+:type weekly: bool
+:param weekly: Determines whether to show the weekly rankings.
+    Daily is the default.
+
+:type monthly: bool
+:param monthly: Determines whether to show the monthly rankings.
+    Daily is the default.
+    If both `monthly` and `weekly` are set, `monthly` takes precendence.
+
+:type devs: bool
+:param devs: determines whether to display the trending
+        devs or repos.  Only valid with the -b/--browser option.
+
+:type browser: bool
+:param browser: Determines whether to view the profile
+        in a browser, or in the terminal.
+
+:type pager: bool
+:param pager: Determines whether to show the output in a pager,
+    if available.
+```
+
+Example(s):
+
+    $ gh trending
+    $ gh trending Python -w -p
+    gh trending Python --weekly --devs --browser
+    $ gh trending --browser
