@@ -198,3 +198,9 @@ Review the [Contributing Guidelines](https://github.com/donnemartin/gitsome/blob
 * [python-prompt-toolkit](https://github.com/jonathanslenders/python-prompt-toolkit) by [jonathanslenders](https://github.com/jonathanslenders)
 * [requests](https://github.com/kennethreitz/requests) by [kennethreitz](https://github.com/kennethreitz)
 * [xonsh](https://github.com/scopatz/xonsh) by [scopatz](https://github.com/scopatz/xonsh)
+
+## Contact Info
+
+Feel free to contact me to discuss any issues, questions, or comments.
+
+My contact info can be found on my [GitHub page](https://github.com/donnemartin).
