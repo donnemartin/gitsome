@@ -836,7 +836,10 @@ class GitHub(object):
                                         pager,
                                         print_output=False)
             if pager:
-                click.echo_via_pager(output)
+                color = None
+                if platform.system() == 'Windows':
+                    color = True
+                click.echo_via_pager(output, color)
             else:
                 click.secho(output)
 

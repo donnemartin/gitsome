@@ -88,11 +88,13 @@ class Table(object):
             output += click.style('')
         if print_output:
             if pager:
+                color = None
                 if platform.system() == 'Windows':
+                    color = True
                     # Strip out Unicode, which seems to have issues on
                     # Windows with click.echo_via_pager.
                     output = re.sub(r'[^\x00-\x7F]+', '', output)
-                click.echo_via_pager(output)
+                click.echo_via_pager(output, color)
             else:
                 click.secho(output)
             return None

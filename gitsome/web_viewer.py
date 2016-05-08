@@ -150,10 +150,7 @@ class WebViewer(object):
         if contents == '{"error":"Not Found"}\n':
             click.secho('Invalid user/repo combination.')
             return
+        color = None
         if platform.system() == 'Windows':
-            try:
-                click.secho(contents)
-            except IOError:
-                sys.stderr.close()
-        else:
-            click.echo_via_pager(contents)
+            color = True
+        click.echo_via_pager(contents, color)
