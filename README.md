@@ -215,6 +215,242 @@ Usage:
   view                 View the given index in the terminal or a browser.
 ```
 
+## GitHub Integration Commands Reference: COMMANDS.md
+
+See the [GitHub Integration Commands Reference in COMMANDS.md](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md) for a **detailed discussion** of all GitHub integration commands, parameters, options, and examples.
+
+Check out the next section for a **quick reference**.
+
+## GitHub Integration Commands Quick Reference
+
+### Configuring `gitsome`
+
+To properly integrate with GitHub, you must first configure `gitsome`:
+
+    $ gh configure
+
+### Listing Feeds
+
+#### Listing Your News Feed
+
+    $ gh feed
+
+![Imgur](http://i.imgur.com/2LWcyS6.png)
+
+#### Listing A User's Activity Feed
+
+View your activity feed or another user's activity feed, optionally through a pager with `-p/--pager`.  The [pager option](#option-view-in-a-pager) is available for many commands.
+
+    $ gh feed donnemartin -p
+
+![Imgur](http://i.imgur.com/kryGLXz.png)
+
+#### Listing A Repo's Activity Feed
+
+    $ gh feed donnemartin/gitsome -p
+
+![Imgur](http://i.imgur.com/d2kxDg9.png)
+
+### Listing Notifications
+
+    $ gh notifications
+
+![Imgur](http://i.imgur.com/uwmwxsW.png)
+
+### Listing Pull Requests
+
+View all pull requests for your repos:
+
+    $ gh pull-requests
+
+![Imgur](http://i.imgur.com/4A2eYM9.png)
+
+### Filtering Issues
+
+View all open issues where you have been mentioned:
+
+    $ gh issues --issue_state open -issue_filter mentioned
+
+![Imgur](http://i.imgur.com/AB5zxxo.png)
+
+View all issues, filtering for only those assigned to you, regardless of state (open, closed):
+
+    $ gh issues --issue_state all --issue_filter assigned
+
+For more information about the filter and state qualifiers, visit the [`gh issues`](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md#gh-issues) reference in [COMMANDS.md](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md).
+
+### Filtering Starred Repos
+
+    $ gh starred "repo filter"
+
+![Imgur](http://i.imgur.com/I3nffEl.png)
+
+### Searching Issues and Repos
+
+#### Searching Issues
+
+Search issues that have the most +1s:
+
+    $ gh search-issues "is:open is:issue sort:reactions-+1-desc" -p
+
+![Imgur](http://i.imgur.com/tjJiLN7.png)
+
+Search issues that have the most comments:
+
+    $ gh search-issues "is:open is:issue sort:comments-desc" -p
+
+Search issues with the "help wanted" tag:
+
+    $ gh search-issues "is:open is:issue label:\"help wanted\"" -p
+
+Search issues that have your user name tagged **@donnemartin**:
+
+    $ gh search-issues "is:issue donnemartin is:open" -p
+
+Search all your open private issues:
+
+    $ gh search-issues "is:open is:issue is:private" -p
+
+For more information about the query qualifiers, visit the [searching issues reference](https://help.github.com/articles/searching-issues/).
+
+#### Searching Repos
+
+Search all Python repos created on or after 2015, with >= 1000 stars:
+
+    $ gh search-repos "created:>=2015-01-01 stars:>=1000 language:python" --sort stars -p
+
+![Imgur](http://i.imgur.com/VjH2jY8.png)
+
+For more information about the query qualifiers, visit the [searching repos reference](https://help.github.com/articles/searching-repositories/).
+
+### Listing Trending Repos and Devs
+
+View trending repos:
+
+    $ gh trending [language] [-w/--weekly] [-m/--monthly] [-d/--devs] [-b/--browser]
+
+![Imgur](http://i.imgur.com/65naJT9.png)
+
+View trending devs (devs are currently only supported in browser):
+
+    $ gh trending [language] --devs --browser
+
+### Viewing Content
+
+#### The `view` command
+
+View the previously listed notifications, pull requests, issues, repos, users etc, with HTML nicely formatted for your terminal, or optionally in your browser:
+
+    $ gh view [#] [-b/--browser]
+
+![Imgur](http://i.imgur.com/NVEwGbV.png)
+
+#### The `issue` command
+
+View an issue:
+
+    $ gh issue donnemartin/saws/1
+
+![Imgur](http://i.imgur.com/ZFv9MuV.png)
+
+#### The `pull-request` command
+
+View a pull request:
+
+    $ gh pull-request donnemartin/awesome-aws/2
+
+![Imgur](http://i.imgur.com/3MtKjKy.png)
+
+### Setting Up `.gitignore`
+
+List all available `.gitignore` templates:
+
+    $ gh gitignore-templates
+
+![Imgur](http://i.imgur.com/u8qYx1s.png)
+
+Set up your `.gitignore`:
+
+    $ gh gitignore-template Python > .gitignore
+
+![Imgur](http://i.imgur.com/S5m5ZcO.png)
+
+### Setting Up `LICENSE`
+
+List all available `LICENSE` templates:
+
+    $ gh licenses
+
+![Imgur](http://i.imgur.com/S9SbMLJ.png)
+
+Set up your  or `LICENSE`:
+
+    $ gh license MIT > LICENSE
+
+![Imgur](http://i.imgur.com/zJHVxaA.png)
+
+### Summoning Octocat
+
+Call on Octocat to say the given message or an Easter egg:
+
+    $ gh octo [say]
+
+![Imgur](http://i.imgur.com/bNzCa5p.png)
+
+### Viewing Profiles
+
+#### Viewing A User's Profile
+
+    $ gh user octocat
+
+![Imgur](http://i.imgur.com/xVoVPVe.png)
+
+#### Viewing Your Profile
+
+View your profile with the `gh user [YOUR_USER_ID]` command or with the following shortcut:
+
+    $ gh me
+
+![Imgur](http://i.imgur.com/csk5j0S.png)
+
+### Creating Comments, Issues, and Repos
+
+Create a comment:
+
+    $ gh create-comment donnemartin/gitsome/1 -t "hello world"
+
+Create an issue:
+
+    $ gh create-issue donnemartin/gitsome -t "title" -b "body"
+
+Create a repo:
+
+    $ gh create-repo gitsome
+
+### Option: View in a Pager
+
+Many `gh` commands support a `-p/--pager` option that displays results in a pager, where available.
+
+Usage:
+
+    $ gh <command> [param] [options] -p
+    $ gh <command> [param] [options] --pager
+
+### Option: View in a Browser
+
+Many `gh` commands support a `-b/--browser` option that displays results in your default browser instead of your terminal.
+
+Usage:
+
+    $ gh <command> [param] [options] -b
+    $ gh <command> [param] [options] --browser
+
+See the [COMMANDS.md](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md) for a detailed listing of all GitHub integration commands, parameters, options, and examples.
+
+Having trouble remembering these commands?  Check out the handy [autocompleter with interactive help](#git-and-github-autocompleter-with-interactive-help) to guide you through each command.
+
+*Note, you can combine `gitsome` with other utilities such as [Git-Extras](https://github.com/tj/git-extras/blob/master/Commands.md).*
+
 ## Installation
 
 ### Pip Installation
