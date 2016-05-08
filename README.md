@@ -175,6 +175,46 @@ For no color, set the value(s) to `None`.
 * [Contact Info](#contact-info)
 * [License](#license)
 
+## GitHub Integration Commands Syntax
+
+Usage:
+
+    $ gh <command> [param] [options]
+
+## GitHub Integration Commands Listing
+
+```
+  configure            Configure gitsome.
+  create-comment       Create a comment on the given issue.
+  create-issue         Create an issue.
+  create-repo          Create a repo.
+  emails               List all the user's registered emails.
+  emojis               List all GitHub supported emojis.
+  feed                 List all activity for the given user or repo.
+  followers            List all followers and the total follower count.
+  following            List all followed users and the total followed count.
+  gitignore-template   Output the gitignore template for the given language.
+  gitignore-templates  Output all supported gitignore templates.
+  issue                Output detailed information about the given issue.
+  issues               List all issues matching the filter.
+  license              Output the license template for the given license.
+  licenses             Output all supported license templates.
+  me                   List information about the logged in user.
+  notifications        List all notifications.
+  octo                 Output an Easter egg or the given message from Octocat.
+  pull-request         Output detailed information about the given pull request.
+  pull-requests        List all pull requests.
+  rate-limit           Output the rate limit.
+  repo                 Output detailed information about the given filter.
+  repos                List all repos matching the given filter.
+  search-issues        Search for all issues matching the given query.
+  search-repos         Search for all repos matching the given query.
+  starred              Output starred repos.
+  trending             List trending repos for the given language.
+  user                 List information about the given user.
+  view                 View the given index in the terminal or a browser.
+```
+
 ## Installation
 
 ### Pip Installation
