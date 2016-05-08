@@ -26,6 +26,8 @@ Visit the following page to generate a token:
 
 `gitsome` will need the 'repo' and 'user' permissions.
 
+![Imgur](http://i.imgur.com/1C7gBHz.png)
+
 #### Authentication Source Code
 
 Curious what's going on behind the scenes with authentication?  Check out the [authentication source code](https://github.com/donnemartin/gitsome/blob/master/gitsome/config.py#L156-L269).
@@ -34,6 +36,8 @@ Curious what's going on behind the scenes with authentication?  Check out the [a
 
 `gitsome` will need your news feed url to run the `gh feed` command with no arguments.
 
+![Imgur](http://i.imgur.com/2LWcyS6.png)
+
 To integrate `gitsome` with your news feed, visit the following url while logged into GitHub:
 
 [https://github.com](https://github.com)
@@ -41,6 +45,8 @@ To integrate `gitsome` with your news feed, visit the following url while logged
 You will be asked to enter the url found when clicking 'Subscribe to your news feed', which will look something like this:
 
     https://github.com/donnemartin.private.atom?token=TOKEN
+
+![Imgur](http://i.imgur.com/f2zvdIm.png)
 
 ### gh create-comment
 
@@ -203,6 +209,18 @@ Example(s):
     $ gh feed donnemartin --private --pager
     $ gh feed donnemartin/haxor-news -p
 
+#### News Feed
+
+![Imgur](http://i.imgur.com/2LWcyS6.png)
+
+#### User Activity Feed
+
+![Imgur](http://i.imgur.com/kryGLXz.png)
+
+#### Repo Activity Feed
+
+![Imgur](http://i.imgur.com/d2kxDg9.png)
+
 ### gh following
 
 List all followed users and the total followed count.
@@ -232,6 +250,8 @@ Example(s):
     $ gh following
     $ gh following -p
     $ gh following octocat --pager
+
+![Imgur](http://i.imgur.com/bjUmbf3.png)
 
 Also check out the [`gh user`](#gh-user) command.
 
@@ -285,6 +305,8 @@ Example(s):
     $ gh gitignore-template Python
     $ gh gitignore-template Python > .gitignore
 
+![Imgur](http://i.imgur.com/S5m5ZcO.png)
+
 ### gh gitignore-templates
 
 Output all supported gitignore templates.
@@ -307,6 +329,8 @@ Example(s):
     $ gh gitignore-templates -p
     $ gh gitignore-templates --pager
 
+![Imgur](http://i.imgur.com/u8qYx1s.png)
+
 ### gh issue
 
 Output detailed information about the given issue.
@@ -325,6 +349,8 @@ Param(s):
 Example(s):
 
     $ gh issue donnemartin/saws/1
+
+![Imgur](http://i.imgur.com/ZFv9MuV.png)
 
 ### gh issues
 
@@ -360,6 +386,8 @@ Example(s):
     $ gh issues --issue_state closed --limit 20 --pager
     $ gh issues -f created -s all -p
 
+![Imgur](http://i.imgur.com/AB5zxxo.png)
+
 ### gh license
 
 Output the license template for the given license.
@@ -380,6 +408,8 @@ Example(s):
     $ gh license apache-2.0
     $ gh license mit > LICENSE
 
+![Imgur](http://i.imgur.com/zJHVxaA.png)
+
 ### gh licenses
 
 Output all supported license templates.
@@ -387,6 +417,8 @@ Output all supported license templates.
 Usage/Licenses:
 
     $ gh licenses
+
+![Imgur](http://i.imgur.com/S9SbMLJ.png)
 
 ### gh me
 
@@ -427,6 +459,8 @@ Example(s):
     $ gh me -t -l 20 -p
     $ gh me --text_avatar --limit 20 --pager
 
+![Imgur](http://i.imgur.com/pblMQn4.png)
+
 ### gh notifications
 
 List all notifications.
@@ -452,6 +486,8 @@ Example(s):
     $ gh notifications -l 20 -p
     $ gh notifications --limit 20 --pager
 
+![Imgur](http://i.imgur.com/uwmwxsW.png)
+
 ### gh octo
 
 Output an Easter egg or the given message from Octocat.
@@ -473,6 +509,8 @@ Example(s):
     $ gh octo
     $ gh octo "foo bar"
 
+![Imgur](http://i.imgur.com/bNzCa5p.png)
+
 ### gh pull-request
 
 Output detailed information about the given pull request.
@@ -491,6 +529,8 @@ Param(s):
 Example(s):
 
     $ gh pull-request donnemartin/saws/80
+
+![Imgur](http://i.imgur.com/3MtKjKy.png)
 
 ### gh pull-requests
 
@@ -516,6 +556,8 @@ Example(s):
     $ gh pull-requests
     $ gh pull-requests -l 20 -p
     $ gh pull-requests --limit 20 --pager
+
+![Imgur](http://i.imgur.com/4A2eYM9.png)
 
 ### gh rate-limit
 
@@ -543,6 +585,8 @@ Param(s):
 Example(s):
 
     $ gh repo donnemartin/haxor-news
+
+![Imgur](http://i.imgur.com/XFMpWCI.png)
 
 ### gh repos
 
@@ -578,6 +622,8 @@ Example(s):
     $ gh repos "data-science"
     $ gh repos "data-science" -l 20 -p
     $ gh repos "data-science" --limit 20 --pager
+
+![Imgur](http://i.imgur.com/YXWPWma.png)
 
 ### gh search-issues
 
@@ -659,6 +705,8 @@ Search all your open private issues:
     gh search-issues "is:open is:issue is:private" -p
 ```
 
+![Imgur](http://i.imgur.com/tjJiLN7.png)
+
 ### gh search-repos
 
 Search for all repos matching the given query.
@@ -719,6 +767,8 @@ Example(s):
     $ gh search-repos "maps language:python" -s stars -l 20 -p
     $ gh search-repos "created:>=2015-01-01 stars:>=1000 language:python" --sort stars --limit 20 --pager
 
+![Imgur](http://i.imgur.com/VjH2jY8.png)
+
 ### gh starred
 
 Output starred repos.
@@ -752,6 +802,8 @@ Example(s):
     $ gh starred
     $ gh starred foo -l 20 -p
     $ gh starred foo --limit 20 --pager
+
+![Imgur](http://i.imgur.com/I3nffEl.png)
 
 ### gh trending
 
@@ -801,6 +853,8 @@ Example(s):
     gh trending Python --weekly --devs --browser
     $ gh trending --browser
 
+![Imgur](http://i.imgur.com/65naJT9.png)
+
 ### gh user
 
 List information about the given user.
@@ -847,6 +901,8 @@ Example(s):
     $ gh user octocat --browser
     $ gh user octocat -t -l 10 -p
     $ gh user octocat --text_avatar --limit 10 --pager
+
+![Imgur](http://i.imgur.com/xVoVPVe.png)
 
 ### gh view
 
@@ -896,6 +952,8 @@ Example(s):
     $ gh starred
     $ gh view 1 -b
     $ gh view 1 --browser
+
+![Imgur](http://i.imgur.com/NVEwGbV.png)
 
 ### Option: View in a Pager
 
