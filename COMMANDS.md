@@ -856,12 +856,12 @@ This method is meant to be called after one of the following commands
 which outputs a table of notifications/repos/issues/pull_requests/users:
 
     gh repos
-    gh search_repos
+    gh search-repos
     gh starred
 
     gh issues
-    gh pull_requests
-    gh search_issues
+    gh pull-requests
+    gh search-issues
 
     gh notifications
     gh trending
