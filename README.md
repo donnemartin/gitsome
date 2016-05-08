@@ -21,6 +21,21 @@ Although the standard Git command line is a great tool to manage your Git-powere
 
 Out of the box, the Git command line **does not provide integration with GitHub**, forcing users to toggle between command line and browser.
 
+## `gitsome`: A Supercharged Git/Shell CLI with GitHub Integration
+
+`gitsome` aims to supercharge the standard git/shell interface by focusing on:
+
+* **Improving ease-of-use**
+* **Increasing productivity**
+
+### GitHub Integration
+
+`gitsome` provides direct integration with GitHub.
+
+Not all GitHub workflows work well in a terminal; `gitsome` attempts to target those that do.
+
+![Imgur](http://i.imgur.com/sG09AJH.png)
+
 ## Installation
 
 ### Pip Installation
