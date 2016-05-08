@@ -179,7 +179,9 @@ COMPLETIONS_GH = {
     },
     'pull-request': {
         'desc': 'Outputs detailed information about the given pull request.',
-        'args': {},
+        'args': {
+            'octocat/Spoon-Knife/3': 'str (req) user/repo/pull_number combo.',
+        },
         'opts': {},
     },
     'pull-requests': {
