@@ -116,29 +116,15 @@ Although you can use the standard Windows command prompt, you'll probably have a
 
 ![Imgur](http://i.imgur.com/A1VCsjV.png)
 
-#### Pager Support
+#### Text Only Avatar
 
-Pager support on Windows is more limited.
-
-On Windows, the following commands do not send results to a pager:
-
-    $ gh view
-    $ gh issue
-    $ gh pull-request
-
-You can instead output to a pager with the `| more` command, although color is stripped:
-
-    $ gh view 1 -c | more
+The commands [`gh user`](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md#gh-user) and [`gh me`](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md#gh-me) will always have the `-t/--text_avatar` flag enabled, since [`img2txt`](#credits) does not support the ansi avatar on Windows.
 
 #### Config File
 
 On Windows, the `.gitsomeconfig ` file can be found in `%userprofile%`.  For example:
 
     C:\Users\dmartin\.gitsomeconfig
-
-#### Text Only Avatar
-
-The commands `gh user` and `gh me` will always have the `-t/--text_avatar` flag enabled, since `img2txt` does not support the ansi avatar on Windows.
 
 ## Developer Installation
 
