@@ -7,6 +7,10 @@ import builtins
 import subprocess
 from argparse import ArgumentParser, Namespace
 
+import click
+
+from gitsome import __version__ as gitsome_version
+
 from xonsh import __version__
 from xonsh.shell import Shell
 from xonsh.pretty import pprint
@@ -16,7 +20,7 @@ from xonsh.jobs import ignore_sigtstp
 parser = ArgumentParser(description='xonsh')
 parser.add_argument('-V', '--version',
                     action='version',
-                    version='/'.join(('xonsh', __version__)),
+                    version='/'.join(('gitsome', gitsome_version)),
                     help='show version information and exit')
 parser.add_argument('-c',
                     help="Run a single command and exit",
@@ -75,6 +79,7 @@ def main(argv=None):
     if args.defines is not None:
         env.update([x.split('=', 1) for x in args.defines])
     env['XONSH_INTERACTIVE'] = False
+    click.echo('Version: ' + gitsome_version)
     if args.command is not None:
         # run a single command and exit
         shell.default(args.command)
