@@ -644,8 +644,6 @@ class GitHub(object):
     def search_issues(self, query, limit=1000, pager=False):
         """Search for all issues matching the given query.
 
-        TODO: Fix sorting.
-
         :type query: str
         :param query: The search query.
 
@@ -667,8 +665,6 @@ class GitHub(object):
     @authenticate
     def search_repositories(self, query, sort, limit=1000, pager=False):
         """Search for all repos matching the given query.
-
-        TODO: Fix sorting.
 
         :type query: str
         :param query: The search query.
