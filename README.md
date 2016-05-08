@@ -103,6 +103,14 @@ For no color, set the value(s) to `None`.
 
 `gitsome` is available for Mac, Linux, Unix, and [Windows](#windows-support).
 
+## TODO
+
+>Not all GitHub workflows work well in a terminal; `gitsome` attempts to target those that do.
+
+* Add additional GitHub API integrations
+
+`gitsome` is just getting started.  Feel free to [contribute!](#contributing)
+
 ## Installation
 
 ### Pip Installation
