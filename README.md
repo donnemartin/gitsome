@@ -36,6 +36,32 @@ Not all GitHub workflows work well in a terminal; `gitsome` attempts to target t
 
 ![Imgur](http://i.imgur.com/sG09AJH.png)
 
+### Git and GitHub Autocompleter with Interactive Help
+
+`gitsome` will autocomplete and provide interactive help for the following:
+
+* Git commands
+* Git options
+* Git branches, tags, etc
+* [Git-Extras commands](https://github.com/tj/git-extras/blob/master/Commands.md)
+* [GitHub integration commands](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md)
+
+![Imgur](http://i.imgur.com/08OMNjz.png)
+
+![Imgur](http://i.imgur.com/fHjMwlh.png)
+
+### General Autocompleter
+
+`gitsome` will autocomplete the following:
+
+* Shell commands
+* Files and directories
+* Environment variables
+* Man pages
+* Python
+
+![Imgur](http://i.imgur.com/hg1dpk6.png)
+
 ## Installation
 
 ### Pip Installation
