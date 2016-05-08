@@ -110,9 +110,11 @@ Ubuntu users, check out these [instructions on askubuntu](http://askubuntu.com/a
 
 ### Windows Support
 
-`gitsome` has been tested on Windows 10.
+`gitsome` has been tested on Windows 10 with `cmd` and `cmder`.
 
-![Imgur](http://i.imgur.com/DxomJNE.png)
+Although you can use the standard Windows command prompt, you'll probably have a better experience with either [cmder](https://github.com/cmderdev/cmder) or [conemu](https://github.com/Maximus5/ConEmu).
+
+![Imgur](http://i.imgur.com/A1VCsjV.png)
 
 #### Pager Support
 
@@ -137,10 +139,6 @@ On Windows, the `.gitsomeconfig ` file can be found in `%userprofile%`.  For exa
 #### Text Only Avatar
 
 The commands `gh user` and `gh me` will always have the `-t/--text_avatar` flag enabled, since `img2txt` does not support the ansi avatar on Windows.
-
-#### `cmder` and `conemu`
-
-Although you can use the standard Windows command prompt, you'll probably have a better experience with either [cmder](https://github.com/cmderdev/cmder) or [conemu](https://github.com/Maximus5/ConEmu).
 
 ## Developer Installation
 
