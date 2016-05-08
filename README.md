@@ -62,6 +62,47 @@ Not all GitHub workflows work well in a terminal; `gitsome` attempts to target t
 
 ![Imgur](http://i.imgur.com/hg1dpk6.png)
 
+## Fish-Style Auto-Suggestions
+
+`gitsome` supports Fish-style auto-suggestions.  Use the `right arrow` key to complete a suggestion.
+
+![Imgur](http://i.imgur.com/ZRaFGpY.png)
+
+## Python REPL
+
+`gitsome` is powered by [`xonsh`](https://github.com/scopatz/xonsh), which supports a Python REPL.
+
+Run Python commands alongside shell commands:
+
+![Imgur](http://i.imgur.com/NYk7WYO.png)
+
+Additional `xonsh` features can be found in the [`xonsh tutorial`](http://xon.sh/tutorial.html).
+
+## Command History
+
+`gitsome` keeps track of commands you enter and stores them in `~/.xonsh_history.json`.  Use the up and down arrow keys to cycle through the command history.
+
+![Imgur](http://i.imgur.com/wq0caZu.png)
+
+## Customizable Highlighting
+
+You can control the ansi colors used for highlighting by updating your `~/.gitsomeconfig` file.
+
+Color options include:
+
+```
+'black', 'red', 'green', 'yellow',
+'blue', 'magenta', 'cyan', 'white'
+```
+
+For no color, set the value(s) to `None`.
+
+![Imgur](http://i.imgur.com/QLeU5Si.png)
+
+## Available Platforms
+
+`gitsome` is available for Mac, Linux, Unix, and [Windows](#windows-support).
+
 ## Installation
 
 ### Pip Installation
