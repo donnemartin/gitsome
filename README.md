@@ -188,3 +188,13 @@ Review the [Contributing Guidelines](https://github.com/donnemartin/gitsome/blob
 
 * Submit issues
 * Submit pull requests
+
+## Credits
+
+* [click](https://github.com/mitsuhiko/click) by [mitsuhiko](https://github.com/mitsuhiko)
+* [github3.py](https://github.com/sigmavirus24/github3.py) by [sigmavirus24](https://github.com/sigmavirus24)
+* [html2text](https://github.com/aaronsw/html2text) by [aaronsw](https://github.com/aaronsw)
+* [img2txt](https://github.com/hit9/img2txt) by [hit9](https://github.com/hit9)
+* [python-prompt-toolkit](https://github.com/jonathanslenders/python-prompt-toolkit) by [jonathanslenders](https://github.com/jonathanslenders)
+* [requests](https://github.com/kennethreitz/requests) by [kennethreitz](https://github.com/kennethreitz)
+* [xonsh](https://github.com/scopatz/xonsh) by [scopatz](https://github.com/scopatz/xonsh)
