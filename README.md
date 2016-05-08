@@ -9,6 +9,18 @@ gitsome
 
 [![PyPI version](https://badge.fury.io/py/gitsome.svg)](http://badge.fury.io/py/gitsome) [![PyPI](https://img.shields.io/pypi/pyversions/gitsome.svg)](https://pypi.python.org/pypi/gitsome/) [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
+## Motivation
+
+### Git Command Line
+
+Although the standard Git command line is a great tool to manage your Git-powered repos, it can be **tough to remember the usage** of:
+
+* 150+ porcelain and plumbing commands
+* Countless command-specific options
+* Resources such as tags and branches
+
+Out of the box, the Git command line **does not provide integration with GitHub**, forcing users to toggle between command line and browser.
+
 ## Installation
 
 ### Pip Installation
