@@ -40,7 +40,7 @@ To properly integrate with GitHub, `gitsome` must be properly configured:
 
     $ gh configure
 
-View more details in the [gh configure](https://github.com/donnemartin/haxor-news/blob/master/COMMANDS.md#gh-configure) section.
+View more details in the [gh configure](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md#gh-configure) section.
 
 ### Enabling Bash Completions
 
