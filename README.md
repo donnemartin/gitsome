@@ -478,17 +478,29 @@ If you are not installing in a virtualenv, run with `sudo`:
 
     $ sudo pip install gitsome
 
+#### `pip3`
+
+Depending on your system, you might need to run `pip3`, possibly with the `-H` flag:
+
+    $ sudo -H pip3 install gitsome
+
+See this [ticket](https://github.com/donnemartin/gitsome/issues/4) for more details.
+
+#### Starting the `gitsome` Shell
+
 Once installed, run the optional `gitsome` autocompleter with interactive help:
 
     $ gitsome
+
+Running the optional `gitsome` shell will provide you with autocompletion, interactive help, fish-style suggestions, a Python REPL, etc.
+
+#### Running `gh` Commands
 
 Run GitHub-integrated commands:
 
     $ gh <command> [param] [options]
 
-Note: Running the `gitsome` shell is not required to execute `gh` commands.  After [installing](#installation) `gitsome` you can run `gh` commands from your shell.
-
-Running the `gitsome` shell will provide you with autocompletion, interactive help, fish-style suggestions, a Python REPL, etc.
+Note: Running the `gitsome` shell is not required to execute `gh` commands.  After [installing](#installation) `gitsome` you can run `gh` commands from any shell.
 
 ### Virtual Environment Installation
 
