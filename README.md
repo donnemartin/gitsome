@@ -34,11 +34,20 @@ Out of the box, the Git command line **does not provide integration with GitHub*
 
 Not all GitHub workflows work well in a terminal; `gitsome` attempts to target those that do.
 
+The GitHub integrated commands work with <u>**ALL**</u> shells:
+
+* [Quick reference](https://github.com/donnemartin/gitsome#github-integration-commands-quick-reference)
+* [General reference](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md)
+
 ![Imgur](http://i.imgur.com/sG09AJH.png)
 
 ### Git and GitHub Autocompleter with Interactive Help
 
-`gitsome` will autocomplete and provide interactive help for the following:
+Running the <u>**optional**</u> shell:
+
+     $ gitsome
+
+Enables **autocompletion** and provides **interactive help** for the following:
 
 * Git commands
 * Git options
@@ -52,7 +61,7 @@ Not all GitHub workflows work well in a terminal; `gitsome` attempts to target t
 
 ### General Autocompleter
 
-`gitsome` will autocomplete the following:
+`gitsome` autocompletes the following:
 
 * Shell commands
 * Files and directories
