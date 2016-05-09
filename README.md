@@ -532,6 +532,18 @@ Reload your `bashrc`:
 Tip: `.` is the short form of `source`, so you can run this instead:
 
     $ . ~/.bashrc
+    
+#### For Zsh Users
+
+`zsh` includes a module which is compatible with bash completions. Download the `gh_complete.sh` file as above, and append the following into your `.zshrc`:
+
+    autoload bashcompinit
+    bashcompinit
+    source /path/to/gh_complete.sh
+    
+.and then reload your `zshrc`:
+  
+     $ source ~/.zshrc
 
 ### Optional: Installing `PIL` or `Pillow`
 
