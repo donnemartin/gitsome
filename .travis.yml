@@ -1,8 +1,13 @@
 language: python
-python:
-  - 3.4
-  - 3.5
+env:
+  - TOXENV=py34
+  - TOXENV=py35
+os:
+  - linux
 install:
-  - pip install ply nose prompt_toolkit
+  - travis_retry pip install tox
+  - pip install codecov
 script:
-  - nosetests
+  - tox
+after_success:
+  - codecov
