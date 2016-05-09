@@ -622,7 +622,7 @@ Review the [Contributing Guidelines](https://github.com/donnemartin/gitsome/blob
 
 ## Credits
 
-* [click](https://github.com/mitsuhiko/click) by [mitsuhiko](https://github.com/mitsuhiko)
+* [click](https://github.com/pallets/click) by [mitsuhiko](https://github.com/mitsuhiko)
 * [github_trends_rss](https://github.com/ryotarai/github_trends_rss) by [ryotarai](https://github.com/ryotarai)
 * [github3.py](https://github.com/sigmavirus24/github3.py) by [sigmavirus24](https://github.com/sigmavirus24)
 * [html2text](https://github.com/aaronsw/html2text) by [aaronsw](https://github.com/aaronsw)
