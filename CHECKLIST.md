@@ -49,6 +49,11 @@ L. Input a tag
 
 M. Push tagged release to develop and master
 
+    $ git checkout master
+    $ git push
+
+    Might need to recreate develop branch.
+
 N. Set CHANGELOG as `README.md`
 
     $ scripts/set_changelog_as_readme.sh
