@@ -1,4 +1,6 @@
-![Imgur](http://i.imgur.com/PMQPfxv.gif)
+<p align="center">
+  <img src="http://i.imgur.com/0SXZ90y.gif">
+</p>
 
 gitsome
 =======
