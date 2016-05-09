@@ -68,12 +68,9 @@ def main():
             print(logo)
     except UnicodeEncodeError:
         pass
-    with open(os.path.join(os.path.dirname(__file__), 'README.rst'), 'r') as f:
-        readme = f.read()
     skw = dict(
         name='gitsome',
         description='A Supercharged Git/Shell Autocompleter with GitHub Integration.',  # NOQA
-        long_description=readme,
         license='BSD',
         version=VERSION,
         author='Donne Martin',
