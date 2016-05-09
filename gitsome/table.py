@@ -75,9 +75,7 @@ class Table(object):
             if len(view_entries) > limit:
                 output += click.style(('       <Hiding ' +
                                        str(len(view_entries) - limit) +
-                                       ' item(s), use -l/--limit ' +
-                                       str(len(view_entries)) +
-                                       ' to view all items.>\n'),
+                                       ' item(s) with the -l/--limit flag>\n'),
                                       fg=self.config.clr_message)
         if index == 0:
             output += click.style('No results found',
