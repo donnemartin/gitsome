@@ -459,7 +459,7 @@ Example(s):
     $ gh me -t -l 20 -p
     $ gh me --text_avatar --limit 20 --pager
 
-![Imgur](http://i.imgur.com/pblMQn4.png)
+![Imgur](http://i.imgur.com/csk5j0S.png)
 
 ### gh notifications
 
@@ -705,7 +705,7 @@ Search all your open private issues:
     gh search-issues "is:open is:issue is:private" -p
 ```
 
-![Imgur](http://i.imgur.com/tjJiLN7.png)
+![Imgur](http://i.imgur.com/DXXxkBD.png)
 
 ### gh search-repos
 
@@ -767,7 +767,7 @@ Example(s):
     $ gh search-repos "maps language:python" -s stars -l 20 -p
     $ gh search-repos "created:>=2015-01-01 stars:>=1000 language:python" --sort stars --limit 20 --pager
 
-![Imgur](http://i.imgur.com/VjH2jY8.png)
+![Imgur](http://i.imgur.com/kazXWWY.png)
 
 ### gh starred
 
@@ -803,7 +803,7 @@ Example(s):
     $ gh starred foo -l 20 -p
     $ gh starred foo --limit 20 --pager
 
-![Imgur](http://i.imgur.com/I3nffEl.png)
+![Imgur](http://i.imgur.com/JB88Kw8.png)
 
 ### gh trending
 
@@ -853,7 +853,7 @@ Example(s):
     gh trending Python --weekly --devs --browser
     $ gh trending --browser
 
-![Imgur](http://i.imgur.com/65naJT9.png)
+![Imgur](http://i.imgur.com/Dx77HFW.png)
 
 ### gh user
 
