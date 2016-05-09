@@ -1,1 +1,41 @@
-.appveyor.yml
+# What Python version is installed where:
+# http://www.appveyor.com/docs/installed-software#python
+
+environment:
+  matrix:
+    - PYTHON: "C:\\Python27"
+      TOX_ENV: "py27"
+
+    - PYTHON: "C:\\Python33"
+      TOX_ENV: "py33"
+
+    - PYTHON: "C:\\Python34"
+      TOX_ENV: "py34"
+
+    - PYTHON: "C:\\Python35"
+      TOX_ENV: "py35"
+
+
+init:
+  - "%PYTHON%/python -V"
+  - "%PYTHON%/python -c \"import struct;print( 8 * struct.calcsize(\'P\'))\""
+
+install:
+  - "%PYTHON%/Scripts/easy_install -U pip"
+  - "%PYTHON%/Scripts/pip install tox"
+  - "%PYTHON%/Scripts/pip install wheel"
+
+build: false  # Not a C# project, build stuff at the test step instead.
+
+test_script:
+  - "%PYTHON%/Scripts/tox -e %TOX_ENV%"
+
+after_test:
+  - "%PYTHON%/python setup.py bdist_wheel"
+  - ps: "ls dist"
+
+artifacts:
+  - path: dist\*
+
+#on_success:
+#  - TODO: upload the content of dist/*.whl to a public wheelhouse
