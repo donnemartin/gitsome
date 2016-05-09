@@ -1,0 +1,25 @@
+[github]
+user_login = None
+user_pass = None
+user_token = None
+clr_primary = None
+clr_secondary = green
+clr_tertiary = cyan
+clr_quaternary = yellow
+clr_bold = cyan
+clr_code = red
+clr_error = red
+clr_header = yellow
+clr_link = green
+clr_list = cyan
+clr_message = None
+clr_num_comments = green
+clr_num_points = green
+clr_tag = cyan
+clr_time = yellow
+clr_title = None
+clr_tooltip = None
+clr_user = cyan
+clr_view_link = magenta
+clr_view_index = magenta
+
