@@ -97,7 +97,7 @@ Color options include:
 
 For no color, set the value(s) to `None`.
 
-![Imgur](http://i.imgur.com/QLeU5Si.png)
+![Imgur](http://i.imgur.com/BN1lfEf.png)
 
 ## Available Platforms
 
@@ -283,7 +283,7 @@ For more information about the filter and state qualifiers, visit the [`gh issue
 
     $ gh starred "repo filter"
 
-![Imgur](http://i.imgur.com/I3nffEl.png)
+![Imgur](http://i.imgur.com/JB88Kw8.png)
 
 ### Searching Issues and Repos
 
@@ -293,7 +293,7 @@ Search issues that have the most +1s:
 
     $ gh search-issues "is:open is:issue sort:reactions-+1-desc" -p
 
-![Imgur](http://i.imgur.com/tjJiLN7.png)
+![Imgur](http://i.imgur.com/DXXxkBD.png)
 
 Search issues that have the most comments:
 
@@ -319,7 +319,7 @@ Search all Python repos created on or after 2015, with >= 1000 stars:
 
     $ gh search-repos "created:>=2015-01-01 stars:>=1000 language:python" --sort stars -p
 
-![Imgur](http://i.imgur.com/VjH2jY8.png)
+![Imgur](http://i.imgur.com/kazXWWY.png)
 
 For more information about the query qualifiers, visit the [searching repos reference](https://help.github.com/articles/searching-repositories/).
 
@@ -329,7 +329,7 @@ View trending repos:
 
     $ gh trending [language] [-w/--weekly] [-m/--monthly] [-d/--devs] [-b/--browser]
 
-![Imgur](http://i.imgur.com/65naJT9.png)
+![Imgur](http://i.imgur.com/Dx77HFW.png)
 
 View trending devs (devs are currently only supported in browser):
 
