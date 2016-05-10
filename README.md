@@ -168,6 +168,7 @@ For no color, set the value(s) to `None`.
     * [Running the `gh configure` Command](#running-the-gh-configure-command)
     * [Enabling Bash Completions](#enabling-bash-completions)
     * [Enabling `gh` Tab Completions Outside of `gitsome`](#enabling-gh-tab-completions-outside-of-gitsome)
+        * [For Zsh Users](#for-zsh-users)
     * [Optional: Installing `PIL` or `Pillow`](#optional-installing-pil-or-pillow)
     * [Supported Python Versions](#supported-python-versions)
     * [Supported Platforms](#supported-platforms)
@@ -553,17 +554,19 @@ Reload your `bashrc`:
 Tip: `.` is the short form of `source`, so you can run this instead:
 
     $ . ~/.bashrc
-    
+
 #### For Zsh Users
 
-`zsh` includes a module which is compatible with bash completions. Download the `gh_complete.sh` file as above, and append the following into your `.zshrc`:
+`zsh` includes a module which is compatible with bash completions.
+
+Download the [`gh_complete.sh`](https://github.com/donnemartin/gitsome/blob/master/scripts/gh_complete.sh) file as above and append the following to your `.zshrc`:
 
     autoload bashcompinit
     bashcompinit
     source /path/to/gh_complete.sh
-    
-.and then reload your `zshrc`:
-  
+
+Reload your `zshrc`:
+
      $ source ~/.zshrc
 
 ### Optional: Installing `PIL` or `Pillow`
