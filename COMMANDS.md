@@ -831,7 +831,7 @@ Option(s):
 :type monthly: bool
 :param monthly: Determines whether to show the monthly rankings.
     Daily is the default.
-    If both `monthly` and `weekly` are set, `monthly` takes precendence.
+    If both `monthly` and `weekly` are set, `monthly` takes precedence.
 
 :type devs: bool
 :param devs: determines whether to display the trending
