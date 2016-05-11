@@ -620,6 +620,7 @@ On Windows, the `.gitsomeconfig ` file can be found in `%userprofile%`.  For exa
 If you're interested in contributing to `gitsome`, run the following commands:
 
     $ git clone https://github.com/donnemartin/gitsome.git
+    $ cd gitsome
     $ pip install -e .
     $ pip install -r requirements-dev.txt
     $ gitsome
