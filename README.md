@@ -485,6 +485,12 @@ Depending on your system, you might need to run `pip3`, possibly with the `-H` f
 
     $ sudo -H pip3 install gitsome
 
+For most linux users, `pip3` can be installed on your system using the `python3-pip` package. 
+
+For example, Ubuntu users can use:
+
+    $ sudo apt-get install python-pip3
+
 See this [ticket](https://github.com/donnemartin/gitsome/issues/4) for more details.
 
 #### Starting the `gitsome` Shell
@@ -625,6 +631,17 @@ If you're interested in contributing to `gitsome`, run the following commands:
     $ pip install -r requirements-dev.txt
     $ gitsome
     $ gh <command> [param] [options]
+
+If you get an error while installing saying that you need Python 3.4, it could be because your pip command is configured for an older version of Python. To fix this issue, it is recommended to install pip3:
+
+    $ sudo apt-get install python3-pip
+
+Then the above pip commands can be replaced with:
+
+    $ pip3 install -e .
+    $ pip3 install -r requirements-dev.txt
+
+See this [ticket](https://github.com/donnemartin/gitsome/issues/4) for more details.
 
 ### Continuous Integration
 
