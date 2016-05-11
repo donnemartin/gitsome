@@ -36,7 +36,7 @@ Not all GitHub workflows work well in a terminal; `gitsome` attempts to target t
 
 The GitHub integrated commands work with <u>**ALL**</u> shells:
 
-* [Quick reference](https://github.com/donnemartin/gitsome#github-integration-commands-quick-reference)
+* [Quick reference](#github-integration-commands-quick-reference)
 * [General reference](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md)
 
 ![Imgur](http://i.imgur.com/sG09AJH.png)
