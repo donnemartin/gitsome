@@ -101,7 +101,7 @@ def main():
         skw['install_requires'] = [
             'numpydoc==0.5',
             'ply==3.4',
-            'prompt-toolkit==0.51',
+            'prompt-toolkit==0.52',
             'requests==2.8.1',
             'colorama>=0.3.3',
             'click>=5.1',
