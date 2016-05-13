@@ -36,7 +36,7 @@ Out of the box, the Git command line **does not provide integration with GitHub*
 
 Not all GitHub workflows work well in a terminal; `gitsome` attempts to target those that do.
 
-The GitHub integrated commands work with <u>**ALL**</u> shells:
+The GitHub integrated commands work with **[ALL](#enabling-gh-tab-completions-outside-of-gitsome)** shells:
 
 * [Quick reference](#github-integration-commands-quick-reference)
 * [General reference](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md)
