@@ -71,6 +71,8 @@ Enables **autocompletion** and provides **interactive help** for the following:
 * Man pages
 * Python
 
+To enable additional autocompletions, check out the [Enabling Bash Completions](#enabling-bash-completions) section.
+
 ![Imgur](http://i.imgur.com/hg1dpk6.png)
 
 ## Fish-Style Auto-Suggestions
