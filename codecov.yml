@@ -1,73 +1,7 @@
-codecov:
-  token: 1d3c38b2-e6c0-46ed-947f-104930cb8c89
-  branch: master
-  bot: null
+comment:
+    layout: header, changes, diff
 
 coverage:
-  precision: 2
-  round: down
-  range: "70...100"
-
-  notify:
-    slack:
-      default:
-        url: null
-        threshold: null
-        branches: null
-        attachments: "sunburst, diff"
-
-    hipchat:
-      default:
-        url: null
-        notify: no
-        threshold: null
-        branches: null
-        card: yes
-        only_pulls: null
-        message: null
-
-    gitter:
-      default:
-        url: null
-        threshold: null
-        branches: null
-        message: null
-
-    webhook:
-      default:
-        url: null
-        threshold: null
-        branches: null
-        only_pulls: null
-
-    irc:
-      default:
-        server: null
-        branches: null
-        threshold: null
-        message: null
-
-  status:
-    project:
-      default:
-        target: auto
-        threshold: null
-        branches: null
-
-    patch:
-      default:
-        target: auto
-        branches: null
-
-    changes:
-      default:
-        branches: null
-
-  ignore:
-    - "gitsome/lib/*"
-    - "gitsome/compat.py"
-
-comment:
-  layout: "header, diff, changes, sunburst, uncovered"
-  branches: null
-  behavior: default
+    ignore:
+        - gitsome/lib/*
+        - gitsome/compat.py
