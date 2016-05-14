@@ -159,8 +159,6 @@ class Config(object):
     def authenticate_cached_credentials(self, config, parser):
         """Authenticate with the user's credentials in ~/.gitsomeconfig.
 
-        See note about two factor authentication in the authenticate method.
-
         :type config: str
         :param config: The config path.
 
@@ -198,10 +196,6 @@ class Config(object):
         """Log into GitHub.
 
         Adapted from https://github.com/sigmavirus24/github-cli.
-
-        Two factor authentication does not seem to be triggering the
-        SMS code: https://github.com/sigmavirus24/github3.py/issues/387.
-        To log in with 2FA enabled, use a token instead.
 
         :type overwrite: bool
         :param overwrite: indicates whether we cant to overwrite the current
