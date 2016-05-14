@@ -215,9 +215,8 @@ class Config(object):
             self.user_login = ''
             while not self.user_login:
                 self.user_login = input('User Login: ')
-            if click.confirm(('Do you want to log in with a password?\n '
-                              'If not, you will be prompted for a '
-                              'personal access token instead'),
+            if click.confirm(('Do you want to log in with a password [Y] or '
+                              'a personal access token [n]?'),
                              default=True):
                 self.user_pass = ''
                 while not self.user_pass:
@@ -251,7 +250,7 @@ class Config(object):
             else:
                 self.user_token = None
                 while not self.user_token:
-                    self.user_token = input('User Token: ')
+                    self.user_token = input('Token: ')
             if self.user_feed:
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_USER_FEED,
