@@ -159,8 +159,6 @@ class Config(object):
     def authenticate_cached_credentials(self, config, parser):
         """Authenticate with the user's credentials in ~/.gitsomeconfig.
 
-        See note about two factor authentication in the authenticate method.
-
         :type config: str
         :param config: The config path.
 
@@ -182,12 +180,8 @@ class Config(object):
                     token=self.user_token,
                     two_factor_callback=self.request_two_factor_code)
             except configparser.NoOptionError:
-                self.user_pass = parser.get(self.CONFIG_SECTION,
-                                            self.CONFIG_USER_PASS)
-                self.api = self.login(
-                    username=self.user_login,
-                    password=self.user_pass,
-                    two_factor_callback=self.request_two_factor_code)
+                self.print_auth_error()
+                return
             try:
                 self.user_feed = parser.get(self.CONFIG_SECTION,
                                             self.CONFIG_USER_FEED)
@@ -198,10 +192,6 @@ class Config(object):
         """Log into GitHub.
 
         Adapted from https://github.com/sigmavirus24/github-cli.
-
-        Two factor authentication does not seem to be triggering the
-        SMS code: https://github.com/sigmavirus24/github3.py/issues/387.
-        To log in with 2FA enabled, use a token instead.
 
         :type overwrite: bool
         :param overwrite: indicates whether we cant to overwrite the current
@@ -221,9 +211,8 @@ class Config(object):
             self.user_login = ''
             while not self.user_login:
                 self.user_login = input('User Login: ')
-            if click.confirm(('Do you want to log in with a password?\n '
-                              'If not, you will be prompted for a '
-                              'personal access token instead'),
+            if click.confirm(('Do you want to log in with a password [Y] or '
+                              'a personal access token [n]?'),
                              default=True):
                 self.user_pass = ''
                 while not self.user_pass:
@@ -235,10 +224,11 @@ class Config(object):
                         self.user_pass,
                         scopes=['user', 'repo'],
                         note='gitsome',
-                        note_url='https://github.com/donnemartin/github-cli'
+                        note_url='https://github.com/donnemartin/github-cli',
+                        two_factor_callback=self.request_two_factor_code
                     )
                     self.user_token = auth.token
-                except UnprocessableEntity:
+                except (UnprocessableEntity, AuthenticationFailed):
                     click.secho('Error creating token.',
                                 fg=self.clr_error)
                     click.secho(('Visit the following page and verify you do '
@@ -249,14 +239,12 @@ class Config(object):
                                  '  user_token = TOKEN\n'
                                  'You can also generate a new token.'),
                                 fg=self.clr_message)
-                    return
-                except AuthenticationFailed:
                     self.print_auth_error()
                     return
             else:
                 self.user_token = None
                 while not self.user_token:
-                    self.user_token = input('User Token: ')
+                    self.user_token = input('Token: ')
             if self.user_feed:
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_USER_FEED,
@@ -508,9 +496,6 @@ class Config(object):
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_USER_LOGIN,
                        self.user_login)
-            parser.set(self.CONFIG_SECTION,
-                       self.CONFIG_USER_PASS,
-                       self.user_pass)
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_USER_TOKEN,
                        self.user_token)
