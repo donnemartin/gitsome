@@ -228,7 +228,7 @@ class Config(object):
                         two_factor_callback=self.request_two_factor_code
                     )
                     self.user_token = auth.token
-                except UnprocessableEntity:
+                except (UnprocessableEntity, AuthenticationFailed):
                     click.secho('Error creating token.',
                                 fg=self.clr_error)
                     click.secho(('Visit the following page and verify you do '
@@ -239,8 +239,6 @@ class Config(object):
                                  '  user_token = TOKEN\n'
                                  'You can also generate a new token.'),
                                 fg=self.clr_message)
-                    return
-                except AuthenticationFailed:
                     self.print_auth_error()
                     return
             else:
