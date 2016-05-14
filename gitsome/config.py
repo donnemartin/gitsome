@@ -180,12 +180,8 @@ class Config(object):
                     token=self.user_token,
                     two_factor_callback=self.request_two_factor_code)
             except configparser.NoOptionError:
-                self.user_pass = parser.get(self.CONFIG_SECTION,
-                                            self.CONFIG_USER_PASS)
-                self.api = self.login(
-                    username=self.user_login,
-                    password=self.user_pass,
-                    two_factor_callback=self.request_two_factor_code)
+                self.print_auth_error()
+                return
             try:
                 self.user_feed = parser.get(self.CONFIG_SECTION,
                                             self.CONFIG_USER_FEED)
@@ -502,9 +498,6 @@ class Config(object):
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_USER_LOGIN,
                        self.user_login)
-            parser.set(self.CONFIG_SECTION,
-                       self.CONFIG_USER_PASS,
-                       self.user_pass)
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_USER_TOKEN,
                        self.user_token)
