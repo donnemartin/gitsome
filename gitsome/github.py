@@ -378,7 +378,7 @@ class GitHub(object):
         click.secho(('  Run the following command to view or download a '
                      '.gitignore file:\n'
                      '    View:     gh gitignore Python\n'
-                     '    Downlaod: gh gitignore Python > .gitignore\n'),
+                     '    Download: gh gitignore Python > .gitignore\n'),
                     fg=self.config.clr_message)
 
     @authenticate

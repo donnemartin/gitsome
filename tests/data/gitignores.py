@@ -14,4 +14,4 @@
 # language governing permissions and limitations under the License.
 
 formatted_gitignores = u'\x1b[35m  1.   \x1b[0mActionscript \x1b[0m\n\x1b[35m  2.   \x1b[0mAda \x1b[0m\n\x1b[35m  3.   \x1b[0mAgda \x1b[0m\n\x1b[35m  4.   \x1b[0mAndroid \x1b[0m\n\x1b[35m  5.   \x1b[0mAppEngine \x1b[0m\n\x1b[0m'
-formatted_gitignores_tip = u'  Run the following command to view or download a .gitignore file:\n    View:     gh gitignore Python\n    Downlaod: gh gitignore Python > .gitignore\n'
+formatted_gitignores_tip = u'  Run the following command to view or download a .gitignore file:\n    View:     gh gitignore Python\n    Download: gh gitignore Python > .gitignore\n'
