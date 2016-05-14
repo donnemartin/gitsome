@@ -18,7 +18,7 @@ Usage/Example(s):
 
 #### Authentication
 
-To properly integrate with GitHub, you will be asked to enter a user name and either a password or a [personal access token](https://github.com/settings/tokens).  **If you use two-factor authentication, you must log in with a personal access token**, for more details see this [ticket](https://github.com/sigmavirus24/github3.py/issues/387).
+To properly integrate with GitHub, you will be asked to enter a user name and either a password or a [personal access token](https://github.com/settings/tokens).  If you use two-factor authentication, you will also need to enter your 2FA code, or you can log in with a personal access token.
 
 Visit the following page to generate a token:
 
