@@ -667,7 +667,9 @@ If you're interested in contributing to `gitsome`, run the following commands:
     $ gitsome
     $ gh <command> [param] [options]
 
-If you get an error while installing saying that you need Python 3.4, it could be because your pip command is configured for an older version of Python. To fix this issue, it is recommended to install pip3:
+#### `pip3`
+
+If you get an error while installing saying that you need Python 3.4+, it could be because your `pip` command is configured for an older version of Python. To fix this issue, it is recommended to install `pip3`:
 
     $ sudo apt-get install python3-pip
 
