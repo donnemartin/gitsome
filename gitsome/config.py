@@ -230,16 +230,13 @@ class Config(object):
                     self.user_pass = self.getpass('Password: ')
                 try:
                     # Get an authorization for this
-                    def twofa():
-                        return self.getpass('One time password: ')
-
                     auth = self.authorize(
                         self.user_login,
                         self.user_pass,
                         scopes=['user', 'repo'],
                         note='gitsome',
                         note_url='https://github.com/donnemartin/github-cli',
-                        two_factor_callback=twofa
+                        two_factor_callback=self.request_two_factor_code
                     )
                     self.user_token = auth.token
                 except UnprocessableEntity:
