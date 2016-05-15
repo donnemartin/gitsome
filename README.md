@@ -726,7 +726,7 @@ Review the [Contributing Guidelines](https://github.com/donnemartin/gitsome/blob
 * [img2txt](https://github.com/hit9/img2txt) by [hit9](https://github.com/hit9)
 * [python-prompt-toolkit](https://github.com/jonathanslenders/python-prompt-toolkit) by [jonathanslenders](https://github.com/jonathanslenders)
 * [requests](https://github.com/kennethreitz/requests) by [kennethreitz](https://github.com/kennethreitz)
-* [xonsh](https://github.com/scopatz/xonsh) by [scopatz](https://github.com/scopatz/xonsh)
+* [xonsh](https://github.com/scopatz/xonsh) by [scopatz](https://github.com/scopatz)
 
 ## Contact Info
 
