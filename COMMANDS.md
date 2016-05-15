@@ -619,9 +619,9 @@ Option(s):
 Example(s):
 
     $ gh repos
-    $ gh repos "data-science"
-    $ gh repos "data-science" -l 20 -p
-    $ gh repos "data-science" --limit 20 --pager
+    $ gh repos aws
+    $ gh repos aws -l 20 -p
+    $ gh repos aws --limit 20 --pager
 
 ![Imgur](http://i.imgur.com/YXWPWma.png)
 
