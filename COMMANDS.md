@@ -569,7 +569,7 @@ Usage/Example(s):
 
 ### gh repo
 
-Output detailed information about the given filter.
+Output detailed information about the given repo.
 
 Usage:
 
