@@ -491,7 +491,7 @@ For most linux users, `pip3` can be installed on your system using the `python3-
 
 For example, Ubuntu users can use:
 
-    $ sudo apt-get install python-pip3
+    $ sudo apt-get install python3-pip
 
 See this [ticket](https://github.com/donnemartin/gitsome/issues/4) for more details.
 
