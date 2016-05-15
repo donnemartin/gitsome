@@ -487,7 +487,7 @@ Depending on your system, you might need to run `pip3`, possibly with the `-H` f
 
     $ sudo -H pip3 install gitsome
 
-For most linux users, `pip3` can be installed on your system using the `python3-pip` package. 
+For most linux users, `pip3` can be installed on your system using the `python3-pip` package.
 
 For example, Ubuntu users can use:
 
