@@ -71,7 +71,7 @@ def main():
     skw = dict(
         name='gitsome',
         description='A Supercharged Git/Shell Autocompleter with GitHub Integration.',  # NOQA
-        license='BSD',
+        license='Apache License 2.0',
         version=VERSION,
         author='Donne Martin',
         maintainer='Donne Martin',

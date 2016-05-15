@@ -1,13 +1,15 @@
-![Imgur](http://i.imgur.com/PMQPfxv.gif)
-
-[![Build Status](https://travis-ci.org/donnemartin/gitsome.svg?branch=master)](https://travis-ci.org/donnemartin/gitsome) [![PyPI version](https://badge.fury.io/py/gitsome.svg)](http://badge.fury.io/py/gitsome) [![PyPI](https://img.shields.io/pypi/pyversions/gitsome.svg)](https://pypi.python.org/pypi/gitsome/) [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+<p align="center">
+  <img src="http://i.imgur.com/0SXZ90y.gif">
+</p>
 
 gitsome
 =======
 
->A Supercharged Git/Shell Autocompleter with GitHub Integration.
+[![Build Status](https://travis-ci.org/donnemartin/gitsome.svg?branch=master)](https://travis-ci.org/donnemartin/gitsome) [![Codecov](https://img.shields.io/codecov/c/github/donnemartin/gitsome.svg)](https://codecov.io/github/donnemartin/gitsome)
 
-To view the latest `README`, `docs`, and `code` visit the GitHub repo:
+[![PyPI version](https://badge.fury.io/py/gitsome.svg)](http://badge.fury.io/py/gitsome) [![PyPI](https://img.shields.io/pypi/pyversions/gitsome.svg)](https://pypi.python.org/pypi/gitsome/) [![License](https://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+
+To view the latest `README`, `docs`, and `code`, visit the GitHub repo:
 
 https://github.com/donnemartin/gitsome
 
@@ -18,7 +20,34 @@ https://github.com/donnemartin/gitsome/issues
 Changelog
 =========
 
+0.5.0 (2016-05-15)
+------------------
+
+### Features
+
+* [#12](https://github.com/donnemartin/gitsome/issues/12) - Allow 2FA-enabled users to log in with a password + 2FA code.  Previously 2FA-enabled users could only log in with a [personal access token](https://github.com/settings/tokens).  Also includes an update of login prompts to improve clarity.
+
+### Bug Fixes
+
+* [#16](https://github.com/donnemartin/gitsome/pull/16), [#28](https://github.com/donnemartin/gitsome/pull/28) - Fix typos in README.
+* [#18](https://github.com/donnemartin/gitsome/pull/18) - Fix dev install instructions in README.
+* [#24](https://github.com/donnemartin/gitsome/pull/24) - Fix style guide broken link in CONTRIBUTING.
+
+### Updates
+
+* [#1](https://github.com/donnemartin/gitsome/issues/1) - Add Codecov coverage testing status to README.
+* [#2](https://github.com/donnemartin/gitsome/issues/2) - Add note about enabling Zsh completions to README.
+* [#4](https://github.com/donnemartin/gitsome/issues/4) - Add note about using `pip3` to README.
+* [#5](https://github.com/donnemartin/gitsome/issues/5) - Decrease speed of README gif.
+* [#6](https://github.com/donnemartin/gitsome/pull/6) - Update url for `click`.
+* [#20](https://github.com/donnemartin/gitsome/issues/20) - Add note about enabling more completions to README.
+* [#21](https://github.com/donnemartin/gitsome/issues/21) - Bump up `prompt-toolkit` version from `0.51` to `0.52`.
+* [#26](https://github.com/donnemartin/gitsome/issues/26) - Add `xonsh` copyright notice to LICENSE.
+* [#32](https://github.com/donnemartin/gitsome/pull/32) - Add `github3.py`, `html2text`, and `img2txt` copyright notices to LICENSE.
+* Update installation instructions in README.
+* Update color customization discussion in README.
+
 0.4.0 (2016-05-09)
 ------------------
 
-- Initial release.
+* Initial release.
