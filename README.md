@@ -119,6 +119,7 @@ For no color, set the value(s) to `None`.  `white` can appear as light gray on s
 >Not all GitHub workflows work well in a terminal; `gitsome` attempts to target those that do.
 
 * Add additional GitHub API integrations
+* [GitHub Enterprise support](https://github.com/donnemartin/gitsome/issues/3)
 
 `gitsome` is just getting started.  Feel free to [contribute!](#contributing)
 
