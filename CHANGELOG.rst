@@ -1,10 +1,5 @@
-.. raw:: html
-
-   <p align="center">
-
-.. raw:: html
-
-   </p>
+.. figure:: http://i.imgur.com/0SXZ90y.gif
+   :alt:
 
 gitsome
 =======
