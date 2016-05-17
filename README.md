@@ -36,6 +36,8 @@ Not all GitHub workflows work well in a terminal; `gitsome` attempts to target t
 
 The GitHub integrated commands work with **[ALL](#enabling-gh-tab-completions-outside-of-gitsome)** shells:
 
+    $ gh <command> [param] [options]
+
 * [Quick reference](#github-integration-commands-quick-reference)
 * [General reference](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md)
 
