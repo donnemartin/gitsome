@@ -39,6 +39,8 @@ The GitHub integrated commands work with **[ALL](#enabling-gh-tab-completions-ou
 * [Quick reference](#github-integration-commands-quick-reference)
 * [General reference](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md)
 
+Run `gh` commands along with [Git-Extras](https://github.com/tj/git-extras/blob/master/Commands.md) and [hub](https://hub.github.com/) commands to unlock even more GitHub integrations!
+
 ![Imgur](http://i.imgur.com/sG09AJH.png)
 
 ### Git and GitHub Autocompleter with Interactive Help
