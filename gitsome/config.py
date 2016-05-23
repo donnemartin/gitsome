@@ -23,7 +23,7 @@ from getpass import getpass
 import os
 
 from .compat import configparser
-from .lib.github3 import authorize, login
+from .lib.github3 import authorize, enterprise_login, login
 from .lib.github3.exceptions import AuthenticationFailed, UnprocessableEntity
 
 
@@ -172,7 +172,8 @@ class Config(object):
         self.clr_view_link = 'magenta'
         self.clr_view_index = 'magenta'
 
-    def authenticate_cached_credentials(self, config, parser):
+    def authenticate_cached_credentials(self, config, parser,
+                                        enterprise_auth=enterprise_login):
         """Authenticate with the user's credentials in ~/.gitsomeconfig.
 
         :type config: str
@@ -186,23 +187,45 @@ class Config(object):
                 parser.read_file(config_file)
             except AttributeError:
                 parser.readfp(config_file)
-            self.user_login = parser.get(self.CONFIG_SECTION,
-                                         self.CONFIG_USER_LOGIN)
-            try:
-                self.user_token = parser.get(self.CONFIG_SECTION,
-                                             self.CONFIG_USER_TOKEN)
-                self.api = self.login(
-                    username=self.user_login,
-                    token=self.user_token,
-                    two_factor_callback=self.request_two_factor_code)
-            except configparser.NoOptionError:
-                self.print_auth_error()
-                return
-            try:
-                self.user_feed = parser.get(self.CONFIG_SECTION,
-                                            self.CONFIG_USER_FEED)
-            except configparser.NoOptionError:
-                pass
+            self.user_login = self.load_config(
+                parser=parser,
+                cfg_label=self.CONFIG_USER_LOGIN)
+            self.user_pass = self.load_config(
+                parser=parser,
+                cfg_label=self.CONFIG_USER_PASS)
+            self.user_token = self.load_config(
+                parser=parser,
+                cfg_label=self.CONFIG_USER_TOKEN)
+            self.enterprise_url = self.load_config(
+                parser=parser,
+                cfg_label=self.CONFIG_ENTERPRISE_URL)
+            self.verify_ssl = self.load_config(
+                parser=parser,
+                cfg_label=self.CONFIG_VERIFY_SSL,
+                boolean=True)
+            self.user_feed = self.load_config(
+                parser=parser,
+                cfg_label=self.CONFIG_USER_FEED)
+            login_kwargs = {
+                'username': self.user_login,
+                'two_factor_callback': self.request_two_factor_code,
+            }
+            if self.enterprise_url is not None:
+                self.login = enterprise_auth
+                login_kwargs.update({
+                    'url': self.enterprise_url,
+                    'verify': self.verify_ssl,
+                })
+                if self.user_pass is not None:
+                    login_kwargs.update({'password': self.user_pass})
+                elif self.user_token is not None:
+                    login_kwargs.update({'token': self.user_token})
+                else:
+                    self.print_auth_error()
+                    return
+            else:
+                login_kwargs.update({'token': self.user_token})
+            self.api = self.login(**login_kwargs)
 
     def authenticate(self, overwrite=False):
         """Log into GitHub.
@@ -564,9 +587,14 @@ class Config(object):
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_USER_LOGIN,
                        self.user_login)
-            parser.set(self.CONFIG_SECTION,
-                       self.CONFIG_USER_TOKEN,
-                       self.user_token)
+            if self.user_pass is not None:
+                parser.set(self.CONFIG_SECTION,
+                           self.CONFIG_USER_PASS,
+                           self.user_pass)
+            if self.user_token is not None:
+                parser.set(self.CONFIG_SECTION,
+                           self.CONFIG_USER_TOKEN,
+                           self.user_token)
             if self.user_feed is not None:
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_USER_FEED,
