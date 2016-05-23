@@ -54,13 +54,13 @@ class Config(object):
     :type CONFIG_USER_TOKEN: str
     :param CONFIG_USER_TOKEN: The user token.
 
-    :type CONFIG_USER_FEED: :class:`x.y`
+    :type CONFIG_USER_FEED: str
     :param CONFIG_USER_FEED: The user feed config.  This is the feed on
         https://github.com/ when logged in and requires the basic auth model,
         which doesn't work when logging in with tokens or 2FA.  This config
         listed the pre-signed url to access the feed.
 
-    :type CONFIG_URL: :class:`x.y`
+    :type CONFIG_URL: str
     :param CONFIG_URL: The config file name that contains urls used in the
         `gh view` command.
 
@@ -77,13 +77,13 @@ class Config(object):
     :param urls: The last set of urls the user has seen, which allows the user
         to quickly access a repo url with the gh view [url_index] command.
 
-    :type user_login: :class:`x.y`
+    :type user_login: str
     :param user_login: The user's login in ~/.gitsomeconfig.
 
-    :type user_pass: :class:`x.y`
+    :type user_pass: str
     :param user_pass: The user's pass in ~/.gitsomeconfig.
 
-    :type user_token: :class:`x.y`
+    :type user_token: str
     :param user_token: The user's token in ~/.gitsomeconfig.
     """
 
