@@ -227,46 +227,74 @@ class Config(object):
                 login_kwargs.update({'token': self.user_token})
             self.api = self.login(**login_kwargs)
 
-    def authenticate(self, overwrite=False):
+    def authenticate(self, enterprise=False,
+                     enterprise_auth=enterprise_login, overwrite=False):
         """Log into GitHub.
 
         Adapted from https://github.com/sigmavirus24/github-cli.
 
+        :type enterprise: bool
+        :param enterprise: Determines whether to configure GitHub Enterprise.
+            Default: False.
+
         :type overwrite: bool
         :param overwrite: indicates whether we cant to overwrite the current
-            set of credentials.
+            set of credentials.  Default: False.
         """
         if self.api is not None and not overwrite:
             return
-        # Get the full path to the configuration file
+        # Get the full path to the configuration file.
         config = self.get_github_config_path(self.CONFIG)
         parser = configparser.RawConfigParser()
-        # Check to make sure the file exists and we are allowed to read it
+        # Check to make sure the file exists and we are allowed to read it.
+        # Skip if we want to overwrite the auth settings.
         if os.path.isfile(config) and os.access(config, os.R_OK | os.W_OK) and \
                 not overwrite:
+            with open(config) as config_file:
+                try:
+                    parser.read_file(config_file)
+                except AttributeError:
+                    parser.readfp(config_file)
             self.authenticate_cached_credentials(config, parser)
         else:
-            # The file didn't exist or we don't have the correct permissions
-            self.user_login = ''
+            # The file didn't exist or we don't have the correct permissions.
+            login_kwargs = {
+                'two_factor_callback': self.request_two_factor_code,
+            }
+            if enterprise:
+                self.login = enterprise_auth
+                while not self.enterprise_url:
+                    self.enterprise_url = input('Enterprise URL: ')
+                if click.confirm('Do you verify SSL certs?', default=True):
+                    self.verify_ssl = True
+                else:
+                    self.verify_ssl = False
+                login_kwargs.update({
+                    'url': self.enterprise_url,
+                    'verify': self.verify_ssl,
+                })
             while not self.user_login:
                 self.user_login = input('User Login: ')
+            login_kwargs.update({'username': self.user_login})
             if click.confirm(('Do you want to log in with a password [Y] or '
                               'a personal access token [n]?'),
                              default=True):
-                self.user_pass = ''
                 while not self.user_pass:
                     self.user_pass = self.getpass('Password: ')
+                login_kwargs.update({'password': self.user_pass})
                 try:
-                    # Get an authorization for this
-                    auth = self.authorize(
-                        self.user_login,
-                        self.user_pass,
-                        scopes=['user', 'repo'],
-                        note='gitsome',
-                        note_url='https://github.com/donnemartin/github-cli',
-                        two_factor_callback=self.request_two_factor_code
-                    )
-                    self.user_token = auth.token
+                    if not enterprise:
+                        # Trade the user password for a personal access token.
+                        # This does not seem to be available for Enterprise.
+                        auth = self.authorize(
+                            self.user_login,
+                            self.user_pass,
+                            scopes=['user', 'repo'],
+                            note='gitsome',
+                            note_url='https://github.com/donnemartin/gitsome',
+                            two_factor_callback=self.request_two_factor_code
+                        )
+                        self.user_token = auth.token
                 except (UnprocessableEntity, AuthenticationFailed):
                     click.secho('Error creating token.',
                                 fg=self.clr_error)
@@ -281,20 +309,19 @@ class Config(object):
                     self.print_auth_error()
                     return
             else:
-                self.user_token = None
+                # The user has chosen to authenticate with a token.
                 while not self.user_token:
                     self.user_token = input('Token: ')
-            if self.user_feed:
-                parser.set(self.CONFIG_SECTION,
-                           self.CONFIG_USER_FEED,
-                           self.user_feed)
-            self.api = self.login(
-                token=self.user_token,
-                two_factor_callback=self.request_two_factor_code)
+                login_kwargs.update({'token': self.user_token})
+            self.api = self.login(**login_kwargs)
             if self.check_auth():
                 click.secho('Log in successful.')
             else:
                 self.print_auth_error()
+            if self.user_feed:
+                parser.set(self.CONFIG_SECTION,
+                           self.CONFIG_USER_FEED,
+                           self.user_feed)
 
     def check_auth(self):
         """Check if the current authorization is valid.
