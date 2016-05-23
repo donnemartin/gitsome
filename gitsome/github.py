@@ -148,7 +148,7 @@ class GitHub(object):
                                       fg=self.config.clr_message)
             return avatar_text
 
-    def configure(self):
+    def configure(self, enterprise):
         """Configure gitsome.
 
         Attempts to authenticate the user and to set up the user's news feed.
@@ -156,8 +156,11 @@ class GitHub(object):
         If `gitsome` has not yet been configured, calling a `gh` command that
         requires authentication will automatically invoke the `configure`
         command.
+
+        :type enterprise: bool
+        :param enterprise: Determines whether to configure GitHub Enterprise.
         """
-        self.config.authenticate(overwrite=True)
+        self.config.authenticate(enterprise=enterprise, overwrite=True)
         self.config.prompt_news_feed()
         self.config.show_bash_completions_info()
         self.config.save_config()
