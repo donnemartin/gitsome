@@ -116,9 +116,10 @@ class GitHub(object):
             urllib.request.urlretrieve(url, avatar)
         except urllib.error.URLError:
             pass
-        avatar_text = self.img2txt(avatar, ansi=(not text_avatar))
-        avatar_text += '\n'
+        avatar_text = ''
         if os.path.exists(avatar):
+            avatar_text = self.img2txt(avatar, ansi=(not text_avatar))
+            avatar_text += '\n'
             os.remove(avatar)
         return avatar_text
 
