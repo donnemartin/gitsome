@@ -29,7 +29,7 @@ from .lib.github3.exceptions import UnprocessableEntity
 from .lib.img2txt import img2txt
 import click
 import feedparser
-from requests.exceptions import SSLError
+from requests.exceptions import MissingSchema, SSLError
 
 from .config import Config
 from .formatter import Formatter
@@ -88,6 +88,9 @@ class GitHub(object):
                     click.secho(('SSL cert verification failed.\n  Try running '
                                  'gh configure --enterprise\n  and type '
                                  "'n' when asked whether to verify SSL certs."),
+                                fg=self.config.clr_error)
+                except MissingSchema:
+                    click.secho('Invalid GitHub Enterprise url',
                                 fg=self.config.clr_error)
         return auth_wrapper
 
