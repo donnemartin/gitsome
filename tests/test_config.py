@@ -43,6 +43,16 @@ class ConfigTest(unittest.TestCase):
         assert two_factor_callback is not None
         assert verify
 
+    def verify_login_token_url_enterprise(self, username=None, password=None,
+                                          token=None, url=None,
+                                          two_factor_callback=None,
+                                          verify=True):
+        assert username is not None
+        assert token is not None
+        assert url is not None
+        assert two_factor_callback is not None
+        assert verify
+
     def test_config(self):
         expected = os.path.join(os.path.abspath(os.environ.get('HOME', '')),
                                 self.github.config.CONFIG)
@@ -63,6 +73,26 @@ class ConfigTest(unittest.TestCase):
         self.github.config.authenticate_cached_credentials(config, parser)
         assert self.github.config.user_login == 'foo'
         assert self.github.config.user_token == 'bar'
+
+    def test_authenticate_cached_credentials_token_enterprise(self):
+        self.github.config.user_login = 'foo'
+        self.github.config.user_token = 'bar'
+        self.github.config.enterprise_url = 'baz'
+        self.github.config.save_config()
+        self.github.config.user_login = ''
+        self.github.config.user_token = ''
+        self.github.config.enterprise_url = ''
+        self.github.config.api = None
+        config = self.github.config.get_github_config_path(
+            self.github.config.CONFIG)
+        parser = configparser.RawConfigParser()
+        self.github.config.authenticate_cached_credentials(
+            config,
+            parser,
+            enterprise_auth=self.verify_login_token_url_enterprise)
+        assert self.github.config.user_login == 'foo'
+        assert self.github.config.user_token == 'bar'
+        assert self.github.config.enterprise_url == 'baz'
 
     @mock.patch('gitsome.github.click.secho')
     def test_check_auth_error(self, mock_click_secho):
