@@ -43,6 +43,15 @@ class ConfigTest(unittest.TestCase):
         assert two_factor_callback is not None
         assert verify
 
+    def verify_login_pass(self, username=None, password=None,
+                          token=None, url=None,
+                          two_factor_callback=None,
+                          verify=True):
+        assert username is not None
+        assert password is not None
+        assert two_factor_callback is not None
+        assert verify
+
     def verify_login_token_url_enterprise(self, username=None, password=None,
                                           token=None, url=None,
                                           two_factor_callback=None,
@@ -132,6 +141,18 @@ class ConfigTest(unittest.TestCase):
                 self.github.config.login = self.verify_login_token
                 self.github.config.user_login = 'foo'
                 self.github.config.user_token = 'bar'
+                self.github.config.authenticate(
+                    enterprise=False,
+                    overwrite=True)
+
+    @mock.patch('gitsome.github.click.secho')
+    @mock.patch('gitsome.config.Config.authenticate_cached_credentials')
+    def test_authenticate_pass(self, mock_auth, mock_click_secho):
+        with mock.patch('click.confirm', return_value=True):
+            with mock.patch('builtins.input', return_value='foo'):
+                self.github.config.login = self.verify_login_pass
+                self.github.config.user_login = 'foo'
+                self.github.config.user_pass = 'bar'
                 self.github.config.authenticate(
                     enterprise=False,
                     overwrite=True)
