@@ -439,7 +439,6 @@ class GitHub(GitHubCore):
             else:
                 feeds[key] = URITemplate(value)
 
-        import pdb; pdb.set_trace()
         return feeds
 
     @requires_auth
