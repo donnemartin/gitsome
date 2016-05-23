@@ -29,6 +29,7 @@ from .lib.github3.exceptions import UnprocessableEntity
 from .lib.img2txt import img2txt
 import click
 import feedparser
+from requests.exceptions import SSLError
 
 from .config import Config
 from .formatter import Formatter
@@ -81,7 +82,13 @@ class GitHub(object):
             self.config.authenticate()
             self.config.save_config()
             if self.config.check_auth():
-                return func(self, *args, **kwargs)
+                try:
+                    return func(self, *args, **kwargs)
+                except SSLError:
+                    click.secho(('SSL cert verification failed.\n  Try running '
+                                 'gh configure --enterprise\n  and type '
+                                 "'n' when asked whether to verify SSL certs."),
+                                fg=self.config.clr_error)
         return auth_wrapper
 
     def avatar(self, url, text_avatar):
