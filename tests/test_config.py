@@ -125,6 +125,18 @@ class ConfigTest(unittest.TestCase):
         assert self.github.config.enterprise_url == 'baz'
 
     @mock.patch('gitsome.github.click.secho')
+    @mock.patch('gitsome.config.Config.authenticate_cached_credentials')
+    def test_authenticate_token(self, mock_auth, mock_click_secho):
+        with mock.patch('click.confirm', return_value=False):
+            with mock.patch('builtins.input', return_value='foo'):
+                self.github.config.login = self.verify_login_token
+                self.github.config.user_login = 'foo'
+                self.github.config.user_token = 'bar'
+                self.github.config.authenticate(
+                    enterprise=False,
+                    overwrite=True)
+
+    @mock.patch('gitsome.github.click.secho')
     def test_check_auth_error(self, mock_click_secho):
         self.github.config.api = None
         self.github.config.check_auth()
