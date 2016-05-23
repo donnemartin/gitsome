@@ -287,7 +287,7 @@ class Config(object):
         return config_file_path
 
     def load_config(self, config_funcs):
-        """Load the specified config from ~/.haxornewsconfig.
+        """Load the specified config from ~/.gitsomeconfig.
 
         :type foo: list
         :param foo: The config methods to run.
@@ -307,7 +307,7 @@ class Config(object):
             return None
 
     def load_config_colors(self, parser):
-        """Load the color config from ~/.haxornewsconfig.
+        """Load the color config from ~/.gitsomeconfig.
 
         :type parser: :class:`ConfigParser.RawConfigParser`
         :param parser: An instance of `ConfigParser.RawConfigParser`.
@@ -315,7 +315,7 @@ class Config(object):
         self.load_colors(parser)
 
     def load_color(self, parser, color_config, default):
-        """Load the specified color from ~/.haxornewsconfig.
+        """Load the specified color from ~/.gitsomeconfig.
 
         :type parser: :class:`ConfigParser.RawConfigParser`
         :param parser: An instance of `ConfigParser.RawConfigParser`.
@@ -338,7 +338,7 @@ class Config(object):
         return color
 
     def load_colors(self, parser):
-        """Load all colors from ~/.haxornewsconfig.
+        """Load all colors from ~/.gitsomeconfig.
 
         :type parser: :class:`ConfigParser.RawConfigParser`
         :param parser: An instance of `ConfigParser.RawConfigParser`.
