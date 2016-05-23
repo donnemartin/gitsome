@@ -265,7 +265,8 @@ class Config(object):
                 self.login = enterprise_auth
                 while not self.enterprise_url:
                     self.enterprise_url = input('Enterprise URL: ')
-                if click.confirm('Do you verify SSL certs?', default=True):
+                if click.confirm('Do you want to verify SSL certs?',
+                                 default=True):
                     self.verify_ssl = True
                 else:
                     self.verify_ssl = False
