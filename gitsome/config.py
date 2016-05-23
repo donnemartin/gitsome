@@ -142,7 +142,7 @@ class Config(object):
         self.verify_ssl = True
         self.urls = []
         self._init_colors()
-        self.load_config([
+        self.load_configs([
             self.load_config_colors,
         ])
         self.login = login
@@ -302,7 +302,7 @@ class Config(object):
         config_file_path = os.path.join(home, config_file_name)
         return config_file_path
 
-    def load_config(self, config_funcs):
+    def load_configs(self, config_funcs):
         """Load the specified config from ~/.gitsomeconfig.
 
         :type foo: list
