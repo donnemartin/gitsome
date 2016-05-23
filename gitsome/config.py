@@ -73,6 +73,9 @@ class Config(object):
         urls the user has seen, which allows the user to quickly access a repo
         url with the `gh view [url_index]` command.
 
+    :type CONFIG_VERIFY_SSL: str
+    :param CONFIG_VERIFY_SSL: Determines whether to verify SSL certs.
+
     :type urls: list
     :param urls: The last set of urls the user has seen, which allows the user
         to quickly access a repo url with the gh view [url_index] command.
@@ -85,6 +88,9 @@ class Config(object):
 
     :type user_token: str
     :param user_token: The user's token in ~/.gitsomeconfig.
+
+    :type verify_ssl: bool
+    :param verify_ssl: Determines whether to verify SSL certs.
     """
 
     CONFIG = '.gitsomeconfig'
@@ -113,6 +119,7 @@ class Config(object):
     CONFIG_USER_PASS = 'user_pass'
     CONFIG_USER_TOKEN = 'user_token'
     CONFIG_USER_FEED = 'user_feed'
+    CONFIG_VERIFY_SSL = 'verify_ssl'
     CONFIG_URL = '.gitsomeconfigurl'
     CONFIG_URL_SECTION = 'url'
     CONFIG_URL_LIST = 'url_list'
@@ -124,6 +131,7 @@ class Config(object):
         self.user_pass = None
         self.user_token = None
         self.user_feed = None
+        self.verify_ssl = True
         self.urls = []
         self._init_colors()
         self.load_config([
@@ -503,6 +511,9 @@ class Config(object):
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_USER_FEED,
                            self.user_feed)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_VERIFY_SSL,
+                       self.verify_ssl)
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_CLR_PRIMARY,
                        self.clr_primary)
