@@ -40,29 +40,6 @@ class ConfigTest(unittest.TestCase):
         assert self.github.config \
             .get_github_config_path(self.github.config.CONFIG) == expected
 
-    def test_authenticate_cached_credentials(self):
-        self.github.config.user_login = 'foo'
-        self.github.config.user_token = 'bar'
-        self.github.config.save_config()
-        self.github.config.user_login = ''
-        self.github.config.user_token = ''
-        self.github.config.api = None
-        config = self.github.config.get_github_config_path(
-            self.github.config.CONFIG)
-        parser = configparser.RawConfigParser()
-        self.github.config.authenticate_cached_credentials(config, parser)
-        assert self.github.config.user_login == 'foo'
-        assert self.github.config.user_token == 'bar'
-        assert self.github.config.api
-
-    @mock.patch('gitsome.github.click.secho')
-    @mock.patch('gitsome.config.Config.authenticate_cached_credentials')
-    def test_authenticate(self, mock_auth, mock_click_secho):
-        with mock.patch('click.confirm', return_value='y'):
-            with mock.patch('builtins.input', return_value='foo'):
-                self.github.config.authenticate(overwrite=True)
-        mock_click_secho.assert_called_with('Log in successful.')
-
     @mock.patch('gitsome.github.click.secho')
     def test_check_auth_error(self, mock_click_secho):
         self.github.config.api = None
