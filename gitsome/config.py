@@ -322,10 +322,6 @@ class Config(object):
                     self.user_token = input('Token: ')
                 login_kwargs.update({'token': self.user_token})
             self.api = self.login(**login_kwargs)
-            if self.check_auth():
-                click.secho('Log in successful.')
-            else:
-                self.print_auth_error()
             if self.user_feed:
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_USER_FEED,

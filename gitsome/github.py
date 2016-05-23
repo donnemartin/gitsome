@@ -25,7 +25,7 @@ import urllib
 import webbrowser
 
 from .lib.github3 import null
-from .lib.github3.exceptions import UnprocessableEntity
+from .lib.github3.exceptions import AuthenticationFailed, UnprocessableEntity
 from .lib.img2txt import img2txt
 import click
 import feedparser
@@ -92,6 +92,8 @@ class GitHub(object):
                 except MissingSchema:
                     click.secho('Invalid GitHub Enterprise url',
                                 fg=self.config.clr_error)
+                except AuthenticationFailed:
+                    self.config.print_auth_error()
         return auth_wrapper
 
     def avatar(self, url, text_avatar):
