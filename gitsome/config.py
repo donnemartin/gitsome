@@ -202,7 +202,7 @@ class Config(object):
             self.verify_ssl = self.load_config(
                 parser=parser,
                 cfg_label=self.CONFIG_VERIFY_SSL,
-                boolean=True)
+                boolean_config=True)
             self.user_feed = self.load_config(
                 parser=parser,
                 cfg_label=self.CONFIG_USER_FEED)
@@ -372,7 +372,7 @@ class Config(object):
         return config_file_path
 
     def load_config(self, parser, cfg_label, default=None,
-                    color_config=False, boolean=False):
+                    color_config=False, boolean_config=False):
         """Load the specified config from ~/.gitsomeconfig.
 
         :type parser: :class:`ConfigParser.RawConfigParser`
@@ -389,21 +389,21 @@ class Config(object):
         :param color_config: Determines whether this is a color config.
             Default: False.
 
-        :type boolean: bool
-        :param boolean: Determines whether to load a boolean config.
+        :type boolean_config: bool
+        :param boolean_config: Determines whether to load a boolean config.
             Default: False.
         """
         try:
-            if boolean:
+            if boolean_config:
                 cfg = parser.getboolean(self.CONFIG_SECTION, cfg_label)
             else:
                 cfg = parser.get(self.CONFIG_SECTION, cfg_label)
-            if color_config:
-                if cfg == 'none':
-                    cfg = None
-                # Check if the user input a valid color.
-                # If invalid, this will throw a TypeError
-                click.style('', fg=cfg)
+                if color_config:
+                    if cfg == 'none':
+                        cfg = None
+                    # Check if the user input a valid color.
+                    # If invalid, this will throw a TypeError
+                    click.style('', fg=cfg)
         except (TypeError, configparser.NoOptionError):
             return default
         return cfg
