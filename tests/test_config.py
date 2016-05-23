@@ -183,6 +183,18 @@ class ConfigTest(unittest.TestCase):
                     overwrite=True)
 
     @mock.patch('gitsome.github.click.secho')
+    @mock.patch('gitsome.config.Config.authenticate_cached_credentials')
+    def test_authenticate_enterprise_pass(self, mock_auth, mock_click_secho):
+        with mock.patch('click.confirm', return_value=True):
+            with mock.patch('builtins.input', return_value='foo'):
+                self.github.config.user_login = 'foo'
+                self.github.config.user_pass = 'bar'
+                self.github.config.authenticate(
+                    enterprise=True,
+                    enterprise_auth=self.verify_login_pass_url_enterprise,
+                    overwrite=True)
+
+    @mock.patch('gitsome.github.click.secho')
     def test_check_auth_error(self, mock_click_secho):
         self.github.config.api = None
         self.github.config.check_auth()
