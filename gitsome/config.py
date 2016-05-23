@@ -45,6 +45,9 @@ class Config(object):
     :type CONFIG_CLR_X: str
     :param CONFIG_CLR_X: Various ansi color config labels to use for highlights.
 
+    :type CONFIG_ENTERPRISE_URL: str
+    :param CONFIG_ENTERPRISE_URL: The GitHub Enterprise url.
+
     :type CONFIG_USER_LOGIN: str
     :param CONFIG_USER_LOGIN: The user login.
 
@@ -75,6 +78,9 @@ class Config(object):
 
     :type CONFIG_VERIFY_SSL: str
     :param CONFIG_VERIFY_SSL: Determines whether to verify SSL certs.
+
+    :type enterprise_url: str
+    :param enterprise_url: The GitHub Enterprise url.
 
     :type urls: list
     :param urls: The last set of urls the user has seen, which allows the user
@@ -119,6 +125,7 @@ class Config(object):
     CONFIG_USER_PASS = 'user_pass'
     CONFIG_USER_TOKEN = 'user_token'
     CONFIG_USER_FEED = 'user_feed'
+    CONFIG_ENTERPRISE_URL = 'enterprise_url'
     CONFIG_VERIFY_SSL = 'verify_ssl'
     CONFIG_URL = '.gitsomeconfigurl'
     CONFIG_URL_SECTION = 'url'
@@ -131,6 +138,7 @@ class Config(object):
         self.user_pass = None
         self.user_token = None
         self.user_feed = None
+        self.enterprise_url = None
         self.verify_ssl = True
         self.urls = []
         self._init_colors()
@@ -511,6 +519,10 @@ class Config(object):
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_USER_FEED,
                            self.user_feed)
+            if self.enterprise_url is not None:
+                parser.set(self.CONFIG_SECTION,
+                           self.CONFIG_ENTERPRISE_URL,
+                           self.enterprise_url)
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_VERIFY_SSL,
                        self.verify_ssl)
