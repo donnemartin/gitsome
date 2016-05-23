@@ -302,6 +302,43 @@ class Config(object):
         config_file_path = os.path.join(home, config_file_name)
         return config_file_path
 
+    def load_config(self, parser, cfg_label, default=None,
+                    color_config=False, boolean=False):
+        """Load the specified config from ~/.gitsomeconfig.
+
+        :type parser: :class:`ConfigParser.RawConfigParser`
+        :param parser: An instance of `ConfigParser.RawConfigParser`.
+
+        :type cfg_label: str
+        :param cfg_label: The config label to load.
+
+        :type default: str
+        :param default: The default color if no color config exists.
+            Default: None.
+
+        :type color_config: bool
+        :param color_config: Determines whether this is a color config.
+            Default: False.
+
+        :type boolean: bool
+        :param boolean: Determines whether to load a boolean config.
+            Default: False.
+        """
+        try:
+            if boolean:
+                cfg = parser.getboolean(self.CONFIG_SECTION, cfg_label)
+            else:
+                cfg = parser.get(self.CONFIG_SECTION, cfg_label)
+            if color_config:
+                if cfg == 'none':
+                    cfg = None
+                # Check if the user input a valid color.
+                # If invalid, this will throw a TypeError
+                click.style('', fg=cfg)
+        except (TypeError, configparser.NoOptionError):
+            return default
+        return cfg
+
     def load_configs(self, config_funcs):
         """Load the specified config from ~/.gitsomeconfig.
 
@@ -330,115 +367,112 @@ class Config(object):
         """
         self.load_colors(parser)
 
-    def load_color(self, parser, color_config, default):
-        """Load the specified color from ~/.gitsomeconfig.
-
-        :type parser: :class:`ConfigParser.RawConfigParser`
-        :param parser: An instance of `ConfigParser.RawConfigParser`.
-
-        :type color_config: str
-        :param color_config: The color config label to load.
-
-        :type default: str
-        :param default: The default color if no color config exists.
-        """
-        try:
-            color = parser.get(self.CONFIG_SECTION, color_config)
-            if color == 'none':
-                color = None
-            # Check if the user input a valid color.
-            # If invalid, this will throw a TypeError
-            click.style('', fg=color)
-        except (TypeError, configparser.NoOptionError):
-            return default
-        return color
-
     def load_colors(self, parser):
         """Load all colors from ~/.gitsomeconfig.
 
         :type parser: :class:`ConfigParser.RawConfigParser`
         :param parser: An instance of `ConfigParser.RawConfigParser`.
         """
-        self.clr_primary = self.load_color(
+        self.clr_primary = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_PRIMARY,
-            default=self.clr_primary)
-        self.clr_secondary = self.load_color(
+            cfg_label=self.CONFIG_CLR_PRIMARY,
+            default=self.clr_primary,
+            color_config=True)
+        self.clr_secondary = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_SECONDARY,
-            default=self.clr_secondary)
-        self.clr_tertiary = self.load_color(
+            cfg_label=self.CONFIG_CLR_SECONDARY,
+            default=self.clr_secondary,
+            color_config=True)
+        self.clr_tertiary = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_TERTIARY,
-            default=self.clr_tertiary)
-        self.clr_quaternary = self.load_color(
+            cfg_label=self.CONFIG_CLR_TERTIARY,
+            default=self.clr_tertiary,
+            color_config=True)
+        self.clr_quaternary = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_QUATERNARY,
-            default=self.clr_quaternary)
-        self.clr_bold = self.load_color(
+            cfg_label=self.CONFIG_CLR_QUATERNARY,
+            default=self.clr_quaternary,
+            color_config=True)
+        self.clr_bold = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_BOLD,
-            default=self.clr_bold)
-        self.clr_code = self.load_color(
+            cfg_label=self.CONFIG_CLR_BOLD,
+            default=self.clr_bold,
+            color_config=True)
+        self.clr_code = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_CODE,
-            default=self.clr_code)
-        self.clr_code = self.load_color(
+            cfg_label=self.CONFIG_CLR_CODE,
+            default=self.clr_code,
+            color_config=True)
+        self.clr_code = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_ERROR,
-            default=self.clr_code)
-        self.clr_header = self.load_color(
+            cfg_label=self.CONFIG_CLR_ERROR,
+            default=self.clr_code,
+            color_config=True)
+        self.clr_header = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_HEADER,
-            default=self.clr_header)
-        self.clr_link = self.load_color(
+            cfg_label=self.CONFIG_CLR_HEADER,
+            default=self.clr_header,
+            color_config=True)
+        self.clr_link = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_LINK,
-            default=self.clr_link)
-        self.clr_list = self.load_color(
+            cfg_label=self.CONFIG_CLR_LINK,
+            default=self.clr_link,
+            color_config=True)
+        self.clr_list = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_LIST,
-            default=self.clr_list)
-        self.clr_message = self.load_color(
+            cfg_label=self.CONFIG_CLR_LIST,
+            default=self.clr_list,
+            color_config=True)
+        self.clr_message = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_MESSAGE,
-            default=self.clr_message)
-        self.clr_num_comments = self.load_color(
+            cfg_label=self.CONFIG_CLR_MESSAGE,
+            default=self.clr_message,
+            color_config=True)
+        self.clr_num_comments = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_NUM_COMMENTS,
-            default=self.clr_num_comments)
-        self.clr_num_points = self.load_color(
+            cfg_label=self.CONFIG_CLR_NUM_COMMENTS,
+            default=self.clr_num_comments,
+            color_config=True)
+        self.clr_num_points = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_NUM_POINTS,
-            default=self.clr_num_points)
-        self.clr_tag = self.load_color(
+            cfg_label=self.CONFIG_CLR_NUM_POINTS,
+            default=self.clr_num_points,
+            color_config=True)
+        self.clr_tag = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_TAG,
-            default=self.clr_tag)
-        self.clr_time = self.load_color(
+            cfg_label=self.CONFIG_CLR_TAG,
+            default=self.clr_tag,
+            color_config=True)
+        self.clr_time = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_TIME,
-            default=self.clr_time)
-        self.clr_title = self.load_color(
+            cfg_label=self.CONFIG_CLR_TIME,
+            default=self.clr_time,
+            color_config=True)
+        self.clr_title = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_TITLE,
-            default=self.clr_title)
-        self.clr_tooltip = self.load_color(
+            cfg_label=self.CONFIG_CLR_TITLE,
+            default=self.clr_title,
+            color_config=True)
+        self.clr_tooltip = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_TOOLTIP,
-            default=self.clr_tooltip)
-        self.clr_user = self.load_color(
+            cfg_label=self.CONFIG_CLR_TOOLTIP,
+            default=self.clr_tooltip,
+            color_config=True)
+        self.clr_user = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_USER,
-            default=self.clr_user)
-        self.clr_view_link = self.load_color(
+            cfg_label=self.CONFIG_CLR_USER,
+            default=self.clr_user,
+            color_config=True)
+        self.clr_view_link = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_VIEW_LINK,
-            default=self.clr_view_link)
-        self.clr_view_index = self.load_color(
+            cfg_label=self.CONFIG_CLR_VIEW_LINK,
+            default=self.clr_view_link,
+            color_config=True)
+        self.clr_view_index = self.load_config(
             parser=parser,
-            color_config=self.CONFIG_CLR_VIEW_INDEX,
-            default=self.clr_view_index)
+            cfg_label=self.CONFIG_CLR_VIEW_INDEX,
+            default=self.clr_view_index,
+            color_config=True)
 
     def load_urls(self, view_in_browser):
         """Load the current set of urls from ~/.gitsomeconfigurl.
