@@ -34,11 +34,35 @@ class ConfigTest(unittest.TestCase):
         self.github.config.authorize = mock.Mock()
         self.github.config.getpass = mock.Mock()
 
+    def verify_login_token(self, username=None, password=None,
+                           token=None, url=None,
+                           two_factor_callback=None,
+                           verify=True):
+        assert username is not None
+        assert token is not None
+        assert two_factor_callback is not None
+        assert verify
+
     def test_config(self):
         expected = os.path.join(os.path.abspath(os.environ.get('HOME', '')),
                                 self.github.config.CONFIG)
         assert self.github.config \
             .get_github_config_path(self.github.config.CONFIG) == expected
+
+    def test_authenticate_cached_credentials_token(self):
+        self.github.config.user_login = 'foo'
+        self.github.config.user_token = 'bar'
+        self.github.config.save_config()
+        self.github.config.user_login = ''
+        self.github.config.user_token = ''
+        self.github.config.api = None
+        config = self.github.config.get_github_config_path(
+            self.github.config.CONFIG)
+        parser = configparser.RawConfigParser()
+        self.github.config.login = self.verify_login_token
+        self.github.config.authenticate_cached_credentials(config, parser)
+        assert self.github.config.user_login == 'foo'
+        assert self.github.config.user_token == 'bar'
 
     @mock.patch('gitsome.github.click.secho')
     def test_check_auth_error(self, mock_click_secho):
