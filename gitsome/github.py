@@ -545,7 +545,7 @@ class GitHub(object):
 
     @authenticate
     def rate_limit(self):
-        """Output the rate limit.
+        """Output the rate limit.  Not available for GitHub Enterprise.
 
         Logged in users can make 5000 requests per hour.
         See: https://developer.github.com/v3/#rate-limiting

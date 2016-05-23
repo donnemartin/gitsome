@@ -561,7 +561,7 @@ Example(s):
 
 ### gh rate-limit
 
-Output the rate limit.
+Output the rate limit.  Not available for GitHub Enterprise.
 
 Usage/Example(s):
 

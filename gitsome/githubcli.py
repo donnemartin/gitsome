@@ -553,7 +553,7 @@ class GitHubCli(object):
     @cli.command('rate-limit')
     @pass_github
     def rate_limit(github):
-        """Output the rate limit.
+        """Output the rate limit.  Not available for GitHub Enterprise.
 
         Logged in users can make 5000 requests per hour.
         See: https://developer.github.com/v3/#rate-limiting
