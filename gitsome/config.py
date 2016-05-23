@@ -21,6 +21,8 @@ from __future__ import print_function
 import click
 from getpass import getpass
 import os
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 from .compat import configparser
 from .lib.github3 import authorize, enterprise_login, login
@@ -206,6 +208,11 @@ class Config(object):
             self.user_feed = self.load_config(
                 parser=parser,
                 cfg_label=self.CONFIG_USER_FEED)
+            if not self.verify_ssl:
+                # The user has chosen not to verify SSL certs.
+                # Disable warnings related to this option.
+                requests.packages.urllib3.disable_warnings(
+                    InsecureRequestWarning)
             login_kwargs = {
                 'username': self.user_login,
                 'two_factor_callback': self.request_two_factor_code,
