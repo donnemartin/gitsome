@@ -66,7 +66,7 @@ def login(username=None, password=None, token=None, two_factor_callback=None):
 
 
 def enterprise_login(username=None, password=None, token=None, url=None,
-                     two_factor_callback=None):
+                     two_factor_callback=None, verify=True):
     """Construct and return an authenticated GitHubEnterprise session.
 
     .. note::
@@ -92,7 +92,7 @@ def enterprise_login(username=None, password=None, token=None, url=None,
     g = None
 
     if (username and password) or token:
-        g = GitHubEnterprise(url)
+        g = GitHubEnterprise(url, verify=verify)
         g.login(username, password, token, two_factor_callback)
 
     return g

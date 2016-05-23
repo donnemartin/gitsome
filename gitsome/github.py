@@ -25,10 +25,11 @@ import urllib
 import webbrowser
 
 from .lib.github3 import null
-from .lib.github3.exceptions import UnprocessableEntity
+from .lib.github3.exceptions import AuthenticationFailed, UnprocessableEntity
 from .lib.img2txt import img2txt
 import click
 import feedparser
+from requests.exceptions import MissingSchema, SSLError
 
 from .config import Config
 from .formatter import Formatter
@@ -81,7 +82,18 @@ class GitHub(object):
             self.config.authenticate()
             self.config.save_config()
             if self.config.check_auth():
-                return func(self, *args, **kwargs)
+                try:
+                    return func(self, *args, **kwargs)
+                except SSLError:
+                    click.secho(('SSL cert verification failed.\n  Try running '
+                                 'gh configure --enterprise\n  and type '
+                                 "'n' when asked whether to verify SSL certs."),
+                                fg=self.config.clr_error)
+                except MissingSchema:
+                    click.secho('Invalid GitHub Enterprise url',
+                                fg=self.config.clr_error)
+                except AuthenticationFailed:
+                    self.config.print_auth_error()
         return auth_wrapper
 
     def avatar(self, url, text_avatar):
@@ -109,9 +121,10 @@ class GitHub(object):
             urllib.request.urlretrieve(url, avatar)
         except urllib.error.URLError:
             pass
-        avatar_text = self.img2txt(avatar, ansi=(not text_avatar))
-        avatar_text += '\n'
+        avatar_text = ''
         if os.path.exists(avatar):
+            avatar_text = self.img2txt(avatar, ansi=(not text_avatar))
+            avatar_text += '\n'
             os.remove(avatar)
         return avatar_text
 
@@ -141,7 +154,7 @@ class GitHub(object):
                                       fg=self.config.clr_message)
             return avatar_text
 
-    def configure(self):
+    def configure(self, enterprise):
         """Configure gitsome.
 
         Attempts to authenticate the user and to set up the user's news feed.
@@ -149,8 +162,11 @@ class GitHub(object):
         If `gitsome` has not yet been configured, calling a `gh` command that
         requires authentication will automatically invoke the `configure`
         command.
+
+        :type enterprise: bool
+        :param enterprise: Determines whether to configure GitHub Enterprise.
         """
-        self.config.authenticate(overwrite=True)
+        self.config.authenticate(enterprise=enterprise, overwrite=True)
         self.config.prompt_news_feed()
         self.config.show_bash_completions_info()
         self.config.save_config()
@@ -545,7 +561,7 @@ class GitHub(object):
 
     @authenticate
     def rate_limit(self):
-        """Output the rate limit.
+        """Output the rate limit.  Not available for GitHub Enterprise.
 
         Logged in users can make 5000 requests per hour.
         See: https://developer.github.com/v3/#rate-limiting

@@ -221,7 +221,7 @@ Usage:
   octo                 Output an Easter egg or the given message from Octocat.
   pull-request         Output detailed information about the given pull request.
   pull-requests        List all pull requests.
-  rate-limit           Output the rate limit.
+  rate-limit           Output the rate limit.  Not available for Enterprise.
   repo                 Output detailed information about the given filter.
   repos                List all repos matching the given filter.
   search-issues        Search for all issues matching the given query.
