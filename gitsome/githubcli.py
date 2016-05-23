@@ -45,19 +45,25 @@ class GitHubCli(object):
         ctx.obj = GitHub()
 
     @cli.command()
+    @click.option('-e', '--enterprise', is_flag=True)
     @pass_github
-    def configure(github):
+    def configure(github, enterprise):
         """Configure gitsome.
 
         Attempts to authenticate the user and to set up the user's news feed.
 
         Usage/Example(s):
             gh configure
+            gh configure -e
+            gh configure --enterprise
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
+        :type enterprise: bool
+        :param enterprise: Determines whether to configure GitHub Enterprise.
+            Default: False.
         """
-        github.configure()
+        github.configure(enterprise)
 
     @cli.command('create-comment')
     @click.argument('user_repo_number')
