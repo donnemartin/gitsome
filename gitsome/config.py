@@ -274,7 +274,25 @@ class Config(object):
                 self.print_auth_error()
 
     def check_auth(self):
-        """Check if the current authorization is valid."""
+        """Check if the current authorization is valid.
+
+        This method uses the ratelimit_remaining api to check whether
+        the currently authenticated user's credentials are valid without
+        deducting from the rate limit.  The ratelimit_remaining api does not
+        seem to be available for GitHub Enterprise.
+
+        github3.py's method check_authorization seems to only work given
+        an authorization created by a registered application.
+
+        TODO: Determine a better way to check the authorization for
+        GitHub Enterprise.
+
+        :type enterprise: bool
+        :param enterprise: Determines whether we are authenticating with
+            GitHub Enterprise.
+        """
+        if self.enterprise_url is not None:
+            return True
         try:
             if self.api is not None:
                 # Throws AuthenticationFailed if invalid credentials but
