@@ -196,11 +196,11 @@ class GitHubCli(object):
 
         If `user_or_repo` is not provided, uses the logged in user's news feed
         seen while visiting https://github.com.  If `user_or_repo` is provided,
-        shows either the public or `[-p/--private]` feed activity of the user
+        shows either the public or `[-pr/--private]` feed activity of the user
         or repo.
 
         Usage:
-            gh feed [user_or_repo] [-p/--private] [-p/--pager]
+            gh feed [user_or_repo] [-pr/--private] [-p/--pager]
 
         Examples:
             gh feed
