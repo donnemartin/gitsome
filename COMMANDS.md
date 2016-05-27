@@ -16,6 +16,10 @@ Usage/Example(s):
 
     $ gh configure
 
+For GitHub Enterprise users, run with the `-e/--enterprise` flag:
+
+    $ gh configure -e
+
 #### Authentication
 
 To properly integrate with GitHub, you will be asked to enter a user name and either a password or a [personal access token](https://github.com/settings/tokens).  If you use two-factor authentication, you will also need to enter your 2FA code, or you can log in with a personal access token.
@@ -28,9 +32,13 @@ Visit the following page to generate a token:
 
 ![Imgur](http://i.imgur.com/1C7gBHz.png)
 
+#### GitHub Enterprise
+
+GitHub Enterprise users will be asked to enter the GitHub Enterprise url and whether they want to verify SSL certificates.
+
 #### Authentication Source Code
 
-Curious what's going on behind the scenes with authentication?  Check out the [authentication source code](https://github.com/donnemartin/gitsome/blob/master/gitsome/config.py#L156-L269).
+Curious what's going on behind the scenes with authentication?  Check out the [authentication source code](https://github.com/donnemartin/gitsome/blob/master/gitsome/config.py#L177-L328).
 
 #### User Feed
 
