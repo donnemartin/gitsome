@@ -222,7 +222,8 @@ class GitHub(object):
                                              issue_title,
                                              issue_desc)
         if type(issue) is not null.NullObject:
-            click.secho('Created issue: ' + issue.title + '\n' + issue.body,
+            body = issue.body if issue.body is not None else ''
+            click.secho('Created issue: ' + issue.title + '\n' + body,
                         fg=self.config.clr_message)
         else:
             click.secho('Error creating issue.', fg=self.config.clr_error)
