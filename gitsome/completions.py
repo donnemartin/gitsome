@@ -17,7 +17,10 @@ COMPLETIONS_GH = {
     'configure': {
         'desc': "Configures gitsome.",
         'args': {},
-        'opts': {},
+        'opts': {
+            '-e': 'flag (opt) configure GitHub Enterprise.',
+            '--enterprise': 'flag (opt) configure GitHub Enterprise.',
+        },
     },
     'create-comment': {
         'desc': 'Creates a comment on the given issue.',
