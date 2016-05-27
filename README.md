@@ -30,7 +30,7 @@ Out of the box, the Git command line **does not provide integration with GitHub*
 
 ### GitHub Integration
 
-`gitsome` provides direct integration with GitHub.
+`gitsome` provides direct integration with GitHub and [GitHub Enterprise](#for-github-enterprise-users).
 
 Not all GitHub workflows work well in a terminal; `gitsome` attempts to target those that do.
 
@@ -123,7 +123,6 @@ For no color, set the value(s) to `None`.  `white` can appear as light gray on s
 >Not all GitHub workflows work well in a terminal; `gitsome` attempts to target those that do.
 
 * Add additional GitHub API integrations
-* [GitHub Enterprise support](https://github.com/donnemartin/gitsome/issues/3)
 
 `gitsome` is just getting started.  Feel free to [contribute!](#contributing)
 
@@ -173,6 +172,7 @@ For no color, set the value(s) to `None`.  `white` can appear as light gray on s
     * [Pip Installation](#pip-installation)
     * [Virtual Environment Installation](#virtual-environment-installation)
     * [Running the `gh configure` Command](#running-the-gh-configure-command)
+        * [For GitHub Enterprise Users](#for-github-enterprise-users)
     * [Enabling Bash Completions](#enabling-bash-completions)
     * [Enabling `gh` Tab Completions Outside of `gitsome`](#enabling-gh-tab-completions-outside-of-gitsome)
         * [For Zsh Users](#for-zsh-users)
@@ -245,6 +245,10 @@ Check out the next section for a **quick reference**.
 To properly integrate with GitHub, you must first configure `gitsome`:
 
     $ gh configure
+
+For GitHub Enterprise users, run with the `-e/--enterprise` flag:
+
+    $ gh configure -e
 
 ### Listing Feeds
 
@@ -560,6 +564,12 @@ Note: Running the `gitsome` shell is not required to execute `gh` commands.  Aft
 To properly integrate with GitHub, `gitsome` must be properly configured:
 
     $ gh configure
+
+#### For GitHub Enterprise Users
+
+Run with the `-e/--enterprise` flag:
+
+    $ gh configure -e
 
 View more details in the [gh configure](https://github.com/donnemartin/gitsome/blob/master/COMMANDS.md#gh-configure) section.
 
