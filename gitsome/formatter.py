@@ -405,7 +405,7 @@ class Formatter(object):
                 parts_mention = comment.split('class="user-mention">')
                 if len(parts_mention) > 1:
                     comment = parts_mention[1]
-                comment = self._format_indented_message(comment)
+                comment = self._format_indented_message(comment, newline=False)
                 comment = re.sub(r'(</a>*)', r'', comment)
                 comment = re.sub(r'(<p>*)', r'', comment)
                 comment = re.sub(r'(</p>*)', r'', comment)
