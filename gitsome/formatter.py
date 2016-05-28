@@ -165,10 +165,21 @@ class Formatter(object):
         item += click.style(' at ', fg=self.config.clr_secondary)
         item += click.style(self.format_user_repo(event.repo),
                             fg=self.config.clr_tertiary)
+        try:
+            item += click.style(
+                '#' + str(event.payload['pull_request'].number) + ' ',
+                fg=self.config.clr_tertiary)
+        except KeyError:
+            pass
         item += self._format_time(event)
-        item += click.style('\n')
-        message = self._format_indented_message(event.payload['comment'].body)
-        item += click.style(message, fg=self.config.clr_message)
+        try:
+            item += self._format_indented_message(
+                event.payload['pull_request'].title)
+            item += self._format_indented_message(
+                event.payload['comment'].body, indent='           ')
+        except KeyError:
+            item += self._format_indented_message(
+                event.payload['comment'].body)
         return item
 
     def _format_create_delete_event(self, event):
