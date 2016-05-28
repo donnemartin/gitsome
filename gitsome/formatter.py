@@ -110,22 +110,37 @@ class Formatter(object):
             num=event.payload[key].number)
         return click.style(issue, fg=self.config.clr_tertiary)
 
-    def _format_commit_comment(self, message, sha=''):
-        """Format an issue comment.
+    def _format_indented_message(self, message, newline=True,
+                                 indent='         ', sha=''):
+        """Format an indented message.
 
         :type message: str
         :param message: The commit comment.
 
+        :type newline: bool
+        :param newline: Determines whether to prepend a newline.
+
+        :type indent: str
+        :param indent: The indent, consisting of blank chars.
+            TODO: Consider passing an int denoting # blank chars, or try to
+            calculate the indent dynamically.
+
         :type sha: str
         :param sha: The commit hash.
+
+        :rtype: str
+        :return: The formattted commit comment.
         """
-        indent = '         '
-        subsequent_indent = indent if sha == '' else '                  '
+        subsequent_indent = indent
+        if sha != '':
+            subsequent_indent += '         '
         message = self.strip_line_breaks(message)
         formatted_message = click.wrap_text(
             text=click.style(sha, fg=self.config.clr_tertiary)+message,
             initial_indent=indent,
             subsequent_indent=subsequent_indent)
+        if newline:
+            formatted_message = click.style('\n' + formatted_message)
         return formatted_message
 
     def _format_sha(self, sha):
@@ -152,7 +167,7 @@ class Formatter(object):
                             fg=self.config.clr_tertiary)
         item += self._format_time(event)
         item += click.style('\n')
-        message = self._format_commit_comment(event.payload['comment'].body)
+        message = self._format_indented_message(event.payload['comment'].body)
         item += click.style(message, fg=self.config.clr_message)
         return item
 
@@ -199,7 +214,7 @@ class Formatter(object):
         item += self._format_issue_comment(event, key='issue')
         item += self._format_time(event)
         item += click.style('\n')
-        message = self._format_commit_comment(event.payload['comment'].body)
+        message = self._format_indented_message(event.payload['comment'].body)
         item += click.style(message, fg=self.config.clr_message)
         return item
 
@@ -245,7 +260,7 @@ class Formatter(object):
             item += click.style('\n')
             sha = click.style(self._format_sha(commit['sha']) + ': ',
                               fg=self.config.clr_message)
-            message = self._format_commit_comment(commit['message'], sha=sha)
+            message = self._format_indented_message(commit['message'], sha=sha)
             item += click.style(message, fg=self.config.clr_message)
         return item
 
@@ -370,7 +385,7 @@ class Formatter(object):
                 parts_mention = comment.split('class="user-mention">')
                 if len(parts_mention) > 1:
                     comment = parts_mention[1]
-                comment = self._format_commit_comment(comment)
+                comment = self._format_indented_message(comment)
                 comment = re.sub(r'(</a>*)', r'', comment)
                 comment = re.sub(r'(<p>*)', r'', comment)
                 comment = re.sub(r'(</p>*)', r'', comment)
