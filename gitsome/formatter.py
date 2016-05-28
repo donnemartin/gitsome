@@ -229,9 +229,10 @@ class Formatter(object):
                            fg=self.config.clr_secondary)
         item += self._format_issue_comment(event, key='issue')
         item += self._format_time(event)
-        item += click.style('\n')
-        message = self._format_indented_message(event.payload['comment'].body)
-        item += click.style(message, fg=self.config.clr_message)
+        item += self._format_indented_message(
+            event.payload['issue'].title)
+        item += self._format_indented_message(
+            event.payload['comment'].body, indent='           ')
         return item
 
     def _format_issues_event(self, event):
