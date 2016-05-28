@@ -284,7 +284,7 @@ class GitHubTest(unittest.TestCase):
         self.github.config.load_urls = lambda x: ['user1/foo']
         self.github.view(1, view_in_browser=True)
         mock_webbrowser_open.assert_called_with(
-            'user1/foo')
+            'https://github.com/user1/foo')
 
     @mock.patch('gitsome.github.click.secho')
     @mock.patch('gitsome.github.GitHub.issue')

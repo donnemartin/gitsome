@@ -61,6 +61,8 @@ class GitHub(object):
     :param web_viewer: An instance of `web_viewer.WebViewer`.
     """
 
+    GH_BASE_URL = 'https://github.com/'
+
     def __init__(self):
         self.config = Config()
         self.formatter = Formatter(self.config)
@@ -412,7 +414,7 @@ class GitHub(object):
             click.secho('Expected argument: user/repo/#.',
                         fg=self.config.clr_error)
             return
-        url = ('https://github.com/' + user + '/' + repo + '/' +
+        url = (self.GH_BASE_URL + user + '/' + repo + '/' +
                'issues/' + number)
         self.web_viewer.view_url(url)
 
@@ -655,7 +657,7 @@ class GitHub(object):
             click.secho('Expected argument: user/repo.',
                         fg=self.config.clr_error)
             return
-        self.web_viewer.view_url('https://github.com/' + user_repo)
+        self.web_viewer.view_url(self.GH_BASE_URL + user_repo)
 
     @authenticate
     def search_issues(self, query, limit=1000, pager=False):
@@ -815,7 +817,7 @@ class GitHub(object):
             if available.
         """
         if browser:
-            webbrowser.open('https://github.com/' + user_id)
+            webbrowser.open(self.GH_BASE_URL + user_id)
         else:
             user = self.config.api.user(user_id)
             if type(user) is null.NullObject:
@@ -897,6 +899,8 @@ class GitHub(object):
         url = self.config.urls[index-1]
         click.secho('Viewing ' + url + '...', fg=self.config.clr_message)
         if view_in_browser:
+            if self.GH_BASE_URL not in url:
+                url = self.GH_BASE_URL + url
             webbrowser.open(url)
         else:
             if 'issues/' in url:
@@ -905,4 +909,4 @@ class GitHub(object):
             elif len(url.split('/')) == 2:
                 self.repository(url)
             else:
-                self.web_viewer.view_url('https://github.com/' + url)
+                self.web_viewer.view_url(self.GH_BASE_URL + url)
