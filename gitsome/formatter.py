@@ -78,7 +78,7 @@ class Formatter(object):
             'MembershipEvent': self._format_general_event,
             'PublicEvent': self._format_general_event,
             'PullRequestEvent': self._format_pull_request_event,
-            'PullRequestReviewCommentEvent': self._format_general_event,
+            'PullRequestReviewCommentEvent': self._format_commit_comment_event,
             'PushEvent': self._format_push_event,
             'ReleaseEvent': self._format_general_event,
             'StatusEvent': self._format_general_event,
