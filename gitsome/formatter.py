@@ -259,6 +259,8 @@ class Formatter(object):
                            fg=self.config.clr_secondary)
         item += self._format_issue_comment(event, key='pull_request')
         item += self._format_time(event)
+        item += self._format_indented_message(
+            event.payload['pull_request'].title)
         return item
 
     def _format_push_event(self, event):
