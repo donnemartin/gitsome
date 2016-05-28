@@ -80,7 +80,7 @@ class Formatter(object):
             'PullRequestEvent': self._format_pull_request_event,
             'PullRequestReviewCommentEvent': self._format_commit_comment_event,
             'PushEvent': self._format_push_event,
-            'ReleaseEvent': self._format_general_event,
+            'ReleaseEvent': self._format_release_event,
             'StatusEvent': self._format_general_event,
             'TeamAddEvent': self._format_general_event,
             'RepositoryEvent': self._format_general_event,
@@ -247,6 +247,22 @@ class Formatter(object):
                               fg=self.config.clr_message)
             message = self._format_commit_comment(commit['message'], sha=sha)
             item += click.style(message, fg=self.config.clr_message)
+        return item
+
+    def _format_release_event(self, event):
+        """Format a release event.
+
+        :type event: :class:`github3` Event.
+        :param event: An instance of `github3` Event.
+        """
+        item = click.style(self.event_type_mapping[event.type] + ' ',
+                           fg=self.config.clr_secondary)
+        item += click.style(event.payload['release'].tag_name + ' ',
+                            fg=self.config.clr_tertiary)
+        item += click.style('at ', fg=self.config.clr_secondary)
+        item += click.style(self.format_user_repo(event.repo),
+                            fg=self.config.clr_tertiary)
+        item += self._format_time(event)
         return item
 
     def _format_general_event(self, event):
