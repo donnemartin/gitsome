@@ -199,6 +199,11 @@ class Formatter(object):
         item += click.style(self.format_user_repo(event.repo),
                             fg=self.config.clr_tertiary)
         item += self._format_time(event)
+        try:
+            item += self._format_indented_message(
+                event.payload['description'])
+        except KeyError:
+            pass
         return item
 
     def _format_fork_event(self, event):
