@@ -88,6 +88,13 @@ class MockUser(object):
                 'ref': 'refs/heads/master',
                 'commits': [{'url': 'https://api.github.com/repos/donnemartin/gitsome/commits/5ee4d1b20ee7cb16cd5be19b103301541a41003f', 'message': 'Fix GitHubCli class docstring', 'distinct': True, 'author': {'email': 'donne.martin@gmail.com', 'name': 'Donne Martin'}, 'sha': '5ee4d1b20ee7cb16cd5be19b103301541a41003f'}, {'url': 'https://api.github.com/repos/donnemartin/gitsome/commits/fc2309b645313646a3792eca9e0e9168cf25b267', 'message': 'Update gh configure docstring', 'distinct': True, 'author': {'email': 'donne.martin@gmail.com', 'name': 'Donne Martin'}, 'sha': 'fc2309b645313646a3792eca9e0e9168cf25b267'}, {'url': 'https://api.github.com/repos/donnemartin/gitsome/commits/dde19b7685ad7a07872fea1b4dc8019585322fdb', 'message': 'Update gh create-comment docstring', 'distinct': True, 'author': {'email': 'donne.martin@gmail.com', 'name': 'Donne Martin'}, 'sha': 'dde19b7685ad7a07872fea1b4dc8019585322fdb'}]  # NOQA
             }))
+        mock_release_tag = mock.Mock()
+        mock_release_tag.tag_name = '0.5.0'
+        feed_events.append(MockEvent(
+            event_type='ReleaseEvent',
+            payload={
+                'release': mock_release_tag,
+            }))
         return feed_events
 
     def raise_mock_unprocessableentity(self):
