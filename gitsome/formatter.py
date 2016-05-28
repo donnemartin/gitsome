@@ -583,12 +583,14 @@ class Formatter(object):
     def strip_line_breaks(self, text):
         """Strips \r and \n characters.
 
+        These characters seem to cause issues with `click.wrap_text`.
+
         :type text: str
         :param text: The text to strip of line breaks.
 
         :rtype: str
         :return: The input text without line breaks.
         """
-        text = re.sub(r'(\r*)', r'', text)
-        text = re.sub(r'(\n*)', r'', text)
+        text = re.sub(r'\r', '', text)
+        text = re.sub(r'\n', ' ', text)
         return text
