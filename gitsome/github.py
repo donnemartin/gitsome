@@ -899,6 +899,8 @@ class GitHub(object):
         url = self.config.urls[index-1]
         click.secho('Viewing ' + url + '...', fg=self.config.clr_message)
         if view_in_browser:
+            if self.GH_BASE_URL not in url:
+                url = self.GH_BASE_URL + url
             webbrowser.open(url)
         else:
             if 'issues/' in url:
