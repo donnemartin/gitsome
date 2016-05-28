@@ -278,11 +278,10 @@ class Formatter(object):
                             fg=self.config.clr_tertiary)
         item += self._format_time(event)
         for commit in event.payload['commits']:
-            item += click.style('\n')
             sha = click.style(self._format_sha(commit['sha']) + ': ',
                               fg=self.config.clr_message)
-            message = self._format_indented_message(commit['message'], sha=sha)
-            item += click.style(message, fg=self.config.clr_message)
+            item += self._format_indented_message(
+                commit['message'], sha=sha)
         return item
 
     def _format_release_event(self, event):
