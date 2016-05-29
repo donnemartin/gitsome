@@ -18,6 +18,31 @@ https://github.com/donnemartin/gitsome/issues
 Changelog
 =========
 
+0.6.0 (2016-05-29)
+------------------
+
+### Features
+
+* [#3](https://github.com/donnemartin/gitsome/issues/3) - Add GitHub Enterprise support.
+* [#33](https://github.com/donnemartin/gitsome/issues/33) - Revamp the info shown with the `gh feed` command.
+
+### Bug Fixes
+
+* [#30](https://github.com/donnemartin/gitsome/issues/30) - Fix a typo in the `pip3` install instructions.
+* [#39](https://github.com/donnemartin/gitsome/issues/39) - Fix `gh feed` `-pr/--private` flag in docs.
+* [#40](https://github.com/donnemartin/gitsome/issues/40) - Fix `create-issue` `NoneType` error if no `-b/--body` is specified.
+* [#46](https://github.com/donnemartin/gitsome/issues/46) - Fix `gh view` with the -b/--browser option only working for repos, not for issues or PRs.
+* [#48](https://github.com/donnemartin/gitsome/issues/48) - Fix `create-repo` `NoneType` error if no `-d/--description` is specified.
+* [#54](https://github.com/donnemartin/gitsome/pull/54) - Update to `prompt-toolkit` 1.0.0, which includes performance improvements (especially noticeable on Windows) and bug fixes.
+* Fix `Config` docstrings.
+
+### Updates
+
+* [#26](https://github.com/donnemartin/gitsome/issues/26), [#32](https://github.com/donnemartin/gitsome/issues/32) - Add copyright notices for third
+party libraries.
+* [#44](https://github.com/donnemartin/gitsome/pull/44), [#53](https://github.com/donnemartin/gitsome/pull/53) - Update packaging dependencies based on semantic versioning.
+* Tweak `README` intro.
+
 0.5.0 (2016-05-15)
 ------------------
 
