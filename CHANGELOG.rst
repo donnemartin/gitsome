@@ -20,6 +20,48 @@ https://github.com/donnemartin/gitsome/issues
 Changelog
 =========
 
+0.6.0 (2016-05-29)
+------------------
+
+Features
+~~~~~~~~
+
+-  `#3 <https://github.com/donnemartin/gitsome/issues/3>`__ - Add GitHub
+   Enterprise support.
+-  `#33 <https://github.com/donnemartin/gitsome/issues/33>`__ - Revamp
+   the info shown with the ``gh feed`` command.
+
+Bug Fixes
+~~~~~~~~~
+
+-  `#30 <https://github.com/donnemartin/gitsome/issues/30>`__ - Fix a
+   typo in the ``pip3`` install instructions.
+-  `#39 <https://github.com/donnemartin/gitsome/issues/39>`__ - Fix
+   ``gh feed`` ``-pr/--private`` flag in docs.
+-  `#40 <https://github.com/donnemartin/gitsome/issues/40>`__ - Fix
+   ``create-issue`` ``NoneType`` error if no ``-b/--body`` is specified.
+-  `#46 <https://github.com/donnemartin/gitsome/issues/46>`__ - Fix
+   ``gh view`` with the -b/--browser option only working for repos, not
+   for issues or PRs.
+-  `#48 <https://github.com/donnemartin/gitsome/issues/48>`__ - Fix
+   ``create-repo`` ``NoneType`` error if no ``-d/--description`` is
+   specified.
+-  `#54 <https://github.com/donnemartin/gitsome/pull/54>`__ - Update to
+   ``prompt-toolkit`` 1.0.0, which includes performance improvements
+   (especially noticeable on Windows) and bug fixes.
+-  Fix ``Config`` docstrings.
+
+Updates
+~~~~~~~
+
+-  `#26 <https://github.com/donnemartin/gitsome/issues/26>`__,
+   `#32 <https://github.com/donnemartin/gitsome/issues/32>`__ - Add
+   copyright notices for third party libraries.
+-  `#44 <https://github.com/donnemartin/gitsome/pull/44>`__,
+   `#53 <https://github.com/donnemartin/gitsome/pull/53>`__ - Update
+   packaging dependencies based on semantic versioning.
+-  Tweak ``README`` intro.
+
 0.5.0 (2016-05-15)
 ------------------
 
