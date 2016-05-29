@@ -75,6 +75,13 @@ class GitHubTest(unittest.TestCase):
             fg=self.github.config.clr_message)
 
     @mock.patch('gitsome.github.click.secho')
+    def test_create_issue_no_desc(self, mock_click_secho):
+        self.github.create_issue('user1/repo1', 'title', issue_desc=None)
+        mock_click_secho.assert_called_with(
+            'Created issue: title\n',
+            fg=self.github.config.clr_message)
+
+    @mock.patch('gitsome.github.click.secho')
     def test_create_issue_invalid_args(self, mock_click_secho):
         self.github.create_issue('invalid/repo1', 'title', 'desc')
         mock_click_secho.assert_called_with(
@@ -90,6 +97,13 @@ class GitHubTest(unittest.TestCase):
         self.github.create_repo('name', 'desc', True)
         mock_click_secho.assert_called_with(
             'Created repo: name\ndesc',
+            fg=self.github.config.clr_message)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_create_repo_no_desc(self, mock_click_secho):
+        self.github.create_repo('name', repo_desc=None)
+        mock_click_secho.assert_called_with(
+            'Created repo: name\n',
             fg=self.github.config.clr_message)
 
     @mock.patch('gitsome.github.click.secho')
