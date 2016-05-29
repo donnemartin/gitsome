@@ -104,7 +104,7 @@ def main():
             'prompt-toolkit==0.52',
             'requests>=2.8.1,<3.0.0',
             'colorama>=0.3.3,<1.0.0',
-            'click>=5.1,<6.0',
+            'click>=5.1,<7.0',
             'pygments>=2.0.2,<3.0.0',
             'feedparser>=5.2.1,<6.0.0',
             'pytz>=2016.3,<2017.0',
