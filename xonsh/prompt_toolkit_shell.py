@@ -104,6 +104,8 @@ class PromptToolkitShell(BaseShell):
                 Token.Menu.Completions.ProgressButton: 'bg:#003333',
                 Token.Menu.Completions.ProgressBar: 'bg:#00aaaa',
                 Token.Toolbar: 'bg:#222222 #cccccc',
+                Token.Scrollbar: 'bg:#00aaaa',
+                Token.Scrollbar.Button: 'bg:#003333',
                 Token.Toolbar.Off: 'bg:#222222 #696969',
                 Token.Toolbar.On: 'bg:#222222 #ffffff',
                 Token.Toolbar.Search: 'noinherit bold',
