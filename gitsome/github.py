@@ -247,8 +247,8 @@ class GitHub(object):
             repo = self.config.api.create_repository(repo_name,
                                                      repo_desc,
                                                      private=private)
-            click.secho(('Created repo: ' + repo.full_name + '\n' +
-                         repo.description),
+            desc = repo.description if repo.description is not None else ''
+            click.secho(('Created repo: ' + repo.full_name + '\n' + desc),
                         fg=self.config.clr_message)
         except UnprocessableEntity as e:
             click.secho('Error creating repo: ' + str(e.msg),
