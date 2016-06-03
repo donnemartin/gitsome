@@ -2,16 +2,20 @@
   <img src="http://i.imgur.com/0SXZ90y.gif">
 </p>
 
-gitsome
-=======
+<p align="center">
+  <img src="http://i.imgur.com/TKMFuBv.png">
+</p>
 
 [![Build Status](https://travis-ci.org/donnemartin/gitsome.svg?branch=master)](https://travis-ci.org/donnemartin/gitsome) [![Codecov](https://img.shields.io/codecov/c/github/donnemartin/gitsome.svg)](https://codecov.io/github/donnemartin/gitsome)
 
 [![PyPI version](https://badge.fury.io/py/gitsome.svg)](http://badge.fury.io/py/gitsome) [![PyPI](https://img.shields.io/pypi/pyversions/gitsome.svg)](https://pypi.python.org/pypi/gitsome/) [![License](https://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-## Motivation
+gitsome
+=======
 
-### Git Command Line
+## Why `gitsome`?
+
+### The Git Command Line
 
 Although the standard Git command line is a great tool to manage your Git-powered repos, it can be **tough to remember the usage** of:
 
@@ -19,22 +23,22 @@ Although the standard Git command line is a great tool to manage your Git-powere
 * Countless command-specific options
 * Resources such as tags and branches
 
-Out of the box, the Git command line **does not provide integration with GitHub**, forcing users to toggle between command line and browser.
+Out of the box, the Git command line **does not provide integration with GitHub**, forcing you to toggle between command line and browser.
 
-## `gitsome`: A Supercharged Git/Shell CLI with GitHub Integration
+## `gitsome` - A Supercharged Git/GitHub CLI With Autocomplete
 
-`gitsome` aims to supercharge the standard git/shell interface by focusing on:
+`gitsome` aims to supercharge your standard git/shell interface by focusing on:
 
 * **Improving ease-of-use**
 * **Increasing productivity**
 
-### GitHub Integration
+### Deep GitHub Integration
 
 `gitsome` provides direct integration with GitHub and [GitHub Enterprise](#for-github-enterprise-users).
 
 Not all GitHub workflows work well in a terminal; `gitsome` attempts to target those that do.
 
-The GitHub integrated commands work with **[ALL](#enabling-gh-tab-completions-outside-of-gitsome)** shells:
+`gitsome` includes 29 GitHub integrated commands that work with **[ALL](#enabling-gh-tab-completions-outside-of-gitsome)** shells:
 
     $ gh <command> [param] [options]
 
@@ -45,13 +49,13 @@ Run `gh` commands along with [Git-Extras](https://github.com/tj/git-extras/blob/
 
 ![Imgur](http://i.imgur.com/sG09AJH.png)
 
-### Git and GitHub Autocompleter with Interactive Help
+### Git and GitHub Autocompleter With Interactive Help
 
-Running the <u>**optional**</u> shell:
+You can run the <u>**optional**</u> shell:
 
      $ gitsome
 
-Enables **autocompletion** and provides **interactive help** for the following:
+to enable **autocompletion** and **interactive help** for the following:
 
 * Git commands
 * Git options
