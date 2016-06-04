@@ -2,16 +2,12 @@
   <img src="http://i.imgur.com/0SXZ90y.gif">
 </p>
 
-<p align="center">
-  <img src="http://i.imgur.com/TKMFuBv.png">
-</p>
+gitsome
+=======
 
 [![Build Status](https://travis-ci.org/donnemartin/gitsome.svg?branch=master)](https://travis-ci.org/donnemartin/gitsome) [![Codecov](https://img.shields.io/codecov/c/github/donnemartin/gitsome.svg)](https://codecov.io/github/donnemartin/gitsome)
 
 [![PyPI version](https://badge.fury.io/py/gitsome.svg)](http://badge.fury.io/py/gitsome) [![PyPI](https://img.shields.io/pypi/pyversions/gitsome.svg)](https://pypi.python.org/pypi/gitsome/) [![License](https://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-
-gitsome
-=======
 
 ## Why `gitsome`?
 
@@ -23,9 +19,13 @@ Although the standard Git command line is a great tool to manage your Git-powere
 * Countless command-specific options
 * Resources such as tags and branches
 
-Out of the box, the Git command line **does not provide integration with GitHub**, forcing you to toggle between command line and browser.
+The Git command line **does not integrate with GitHub**, forcing you to toggle between command line and browser.
 
 ## `gitsome` - A Supercharged Git/GitHub CLI With Autocomplete
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/donnemartin/gitsome/develop/images/logo.png">
+</p>
 
 `gitsome` aims to supercharge your standard git/shell interface by focusing on:
 
