@@ -38,8 +38,14 @@ class WebViewerTest(unittest.TestCase):
         self.github.web_viewer.view_url(url)
         assert mock_click_echo_via_pager.mock_calls
 
+    @unittest.skip('Skipping test_view_url_ssl_error')
     @mock.patch('gitsome.github.click.echo_via_pager')
     def test_view_url_ssl_error(self, mock_click_echo_via_pager):
+        """Temp skipping this test due to a change [undocumented?] in the way
+        the requests ssl error sample website is handled:
+            http://docs.python-requests.org/en/master/user/advanced/#ssl-cert-verification  # NOQA
+        See https://github.com/donnemartin/gitsome/pull/64 for more details.
+        """
         url = 'https://requestb.in'
         self.github.web_viewer.view_url(url)
         mock_click_echo_via_pager.assert_called_with(ssl_error, None)
