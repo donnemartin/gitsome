@@ -294,7 +294,7 @@ View all pull requests for your repos:
 
 View all open issues where you have been mentioned:
 
-    $ gh issues --issue_state open -issue_filter mentioned
+    $ gh issues --issue_state open --issue_filter mentioned
 
 ![Imgur](http://i.imgur.com/AB5zxxo.png)
 
