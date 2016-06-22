@@ -389,7 +389,7 @@ Example(s):
 
     $ gh issues
     $ gh issues -f assigned
-    $ gh issues ---issue_filter created
+    $ gh issues --issue_filter created
     $ gh issues -s all -l 20 -p
     $ gh issues --issue_state closed --limit 20 --pager
     $ gh issues -f created -s all -p
