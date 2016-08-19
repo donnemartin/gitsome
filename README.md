@@ -34,7 +34,7 @@ The Git command line **does not integrate with GitHub**, forcing you to toggle b
 
 ### Deep GitHub Integration
 
-`gitsome` provides direct integration with GitHub and [GitHub Enterprise](#for-github-enterprise-users).
+`gitsome` is an [official GitHub integration](https://github.com/integrations/gitsome), providing direct integration with GitHub and [GitHub Enterprise](#for-github-enterprise-users).
 
 Not all GitHub workflows work well in a terminal; `gitsome` attempts to target those that do.
 
