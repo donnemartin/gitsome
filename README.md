@@ -1,6 +1,9 @@
 <p align="center">
   <img src="http://i.imgur.com/0SXZ90y.gif">
 </p>
+<p align="center">
+  An <a href="https://github.com/integrations/gitsome">Official Integration</a> for GitHub and <a href="#for-github-enterprise-users">GitHub Enterprise</a>.
+</p>
 
 gitsome
 =======
@@ -33,8 +36,6 @@ The Git command line **does not integrate with GitHub**, forcing you to toggle b
 * **Increasing productivity**
 
 ### Deep GitHub Integration
-
-`gitsome` is an [official GitHub integration](https://github.com/integrations/gitsome), providing direct integration with GitHub and [GitHub Enterprise](#for-github-enterprise-users).
 
 Not all GitHub workflows work well in a terminal; `gitsome` attempts to target those that do.
 
