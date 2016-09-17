@@ -355,7 +355,7 @@ View trending repos:
 
     $ gh trending [language] [-w/--weekly] [-m/--monthly] [-d/--devs] [-b/--browser]
 
-![Imgur](http://i.imgur.com/Dx77HFW.png)
+![Imgur](http://i.imgur.com/aa1gOg7.png)
 
 View trending devs (devs are currently only supported in browser):
 
