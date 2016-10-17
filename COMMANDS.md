@@ -2,7 +2,7 @@
 
 ## GitHub Integration Commands Reference
 
-Check out the handy [autocompleter with interactive help](https://github.com/donnemartin/haxor-news/blob/master/README.md#git-and-github-autocompleter-with-interactive-help) to guide you through each command.
+Check out the handy [autocompleter with interactive help](https://github.com/donnemartin/gitsome/blob/master/README.md#git-and-github-autocompleter-with-interactive-help) to guide you through each command.
 
 ### gh configure
 
