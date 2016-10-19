@@ -126,11 +126,9 @@ class ConfigTest(unittest.TestCase):
 
     def test_authenticate_cached_credentials_pass_enterprise(self):
         self.github.config.user_login = 'foo'
-        self.github.config.user_pass = 'bar'
         self.github.config.enterprise_url = 'baz'
         self.github.config.save_config()
         self.github.config.user_login = ''
-        self.github.config.user_pass = ''
         self.github.config.enterprise_url = ''
         self.github.config.api = None
         config = self.github.config.get_github_config_path(
@@ -141,7 +139,6 @@ class ConfigTest(unittest.TestCase):
             parser,
             enterprise_auth=self.verify_login_pass_url_enterprise)
         assert self.github.config.user_login == 'foo'
-        assert self.github.config.user_pass == 'bar'
         assert self.github.config.enterprise_url == 'baz'
 
     @mock.patch('gitsome.github.click.secho')
@@ -163,7 +160,6 @@ class ConfigTest(unittest.TestCase):
             with mock.patch('builtins.input', return_value='foo'):
                 self.github.config.login = self.verify_login_pass
                 self.github.config.user_login = 'foo'
-                self.github.config.user_pass = 'bar'
                 self.github.config.authenticate(
                     enterprise=False,
                     overwrite=True)
@@ -188,7 +184,6 @@ class ConfigTest(unittest.TestCase):
         with mock.patch('click.confirm', return_value=True):
             with mock.patch('builtins.input', return_value='foo'):
                 self.github.config.user_login = 'foo'
-                self.github.config.user_pass = 'bar'
                 self.github.config.authenticate(
                     enterprise=True,
                     enterprise_auth=self.verify_login_pass_url_enterprise,

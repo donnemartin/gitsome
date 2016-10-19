@@ -51,9 +51,6 @@ class Config(object):
     :type CONFIG_USER_LOGIN: str
     :param CONFIG_USER_LOGIN: The user login.
 
-    :type CONFIG_USER_PASS: str
-    :param CONFIG_USER_PASS: The user password.
-
     :type CONFIG_USER_TOKEN: str
     :param CONFIG_USER_TOKEN: The user token.
 
@@ -89,9 +86,6 @@ class Config(object):
     :type user_login: str
     :param user_login: The user's login in ~/.gitsomeconfig.
 
-    :type user_pass: str
-    :param user_pass: The user's pass in ~/.gitsomeconfig.
-
     :type user_token: str
     :param user_token: The user's token in ~/.gitsomeconfig.
 
@@ -122,7 +116,6 @@ class Config(object):
     CONFIG_CLR_VIEW_INDEX = 'clr_view_index'
     CONFIG_SECTION = 'github'
     CONFIG_USER_LOGIN = 'user_login'
-    CONFIG_USER_PASS = 'user_pass'
     CONFIG_USER_TOKEN = 'user_token'
     CONFIG_USER_FEED = 'user_feed'
     CONFIG_ENTERPRISE_URL = 'enterprise_url'
@@ -135,7 +128,6 @@ class Config(object):
     def __init__(self):
         self.api = None
         self.user_login = None
-        self.user_pass = None
         self.user_token = None
         self.user_feed = None
         self.enterprise_url = None
@@ -190,9 +182,6 @@ class Config(object):
             self.user_login = self.load_config(
                 parser=parser,
                 cfg_label=self.CONFIG_USER_LOGIN)
-            self.user_pass = self.load_config(
-                parser=parser,
-                cfg_label=self.CONFIG_USER_PASS)
             self.user_token = self.load_config(
                 parser=parser,
                 cfg_label=self.CONFIG_USER_TOKEN)
@@ -221,9 +210,7 @@ class Config(object):
                     'url': self.enterprise_url,
                     'verify': self.verify_ssl,
                 })
-                if self.user_pass is not None:
-                    login_kwargs.update({'password': self.user_pass})
-                elif self.user_token is not None:
+                if self.user_token is not None:
                     login_kwargs.update({'token': self.user_token})
                 else:
                     self.print_auth_error()
@@ -285,16 +272,17 @@ class Config(object):
             if click.confirm(('Do you want to log in with a password [Y] or '
                               'a personal access token [n]?'),
                              default=True):
-                while not self.user_pass:
-                    self.user_pass = self.getpass('Password: ')
-                login_kwargs.update({'password': self.user_pass})
+                user_pass = None
+                while not user_pass:
+                    user_pass = self.getpass('Password: ')
+                login_kwargs.update({'password': user_pass})
                 try:
                     if not enterprise:
                         # Trade the user password for a personal access token.
                         # This does not seem to be available for Enterprise.
                         auth = self.authorize(
                             self.user_login,
-                            self.user_pass,
+                            user_pass,
                             scopes=['user', 'repo'],
                             note='gitsome',
                             note_url='https://github.com/donnemartin/gitsome',
@@ -616,10 +604,8 @@ class Config(object):
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_USER_LOGIN,
                        self.user_login)
-            if self.user_pass is not None:
-                parser.set(self.CONFIG_SECTION,
-                           self.CONFIG_USER_PASS,
-                           self.user_pass)
+            parser.remove_option(self.CONFIG_SECTION,
+                                 'user_pass')
             if self.user_token is not None:
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_USER_TOKEN,
