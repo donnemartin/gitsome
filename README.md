@@ -588,7 +588,7 @@ If `~/.xonshrc` does not exist, create it:
 
     $ touch ~/.xonshrc
 
-For example, if additional completions are found in `usr/local/etc/my_bash_completion.d/completion.bash`, add the following line in `~/.xonshrc`:
+For example, if additional completions are found in `/usr/local/etc/my_bash_completion.d/completion.bash`, add the following line in `~/.xonshrc`:
 
 ```
 $BASH_COMPLETIONS.append('/usr/local/etc/my_bash_completion.d/completion.bash')
