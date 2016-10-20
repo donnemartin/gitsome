@@ -105,6 +105,7 @@ def main():
             'pytz>=2016.3,<2017.0',
             'docopt>=0.6.2,<1.0.0',
             'github3.py>=1.0.0a1',
+            'html2text>=3.200',
         ],
         skw['entry_points'] = {
             'pygments.lexers': ['gitsome = xonsh.pyghooks:XonshLexer',
