@@ -21,7 +21,7 @@ import re
 
 from .compat import HTMLParser
 import click
-from .lib.html2text.html2text import HTML2Text
+from html2text import HTML2Text
 import requests
 
 

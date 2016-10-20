@@ -23,8 +23,8 @@ import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 from .compat import configparser
-from .lib.github3 import authorize, enterprise_login, login
-from .lib.github3.exceptions import AuthenticationFailed, UnprocessableEntity
+from github3 import authorize, enterprise_login, login
+from github3.exceptions import AuthenticationFailed, UnprocessableEntity
 
 
 class Config(object):

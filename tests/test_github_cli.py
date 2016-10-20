@@ -17,7 +17,7 @@ from __future__ import unicode_literals
 from __future__ import print_function
 
 import mock
-from compat import unittest
+from tests.compat import unittest
 
 from click.testing import CliRunner
 
