@@ -20,8 +20,8 @@ from datetime import datetime
 import mock
 import pytz
 
-from gitsome.lib.github3 import null
-from gitsome.lib.github3.exceptions import UnprocessableEntity
+from github3 import null
+from github3.exceptions import UnprocessableEntity
 
 
 class MockEmail(object):

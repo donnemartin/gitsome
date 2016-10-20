@@ -22,8 +22,8 @@ import sys
 import urllib
 import webbrowser
 
-from .lib.github3 import null
-from .lib.github3.exceptions import AuthenticationFailed, UnprocessableEntity
+from github3 import null
+from github3.exceptions import AuthenticationFailed, UnprocessableEntity
 from .lib.img2txt import img2txt
 import click
 import feedparser
