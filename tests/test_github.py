@@ -18,7 +18,7 @@ from __future__ import print_function
 
 import mock
 
-from compat import unittest
+from tests.compat import unittest
 
 from gitsome.github import GitHub
 from tests.mock_feed_parser import MockFeedParser
