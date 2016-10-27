@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
+
 """The gitsome installer."""
 from __future__ import print_function, unicode_literals
 import os
@@ -15,7 +16,6 @@ except ImportError:
     from distutils.command.sdist import sdist as sdist
     from distutils.command.install import install as install
     HAVE_SETUPTOOLS = False
-
 from gitsome.__init__ import __version__ as VERSION
 
 
@@ -109,7 +109,7 @@ def main():
             'feedparser>=5.2.1,<6.0.0',
             'pytz>=2016.3,<2017.0',
             'docopt>=0.6.2,<1.0.0',
-            'uritemplate.py>=0.2.0,<1.0.0',
+            'uritemplate.py>=1.0.0,<4.0.0',
         ],
         skw['entry_points'] = {
             'pygments.lexers': ['gitsome = xonsh.pyghooks:XonshLexer',
