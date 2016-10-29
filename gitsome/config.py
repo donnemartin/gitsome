@@ -51,6 +51,9 @@ class Config(object):
     :type CONFIG_USER_LOGIN: str
     :param CONFIG_USER_LOGIN: The user login.
 
+    :type CONFIG_USER_PASS: str
+    :param CONFIG_USER_PASS: The user password.
+
     :type CONFIG_USER_TOKEN: str
     :param CONFIG_USER_TOKEN: The user token.
 
@@ -86,6 +89,11 @@ class Config(object):
     :type user_login: str
     :param user_login: The user's login in ~/.gitsomeconfig.
 
+    :type user_pass: str
+    :param user_pass: The user's pass in ~/.gitsomeconfig.
+        This is only stored for GitHub Enterprise users since using only a
+        personal access token does not seem to be supported.
+
     :type user_token: str
     :param user_token: The user's token in ~/.gitsomeconfig.
 
@@ -116,6 +124,7 @@ class Config(object):
     CONFIG_CLR_VIEW_INDEX = 'clr_view_index'
     CONFIG_SECTION = 'github'
     CONFIG_USER_LOGIN = 'user_login'
+    CONFIG_USER_PASS = 'user_pass'
     CONFIG_USER_TOKEN = 'user_token'
     CONFIG_USER_FEED = 'user_feed'
     CONFIG_ENTERPRISE_URL = 'enterprise_url'
@@ -128,6 +137,7 @@ class Config(object):
     def __init__(self):
         self.api = None
         self.user_login = None
+        self.user_pass = None
         self.user_token = None
         self.user_feed = None
         self.enterprise_url = None
@@ -182,6 +192,9 @@ class Config(object):
             self.user_login = self.load_config(
                 parser=parser,
                 cfg_label=self.CONFIG_USER_LOGIN)
+            self.user_pass = self.load_config(
+                parser=parser,
+                cfg_label=self.CONFIG_USER_PASS)
             self.user_token = self.load_config(
                 parser=parser,
                 cfg_label=self.CONFIG_USER_TOKEN)
@@ -210,7 +223,9 @@ class Config(object):
                     'url': self.enterprise_url,
                     'verify': self.verify_ssl,
                 })
-                if self.user_token is not None:
+                if self.user_pass is not None:
+                    login_kwargs.update({'password': self.user_pass})
+                elif self.user_token is not None:
                     login_kwargs.update({'token': self.user_token})
                 else:
                     self.print_auth_error()
@@ -289,6 +304,8 @@ class Config(object):
                             two_factor_callback=self.request_two_factor_code
                         )
                         self.user_token = auth.token
+                    else:
+                        self.user_pass = user_pass
                 except (UnprocessableEntity, AuthenticationFailed):
                     click.secho('Error creating token.',
                                 fg=self.clr_error)
@@ -604,8 +621,6 @@ class Config(object):
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_USER_LOGIN,
                        self.user_login)
-            parser.remove_option(self.CONFIG_SECTION,
-                                 'user_pass')
             if self.user_token is not None:
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_USER_TOKEN,
@@ -618,6 +633,13 @@ class Config(object):
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_ENTERPRISE_URL,
                            self.enterprise_url)
+                if self.user_pass is not None:
+                    parser.set(self.CONFIG_SECTION,
+                               self.CONFIG_USER_PASS,
+                               self.user_pass)
+            else:
+                parser.remove_option(self.CONFIG_SECTION,
+                                     self.CONFIG_USER_PASS)
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_VERIFY_SSL,
                        self.verify_ssl)
