@@ -417,7 +417,8 @@ class GitHub(object):
         self.web_viewer.view_url(url)
 
     @authenticate
-    def issues(self, issues_list, limit=1000, pager=False, sort=True):
+    def issues(self, issues_list, limit=1000, short=False, pager=False,
+               sort=True):
         """List all issues.
 
         :type issues_list: list
@@ -429,6 +430,9 @@ class GitHub(object):
         :type pager: bool
         :param pager: Determines whether to show the output in a pager,
             if available.
+
+        :type short: bool
+        :param short: Determines whether to display only a single-line view.
 
         :type sort: bool
         :param sort: Determines whether to sort the issues by:
@@ -446,14 +450,20 @@ class GitHub(object):
                     sort_key_tertiary=current_issue.created_at))
         if sort:
             view_entries = sorted(view_entries, reverse=False)
+
+        if short:
+            format_fn = self.formatter.format_issue_short
+        else:
+            format_fn = self.formatter.format_issue
+
         self.table.build_table(view_entries,
                                limit,
                                pager,
-                               self.formatter.format_issue)
+                               format_fn)
 
     @authenticate
     def issues_setup(self, issue_filter='subscribed', issue_state='open',
-                     limit=1000, pager=False):
+                     limit=1000, short=False, pager=False):
         """Prepare to list all issues matching the filter.
 
         :type issue_filter: str
@@ -472,6 +482,7 @@ class GitHub(object):
         """
         self.issues(self.config.api.issues(issue_filter, issue_state),
                     limit,
+                    short,
                     pager)
 
     @authenticate

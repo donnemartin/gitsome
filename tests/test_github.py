@@ -29,7 +29,8 @@ from tests.data.emoji import formatted_emojis
 from tests.data.events import formatted_events
 from tests.data.user import formatted_org, formatted_user, formatted_users
 from tests.data.gitignores import formatted_gitignores, formatted_gitignores_tip
-from tests.data.issue import formatted_issues, formatted_pull_requests
+from tests.data.issue import (formatted_issues, formatted_issues_short, 
+        formatted_pull_requests)
 from tests.data.license import formatted_licenses, formatted_licenses_tip
 from tests.data.thread import formatted_threads
 from tests.data.trends import formatted_trends
@@ -191,6 +192,11 @@ class GitHubTest(unittest.TestCase):
     def test_issues_setup(self, mock_click_secho):
         self.github.issues_setup()
         mock_click_secho.assert_called_with(formatted_issues)
+
+    @mock.patch('gitsome.github.click.secho')
+    def test_issues_setup_short(self, mock_click_secho):
+        self.github.issues_setup(short=True)
+        mock_click_secho.assert_called_with(formatted_issues_short)
 
     @mock.patch('gitsome.github.click.secho')
     def test_license(self, mock_click_secho):
