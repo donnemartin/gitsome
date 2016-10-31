@@ -368,7 +368,7 @@ class Config(object):
         :rtype: str
         :return: The github config file path.
         """
-        home = os.path.abspath(os.environ.get('HOME', ''))
+        home = os.path.abspath(os.environ.get('$XDG_CONFIG_HOME', ''))
         config_file_path = os.path.join(home, config_file_name)
         return config_file_path
 
