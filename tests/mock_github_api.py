@@ -59,6 +59,7 @@ class MockUser(object):
             payload={
                 'ref_type': 'branch',
                 'ref': 'master',
+                'description': None,
             }))
         feed_events.append(MockEvent(
             event_type='FollowEvent'))

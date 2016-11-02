@@ -199,7 +199,8 @@ class Formatter(object):
         item += self._format_time(event)
         try:
             item += self._format_indented_message(
-                event.payload['description'])
+                ('' if event.payload['description'] is None
+                 else event.payload['description']))
         except KeyError:
             pass
         return item
