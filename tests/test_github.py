@@ -320,3 +320,9 @@ class GitHubTest(unittest.TestCase):
         self.github.config.load_urls = lambda x: ['user1']
         self.github.view(0)
         mock_view_url.assert_called_with('https://github.com/user1')
+
+    def test_gh_url(self):
+        self.github.config.enterprise_url = 'https://github.intra.example.com'
+        assert self.github.gh_url == 'https://github.intra.example.com'
+        self.github.config.enterprise_url = None
+        assert self.github.gh_url == self.github.GH_BASE_URL
