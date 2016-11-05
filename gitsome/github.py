@@ -69,6 +69,10 @@ class GitHub(object):
         self.web_viewer = WebViewer(self.config)
         self.trend_parser = feedparser
 
+    @property
+    def gh_url(self):
+        return self.config.enterprise_url or self.GH_BASE_URL
+
     def authenticate(func):
         """Decorator that authenticates credentials.
 
@@ -412,7 +416,7 @@ class GitHub(object):
             click.secho('Expected argument: user/repo/#.',
                         fg=self.config.clr_error)
             return
-        url = (self.GH_BASE_URL + user + '/' + repo + '/' +
+        url = (self.gh_url + user + '/' + repo + '/' +
                'issues/' + number)
         self.web_viewer.view_url(url)
 
@@ -655,7 +659,7 @@ class GitHub(object):
             click.secho('Expected argument: user/repo.',
                         fg=self.config.clr_error)
             return
-        self.web_viewer.view_url(self.GH_BASE_URL + user_repo)
+        self.web_viewer.view_url(self.gh_url + user_repo)
 
     @authenticate
     def search_issues(self, query, limit=1000, pager=False):
@@ -815,7 +819,7 @@ class GitHub(object):
             if available.
         """
         if browser:
-            webbrowser.open(self.GH_BASE_URL + user_id)
+            webbrowser.open(self.gh_url + user_id)
         else:
             user = self.config.api.user(user_id)
             if type(user) is null.NullObject:
@@ -897,8 +901,8 @@ class GitHub(object):
         url = self.config.urls[index-1]
         click.secho('Viewing ' + url + '...', fg=self.config.clr_message)
         if view_in_browser:
-            if self.GH_BASE_URL not in url:
-                url = self.GH_BASE_URL + url
+            if self.gh_url not in url:
+                url = self.gh_url + url
             webbrowser.open(url)
         else:
             if 'issues/' in url:
@@ -907,4 +911,4 @@ class GitHub(object):
             elif len(url.split('/')) == 2:
                 self.repository(url)
             else:
-                self.web_viewer.view_url(self.GH_BASE_URL + url)
+                self.web_viewer.view_url(self.gh_url + url)
