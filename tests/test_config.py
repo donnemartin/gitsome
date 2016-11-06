@@ -49,6 +49,7 @@ class ConfigTest(unittest.TestCase):
                           verify=True):
         assert username is not None
         assert password is not None
+        assert password
         assert two_factor_callback is not None
         assert verify
 
@@ -103,6 +104,20 @@ class ConfigTest(unittest.TestCase):
         self.github.config.authenticate_cached_credentials(config, parser)
         assert self.github.config.user_login == 'foo'
         assert self.github.config.user_token == 'bar'
+
+    def test_authenticate_cached_credentials_pass(self):
+        self.github.config.user_login = 'foo'
+        self.github.config.user_pass = 'bar'
+        self.github.config.save_config()
+        self.github.config.user_login = ''
+        self.github.config.user_pass = ''
+        self.github.config.api = None
+        config = self.github.config.get_github_config_path(
+            self.github.config.CONFIG)
+        parser = configparser.RawConfigParser()
+        self.github.config.authenticate_cached_credentials(config, parser)
+        assert self.github.config.user_login == 'foo'
+        assert self.github.config.user_pass is None
 
     def test_authenticate_cached_credentials_token_enterprise(self):
         self.github.config.user_login = 'foo'
@@ -159,14 +174,15 @@ class ConfigTest(unittest.TestCase):
     @mock.patch('gitsome.github.click.secho')
     @mock.patch('gitsome.config.Config.authenticate_cached_credentials')
     def test_authenticate_pass(self, mock_auth, mock_click_secho):
+        self.github.config.getpass.return_value = 'bar'
         with mock.patch('click.confirm', return_value=True):
             with mock.patch('builtins.input', return_value='foo'):
                 self.github.config.login = self.verify_login_pass
                 self.github.config.user_login = 'foo'
-                self.github.config.user_pass = 'bar'
                 self.github.config.authenticate(
                     enterprise=False,
                     overwrite=True)
+                assert self.github.config.user_pass is None
 
     @mock.patch('gitsome.github.click.secho')
     @mock.patch('gitsome.config.Config.authenticate_cached_credentials')
@@ -185,14 +201,15 @@ class ConfigTest(unittest.TestCase):
     @mock.patch('gitsome.github.click.secho')
     @mock.patch('gitsome.config.Config.authenticate_cached_credentials')
     def test_authenticate_enterprise_pass(self, mock_auth, mock_click_secho):
+        self.github.config.getpass.return_value = 'bar'
         with mock.patch('click.confirm', return_value=True):
             with mock.patch('builtins.input', return_value='foo'):
                 self.github.config.user_login = 'foo'
-                self.github.config.user_pass = 'bar'
                 self.github.config.authenticate(
                     enterprise=True,
                     enterprise_auth=self.verify_login_pass_url_enterprise,
                     overwrite=True)
+                assert self.github.config.user_pass is not None
 
     @mock.patch('gitsome.github.click.secho')
     def test_check_auth_error(self, mock_click_secho):

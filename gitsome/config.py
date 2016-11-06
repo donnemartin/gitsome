@@ -91,6 +91,8 @@ class Config(object):
 
     :type user_pass: str
     :param user_pass: The user's pass in ~/.gitsomeconfig.
+        This is only stored for GitHub Enterprise users since using only a
+        personal access token does not seem to be supported.
 
     :type user_token: str
     :param user_token: The user's token in ~/.gitsomeconfig.
@@ -285,22 +287,25 @@ class Config(object):
             if click.confirm(('Do you want to log in with a password [Y] or '
                               'a personal access token [n]?'),
                              default=True):
-                while not self.user_pass:
-                    self.user_pass = self.getpass('Password: ')
-                login_kwargs.update({'password': self.user_pass})
+                user_pass = None
+                while not user_pass:
+                    user_pass = self.getpass('Password: ')
+                login_kwargs.update({'password': user_pass})
                 try:
                     if not enterprise:
                         # Trade the user password for a personal access token.
                         # This does not seem to be available for Enterprise.
                         auth = self.authorize(
                             self.user_login,
-                            self.user_pass,
+                            user_pass,
                             scopes=['user', 'repo'],
                             note='gitsome',
                             note_url='https://github.com/donnemartin/gitsome',
                             two_factor_callback=self.request_two_factor_code
                         )
                         self.user_token = auth.token
+                    else:
+                        self.user_pass = user_pass
                 except (UnprocessableEntity, AuthenticationFailed):
                     click.secho('Error creating token.',
                                 fg=self.clr_error)
@@ -616,10 +621,6 @@ class Config(object):
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_USER_LOGIN,
                        self.user_login)
-            if self.user_pass is not None:
-                parser.set(self.CONFIG_SECTION,
-                           self.CONFIG_USER_PASS,
-                           self.user_pass)
             if self.user_token is not None:
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_USER_TOKEN,
@@ -632,6 +633,13 @@ class Config(object):
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_ENTERPRISE_URL,
                            self.enterprise_url)
+                if self.user_pass is not None:
+                    parser.set(self.CONFIG_SECTION,
+                               self.CONFIG_USER_PASS,
+                               self.user_pass)
+            else:
+                parser.remove_option(self.CONFIG_SECTION,
+                                     self.CONFIG_USER_PASS)
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_VERIFY_SSL,
                        self.verify_ssl)
