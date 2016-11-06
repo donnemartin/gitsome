@@ -35,6 +35,7 @@ from .rss_feed import language_rss_map
 from .table import Table
 from .view_entry import ViewEntry
 from .web_viewer import WebViewer
+from .utils import TextUtils
 
 
 class GitHub(object):
@@ -68,6 +69,7 @@ class GitHub(object):
         self.table = Table(self.config)
         self.web_viewer = WebViewer(self.config)
         self.trend_parser = feedparser
+        self.text_utils = TextUtils()
 
     def authenticate(func):
         """Decorator that authenticates credentials.
@@ -222,7 +224,7 @@ class GitHub(object):
                                              issue_title,
                                              issue_desc)
         if type(issue) is not null.NullObject:
-            body = issue.body if issue.body is not None else ''
+            body = self.text_utils.sanitize_if_none(issue.body)
             click.secho('Created issue: ' + issue.title + '\n' + body,
                         fg=self.config.clr_message)
         else:
@@ -245,7 +247,7 @@ class GitHub(object):
             repo = self.config.api.create_repository(repo_name,
                                                      repo_desc,
                                                      private=private)
-            desc = repo.description if repo.description is not None else ''
+            desc = self.text_utils.sanitize_if_none(repo.description)
             click.secho(('Created repo: ' + repo.full_name + '\n' + desc),
                         fg=self.config.clr_message)
         except UnprocessableEntity as e:
