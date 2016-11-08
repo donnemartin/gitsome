@@ -900,9 +900,9 @@ class GitHub(object):
         self.config.urls = self.config.load_urls(view_in_browser)
         url = self.config.urls[index-1]
         click.secho('Viewing ' + url + '...', fg=self.config.clr_message)
+        if self.gh_url not in url:
+            url = self.gh_url + url
         if view_in_browser:
-            if self.gh_url not in url:
-                url = self.gh_url + url
             webbrowser.open(url)
         else:
             if 'issues/' in url:
@@ -911,4 +911,4 @@ class GitHub(object):
             elif len(url.split('/')) == 2:
                 self.repository(url)
             else:
-                self.web_viewer.view_url(self.gh_url + url)
+                self.web_viewer.view_url(url)
