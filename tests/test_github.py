@@ -321,8 +321,13 @@ class GitHubTest(unittest.TestCase):
         self.github.view(0)
         mock_view_url.assert_called_with('https://github.com/user1')
 
-    def test_gh_url(self):
+    def test_base_url(self):
         self.github.config.enterprise_url = 'https://github.intra.example.com'
-        assert self.github.gh_url == 'https://github.intra.example.com'
+        assert self.github.base_url == 'https://github.intra.example.com'
         self.github.config.enterprise_url = None
-        assert self.github.gh_url == self.github.GH_BASE_URL
+        assert self.github.base_url == self.github._base_url
+
+    def test_add_base_url(self):
+        expected = self.github.base_url + 'foo.html'
+        assert self.github.add_base_url('foo.html') == expected
+        assert self.github.add_base_url(expected) == expected
