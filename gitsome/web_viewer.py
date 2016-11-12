@@ -111,7 +111,8 @@ class WebViewer(object):
         """
         try:
             headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}  # NOQA
-            raw_response = requests.get(url, headers=headers)
+            raw_response = requests.get(url, headers=headers,
+                                        verify=self.config.verify_ssl)
         except (requests.exceptions.SSLError,
                 requests.exceptions.ConnectionError) as e:
             contents = 'Error: ' + str(e) + '\n'
