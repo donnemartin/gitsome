@@ -391,7 +391,7 @@ class GitHub(object):
         else:
             click.secho(('Invalid case-sensitive template requested, run the '
                          'following command to see available templates:\n'
-                         '    gh gitignores'),
+                         '    gh gitignore-templates'),
                         fg=self.config.clr_error)
 
     @authenticate
