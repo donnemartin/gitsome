@@ -164,7 +164,7 @@ class GitHubTest(unittest.TestCase):
         mock_click_secho.assert_called_with(
             ('Invalid case-sensitive template requested, run the '
              'following command to see available templates:\n'
-             '    gh gitignores'),
+             '    gh gitignore-templates'),
             fg=self.github.config.clr_error)
 
     @mock.patch('gitsome.github.click.secho')
