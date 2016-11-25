@@ -223,10 +223,10 @@ class Config(object):
                     'url': self.enterprise_url,
                     'verify': self.verify_ssl,
                 })
-                if self.user_pass is not None:
-                    login_kwargs.update({'password': self.user_pass})
-                elif self.user_token is not None:
+                if self.user_token is not None:
                     login_kwargs.update({'token': self.user_token})
+                elif self.user_pass is not None:
+                    login_kwargs.update({'password': self.user_pass})
                 else:
                     self.print_auth_error()
                     return
