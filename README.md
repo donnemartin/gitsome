@@ -121,7 +121,8 @@ For no color, set the value(s) to `None`.  `white` can appear as light gray on s
 
 ## Available Platforms
 
-`gitsome` is available for Mac, Linux, Unix, and [Windows](#windows-support).
+`gitsome` is available for Mac, Linux, Unix, [Windows](#windows-support) and
+[Docker](#running-as-docker-container).
 
 ## TODO
 
@@ -176,6 +177,7 @@ For no color, set the value(s) to `None`.  `white` can appear as light gray on s
 * [Installation](#installation)
     * [Pip Installation](#pip-installation)
     * [Virtual Environment Installation](#virtual-environment-installation)
+    * [Running as Docker container](#running-as-docker-container)
     * [Running the `gh configure` Command](#running-the-gh-configure-command)
         * [For GitHub Enterprise Users](#for-github-enterprise-users)
     * [Enabling Bash Completions](#enabling-bash-completions)
@@ -547,6 +549,34 @@ If you want to activate the `gitsome` `virtualenv` again later, run:
 To deactivate the `gitsome` `virtualenv`, run:
 
     $ deactivate
+
+### Running as Docker Container
+
+You can run gitsome in a Docker container to avoid installing Python and pip locally. To install Docker check out the [official Docker documentation](https://docs.docker.com/engine/getstarted/step_one/#step-1-get-docker).
+
+Once you have docker installed you can run gitsome:
+
+    $ docker run -ti --rm mariolet/gitsome
+
+You can use Docker volumes to let gitsome access your working directory, your local .gitsomeconfig and .gitconfig:
+
+    $ docker run -ti --rm -v $(pwd):/src/              \
+       -v ${HOME}/.gitsomeconfig:/root/.gitsomeconfig  \
+       -v ${HOME}/.gitconfig:/root/.gitconfig          \
+       mariolet/gitsome
+
+If you are running this command often you will probably want to define an alias:
+
+    $ alias gitsome="docker run -ti --rm -v $(pwd):/src/              \
+                      -v ${HOME}/.gitsomeconfig:/root/.gitsomeconfig  \
+                      -v ${HOME}/.gitconfig:/root/.gitconfig          \
+                      mariolet/gitsome"
+
+To build the Docker image from sources:
+
+    $ git clone https://github.com/donnemartin/gitsome.git
+    $ cd gitsome
+    $ docker build -t gitsome .
 
 ### Starting the `gitsome` Shell
 
