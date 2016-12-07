@@ -184,3 +184,14 @@ class TextUtils(object):
             return words
         except:
             return text
+
+    def sanitize_if_none(self, text):
+        """Sanitize text to ensure it is not None
+
+        :type text:str
+        :param text: String to sanitize.
+
+        :rtype: str
+        :return: String which is empty if None.
+        """
+        return text if text is not None else ''
