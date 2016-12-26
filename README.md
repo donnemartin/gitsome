@@ -121,8 +121,7 @@ For no color, set the value(s) to `None`.  `white` can appear as light gray on s
 
 ## Available Platforms
 
-`gitsome` is available for Mac, Linux, Unix, [Windows](#windows-support) and
-[Docker](#running-as-docker-container).
+`gitsome` is available for Mac, Linux, Unix, [Windows](#windows-support), and [Docker](#running-as-docker-container).
 
 ## TODO
 
@@ -177,7 +176,7 @@ For no color, set the value(s) to `None`.  `white` can appear as light gray on s
 * [Installation](#installation)
     * [Pip Installation](#pip-installation)
     * [Virtual Environment Installation](#virtual-environment-installation)
-    * [Running as Docker container](#running-as-docker-container)
+    * [Running as a Docker Container](#running-as-docker-container)
     * [Running the `gh configure` Command](#running-the-gh-configure-command)
         * [For GitHub Enterprise Users](#for-github-enterprise-users)
     * [Enabling Bash Completions](#enabling-bash-completions)
@@ -550,7 +549,7 @@ To deactivate the `gitsome` `virtualenv`, run:
 
     $ deactivate
 
-### Running as Docker Container
+### Running as a Docker Container
 
 You can run gitsome in a Docker container to avoid installing Python and pip locally. To install Docker check out the [official Docker documentation](https://docs.docker.com/engine/getstarted/step_one/#step-1-get-docker).
 
