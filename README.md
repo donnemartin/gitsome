@@ -486,25 +486,25 @@ Having trouble remembering these commands?  Check out the handy [autocompleter w
 
 `gitsome` is hosted on [PyPI](https://pypi.python.org/pypi/gitsome).  The following command will install `gitsome`:
 
-    $ pip install gitsome
+    $ pip3 install gitsome
 
 You can also install the latest `gitsome` from GitHub source which can contain changes not yet pushed to PyPI:
 
-    $ pip install git+https://github.com/donnemartin/gitsome.git
+    $ pip3 install git+https://github.com/donnemartin/gitsome.git
 
-If you are not installing in a virtualenv, run with `sudo`:
+If you are not installing in a `virtualenv`, you might need to run with `sudo`:
 
-    $ sudo pip install gitsome
+    $ sudo pip3 install gitsome
 
 #### `pip3`
 
-Depending on your system, you might need to run `pip3`, possibly with the `-H` flag:
+Depending on your setup, you might also want to run `pip3` with the [`-H flag`](http://stackoverflow.com/a/28619739):
 
     $ sudo -H pip3 install gitsome
 
 For most linux users, `pip3` can be installed on your system using the `python3-pip` package.
 
-For example, Ubuntu users can use:
+For example, Ubuntu users can run:
 
     $ sudo apt-get install python3-pip
 
@@ -512,23 +512,23 @@ See this [ticket](https://github.com/donnemartin/gitsome/issues/4) for more deta
 
 ### Virtual Environment Installation
 
-You can install Python packages in a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) to avoid potential issues with dependencies or permissions.
+You can install Python packages in a [`virtualenv`](http://docs.python-guide.org/en/latest/dev/virtualenvs/) to avoid potential issues with dependencies or permissions.
 
 If you are a Windows user or if you would like more details on `virtualenv`, check out this [guide](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
 
 Install `virtualenv` and `virtualenvwrapper`:
 
-    $ pip install virtualenv
-    $ pip install virtualenvwrapper
+    $ pip3 install virtualenv
+    $ pip3 install virtualenvwrapper
     $ export WORKON_HOME=~/.virtualenvs
     $ source /usr/local/bin/virtualenvwrapper.sh
 
 Create a `gitsome` `virtualenv` and install `gitsome`:
 
     $ mkvirtualenv gitsome
-    $ pip install gitsome
+    $ pip3 install gitsome
 
-If that does not work, you might be running Python 2 by default.  Check what version of Python you are running:
+If the `pip` install does not work, you might be running Python 2 by default.  Check what version of Python you are running:
 
     $ python --version
 
@@ -539,7 +539,7 @@ If the call above results in Python 2, find the path for Python 3:
 Install Python 3 if needed.  Set the Python version when calling `mkvirtualenv`:
 
     $ mkvirtualenv --python [Python 3 path from above] gitsome
-    $ pip install gitsome
+    $ pip3 install gitsome
 
 If you want to activate the `gitsome` `virtualenv` again later, run:
 
@@ -551,7 +551,7 @@ To deactivate the `gitsome` `virtualenv`, run:
 
 ### Running as a Docker Container
 
-You can run gitsome in a Docker container to avoid installing Python and pip locally. To install Docker check out the [official Docker documentation](https://docs.docker.com/engine/getstarted/step_one/#step-1-get-docker).
+You can run gitsome in a Docker container to avoid installing Python and `pip3` locally. To install Docker check out the [official Docker documentation](https://docs.docker.com/engine/getstarted/step_one/#step-1-get-docker).
 
 Once you have docker installed you can run gitsome:
 
@@ -665,7 +665,7 @@ Displaying the avatar for the `gh me` and `gh user` commands will require instal
 
 Windows* and Mac:
 
-    $ pip install Pillow
+    $ pip3 install Pillow
 
 *See the [Windows Support](#windows-support) section for limitations on the avatar.
 
@@ -711,8 +711,8 @@ If you're interested in contributing to `gitsome`, run the following commands:
 
     $ git clone https://github.com/donnemartin/gitsome.git
     $ cd gitsome
-    $ pip install -e .
-    $ pip install -r requirements-dev.txt
+    $ pip3 install -e .
+    $ pip3 install -r requirements-dev.txt
     $ gitsome
     $ gh <command> [param] [options]
 
@@ -721,11 +721,6 @@ If you're interested in contributing to `gitsome`, run the following commands:
 If you get an error while installing saying that you need Python 3.4+, it could be because your `pip` command is configured for an older version of Python. To fix this issue, it is recommended to install `pip3`:
 
     $ sudo apt-get install python3-pip
-
-Then the above pip commands can be replaced with:
-
-    $ pip3 install -e .
-    $ pip3 install -r requirements-dev.txt
 
 See this [ticket](https://github.com/donnemartin/gitsome/issues/4) for more details.
 
