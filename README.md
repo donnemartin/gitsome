@@ -676,6 +676,8 @@ Ubuntu users, check out these [instructions on askubuntu](http://askubuntu.com/a
 * Python 3.4
 * Python 3.5
 
+**Python 3.6 is not currently supported.**  See this [ticket](https://github.com/donnemartin/gitsome/issues/105) for more information.
+
 `gitsome` is powered by `xonsh` which does not currently support Python 2.x, as discussed in this [ticket](https://github.com/scopatz/xonsh/issues/66).
 
 ### Supported Platforms
