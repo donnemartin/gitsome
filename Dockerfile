@@ -10,7 +10,7 @@
 #       gitsome                                          #
 #                                                        #
 ##########################################################
-FROM python:3.6
+FROM python:3.5
 
 RUN pip install Pillow
 
