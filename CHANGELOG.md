@@ -18,7 +18,7 @@ https://github.com/donnemartin/gitsome/issues
 Changelog
 =========
 
-0.7.0 (2016-05-29)
+0.7.0 (2017-03-26)
 ------------------
 
 ### Features
