@@ -595,9 +595,6 @@ class Formatter(object):
             language = '(Unknown)'
         language = re.sub(r'(\()', r'', language)
         language = re.sub(r'(\))', r'', language)
-        item += click.style(
-            '(' + str(self.pretty_dt(trending_entry.updated_parsed)) + ')',
-            fg=self.config.clr_time)
         if summary:
             item += '\n'
             summary = click.wrap_text(
@@ -606,8 +603,8 @@ class Formatter(object):
                 subsequent_indent='         ')
         item += click.style(summary, self.config.clr_message)
         item += '\n'
-        item += click.style('         Language: ' + language,
-                            fg=self.config.clr_secondary)
+        item += click.style('         ' + language,
+                            fg=self.config.clr_message)
         return item
 
     def format_user_repo(self, user_repo_tuple):
