@@ -1,5 +1,5 @@
 .. figure:: http://i.imgur.com/0SXZ90y.gif
-   :alt:
+   :alt: 
 
 gitsome
 =======
@@ -19,6 +19,60 @@ https://github.com/donnemartin/gitsome/issues
 
 Changelog
 =========
+
+0.7.0 (2016-05-29)
+------------------
+
+Features
+~~~~~~~~
+
+-  `#99 <https://github.com/donnemartin/gitsome/pull/99>`__ - Add
+   Dockerfile to run gitsome in a Docker container, by
+   `l0rd <https://github.com/l0rd>`__ and
+   `larson004 <https://github.com/larson004>`__.
+
+Bug Fixes
+~~~~~~~~~
+
+-  `#67 <https://github.com/donnemartin/gitsome/pull/67>`__ - Fix
+   ``gh_issues`` typo in the ``README``, by
+   `srisankethu <https://github.com/srisankethu>`__.
+-  `#69 <https://github.com/donnemartin/gitsome/pull/69>`__ - Fix
+   ``--issue_filter`` typo for ``gh_issues`` command in ``COMMANDS.md``.
+-  `#80 <https://github.com/donnemartin/gitsome/pull/80>`__ - Fix path
+   for auto completions in ``README``.
+-  `#92 <https://github.com/donnemartin/gitsome/pull/92>`__ - Fix
+   viewing HTML contents in the terminal for GitHub Enterprise users, by
+   `dongweiming <https://github.com/dongweiming>`__.
+-  `#97 <https://github.com/donnemartin/gitsome/pull/97>`__ - Fix error
+   hint from ``gh gitignores`` to ``gh gitignore-templates``, by
+   `zYeoman <https://github.com/zYeoman>`__.
+-  `#116 <https://github.com/donnemartin/gitsome/pull/116>`__ - Fix gh
+   trending command resulting in an error.
+
+Updates
+~~~~~~~
+
+-  `#58 <https://github.com/donnemartin/gitsome/pull/58>`__ - Tweak
+   ``README`` intro, add logo.
+-  `#74 <https://github.com/donnemartin/gitsome/pull/74>`__ - Add link
+   to official GitHub integration page in ``README``.
+-  `#79 <https://github.com/donnemartin/gitsome/pull/79>`__ - Only store
+   password in config for GitHub Enterprise (due to Enterprise
+   limitations), by `nttibbetts <https://github.com/nttibbetts>`__.
+-  `#86 <https://github.com/donnemartin/gitsome/pull/86>`__ - Update
+   dependency info for ``uritemplate``.
+-  `#89 <https://github.com/donnemartin/gitsome/pull/89>`__ - Fix a bug
+   listing info on repos without a desc field, by
+   `SanketDG <https://github.com/SanketDG>`__.
+-  `#98 <https://github.com/donnemartin/gitsome/pull/98>`__ - Prefer
+   GitHub Enterprise token before password.
+-  `#104 <https://github.com/donnemartin/gitsome/pull/104>`__ - Update
+   install instructions to use pip3.
+-  `#111 <https://github.com/donnemartin/gitsome/pull/111>`__ - Add note
+   about current Python 3.6 incompatibility.
+-  `#115 <https://github.com/donnemartin/gitsome/pull/115>`__ - Set
+   current Python support to 3.4 and 3.5.
 
 0.6.0 (2016-05-29)
 ------------------

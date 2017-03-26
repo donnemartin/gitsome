@@ -18,6 +18,34 @@ https://github.com/donnemartin/gitsome/issues
 Changelog
 =========
 
+0.7.0 (2016-05-29)
+------------------
+
+### Features
+
+* [#99](https://github.com/donnemartin/gitsome/pull/99) - Add Dockerfile to run gitsome in a Docker container, by [l0rd](https://github.com/l0rd) and [larson004](https://github.com/larson004).
+
+### Bug Fixes
+
+* [#67](https://github.com/donnemartin/gitsome/pull/67) - Fix `gh_issues` typo in the `README`, by [srisankethu](https://github.com/srisankethu).
+* [#69](https://github.com/donnemartin/gitsome/pull/69) - Fix `--issue_filter` typo for `gh_issues` command in `COMMANDS.md`.
+* [#80](https://github.com/donnemartin/gitsome/pull/80) - Fix path for auto completions in `README`.
+* [#92](https://github.com/donnemartin/gitsome/pull/92) - Fix viewing HTML contents in the terminal for GitHub Enterprise users, by [dongweiming](https://github.com/dongweiming).
+* [#97](https://github.com/donnemartin/gitsome/pull/97) - Fix error hint from `gh gitignores` to `gh gitignore-templates`, by [zYeoman](https://github.com/zYeoman).
+* [#116](https://github.com/donnemartin/gitsome/pull/116) - Fix gh trending command resulting in an error.
+
+### Updates
+
+* [#58](https://github.com/donnemartin/gitsome/pull/58) - Tweak `README` intro, add logo.
+* [#74](https://github.com/donnemartin/gitsome/pull/74) - Add link to official GitHub integration page in `README`.
+* [#79](https://github.com/donnemartin/gitsome/pull/79) - Only store password in config for GitHub Enterprise (due to Enterprise limitations), by [nttibbetts](https://github.com/nttibbetts).
+* [#86](https://github.com/donnemartin/gitsome/pull/86) - Update dependency info for `uritemplate`.
+* [#89](https://github.com/donnemartin/gitsome/pull/89) - Fix a bug listing info on repos without a desc field, by [SanketDG](https://github.com/SanketDG).
+* [#98](https://github.com/donnemartin/gitsome/pull/98) - Prefer GitHub Enterprise token before password.
+* [#104](https://github.com/donnemartin/gitsome/pull/104) - Update install instructions to use pip3.
+* [#111](https://github.com/donnemartin/gitsome/pull/111) - Add note about current Python 3.6 incompatibility.
+* [#115](https://github.com/donnemartin/gitsome/pull/115) - Set current Python support to 3.4 and 3.5.
+
 0.6.0 (2016-05-29)
 ------------------
 
