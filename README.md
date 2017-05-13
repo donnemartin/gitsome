@@ -782,6 +782,8 @@ My contact info can be found on my [GitHub page](https://github.com/donnemartin)
 
 ## License
 
+*I am providing code and resources in this repository to you under an open source license.  Because this is my personal repository, the license you receive to my code and resources is from me and not my employer (Facebook).*
+
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
     Copyright 2016 Donne Martin

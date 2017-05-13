@@ -1,5 +1,9 @@
 gitsome is licensed under Apache 2.0:
 
+I am providing code and resources in this repository to you under an open source
+license.  Because this is my personal repository, the license you receive to my
+code and resources is from me and not my employer (Facebook).
+
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
