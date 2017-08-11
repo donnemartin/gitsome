@@ -17,7 +17,6 @@ from __future__ import unicode_literals
 from __future__ import print_function
 
 import click
-from getpass import getpass
 import os
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -149,7 +148,6 @@ class Config(object):
         ])
         self.login = login
         self.authorize = authorize
-        self.getpass = getpass
 
     def _init_colors(self):
         """Initialize colors to their defaults."""
@@ -237,13 +235,10 @@ class Config(object):
     def authenticate(self, enterprise=False,
                      enterprise_auth=enterprise_login, overwrite=False):
         """Log into GitHub.
-
         Adapted from https://github.com/sigmavirus24/github-cli.
-
         :type enterprise: bool
         :param enterprise: Determines whether to configure GitHub Enterprise.
             Default: False.
-
         :type overwrite: bool
         :param overwrite: indicates whether we cant to overwrite the current
             set of credentials.  Default: False.
@@ -257,11 +252,6 @@ class Config(object):
         # Skip if we want to overwrite the auth settings.
         if os.path.isfile(config) and os.access(config, os.R_OK | os.W_OK) and \
                 not overwrite:
-            with open(config) as config_file:
-                try:
-                    parser.read_file(config_file)
-                except AttributeError:
-                    parser.readfp(config_file)
             self.authenticate_cached_credentials(config, parser)
         else:
             # The file didn't exist or we don't have the correct permissions.
@@ -270,26 +260,19 @@ class Config(object):
             }
             if enterprise:
                 self.login = enterprise_auth
-                while not self.enterprise_url:
-                    self.enterprise_url = input('Enterprise URL: ')
-                if click.confirm('Do you want to verify SSL certs?',
-                                 default=True):
-                    self.verify_ssl = True
-                else:
-                    self.verify_ssl = False
+                self.enterprise_url = self._prompt('Enterprise URL')
+                self.verify_ssl = self._confirm(
+                    'Do you want to verify SSL certs?', default=True)
                 login_kwargs.update({
                     'url': self.enterprise_url,
                     'verify': self.verify_ssl,
                 })
-            while not self.user_login:
-                self.user_login = input('User Login: ')
+            self.user_login = self._prompt('User Login')
             login_kwargs.update({'username': self.user_login})
-            if click.confirm(('Do you want to log in with a password [Y] or '
+            if self._confirm(('Do you want to log in with a password [Y] or '
                               'a personal access token [n]?'),
                              default=True):
-                user_pass = None
-                while not user_pass:
-                    user_pass = self.getpass('Password: ')
+                user_pass = self._prompt('Password', hide_input=True)
                 login_kwargs.update({'password': user_pass})
                 try:
                     if not enterprise:
@@ -321,8 +304,7 @@ class Config(object):
                     return
             else:
                 # The user has chosen to authenticate with a token.
-                while not self.user_token:
-                    self.user_token = input('Token: ')
+                self.user_token = self._prompt('Token', hide_input=True)
                 login_kwargs.update({'token': self.user_token})
             self.api = self.login(**login_kwargs)
             if self.user_feed:
@@ -585,7 +567,7 @@ class Config(object):
 
     def prompt_news_feed(self):
         """Prompt the user to enter a news feed url."""
-        if click.confirm(('No feed url detected.\n  Calling gh events without '
+        if self._confirm(('No feed url detected.\n  Calling gh events without '
                           "an argument\n  displays the logged in user's "
                           'news feed.\nDo you want gitsome to track your '
                           'news feed?'),
@@ -595,9 +577,7 @@ class Config(object):
                          'Enter the url found under "Subscribe to your '
                          'news feed".'),
                         fg=self.clr_message)
-            self.user_feed = ''
-            while not self.user_feed:
-                self.user_feed = input('URL: ')
+            self.user_feed = self._prompt('URL')
 
     def request_two_factor_code(self):
         """Request two factor authentication code.
@@ -607,10 +587,7 @@ class Config(object):
         :rtype: str
         :return: The user input two factor authentication code.
         """
-        code = ''
-        while not code:
-            code = input('Enter 2FA code: ')
-        return code
+        return self._prompt('Enter 2FA code')
 
     def save_config(self):
         """Saves the config to ~/.gitsomeconfig."""
@@ -727,3 +704,19 @@ class Config(object):
                      'the following link:\n'
                      '  https://github.com/donnemartin/gitsome#enabling-bash-completions'),  # NOQA
                     fg=self.clr_message)
+
+    def _general_input(self, function, text, **kwargs):
+        try:
+            return function(text, **kwargs)
+        except:
+            import sys
+            click.echo('::Stopped')
+            sys.exit()
+
+    def _prompt(self, text, **kwargs):
+        func = click.prompt
+        return self._general_input(func, text, **kwargs)
+
+    def _confirm(self, text, **kwargs):
+        func = click.confirm
+        return self._general_input(func, text, **kwargs)
