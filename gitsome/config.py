@@ -123,6 +123,7 @@ class Config(object):
     CONFIG_CLR_VIEW_LINK = 'clr_view_link'
     CONFIG_CLR_VIEW_INDEX = 'clr_view_index'
     CONFIG_SECTION = 'github'
+    CONFIG_PROMPT = 'prompt'
     CONFIG_USER_LOGIN = 'user_login'
     CONFIG_USER_PASS = 'user_pass'
     CONFIG_USER_TOKEN = 'user_token'
@@ -144,8 +145,10 @@ class Config(object):
         self.verify_ssl = True
         self.urls = []
         self._init_colors()
+        self._init_prompt()
         self.load_configs([
             self.load_config_colors,
+            self.load_prompt,
         ])
         self.login = login
         self.authorize = authorize
@@ -173,6 +176,18 @@ class Config(object):
         self.clr_user = 'cyan'
         self.clr_view_link = 'magenta'
         self.clr_view_index = 'magenta'
+
+    def _init_prompt(self):
+        """Initialize prompt to its default."""
+        self.prompt = ('{BOLD_RED}{user} '
+                       '{BOLD_WHITE}at '
+                       '{BOLD_RED}{hostname} '
+                       '{BOLD_WHITE}in '
+                       '{BOLD_GREEN}{cwd} '
+                       '{BOLD_WHITE}on'
+                       '{branch_color}{curr_branch} '
+                       '{BOLD_WHITE}\n'
+                       '${NO_COLOR} ')
 
     def authenticate_cached_credentials(self, config, parser,
                                         enterprise_auth=enterprise_login):
@@ -549,6 +564,17 @@ class Config(object):
             default=self.clr_view_index,
             color_config=True)
 
+    def load_prompt(self, parser):
+        """Load prompt from ~/.gitsomeconfig.
+
+        :type parser: :class:`ConfigParser.RawConfigParser`
+        :param parser: An instance of `ConfigParser.RawConfigParser`.
+        """
+        self.prompt = self.load_config(
+            parser=parser,
+            cfg_label=self.CONFIG_PROMPT,
+            default=self.prompt)
+
     def load_urls(self, view_in_browser):
         """Load the current set of urls from ~/.gitsomeconfigurl.
 
@@ -703,6 +729,9 @@ class Config(object):
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_CLR_VIEW_INDEX,
                        self.clr_view_index)
+            parser.set(self.CONFIG_SECTION,
+                       self.CONFIG_PROMPT,
+                       self.prompt)
             with open(config, 'w+') as config_file:
                 parser.write(config_file)
 

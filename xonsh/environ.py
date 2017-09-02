@@ -11,7 +11,7 @@ from warnings import warn
 from functools import wraps
 from collections import MutableMapping, MutableSequence, MutableSet, namedtuple
 
-import gitsome.config
+from gitsome.config import Config
 from xonsh import __version__ as XONSH_VERSION
 from xonsh.tools import TERM_COLORS, ON_WINDOWS, ON_MAC, ON_LINUX, ON_ARCH, \
     is_int, always_true, always_false, ensure_string, is_env_path, str_to_env_path, \
@@ -80,24 +80,8 @@ def is_callable_default(x):
     """Checks if a value is a callable default."""
     return callable(x) and getattr(x, '_xonsh_callable_default', False)
 
-#DEFAULT_PROMPT = ('{BOLD_RED}{user} '
-#                  '{BOLD_WHITE}at '
-#                  '{BOLD_RED}{hostname} '
-#                  '{BOLD_WHITE}in '
-#                  '{BOLD_GREEN}{cwd} '
-#                  '{BOLD_WHITE}on'
-#                  '{branch_color}{curr_branch} '
-#                  '{BOLD_WHITE}\n'
-#                  '${NO_COLOR} ')
-DEFAULT_PROMPT = ('{BOLD_RED}{user} '
-                  '{BOLD_BLACK}at '
-                  '{BOLD_RED}{hostname} '
-                  '{BOLD_BLACK}in '
-                  '{BOLD_GREEN}{cwd} '
-                  '{BOLD_BLACK}on'
-                  '{branch_color}{curr_branch} '
-                  '{BOLD_BLACK}\n'
-                  '${NO_COLOR} ')
+config = Config()
+DEFAULT_PROMPT = config.prompt
 DEFAULT_TITLE = '{user} at {hostname}: {cwd} | xonsh'
 
 @default_value
