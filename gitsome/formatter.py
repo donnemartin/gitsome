@@ -587,10 +587,16 @@ class Formatter(object):
         item_parts = trending_entry.title.split(' ')
         title = item_parts[0]
         item = self.format_index_title(view_entry.index, title)
-        summary_parts = trending_entry.summary.split('\n')
-        summary = summary_parts[0] if len(summary_parts) > 1 else ''
-        summary = self.strip_line_breaks(summary)
-        language = summary_parts[-1]
+
+        try:
+            summary_parts = trending_entry.summary.split('\n')
+            summary = summary_parts[0] if len(summary_parts) > 1 else ''
+            summary = self.strip_line_breaks(summary)
+            language = summary_parts[-1]
+        except AttributeError:
+            summary = ''
+            language = ''
+
         if language == '()':
             language = '(Unknown)'
         language = re.sub(r'(\()', r'', language)
