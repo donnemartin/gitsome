@@ -174,7 +174,7 @@ For no color, set the value(s) to `None`.  `white` can appear as light gray on s
 * [Installation](#installation)
     * [Pip Installation](#pip-installation)
     * [Virtual Environment Installation](#virtual-environment-installation)
-    * [Running as a Docker Container](#running-as-docker-container)
+    * [Running as a Docker Container](#running-as-a-docker-container)
     * [Running the `gh configure` Command](#running-the-gh-configure-command)
         * [For GitHub Enterprise Users](#for-github-enterprise-users)
     * [Enabling Bash Completions](#enabling-bash-completions)
