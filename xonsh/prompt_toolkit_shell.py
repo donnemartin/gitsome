@@ -3,9 +3,11 @@ import os
 import builtins
 from warnings import warn
 
-from prompt_toolkit.shortcuts import get_input
-from prompt_toolkit.key_binding.manager import KeyBindingManager
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
+from prompt_toolkit.formatted_text import PygmentsTokens
+from prompt_toolkit.shortcuts import prompt
+from prompt_toolkit.styles.pygments import style_from_pygments_cls
+from prompt_toolkit.completion import ThreadedCompleter
 from pygments.token import Token
 from pygments.style import Style
 
@@ -46,10 +48,7 @@ class PromptToolkitShell(BaseShell):
         super().__init__(**kwargs)
         self.history = setup_history()
         self.pt_completer = PromptToolkitCompleter(self.completer, self.ctx)
-        self.key_bindings_manager = KeyBindingManager(
-            enable_auto_suggest_bindings=True,
-            enable_search=True, enable_abort_and_exit_bindings=True)
-        load_xonsh_bindings(self.key_bindings_manager)
+        self.key_bindings = load_xonsh_bindings()
 
     def __del__(self):
         if self.history is not None:
@@ -68,15 +67,14 @@ class PromptToolkitShell(BaseShell):
                     auto_suggest = _auto_suggest
                 else:
                     auto_suggest = None
-                line = get_input(
+                line = prompt(
+                    message=token_func,
                     mouse_support=mouse_support,
                     auto_suggest=auto_suggest,
-                    get_prompt_tokens=token_func,
-                    style=style_cls,
-                    completer=self.pt_completer,
+                    style=style_from_pygments_cls(style_cls),
+                    completer=ThreadedCompleter(self.pt_completer),
                     history=self.history,
-                    key_bindings_registry=self.key_bindings_manager.registry,
-                    display_completions_in_columns=False)
+                    key_bindings=self.key_bindings)
                 if not line:
                     self.emptyline()
                 else:
@@ -92,8 +90,8 @@ class PromptToolkitShell(BaseShell):
         token_names, cstyles, strings = format_prompt_for_prompt_toolkit(self.prompt)
         tokens = [getattr(Token, n) for n in token_names]
 
-        def get_tokens(cli):
-            return list(zip(tokens, strings))
+        def get_tokens():
+            return PygmentsTokens(list(zip(tokens, strings)))
 
         class CustomStyle(Style):
             styles = {

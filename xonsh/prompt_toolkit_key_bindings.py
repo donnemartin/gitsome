@@ -1,42 +1,45 @@
 """Key bindings for prompt_toolkit xonsh shell."""
 import builtins
 
-from prompt_toolkit.filters import Filter
+from prompt_toolkit.application import get_app
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.filters import Condition
 from prompt_toolkit.keys import Keys
 
 
-class TabShouldInsertIndentFilter(Filter):
+@Condition
+def tabs_should_insert_indent():
     """
     Filter that is intended to check if <Tab> should insert indent instead of
     starting autocompletion.
     It basically just checks if there are only whitespaces before the cursor -
     if so indent should be inserted, otherwise autocompletion.
     """
-    def __call__(self, cli):
-        before_cursor = cli.current_buffer.document.current_line_before_cursor
-
-        return bool(before_cursor.isspace())
+    before_cursor = get_app().current_buffer.document.current_line_before_cursor
+    return bool(before_cursor.isspace())
 
 
-def load_xonsh_bindings(key_bindings_manager):
+def load_xonsh_bindings():
     """
     Load custom key bindings.
     """
-    handle = key_bindings_manager.registry.add_binding
+    kb = KeyBindings()
     env = builtins.__xonsh_env__
 
-    @handle(Keys.Tab, filter=TabShouldInsertIndentFilter())
+    @kb.add('tab', filter=tabs_should_insert_indent)
     def _(event):
         """
         If there are only whitespaces before current cursor position insert
         indent instead of autocompleting.
         """
-        event.cli.current_buffer.insert_text(env.get('INDENT'))
+        event.app.current_buffer.insert_text(env.get('INDENT'))
 
-    @handle(Keys.BackTab)
+    @kb.add(Keys.BackTab)
     def insert_literal_tab(event):
         """
         Insert literal tab on Shift+Tab instead of autocompleting
         """
-        event.cli.current_buffer.insert_text(env.get('INDENT'))
+        event.app.current_buffer.insert_text(env.get('INDENT'))
 
+
+    return kb
