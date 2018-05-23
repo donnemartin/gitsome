@@ -119,7 +119,7 @@ For no color, set the value(s) to `None`.  `white` can appear as light gray on s
 
 ## Available Platforms
 
-`gitsome` is available for Mac, Linux, Unix, [Windows](#windows-support), and [Docker](#running-as-docker-container).
+`gitsome` is available for macOS, Linux, UNIX, [Windows](#windows-support), and [Docker](#running-as-docker-container).
 
 ## TODO
 
@@ -484,15 +484,13 @@ Having trouble remembering these commands?  Check out the handy [autocompleter w
 
 `gitsome` is hosted on [PyPI](https://pypi.python.org/pypi/gitsome).  The following command will install `gitsome`:
 
-    $ pip3 install gitsome
+    $ pip3 install --user gitsome
 
 You can also install the latest `gitsome` from GitHub source which can contain changes not yet pushed to PyPI:
 
-    $ pip3 install git+https://github.com/donnemartin/gitsome.git
+    $ pip3 install --user git+https://github.com/donnemartin/gitsome.git
 
-If you are not installing in a `virtualenv`, you might need to run with `sudo`:
-
-    $ sudo pip3 install gitsome
+Make sure `~/.local/bin` is present in your `PATH` environment variable so that `gitsome` can be found by the shell.
 
 #### `pip3`
 
@@ -500,7 +498,7 @@ Depending on your setup, you might also want to run `pip3` with the [`-H flag`](
 
     $ sudo -H pip3 install gitsome
 
-For most linux users, `pip3` can be installed on your system using the `python3-pip` package.
+For most Linux users, `pip3` can be installed on your system using the `python3-pip` package.
 
 For example, Ubuntu users can run:
 
