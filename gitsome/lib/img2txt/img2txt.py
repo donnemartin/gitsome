@@ -328,7 +328,7 @@ def img2txt(imgname, maxLen=35, clr='', ansi=False,
         from PIL import Image
         img = load_and_resize_image(imgname, antialias, maxLen)
     except IOError:
-        exit("File not found: " + imgname)
+        return "File not found: " + imgname
     except ImportError:
         return 'PIL not found.'
     # get pixels
