@@ -99,6 +99,9 @@ class Config(object):
 
     :type verify_ssl: bool
     :param verify_ssl: Determines whether to verify SSL certs.
+
+    :type enable_avatar: bool
+    :param enable_avatar: Determines whether to request avatar image.
     """
 
     CONFIG = '.gitsomeconfig'
@@ -133,6 +136,7 @@ class Config(object):
     CONFIG_URL_SECTION = 'url'
     CONFIG_URL_LIST = 'url_list'
     CONFIG_AVATAR = '.gitsomeconfigavatar.png'
+    CONFIG_ENABLE_AVATAR = 'enable_avatar'
 
     def __init__(self):
         self.api = None
@@ -143,6 +147,7 @@ class Config(object):
         self.enterprise_url = None
         self.verify_ssl = True
         self.urls = []
+        self.enable_avatar = True
         self._init_colors()
         self.load_configs([
             self.load_config_colors,
@@ -204,6 +209,10 @@ class Config(object):
             self.verify_ssl = self.load_config(
                 parser=parser,
                 cfg_label=self.CONFIG_VERIFY_SSL,
+                boolean_config=True)
+            self.enable_avatar = self.load_config(
+                parser=parser,
+                cfg_label=self.CONFIG_ENABLE_AVATAR,
                 boolean_config=True)
             self.user_feed = self.load_config(
                 parser=parser,
@@ -643,6 +652,11 @@ class Config(object):
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_VERIFY_SSL,
                        self.verify_ssl)
+            # Update existing config files without enable_avatar correctly
+            if self.enable_avatar is not None:
+                parser.set(self.CONFIG_SECTION,
+                           self.CONFIG_ENABLE_AVATAR,
+                           self.enable_avatar)
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_CLR_PRIMARY,
                        self.clr_primary)
