@@ -710,7 +710,7 @@ Search issues with the "help wanted" tag:
     $ gh search-issues "is:open is:issue label:\"help wanted\"" -p
 
 Search all your open private issues:
-    gh search-issues "is:open is:issue is:private" -p
+    $ gh search-issues "is:open is:issue is:private" -p
 ```
 
 ![Imgur](http://i.imgur.com/DXXxkBD.png)
@@ -919,19 +919,19 @@ View the given notification/repo/issue/pull_request/user index in the terminal o
 This method is meant to be called after one of the following commands
 which outputs a table of notifications/repos/issues/pull_requests/users:
 
-    gh repos
-    gh search-repos
-    gh starred
+    $ gh repos
+    $ gh search-repos
+    $ gh starred
 
-    gh issues
-    gh pull-requests
-    gh search-issues
+    $ gh issues
+    $ gh pull-requests
+    $ gh search-issues
 
-    gh notifications
-    gh trending
+    $ gh notifications
+    $ gh trending
 
-    gh user
-    gh me
+    $ gh user
+    $ gh me
 
 Usage:
 
