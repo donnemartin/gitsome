@@ -62,9 +62,8 @@ if HAVE_SETUPTOOLS:
 
 def main():
     python3 = sys.version_info[0] == 3
-    python34_or_35 = python3 and sys.version_info[1] in (4, 5)
-    if not python34_or_35:
-        sys.exit('gitsome currently requires Python 3.4 or 3.5')
+    if sys.version_info[:2] not in ((3, 5), (3, 6), (3, 7)):
+        sys.exit('gitsome currently requires Python 3.5, 3.6, or 3.7')
     try:
         if '--name' not in sys.argv:
             print(logo)
@@ -86,8 +85,9 @@ def main():
             'License :: OSI Approved :: Apache Software License',
             'Natural Language :: English',
             'Programming Language :: Python :: 3',
-            'Programming Language :: Python :: 3.4',
             'Programming Language :: Python :: 3.5',
+            'Programming Language :: Python :: 3.6',
+            'Programming Language :: Python :: 3.7',
             'Topic :: Software Development',
             'Topic :: Software Development :: Libraries :: Python Modules',
         ],
