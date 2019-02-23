@@ -61,10 +61,6 @@ if HAVE_SETUPTOOLS:
 
 
 def main():
-    python3 = sys.version_info[0] == 3
-    python34_or_35 = python3 and sys.version_info[1] in (4, 5)
-    if not python34_or_35:
-        sys.exit('gitsome currently requires Python 3.4 or 3.5')
     try:
         if '--name' not in sys.argv:
             print(logo)

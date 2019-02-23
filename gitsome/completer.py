@@ -207,15 +207,21 @@ class CompleterGitsome(Completer):
         word_before_cursor = document.get_word_before_cursor(WORD=True)
         words = self.text_utils.get_tokens(document.text)
         commands = []
-        if len(words) == 0:
+        if not words:
             return commands
         if self.completing_command(words, word_before_cursor):
             commands = ['gh']
         else:
-            if 'gh' not in words:
+            if 'gh' not in words and 'git' != words[0]:
                 return commands
-            if self.completing_subcommand(words, word_before_cursor):
+            if 'gh' in words and self.completing_subcommand(
+                    words,
+                    word_before_cursor):
                 commands = list(SUBCOMMANDS.keys())
+            elif 'git' == words[0] and self.completing_subcommand(
+                    words,
+                    word_before_cursor):
+                commands = list(META_LOOKUP_GIT.keys())
             else:
                 if self.completing_arg(words, word_before_cursor):
                     commands = self.arg_completions(words, word_before_cursor)

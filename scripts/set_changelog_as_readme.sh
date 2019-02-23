@@ -1,2 +1,1 @@
-mv README.md README_temp.md
-cp CHANGELOG.rst README.md
+cp CHANGELOG.rst README.rst

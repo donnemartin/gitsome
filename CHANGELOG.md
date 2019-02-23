@@ -1,3 +1,12 @@
+
+n.n.n / 2017-11-09
+==================
+
+  * Update GitHub integrations link
+  * Fix trending command to handle empty summaries (#129)
+  * Remove buggy codecov badge (#123)
+  * Add license disclaimer (#120)
+  * Fix changelog date (#117)
 ![](http://i.imgur.com/0SXZ90y.gif)
 
 gitsome
