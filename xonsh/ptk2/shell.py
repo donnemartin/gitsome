@@ -139,11 +139,7 @@ class PromptToolkit2Shell(BaseShell):
             "include_default_pygments_style": False,
         }
         if builtins.__xonsh__.env.get("COLOR_INPUT"):
-            if HAS_PYGMENTS:
-                prompt_args["lexer"] = PygmentsLexer(pyghooks.XonshLexer)
-                style = style_from_pygments_cls(pyghooks.xonsh_style_proxy(self.styler))
-            else:
-                style = style_from_pygments_dict(DEFAULT_STYLE_DICT)
+            style = style_from_pygments_dict(DEFAULT_STYLE_DICT)
 
             prompt_args["style"] = style
 
