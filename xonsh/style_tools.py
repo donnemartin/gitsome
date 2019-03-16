@@ -435,12 +435,12 @@ DEFAULT_STYLE_DICT = LazyObject(
 )
 
 PTK2_STYLE = {
-    "completion-menu": "bg:ansigray ansiblack",
-    "completion-menu.completion": "",
+    "completion-menu": "bg:ansicyan ansiwhite",
+    "completion-menu.completion": "bg:#008888 #ffffff",
     "completion-menu.completion.current": "bg:ansibrightblack ansiwhite",
+    "completion-menu.meta.completion": "bg:#00aaaa #ffffff",
+    "completion-menu.meta.completion.current": "bg:#00aaaa #000000",
     "scrollbar.background": "bg:ansibrightblack",
     "scrollbar.arrow": "bg:ansiblack ansiwhite bold",
     "scrollbar.button": "bg:ansiblack",
-    "auto-suggestion": "ansibrightblack",
-    "aborting": "ansibrightblack",
 }
