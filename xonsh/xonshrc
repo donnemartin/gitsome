@@ -1,0 +1,9 @@
+# adjust some paths
+#$BASH_COMPLETIONS.append('/usr/local/etc/bash_completion.d/git-completion.bash')
+#$PATH.append('/some/path/bin')
+#$LD_LIBRARY_PATH = ['/some/path1/lib', '/some/path2/lib', '']
+
+aliases['hi'] = echo hello world
+
+# some customization options
+#$MULTILINE_PROMPT = '`·.,¸,.·*¯`·.,¸,.·*¯'
