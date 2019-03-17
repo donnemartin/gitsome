@@ -28,6 +28,8 @@ from xonsh.events import events
 from xonsh.environ import xonshrc_context, make_args_env
 from xonsh.built_ins import XonshSession, load_builtins, load_proxies
 
+from gitsome import __version__ as gitsome_version
+
 
 events.transmogrify("on_post_init", "LoadEvent")
 events.doc(
@@ -336,6 +338,7 @@ def premain(argv=None):
     elif args.rc:
         shell_kwargs["rc"] = args.rc
     setattr(sys, "displayhook", _pprint_displayhook)
+    print('Gitsome Version: ' + gitsome_version)
     if args.command is not None:
         args.mode = XonshMode.single_command
         shell_kwargs["shell_type"] = "none"
