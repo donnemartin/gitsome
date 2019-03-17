@@ -512,6 +512,8 @@ def BASH_COMPLETIONS_DEFAULT():
         bcd = (
             "/usr/local/share/bash-completion/bash_completion",  # v2.x
             "/usr/local/etc/bash_completion",
+            "/opt/local/etc/profile.d/bash_completion.sh",
+            "/usr/local/etc/bash_completion.d/git-completion.bash",
         )  # v1.x
     elif ON_WINDOWS and git_for_windows_path():
         bcd = (
