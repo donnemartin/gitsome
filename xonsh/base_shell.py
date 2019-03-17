@@ -509,7 +509,7 @@ class BaseShell(object):
             "linux",
         ]:
             return
-        t = env.get("TITLE")
+        t = 'gitsome'
         if t is None:
             return
         t = self.prompt_formatter(t)
