@@ -110,28 +110,15 @@ def PROMPT_FIELDS():
 
 
 def default_prompt():
-    """Creates a new instance of the default prompt."""
-    if xp.ON_CYGWIN or xp.ON_MSYS:
-        dp = (
-            "{env_name}"
-            "{BOLD_GREEN}{user}@{hostname}"
-            "{BOLD_BLUE} {cwd} {prompt_end}{NO_COLOR} "
-        )
-    elif xp.ON_WINDOWS and not xp.win_ansi_support():
-        dp = (
-            "{env_name}"
-            "{BOLD_INTENSE_GREEN}{user}@{hostname}{BOLD_INTENSE_CYAN} "
-            "{cwd}{branch_color}{curr_branch: {}}{NO_COLOR} "
-            "{BOLD_INTENSE_CYAN}{prompt_end}{NO_COLOR} "
-        )
-    else:
-        dp = (
-            "{env_name}"
-            "{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} "
-            "{cwd}{branch_color}{curr_branch: {}}{NO_COLOR} "
-            "{BOLD_BLUE}{prompt_end}{NO_COLOR} "
-        )
-    return dp
+    return ('{BOLD_RED}{user} '
+           '{BOLD_WHITE}at '
+           '{BOLD_YELLOW}{hostname} '
+           '{BOLD_WHITE}in '
+           '{BOLD_GREEN}{cwd} '
+           '{BOLD_WHITE}on '
+           '{branch_color}{curr_branch} '
+           '{BOLD_WHITE}\n'
+           '${NO_COLOR} ')
 
 
 def _failover_template_format(template):
