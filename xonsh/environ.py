@@ -689,7 +689,7 @@ def DEFAULT_VALUES():
         "CASE_SENSITIVE_COMPLETIONS": ON_LINUX,
         "CDPATH": (),
         "COLOR_INPUT": True,
-        "COLOR_RESULTS": True,
+        "COLOR_RESULTS": False,
         "COMPLETIONS_BRACKETS": True,
         "COMPLETIONS_CONFIRM": False,
         "COMPLETIONS_DISPLAY": "single",
