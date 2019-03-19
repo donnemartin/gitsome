@@ -692,7 +692,7 @@ def DEFAULT_VALUES():
         "COLOR_RESULTS": True,
         "COMPLETIONS_BRACKETS": True,
         "COMPLETIONS_CONFIRM": False,
-        "COMPLETIONS_DISPLAY": "multi",
+        "COMPLETIONS_DISPLAY": "single",
         "COMPLETIONS_MENU_ROWS": 5,
         "COMPLETION_QUERY_LIMIT": 100,
         "DIRSTACK_SIZE": 20,
