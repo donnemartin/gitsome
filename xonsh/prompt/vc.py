@@ -238,11 +238,11 @@ def branch_color():
     """
     dwd = dirty_working_directory()
     if dwd is None:
-        color = "{BOLD_INTENSE_YELLOW}"
+        color = "{YELLOW}"
     elif dwd:
-        color = "{BOLD_INTENSE_RED}"
+        color = "{RED}"
     else:
-        color = "{BOLD_INTENSE_GREEN}"
+        color = "{GREEN}"
     return color
 
 
