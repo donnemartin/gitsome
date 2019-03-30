@@ -110,11 +110,11 @@ def PROMPT_FIELDS():
 
 
 def default_prompt():
-    return ('{BOLD_RED}{user} '
+    return ('{RED}{user} '
            '{BOLD_WHITE}at '
-           '{BOLD_YELLOW}{hostname} '
+           '{YELLOW}{hostname} '
            '{BOLD_WHITE}in '
-           '{BOLD_GREEN}{cwd} '
+           '{GREEN}{cwd} '
            '{BOLD_WHITE}on '
            '{branch_color}{curr_branch} '
            '{BOLD_WHITE}\n'
