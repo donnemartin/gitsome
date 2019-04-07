@@ -6,6 +6,7 @@ matrix:
     - python: 3.6
       env: TOXENV=py36
     - python: 3.7
+      dist: xenial  # required for Python >= 3.7
       env: TOXENV=py37
 install:
   - travis_retry pip install codecov tox
