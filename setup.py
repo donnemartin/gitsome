@@ -61,9 +61,9 @@ if HAVE_SETUPTOOLS:
 
 
 def main():
-    python3 = sys.version_info[0] == 3
-    if sys.version_info[:2] not in ((3, 5), (3, 6), (3, 7)):
-        sys.exit('gitsome currently requires Python 3.5, 3.6, or 3.7')
+    if sys.version_info < (3, 5):
+        print('gitsome requires at least Python 3.5.')
+        sys.exit(1)
     try:
         if '--name' not in sys.argv:
             print(logo)
@@ -103,7 +103,7 @@ def main():
         skw['install_requires'] = [
             'numpydoc>=0.5,<1.0',
             'ply>=3.4,<4.0',
-            'prompt-toolkit>=1.0.0,<1.1.0',
+            'prompt_toolkit>=2.0.0,<2.1.0',
             'requests>=2.8.1,<3.0.0',
             'colorama>=0.3.3,<1.0.0',
             'click>=5.1,<7.0',

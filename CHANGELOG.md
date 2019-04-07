@@ -18,6 +18,27 @@ https://github.com/donnemartin/gitsome/issues
 Changelog
 =========
 
+0.8.0 (2019-04-07)
+------------------
+
+This version adds support for Python 3.7.
+
+### Updates
+
+* [#160](https://github.com/donnemartin/gitsome/pull/160) - Add Python 3.7 support.  Fixes [#152](https://github.com/donnemartin/gitsome/pull/152), [#144](https://github.com/donnemartin/gitsome/pull/144), [#126](https://github.com/donnemartin/gitsome/pull/126), [#105](https://github.com/donnemartin/gitsome/pull/105) and several other related bugs.
+* [#147](https://github.com/donnemartin/gitsome/pull/148) - Gracefully ignore missing avatar image, by [kBite](https://github.com/kBite).
+* [#142](https://github.com/donnemartin/gitsome/pull/142) - Update release checklist.
+* [#134](https://github.com/donnemartin/gitsome/pull/134) - Update GitHub integrations link.
+* [#120](https://github.com/donnemartin/gitsome/pull/120) - Add license disclaimer.
+
+### Bug Fixes
+
+* [#151](https://github.com/donnemartin/gitsome/pull/151) - Fix gh command typos in docs, by [cyblue9](https://github.com/cyblue9).
+* [#137](https://github.com/donnemartin/gitsome/pull/137) - Fix Running as a Docker Container anchor in README, by [kamontat](https://github.com/kamontat).
+* [#129](https://github.com/donnemartin/gitsome/pull/129) - Fix trending command to handle empty summaries, by [emres](https://github.com/emres).
+* [#123](https://github.com/donnemartin/gitsome/pull/123) - Remove buggy codecov badge.
+* [#117](https://github.com/donnemartin/gitsome/pull/117) - Fix 0.7.0 CHANGELOG date, by [dbaio](https://github.com/dbaio).
+
 0.7.0 (2017-03-26)
 ------------------
 

@@ -1,5 +1,5 @@
 .. figure:: http://i.imgur.com/0SXZ90y.gif
-   :alt: 
+   :alt:
 
 gitsome
 =======
@@ -19,6 +19,47 @@ https://github.com/donnemartin/gitsome/issues
 
 Changelog
 =========
+
+0.8.0 (2019-04-07)
+------------------
+
+This version adds support for Python 3.7.
+
+Updates
+~~~~~~~
+
+-  `#160 <https://github.com/donnemartin/gitsome/pull/160>`__ - Add
+   Python 3.7 support. Fixes
+   `#152 <https://github.com/donnemartin/gitsome/pull/152>`__,
+   `#144 <https://github.com/donnemartin/gitsome/pull/144>`__,
+   `#126 <https://github.com/donnemartin/gitsome/pull/126>`__,
+   `#105 <https://github.com/donnemartin/gitsome/pull/105>`__ and
+   several other related bugs.
+-  `#147 <https://github.com/donnemartin/gitsome/pull/148>`__ -
+   Gracefully ignore missing avatar image, by
+   `kBite <https://github.com/kBite>`__.
+-  `#142 <https://github.com/donnemartin/gitsome/pull/142>`__ - Update
+   release checklist.
+-  `#134 <https://github.com/donnemartin/gitsome/pull/134>`__ - Update
+   GitHub integrations link.
+-  `#120 <https://github.com/donnemartin/gitsome/pull/120>`__ - Add
+   license disclaimer.
+
+Bug Fixes
+~~~~~~~~~
+
+-  `#151 <https://github.com/donnemartin/gitsome/pull/151>`__ - Fix gh
+   command typos in docs, by `cyblue9 <https://github.com/cyblue9>`__.
+-  `#137 <https://github.com/donnemartin/gitsome/pull/137>`__ - Fix
+   Running as a Docker Container anchor in README, by
+   `kamontat <https://github.com/kamontat>`__.
+-  `#129 <https://github.com/donnemartin/gitsome/pull/129>`__ - Fix
+   trending command to handle empty summaries, by
+   `emres <https://github.com/emres>`__.
+-  `#123 <https://github.com/donnemartin/gitsome/pull/123>`__ - Remove
+   buggy codecov badge.
+-  `#117 <https://github.com/donnemartin/gitsome/pull/117>`__ - Fix
+   0.7.0 CHANGELOG date, by `dbaio <https://github.com/dbaio>`__.
 
 0.7.0 (2017-03-26)
 ------------------
