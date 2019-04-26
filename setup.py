@@ -101,7 +101,6 @@ def main():
     if HAVE_SETUPTOOLS:
         skw['setup_requires'] = ['ply']
         skw['install_requires'] = [
-            'numpydoc>=0.5,<1.0',
             'ply>=3.4,<4.0',
             'prompt_toolkit>=2.0.0,<2.1.0',
             'requests>=2.8.1,<3.0.0',
