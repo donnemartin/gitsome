@@ -652,7 +652,6 @@ class Config(object):
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_VERIFY_SSL,
                        self.verify_ssl)
-            # Update existing config files without enable_avatar correctly
             if self.enable_avatar is not None:
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_ENABLE_AVATAR,
