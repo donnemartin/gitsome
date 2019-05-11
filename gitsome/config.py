@@ -638,6 +638,10 @@ class Config(object):
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_USER_FEED,
                            self.user_feed)
+            if self.enable_avatar is not None:
+                parser.set(self.CONFIG_SECTION,
+                           self.CONFIG_ENABLE_AVATAR,
+                           self.enable_avatar)
             if self.enterprise_url is not None:
                 parser.set(self.CONFIG_SECTION,
                            self.CONFIG_ENTERPRISE_URL,
@@ -652,10 +656,6 @@ class Config(object):
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_VERIFY_SSL,
                        self.verify_ssl)
-            if self.enable_avatar is not None:
-                parser.set(self.CONFIG_SECTION,
-                           self.CONFIG_ENABLE_AVATAR,
-                           self.enable_avatar)
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_CLR_PRIMARY,
                        self.clr_primary)
