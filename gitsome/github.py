@@ -133,17 +133,19 @@ class GitHub(object):
         """
         if platform.system() == 'Windows':
             text_avatar = True
-        avatar = self.config.get_github_config_path(
-            self.config.CONFIG_AVATAR)
-        try:
-            urllib.request.urlretrieve(url, avatar)
-        except urllib.error.URLError:
-            pass
+        avatar_enabled = self.config.enable_avatar
         avatar_text = ''
-        if os.path.exists(avatar):
-            avatar_text = self.img2txt(avatar, ansi=(not text_avatar))
-            avatar_text += '\n'
-            os.remove(avatar)
+        if avatar_enabled:
+            avatar = self.config.get_github_config_path(
+                self.config.CONFIG_AVATAR)
+            try:
+                urllib.request.urlretrieve(url, avatar)
+            except urllib.error.URLError:
+                pass
+            if os.path.exists(avatar):
+                avatar_text = self.img2txt(avatar, ansi=(not text_avatar))
+                avatar_text += '\n'
+                os.remove(avatar)
         return avatar_text
 
     def avatar_setup(self, url, text_avatar):
