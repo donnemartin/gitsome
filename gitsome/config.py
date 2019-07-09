@@ -716,8 +716,11 @@ class Config(object):
             parser.set(self.CONFIG_SECTION,
                        self.CONFIG_CLR_VIEW_INDEX,
                        self.clr_view_index)
+            old_umask = os.umask(0o77)
             with open(config, 'w+') as config_file:
                 parser.write(config_file)
+            os.chmod(config, 0o600)
+            _ = os.umask(old_umask)
 
     def save_urls(self):
         """Save the current set of urls to ~/.gitsomeconfigurl."""
