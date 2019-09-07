@@ -85,7 +85,8 @@ class ConfigTest(unittest.TestCase):
         assert verify
 
     def test_config(self):
-        expected = os.path.join(os.path.abspath(os.environ.get('HOME', '')),
+        expected = os.path.join(os.path.abspath(os.environ.get(
+                                '$XDG_CONFIG_HOME', '')),
                                 self.github.config.CONFIG)
         assert self.github.config \
             .get_github_config_path(self.github.config.CONFIG) == expected
