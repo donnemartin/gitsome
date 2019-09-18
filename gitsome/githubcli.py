@@ -350,8 +350,9 @@ class GitHubCli(object):
     @click.option('-s', '--issue_state', required=False, default='open')
     @click.option('-l', '--limit', required=False, default=1000)
     @click.option('-p', '--pager', is_flag=True)
+    @click.option('-t', '--short', is_flag=True)
     @pass_github
-    def issues(github, issue_filter, issue_state, limit, pager):
+    def issues(github, issue_filter, issue_state, limit, short, pager):
         """List all issues matching the filter.
 
         Usage:
@@ -364,6 +365,7 @@ class GitHubCli(object):
             gh issues -s all -l 20 -p
             gh issues --issue_state closed --limit 20 --pager
             gh issues -f created -s all -p
+            gh issues -t
 
         :type github: :class:`github.GitHub`
         :param github: An instance of `github.GitHub`.
@@ -377,11 +379,15 @@ class GitHubCli(object):
         :type limit: int
         :param limit: The number of items to display.
 
+        :type short: bool
+        :param short: Determines whether to show a single-line view of
+            the issue.
+
         :type pager: bool
         :param pager: Determines whether to show the output in a pager,
             if available.
         """
-        github.issues_setup(issue_filter, issue_state, limit, pager)
+        github.issues_setup(issue_filter, issue_state, limit, short, pager)
 
     @cli.command()
     @click.argument('license_name')

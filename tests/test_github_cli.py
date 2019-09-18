@@ -135,8 +135,9 @@ class GitHubCliTest(unittest.TestCase):
                                      '--issue_filter', 'mentioned',
                                      '--issue_state', 'closed',
                                      '--limit', '10',
+                                     '--short',
                                      '--pager'])
-        mock_gh_call.assert_called_with('mentioned', 'closed', 10, True)
+        mock_gh_call.assert_called_with('mentioned', 'closed', 10, True, True)
         assert result.exit_code == 0
 
     @mock.patch('gitsome.githubcli.GitHub.license')
