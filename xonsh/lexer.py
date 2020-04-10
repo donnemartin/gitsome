@@ -151,7 +151,7 @@ def _end_delimiter(state, token):
     s = token.string
     l, c = token.start
     if len(py) > 1:
-        mode, orig, match, pos = py.pop()
+        _, orig, match, pos = py.pop()
         if s != match:
             e = '"{}" at {} ends "{}" at {} (expected "{}")'
             return e.format(s, (l, c), orig, pos, match)

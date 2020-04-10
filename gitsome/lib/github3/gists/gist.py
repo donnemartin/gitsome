@@ -126,7 +126,7 @@ class Gist(GitHubCore):
         return self._boolean(self._delete(self._api), 204, 404)
 
     @requires_auth
-    def edit(self, description='', files={}):
+    def edit(self, description='', files=None):
         """Edit this gist.
 
         :param str description: (optional), description of the gist
@@ -138,6 +138,8 @@ class Gist(GitHubCore):
         :returns: bool -- whether the edit was successful
 
         """
+        if files is None:
+            files = {}
         data = {}
         json = None
         if description:

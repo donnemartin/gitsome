@@ -68,13 +68,15 @@ class GitHub(GitHubCore):
         return '<GitHub at 0x{0:x}>'.format(id(self))
 
     @requires_auth
-    def add_email_addresses(self, addresses=[]):
+    def add_email_addresses(self, addresses=None):
         """Add the email addresses in ``addresses`` to the authenticated
         user's account.
 
         :param list addresses: (optional), email addresses to be added
         :returns: list of :class:`~github3.users.Email`
         """
+        if addresses is None:
+            addresses = []
         json = []
         if addresses:
             url = self._build_url('user', 'emails')
@@ -252,7 +254,7 @@ class GitHub(GitHubCore):
 
     @requires_auth
     def create_issue(self, owner, repository, title, body=None, assignee=None,
-                     milestone=None, labels=[]):
+                     milestone=None, labels=None):
         """Create an issue on the project 'repository' owned by 'owner'
         with title 'title'.
 
@@ -280,6 +282,8 @@ class GitHub(GitHubCore):
         :param list labels: (optional), List of label names.
         :returns: :class:`Issue <github3.issues.Issue>` if successful
         """
+        if labels is None:
+            labels = []
         repo = None
         if owner and repository and title:
             repo = self.repository(owner, repository)
@@ -349,13 +353,15 @@ class GitHub(GitHubCore):
         return self._instance_or_null(Repository, json)
 
     @requires_auth
-    def delete_email_addresses(self, addresses=[]):
+    def delete_email_addresses(self, addresses=None):
         """Delete the email addresses in ``addresses`` from the
         authenticated user's account.
 
         :param list addresses: (optional), email addresses to be removed
         :returns: bool
         """
+        if addresses is None:
+            addresses = []
         url = self._build_url('user', 'emails')
         return self._boolean(self._delete(url, data=json.dumps(addresses)),
                              204, 404)

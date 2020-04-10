@@ -19,7 +19,7 @@ def _to_json_with_size(obj, offset=0, sort_keys=False):
         size = {}
         items = sorted(obj.items()) if sort_keys else obj.items()
         for key, val in items:
-            s_k, o_k, n_k, size_k = _to_json_with_size(
+            s_k, _, n_k, _ = _to_json_with_size(
                 key, offset=j, sort_keys=sort_keys
             )
             s += s_k + ": "

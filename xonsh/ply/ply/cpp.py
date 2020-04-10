@@ -939,7 +939,9 @@ class Preprocessor(object):
     #
     # Parse input text.
     # ----------------------------------------------------------------------
-    def parse(self,input,source=None,ignore={}):
+    def parse(self,input,source=None,ignore=None):
+        if ignore is None:
+            ignore = {}
         self.ignore = ignore
         self.parser = self.parsegen(input,source)
 
