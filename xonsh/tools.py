@@ -1524,7 +1524,7 @@ def to_dict(x):
     except (ValueError, SyntaxError):
         msg = '"{}" can not be converted to Python dictionary.'.format(x)
         warnings.warn(msg, RuntimeWarning)
-        x = dict()
+        x = {}
     return x
 
 
@@ -1536,7 +1536,7 @@ def to_str_str_dict(x):
     if not is_str_str_dict(x):
         msg = '"{}" can not be converted to str:str dictionary.'.format(x)
         warnings.warn(msg, RuntimeWarning)
-        x = dict()
+        x = {}
     return x
 
 
