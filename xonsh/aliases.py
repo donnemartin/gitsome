@@ -593,7 +593,7 @@ def source_cmd(args, stdin=None):
     if not os.path.isfile(args[0]):
         return (None, "xonsh: error: File not found: {}\n".format(args[0]), 1)
     prevcmd = "call "
-    prevcmd += " ".join([argvquote(arg, force=True) for arg in args])
+    prevcmd += " ".join(argvquote(arg, force=True) for arg in args)
     prevcmd = escape_windows_cmd_string(prevcmd)
     args.append("--prevcmd={}".format(prevcmd))
     args.insert(0, "cmd")

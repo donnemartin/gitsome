@@ -81,7 +81,7 @@ class Functor(Block):
         # construct signature string
         sig = rtn = ""
         sig = ", ".join(self.args)
-        kwstr = ", ".join([k + "=None" for k, _ in self.kwargs])
+        kwstr = ", ".join(k + "=None" for k, _ in self.kwargs)
         if len(kwstr) > 0:
             sig = kwstr if len(sig) == 0 else sig + ", " + kwstr
         # construct return string

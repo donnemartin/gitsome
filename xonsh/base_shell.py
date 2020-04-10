@@ -566,7 +566,7 @@ class BaseShell(object):
             s = pygments.format(string, formatter).rstrip()
         else:
             # assume this is a list of (Token, str) tuples and remove color
-            s = "".join([x for _, x in string])
+            s = "".join(x for _, x in string)
         print(s, **kwargs)
 
     def color_style_names(self):

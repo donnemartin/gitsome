@@ -1068,7 +1068,7 @@ def make_ansi_style(palette):
     for name, t in BASE_XONSH_COLORS.items():
         closest = find_closest_color(t, palette)
         if len(closest) == 3:
-            closest = "".join([a * 2 for a in closest])
+            closest = "".join(a * 2 for a in closest)
         short = rgb2short(closest)[0]
         style[name] = "38;5;" + short
         style["BOLD_" + name] = "1;38;5;" + short

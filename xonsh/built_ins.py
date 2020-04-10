@@ -263,14 +263,14 @@ _REDIR_OUT = LazyObject(
 )
 _E2O_MAP = LazyObject(
     lambda: frozenset(
-        {"{}>{}".format(e, o) for e in _REDIR_ERR for o in _REDIR_OUT if o != ""}
+        "{}>{}".format(e, o) for e in _REDIR_ERR for o in _REDIR_OUT if o != ""
     ),
     globals(),
     "_E2O_MAP",
 )
 _O2E_MAP = LazyObject(
     lambda: frozenset(
-        {"{}>{}".format(o, e) for e in _REDIR_ERR for o in _REDIR_OUT if o != ""}
+        "{}>{}".format(o, e) for e in _REDIR_ERR for o in _REDIR_OUT if o != ""
     ),
     globals(),
     "_O2E_MAP",

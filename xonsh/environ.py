@@ -363,10 +363,8 @@ class LsColors(cabc.MutableMapping):
         style = self.style
         if self._detyped is None:
             self._detyped = ":".join(
-                [
-                    key + "=" + ";".join([style[v] or "0" for v in val])
+                key + "=" + ";".join(style[v] or "0" for v in val)
                     for key, val in sorted(self._d.items())
-                ]
             )
         return self._detyped
 

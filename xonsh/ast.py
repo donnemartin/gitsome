@@ -632,7 +632,7 @@ def pdump(s, **kwargs):
     lens = len(s) + 1
     if lens == 1:
         return s
-    i = min([s.find(o) % lens for o in openers])
+    i = min(s.find(o) % lens for o in openers)
     if i == lens - 1:
         return s
     closer = closers[openers.find(s[i])]
