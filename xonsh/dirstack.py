@@ -80,7 +80,8 @@ def _unc_map_temp_drive(unc_path) -> str:
          is the same as one still active on the stack.
     """
     global _unc_tempDrives
-    assert unc_path[1] in (os.sep, os.altsep), "unc_path is UNC form of path"
+    if unc_path[1] not in (os.sep, os.altsep):
+        raise AssertionError("unc_path is UNC form of path")
 
     if not _unc_check_enabled():
         return unc_path

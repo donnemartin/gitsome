@@ -754,7 +754,8 @@ class SubprocSpec:
         # we want to filter out one up, e.g. subproc_captured_hiddenobject()
         # after that the stack from the call site starts.
         stack = inspect.stack(context=0)
-        assert stack[3][3] == "run_subproc", "xonsh stack has changed!"
+        if stack[3][3] != "run_subproc":
+            raise AssertionError("xonsh stack has changed!")
         del stack[:5]
         self.stack = stack
 

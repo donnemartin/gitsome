@@ -730,7 +730,8 @@ class HTML2Text(HTMLParser.HTMLParser):
         if not self.body_width:
             return text
 
-        assert wrap, "Requires Python 2.3."
+        if not wrap:
+            raise AssertionError("Requires Python 2.3.")
         result = ''
         newlines = 0
         for para in text.split("\n"):
