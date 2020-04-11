@@ -575,7 +575,7 @@ class GitHub(object):
             repo_pulls = repository.pull_requests()
             for repo_pull in repo_pulls:
                 url = self.formatter.format_issues_url_from_issue(repo_pull)
-                user, repo, issues, number = url.split('/')
+                user, repo, _, number = url.split('/')
                 repo_pull = self.config.api.pull_request(user, repo, number)
                 issues_list.append(repo_pull)
         self.issues(issues_list, limit, pager)

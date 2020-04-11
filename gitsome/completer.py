@@ -140,7 +140,7 @@ class CompleterGitsome(Completer):
         :return: A list of options.
         """
         options = []
-        for subcommand, args_opts in COMPLETIONS_GH.items():
+        for subcommand, _ in COMPLETIONS_GH.items():
             if subcommand in words and \
                 (words[-2] == subcommand or
                     self.completing_subcommand_option_util(subcommand, words)):
@@ -183,7 +183,7 @@ class CompleterGitsome(Completer):
         """
         if 'gh' not in words:
             return []
-        for subcommand, args_opts in COMPLETIONS_GH.items():
+        for subcommand, _ in COMPLETIONS_GH.items():
             if subcommand in words:
                 args = list(COMPLETIONS_GH[subcommand]['args'].keys())
                 if not args:

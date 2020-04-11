@@ -97,7 +97,7 @@ class XonshKernel:
 
     def make_default_config(self):
         """Provides default configuration"""
-        ns, unknown = self.parser.parse_known_args(sys.argv)
+        ns, _ = self.parser.parse_known_args(sys.argv)
         if ns.config_file is None:
             self.dprint(1, "Starting xonsh kernel with default args...")
             config = {
@@ -125,7 +125,7 @@ class XonshKernel:
     def control_handler(self, wire_message):
         """Handles control requests"""
         self.dprint(1, "control received:", wire_message)
-        identities, msg = self.deserialize_wire_message(wire_message)
+        _, msg = self.deserialize_wire_message(wire_message)
         if msg["header"]["msg_type"] == "shutdown_request":
             self.shutdown()
 

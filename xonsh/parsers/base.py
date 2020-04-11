@@ -1458,7 +1458,7 @@ class BaseParser(object):
 
     def p_comma_import_as_name_tail(self, p):
         """comma_import_as_name : comma_opt RPAREN"""
-        p[0] = list()
+        p[0] = []
 
     def p_dotted_as_name(self, p):
         """dotted_as_name : dotted_name as_name_opt"""
@@ -2215,7 +2215,7 @@ class BaseParser(object):
                 gblcall = xonsh_call("globals", [], lineno=l, col=c)
                 loccall = xonsh_call("locals", [], lineno=l, col=c)
                 if isinstance(trailer, tuple):
-                    trailer, arglist = trailer
+                    trailer, _ = trailer
                 margs = [leader, trailer, gblcall, loccall]
                 p0 = xonsh_call("__xonsh__.call_macro", margs, lineno=l, col=c)
             elif isinstance(trailer, str):
@@ -2702,7 +2702,7 @@ class BaseParser(object):
         if isinstance(p1, ast.List) or (
             isinstance(p1, ast.Tuple) and hasattr(p1, "_real_tuple") and p1._real_tuple
         ):
-            lineno, col = lopen_loc(p1)
+            _, _ = lopen_loc(p1)
             p[0] = ast.Tuple(
                 elts=[p1], ctx=ast.Load(), lineno=p1.lineno, col_offset=p1.col_offset
             )
@@ -2717,7 +2717,7 @@ class BaseParser(object):
         if isinstance(p1, ast.List) or (
             isinstance(p1, ast.Tuple) and hasattr(p1, "_real_tuple") and p1._real_tuple
         ):
-            lineno, col = lopen_loc(p1)
+            _, _ = lopen_loc(p1)
             p1 = ast.Tuple(
                 elts=[p1], ctx=ast.Load(), lineno=p1.lineno, col_offset=p1.col_offset
             )
