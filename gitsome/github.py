@@ -791,7 +791,7 @@ class GitHub(object):
             webbrowser.open(
                 ('https://github.com/trending' +
                  ('/developers' if devs else '') +
-                 ('/' + language if language is not 'overall' else '') +
+                 ('/' + language if language != 'overall' else '') +
                  url_param))
         else:
             click.secho(
