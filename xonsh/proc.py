@@ -1004,7 +1004,7 @@ class FileThreadDispatcher:
         that this method can be used in a with-statement.
         """
         if handle is self:
-            # prevent weird recurssion errors
+            # prevent weird recursion errors
             return self
         self.registry[threading.get_ident()] = handle
         return self
