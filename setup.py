@@ -107,7 +107,7 @@ def main():
             'colorama>=0.3.3,<1.0.0',
             'click>=5.1,<7.0',
             'pygments>=2.0.2,<3.0.0',
-            'feedparser>=5.2.1,<6.0.0',
+            'feedparser>=5.2.1,<=6.0.2',
             'pytz>=2016.3,<2017.0',
             'docopt>=0.6.2,<1.0.0',
             'uritemplate.py>=1.0.0,<4.0.0',
