@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 
-from collections import Callable
+from collections.abc import Callable
 from . import __version__
 from logging import getLogger
 from contextlib import contextmanager
