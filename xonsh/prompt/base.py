@@ -116,7 +116,7 @@ def default_prompt():
            '{BOLD_WHITE}in '
            '{GREEN}{cwd} '
            '{BOLD_WHITE}on '
-           '{branch_color}{curr_branch} '
+           f'{branch_color}{curr_branch} '
            '{BOLD_WHITE}\n'
            '${NO_COLOR} ')
 
