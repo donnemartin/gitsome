@@ -13,6 +13,7 @@ import collections
 import collections.abc as cabc
 import subprocess
 
+from gitsome.config import Config
 from xonsh import __version__ as XONSH_VERSION
 from xonsh.lazyasd import LazyObject, lazyobject
 from xonsh.codecache import run_script_with_cache
@@ -603,9 +604,11 @@ def default_value(f):
 
 def is_callable_default(x):
     """Checks if a value is a callable default."""
-    return callable(x) and getattr(x, "_xonsh_callable_default", False)
+    return callable(x) and getattr(x, '_xonsh_callable_default', False)
 
 
+config = Config()
+DEFAULT_PROMPT = config.prompt
 DEFAULT_TITLE = "{current_job:{} | }{user}@{hostname}: {cwd} | xonsh"
 
 

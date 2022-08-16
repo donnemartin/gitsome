@@ -22,4 +22,6 @@ clr_tooltip = None
 clr_user = cyan
 clr_view_link = magenta
 clr_view_index = magenta
+prompt = {BOLD_RED}{user} {BOLD_WHITE}at {BOLD_RED}{hostname} {BOLD_WHITE}in {BOLD_GREEN}{cwd} {BOLD_WHITE}on{branch_color}{curr_branch} {BOLD_WHITE}
+	${NO_COLOR}
 
