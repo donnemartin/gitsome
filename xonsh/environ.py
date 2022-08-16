@@ -606,9 +606,11 @@ def is_callable_default(x):
     """Checks if a value is a callable default."""
     return callable(x) and getattr(x, '_xonsh_callable_default', False)
 
+
 config = Config()
 DEFAULT_PROMPT = config.prompt
 DEFAULT_TITLE = "{current_job:{} | }{user}@{hostname}: {cwd} | xonsh"
+
 
 @default_value
 def xonsh_data_dir(env):
