@@ -1,5 +1,6 @@
 [github]
 user_login = None
+enable_avatar = True
 verify_ssl = True
 clr_primary = None
 clr_secondary = green

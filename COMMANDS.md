@@ -698,19 +698,19 @@ Additional Example(s):
 
 ```
 Search issues that have your user name tagged @donnemartin:
-    gh search-issues "is:issue donnemartin is:open" -p
+    $ gh search-issues "is:issue donnemartin is:open" -p
 
 Search issues that have the most +1s:
-    gh search-issues "is:open is:issue sort:reactions-+1-desc" -p
+    $ gh search-issues "is:open is:issue sort:reactions-+1-desc" -p
 
 Search issues that have the most comments:
-    gh search-issues "is:open is:issue sort:comments-desc" -p
+    $ gh search-issues "is:open is:issue sort:comments-desc" -p
 
 Search issues with the "help wanted" tag:
-    gh search-issues "is:open is:issue label:\"help wanted\"" -p
+    $ gh search-issues "is:open is:issue label:\"help wanted\"" -p
 
 Search all your open private issues:
-    gh search-issues "is:open is:issue is:private" -p
+    $ gh search-issues "is:open is:issue is:private" -p
 ```
 
 ![Imgur](http://i.imgur.com/DXXxkBD.png)
@@ -858,7 +858,7 @@ Example(s):
 
     $ gh trending
     $ gh trending Python -w -p
-    gh trending Python --weekly --devs --browser
+    $ gh trending Python --weekly --devs --browser
     $ gh trending --browser
 
 ![Imgur](http://i.imgur.com/Dx77HFW.png)
@@ -919,19 +919,19 @@ View the given notification/repo/issue/pull_request/user index in the terminal o
 This method is meant to be called after one of the following commands
 which outputs a table of notifications/repos/issues/pull_requests/users:
 
-    gh repos
-    gh search-repos
-    gh starred
+    $ gh repos
+    $ gh search-repos
+    $ gh starred
 
-    gh issues
-    gh pull-requests
-    gh search-issues
+    $ gh issues
+    $ gh pull-requests
+    $ gh search-issues
 
-    gh notifications
-    gh trending
+    $ gh notifications
+    $ gh trending
 
-    gh user
-    gh me
+    $ gh user
+    $ gh me
 
 Usage:
 

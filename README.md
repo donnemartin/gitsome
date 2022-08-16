@@ -2,7 +2,7 @@
   <img src="http://i.imgur.com/0SXZ90y.gif">
 </p>
 <p align="center">
-  An <a href="https://github.com/integrations/gitsome">Official Integration</a> for GitHub and <a href="#for-github-enterprise-users">GitHub Enterprise</a>.
+  An <a href="https://github.com/works-with/category/desktop-tools">Official Integration</a> for GitHub and <a href="#for-github-enterprise-users">GitHub Enterprise</a>.
 </p>
 
 gitsome
@@ -174,7 +174,7 @@ For no color, set the value(s) to `None`.  `white` can appear as light gray on s
 * [Installation](#installation)
     * [Pip Installation](#pip-installation)
     * [Virtual Environment Installation](#virtual-environment-installation)
-    * [Running as a Docker Container](#running-as-docker-container)
+    * [Running as a Docker Container](#running-as-a-docker-container)
     * [Running the `gh configure` Command](#running-the-gh-configure-command)
         * [For GitHub Enterprise Users](#for-github-enterprise-users)
     * [Enabling Bash Completions](#enabling-bash-completions)
@@ -673,8 +673,8 @@ Ubuntu users, check out these [instructions on askubuntu](http://askubuntu.com/a
 
 * Python 3.4
 * Python 3.5
-
-**Python 3.6 is not currently supported.**  See this [ticket](https://github.com/donnemartin/gitsome/issues/105) for more information.
+* Python 3.6
+* Python 3.7
 
 `gitsome` is powered by `xonsh` which does not currently support Python 2.x, as discussed in this [ticket](https://github.com/scopatz/xonsh/issues/66).
 

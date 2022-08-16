@@ -35,16 +35,16 @@ class CompleterTest(unittest.TestCase):
 
     def _get_completions(self, command):
         position = len(command)
-        result = set(self.completer.get_completions(
+        result = self.completer.get_completions(
             Document(text=command, cursor_position=position),
-            self.completer_event))
+            self.completer_event)
         return result
 
     def verify_completions(self, commands, expected):
-        result = set()
+        result = []
         for command in commands:
             # Call the AWS CLI autocompleter
-            result.update(self._get_completions(command))
+            result.extend(self._get_completions(command))
         result_texts = []
         for item in result:
             # Each result item is a Completion object,
@@ -59,13 +59,13 @@ class CompleterTest(unittest.TestCase):
 
     def test_blank(self):
         text = ''
-        expected = set([])
+        expected = []
         result = self._get_completions(text)
         assert result == expected
 
     def test_no_completions(self):
         text = 'foo'
-        expected = set([])
+        expected = []
         result = self._get_completions(text)
         assert result == expected
 
@@ -116,8 +116,8 @@ class CompleterTest(unittest.TestCase):
         result = self.completer.build_completions_with_meta('git ad',
                                                             'ad',
                                                             ['add'])
-        assert result[0].display_meta == 'Add file contents to the index.'
+        assert result[0].display_meta_text == 'Add file contents to the index.'
         result = self.completer.build_completions_with_meta('git-alia',
                                                             'git-alia',
                                                             ['git-alias'])
-        assert result[0].display_meta == 'Define, search and show aliases.'
+        assert result[0].display_meta_text == 'Define, search and show aliases.'

@@ -54,7 +54,7 @@ M. Push tagged release to develop and master
 
     Might need to recreate develop branch.
 
-N. Set CHANGELOG as `README.md`
+N. Set CHANGELOG.rst as `README.rst`
 
     $ scripts/set_changelog_as_readme.sh
 
@@ -70,19 +70,15 @@ Q. Upload Sphinx docs to PyPi
 
     $ python setup.py upload_sphinx
 
-R. Restore `README.md`
+R. Review newly released package from PyPi
 
-    $ scripts/set_changelog_as_readme_undo.sh
-
-S. Review newly released package from PyPi
-
-T. Release on GitHub: https://github.com/donnemartin/gitsome/tags
+S. Release on GitHub: https://github.com/donnemartin/gitsome/tags
 
     1. Click "Add release notes" for latest release
     2. Copy release notes from `CHANGELOG.md`
     3. Click "Publish release"
 
-U. Install in a new venv and run manual [smoke tests](#smoke-tests) on Mac, Ubuntu, Windows
+T. Install in a new venv and run manual [smoke tests](#smoke-tests) on Mac, Ubuntu, Windows
 
 ## Smoke Tests
 
