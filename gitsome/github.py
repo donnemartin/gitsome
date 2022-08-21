@@ -211,7 +211,7 @@ class GitHub(object):
             return
         issue = self.config.api.issue(user, repo, number)
         issue_comment = issue.create_comment(text)
-        if type(issue_comment) is not null.NullObject:
+        if type(issue_comment) != null.NullObject:
             click.secho('Created comment: ' + issue_comment.body,
                         fg=self.config.clr_message)
         else:
@@ -241,7 +241,7 @@ class GitHub(object):
                                              repo_name,
                                              issue_title,
                                              issue_desc)
-        if type(issue) is not null.NullObject:
+        if type(issue) != null.NullObject:
             body = self.text_utils.sanitize_if_none(issue.body)
             click.secho('Created issue: ' + issue.title + '\n' + body,
                         fg=self.config.clr_message)
@@ -502,7 +502,7 @@ class GitHub(object):
         :param license_name: The license name.
         """
         result = self.config.api.license(license_name)
-        if type(result) is not null.NullObject:
+        if type(result) != null.NullObject:
             click.secho(result.body, fg=self.config.clr_message)
         else:
             click.secho(('  Invalid case-sensitive license requested, run the '
@@ -625,9 +625,9 @@ class GitHub(object):
         view_entries = []
         for repo in repos:
             url = repo.clone_url
-            if (repo.full_name is not None and
+            if (repo.full_name != None and
                     repo_filter in repo.full_name.lower()) or \
-               (repo.description is not None and
+               (repo.description != None and
                     repo_filter in repo.description.lower()):
                 view_entries.append(
                     ViewEntry(repo,
@@ -791,7 +791,7 @@ class GitHub(object):
             webbrowser.open(
                 ('https://github.com/trending' +
                  ('/developers' if devs else '') +
-                 ('/' + language if language is not 'overall' else '') +
+                 ('/' + language if language != 'overall' else '') +
                  url_param))
         else:
             click.secho(
@@ -845,13 +845,13 @@ class GitHub(object):
             output += click.style(self.avatar_setup(user.avatar_url,
                                                     text_avatar))
             output += click.style(user.login + '\n', fg=self.config.clr_primary)
-            if user.company is not None:
+            if user.company != None:
                 output += click.style(user.company + '\n',
                                       fg=self.config.clr_secondary)
-            if user.location is not None:
+            if user.location != None:
                 output += click.style(user.location + '\n',
                                       fg=self.config.clr_secondary)
-            if user.email is not None:
+            if user.email != None:
                 output += click.style(user.email + '\n',
                                       fg=self.config.clr_secondary)
             if user.type == 'Organization':
