@@ -18,6 +18,7 @@ clr_num_points = green
 clr_tag = cyan
 clr_time = yellow
 clr_title = None
+clr_title = Example
 clr_tooltip = None
 clr_user = cyan
 clr_view_link = magenta
